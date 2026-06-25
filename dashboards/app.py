@@ -853,6 +853,43 @@ elif page == "Anomaly Screening":
         )
         st.dataframe(high_visit, use_container_width=True, height=280)
 
+    st.markdown("<hr/>", unsafe_allow_html=True)
+    section("Complaint Category Trend — Monthly Volume", "Emerging Risk Detection")
+
+    monthly_trend = load_db("""
+        SELECT strftime('%Y-%m', Review_Date) AS Month, Label, COUNT(*) AS Count
+        FROM Reviews
+        GROUP BY Month, Label
+        ORDER BY Month
+    """)
+
+    if not monthly_trend.empty:
+        fig = px.line(
+            monthly_trend, x='Month', y='Count', color='Label',
+            color_discrete_sequence=CHART_SEQUENCE
+        )
+        fig.update_traces(line=dict(width=2.2))
+        chart_layout(fig, 360)
+        fig.update_layout(
+            legend=dict(orientation='h', y=-0.25),
+            xaxis=dict(tickangle=-45)
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        treatment_trend = monthly_trend[monthly_trend['Label'] == 'Treatment'].sort_values('Month')
+        if len(treatment_trend) >= 6:
+            recent = treatment_trend.tail(3)['Count'].mean()
+            earlier = treatment_trend.head(3)['Count'].mean()
+            direction = "rising" if recent > earlier else "stable or declining"
+            finding(
+                "Emerging Risk Signal — Treatment Complaints",
+                f"Treatment complaint volume is <b style='color:{ROSE if recent > earlier else EMERALD}'>{direction}</b> "
+                f"when comparing the earliest 3 months ({earlier:.1f} avg/month) to the most recent 3 months "
+                f"({recent:.1f} avg/month) in the dataset. In a production T&S system, a sustained upward trend "
+                f"in a high-risk category over a rolling window is exactly the signal that should trigger "
+                f"proactive investigation — before volume alone crosses any static threshold."
+            )
+
 
 # ─────────────────────────────────────────────
 # PAGE 5 — TRUST & SAFETY
