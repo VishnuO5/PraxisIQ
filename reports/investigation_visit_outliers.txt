@@ -1,0 +1,31 @@
+Investigation: Statistical Visit Outlier Detection
+
+Objective:
+Identify patients with unusually high visit frequencies.
+
+Method:
+
+Mean Visits = 4.80
+
+Standard Deviation = 3.38
+
+Outlier Threshold = 11.56
+
+Rule:
+
+Patients with Total_Visits > 11.56
+were flagged as outliers.
+
+Results:
+
+31 patients identified.
+
+All flagged patients recorded exactly 13 visits.
+
+Assessment:
+
+The identical visit count across all outliers suggests a dataset generation ceiling rather than naturally occurring patient behavior.
+
+Conclusion:
+
+The statistical anomaly detector successfully identified visit-frequency outliers. Investigation suggests the pattern is likely caused by dataset design constraints.

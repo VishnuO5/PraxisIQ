@@ -1,0 +1,301 @@
+Review_ID,Rating,Label,Review_Text,Risk_Level,Priority
+R0048,1,Treatment,Filling procedure was painful throughout despite assurance it would be pain free.,High Risk,1
+R0051,1,Treatment,Gum treatment outcome was poor. Condition did not improve and had to seek second opinion.,High Risk,1
+R0061,1,Treatment,Tooth pain persisted after filling for more than two months. Treatment was ineffective.,High Risk,1
+R0062,1,Treatment,Crown fell off after two weeks. Very poor workmanship. Will not return.,High Risk,1
+R0072,1,Treatment,Tooth that was treated here developed abscess three weeks later. Very poor outcome.,High Risk,1
+R0074,1,Treatment,Tooth pain increased after the treatment. Had to visit another dentist who said the procedure was incomplete.,High Risk,1
+R0093,1,Treatment,My filling fell off within 10 days. Had to visit another clinic to redo it. Very disappointed.,High Risk,1
+R0121,1,Treatment,Tooth condition worsened after treatment. Had to seek urgent care elsewhere.,High Risk,1
+R0122,1,Treatment,Tooth extracted without exploring all alternatives. Felt the decision was rushed.,High Risk,1
+R0124,1,Treatment,Filling fell out after one week. Had to spend money at another clinic to fix it.,High Risk,1
+R0134,1,Treatment,Procedure was rushed. Doctor spent very little time and treatment outcome was poor.,High Risk,1
+R0142,1,Treatment,Denture was poorly fitted and caused sores. Had to get it redone at another clinic.,High Risk,1
+R0143,1,Treatment,Scaling caused nerve sensitivity that lasted over a month. Should have warned me.,High Risk,1
+R0166,1,Treatment,Bridge work done here came loose within a month. Very poor dental craftsmanship.,High Risk,1
+R0167,1,Treatment,Implant site did not heal properly. Complications arose that required further treatment.,High Risk,1
+R0173,1,Treatment,Denture fitting was poor. Had to go elsewhere to get it properly adjusted.,High Risk,1
+R0183,1,Treatment,Aligner treatment showed no progress after three months. Switched to another clinic.,High Risk,1
+R0195,1,Treatment,Root canal was painful throughout. Doctor said it would be pain free but it was not.,High Risk,1
+R0201,1,Treatment,Post procedure pain was far more than expected and no proper guidance was given.,High Risk,1
+R0209,1,Treatment,Post extraction instructions were unclear and I developed dry socket complications.,High Risk,1
+R0221,1,Treatment,Crown came loose within three weeks. Very poor quality of work done here.,High Risk,1
+R0223,1,Treatment,Scaling caused excessive gum bleeding that lasted for days. Not normal after care.,High Risk,1
+R0227,1,Treatment,Filling done here cracked within a month. Poor quality materials used.,High Risk,1
+R0236,1,Treatment,Root canal had to be redone at another clinic. Procedure here was incomplete.,High Risk,1
+R0240,1,Treatment,Had to redo root canal at another clinic. The procedure done here was not completed properly.,High Risk,1
+R0241,1,Treatment,Sensitivity increased after filling procedure and has not resolved even after one month.,High Risk,1
+R0242,1,Treatment,Tooth extraction site got infected. Doctor did not give proper post care instructions.,High Risk,1
+R0015,2,Treatment,Treatment was rushed. Doctor seemed in a hurry and quality of work suffered as a result.,High Risk,1
+R0075,2,Treatment,Post procedure recovery was longer than informed. Need better patient guidance.,High Risk,1
+R0102,2,Treatment,Scaling was done too aggressively. Gums bled for several days after the procedure.,High Risk,1
+R0119,2,Treatment,Post treatment sensitivity lasted two months. Doctor said it would resolve in two weeks.,High Risk,1
+R0171,2,Treatment,Filling was not done evenly. Had to go back for correction within a week.,High Risk,1
+R0185,2,Treatment,Procedure took much longer than estimated and outcome was only average quality.,High Risk,1
+R0203,2,Treatment,Treatment outcome was below expectations. Had to seek a second opinion elsewhere.,High Risk,1
+R0215,4,Treatment,Root canal was completed successfully over two sittings with minimal discomfort.,High Risk,1
+R0055,5,Treatment,Implant procedure was excellent. Doctor monitored progress at every stage carefully.,High Risk,1
+R0186,1,Waiting Time,Waited nearly two hours in an uncomfortable waiting area. Totally unacceptable for a clinic with appointments.,Needs Review,2
+R0194,1,Waiting Time,Very long waiting time every single visit. Appointment system seems to be completely ignored here.,Needs Review,2
+R0010,2,Pricing,Was not informed about the cost breakdown. Final bill had items I was not expecting.,Needs Review,2
+R0012,2,Staff,Staff were unfriendly and dismissive during check in process. Very unwelcoming.,Needs Review,2
+R0013,2,Communication,No update about delay. Waited 90 minutes without any information from reception.,Needs Review,2
+R0014,2,Pricing,Higher fees than expected with no clear breakdown provided in the bill.,Needs Review,2
+R0017,2,Pricing,Expensive for a small clinic. Similar treatments available at much lower cost nearby.,Needs Review,2
+R0020,2,Pricing,Treatment cost breakdown not shared. Felt charged arbitrarily for some procedures.,Needs Review,2
+R0023,2,Communication,No written prescription or treatment summary given after the procedure.,Needs Review,2
+R0026,2,Pricing,Fees are too high for this locality. Difficult to afford for regular dental checkups.,Needs Review,2
+R0028,2,Waiting Time,Appointment was at 11am. Was seen at 12:30pm. No apology or explanation given.,Needs Review,2
+R0045,2,Pricing,Cost of treatment is too high for people on a limited income. No concession given.,Needs Review,2
+R0049,2,Communication,No follow up call after my surgery. Had complications and did not know who to contact.,Needs Review,2
+R0054,2,Waiting Time,Three patients were attended before me even though I had an earlier appointment slot.,Needs Review,2
+R0058,2,Waiting Time,Took half day off from work and still waited over an hour. Very frustrating experience.,Needs Review,2
+R0063,2,Staff,Staff attitude during peak hours is noticeably worse. Becomes dismissive and rushed.,Needs Review,2
+R0064,2,Communication,Appointment was confirmed but doctor was unavailable. No one informed me beforehand.,Needs Review,2
+R0067,2,Waiting Time,Waited 75 minutes for a 15 minute cleaning appointment. Please respect patients' time.,Needs Review,2
+R0069,2,Communication,Instructions after extraction were not explained clearly. Had to call back multiple times.,Needs Review,2
+R0070,2,Staff,Reception staff did not know basic details about treatment options. Needs better training.,Needs Review,2
+R0073,2,Pricing,Clinic should provide a price list upfront. I only found out the cost after treatment.,Needs Review,2
+R0076,2,Pricing,Cost of braces treatment is very high here compared to standard market rates.,Needs Review,2
+R0079,2,Staff,Staff were chatting among themselves while patients waited to be attended to.,Needs Review,2
+R0080,2,Pricing,Total cost was higher than the estimate given. Should be more transparent on pricing.,Needs Review,2
+R0081,2,Staff,Receptionist was dismissive when I asked about treatment cost before starting. Very unprofessional.,Needs Review,2
+R0084,2,Staff,Staff did not greet or acknowledge me when I arrived for my scheduled appointment.,Needs Review,2
+R0085,2,Staff,Reception staff were on their phone when I came to check in. Very unprofessional behavior.,Needs Review,2
+R0086,2,Communication,Tried calling the clinic multiple times to confirm appointment but no one picked up.,Needs Review,2
+R0089,2,Waiting Time,Had to wait 90 minutes for a scheduled appointment. No one gave any updates about the delay.,Needs Review,2
+R0090,2,Staff,Front desk staff need training on how to communicate professionally with patients.,Needs Review,2
+R0094,2,Staff,Staff at reception were too busy talking among themselves to attend to me properly.,Needs Review,2
+R0095,2,Pricing,Would highly recommend the doctor but fees are a barrier for many patients.,Needs Review,2
+R0096,2,Waiting Time,Doctor is good but waiting time is a consistent problem on every visit I have made.,Needs Review,2
+R0097,2,Communication,Had trouble reaching the clinic by phone for three days after my procedure.,Needs Review,2
+R0098,2,Waiting Time,Scheduled at 3pm but seen at 5pm. Two hours waiting with a painful tooth. Terrible.,Needs Review,2
+R0100,2,Waiting Time,Appointment system seems completely ignored. Patients seen in random order not by schedule.,Needs Review,2
+R0101,2,Staff,Staff seemed disinterested and unhelpful during my visit. Poor customer service.,Needs Review,2
+R0104,2,Pricing,Final bill was almost double the initial estimate. Very poor pricing transparency.,Needs Review,2
+R0105,2,Communication,No written care instructions given after extraction. Had to search online for guidance.,Needs Review,2
+R0107,2,Communication,Did not receive any reminder before my scheduled appointment. Missed it entirely.,Needs Review,2
+R0108,2,Pricing,Same treatment costs nearly double here compared to another clinic I checked in Trichy.,Needs Review,2
+R0110,2,Waiting Time,Waited almost two hours even after taking prior appointment. Very poor time management at this clinic.,Needs Review,2
+R0112,2,Waiting Time,Waited over one hour for a routine checkup. Clinic needs better appointment management.,Needs Review,2
+R0115,2,Staff,Staff were having personal conversations loudly while patients were waiting to be seen.,Needs Review,2
+R0116,2,Communication,Could not reach anyone at the clinic for two days after my procedure for follow up.,Needs Review,2
+R0117,2,Communication,Post care instructions given verbally only. Hard to remember everything after procedure.,Needs Review,2
+R0118,2,Staff,Staff were unhelpful when I had questions about my treatment plan. Poor experience.,Needs Review,2
+R0123,2,Waiting Time,Waited two hours for a scheduled appointment. This happens every single time I visit.,Needs Review,2
+R0125,2,Pricing,Charged for X-ray I was not told about beforehand. Should disclose all charges upfront.,Needs Review,2
+R0126,2,Pricing,Charged more than other clinics for the same procedure. No justification given for the higher price.,Needs Review,2
+R0127,2,Pricing,Pricing is not transparent. Additional charges added at billing without prior notice.,Needs Review,2
+R0130,2,Staff,Staff were talking among themselves and not attending to waiting patients. Poor attitude.,Needs Review,2
+R0132,2,Waiting Time,Even for a simple checkup the wait was 60 minutes. Please fix appointment management.,Needs Review,2
+R0133,2,Staff,Staff interrupted consultation to ask doctor about another patient. Very unprofessional.,Needs Review,2
+R0135,2,Pricing,Treatment was okay but the billing had extra charges that were never mentioned upfront.,Needs Review,2
+R0137,2,Waiting Time,Waiting area has only a few seats and patients were standing for long periods.,Needs Review,2
+R0140,2,Waiting Time,Doctor is excellent but please address the long waiting time immediately.,Needs Review,2
+R0141,2,Pricing,Charges were not transparent. Asked for a receipt and was given a handwritten note only.,Needs Review,2
+R0146,2,Staff,Staff at the reception were very rude when I called to reschedule. Not acceptable behavior.,Needs Review,2
+R0147,2,Pricing,Fees for a simple filling here is higher than what three other clinics charge nearby.,Needs Review,2
+R0149,2,Waiting Time,Waited 80 minutes for a routine consultation. This is a recurring issue at this clinic.,Needs Review,2
+R0150,2,Waiting Time,Long waiting time has been an issue across all four visits I have made to this clinic.,Needs Review,2
+R0152,2,Pricing,Cost of implant here is very high. No EMI or flexible payment option available.,Needs Review,2
+R0153,2,Communication,Treatment started without the doctor explaining the full procedure beforehand.,Needs Review,2
+R0155,2,Communication,Had to call three times for a simple query. Phone handling needs improvement.,Needs Review,2
+R0156,2,Pricing,Clinic charges premium price but waiting room facilities are very basic.,Needs Review,2
+R0157,2,Pricing,No EMI option available for costly treatments. Makes it inaccessible for many.,Needs Review,2
+R0158,2,Pricing,Cost was significantly higher than what was initially quoted. Very misleading pricing.,Needs Review,2
+R0159,2,Pricing,Charged for consultation even though I just came to collect my prescription. Unfair.,Needs Review,2
+R0161,2,Pricing,Price was not discussed beforehand. Felt like I was overcharged for a simple procedure.,Needs Review,2
+R0163,2,Staff,Staff were not properly sanitising equipment between patients that I could observe.,Needs Review,2
+R0165,2,Pricing,Doctor was friendly but clinic is too expensive compared to similar clinics nearby.,Needs Review,2
+R0170,2,Waiting Time,Had to wait almost two hours. Was not even offered a seat initially in the clinic.,Needs Review,2
+R0172,2,Staff,Reception staff could not answer basic questions about treatment options. Needs training.,Needs Review,2
+R0176,2,Waiting Time,Appointment scheduled but doctor arrived 45 minutes late with no prior notification.,Needs Review,2
+R0177,2,Communication,No call or message before my appointment. System needs to be more organised.,Needs Review,2
+R0178,2,Staff,Staff member was rude when I asked for clarification on the treatment procedure.,Needs Review,2
+R0179,2,Communication,Post extraction care instructions were not given clearly. Had swelling and had to call back for guidance.,Needs Review,2
+R0180,2,Pricing,Charges were higher than what three nearby clinics quoted for the same treatment.,Needs Review,2
+R0181,2,Communication,"No reminder call before appointment. When I arrived, was told doctor is not available. Wasted my time completely.",Needs Review,2
+R0184,2,Pricing,Fees are on the higher side. Wish there were more affordable options for basic treatments.,Needs Review,2
+R0187,2,Staff,Staff member gave me wrong information about appointment time which caused confusion.,Needs Review,2
+R0190,2,Waiting Time,Waited for more than an hour without any update from the reception desk.,Needs Review,2
+R0192,2,Staff,Staff member interrupted consultation to attend to another patient. Very disrespectful.,Needs Review,2
+R0193,2,Pricing,High fees with no EMI option. Difficult to afford major procedures at this clinic.,Needs Review,2
+R0196,2,Communication,Could not confirm appointment on the day. Phone went unanswered repeatedly.,Needs Review,2
+R0197,2,Waiting Time,Waited too long again for a scheduled appointment. This is a recurring issue.,Needs Review,2
+R0199,2,Waiting Time,Very long waiting time. Clinic is popular but has not expanded capacity to match demand.,Needs Review,2
+R0200,2,Waiting Time,Waiting room was overcrowded with patients spilling outside. Capacity is insufficient.,Needs Review,2
+R0202,2,Staff,Was not offered basic information about wait time or queue position by any staff.,Needs Review,2
+R0204,2,Waiting Time,Long queue with no proper management. Appointment system needs complete overhaul.,Needs Review,2
+R0205,2,Communication,No follow up call after my surgery. Had concerns and could not reach anyone.,Needs Review,2
+R0206,2,Communication,Appointment confirmed but no one called when the doctor was not available that day.,Needs Review,2
+R0207,2,Pricing,Total bill was higher than the verbal estimate given before treatment started.,Needs Review,2
+R0210,2,Pricing,The fees were not communicated before starting treatment. Got a shock when the final bill came.,Needs Review,2
+R0211,2,Staff,Staff member was dismissive when I asked about my treatment cost before starting.,Needs Review,2
+R0212,2,Communication,No SMS or call reminder sent before my scheduled appointment time.,Needs Review,2
+R0214,2,Pricing,Fees for teeth cleaning was higher than three other clinics I checked in Trichy.,Needs Review,2
+R0218,2,Waiting Time,Very crowded waiting area. Patients standing outside. Needs better capacity management.,Needs Review,2
+R0219,2,Waiting Time,Scheduled at 2pm but was seen only at 3:45pm. Two patients arrived after me were seen first.,Needs Review,2
+R0220,2,Communication,No post treatment message or call to check on recovery. Very poor follow up culture.,Needs Review,2
+R0225,2,Pricing,Expensive clinic for patients from lower income backgrounds. No discount offered.,Needs Review,2
+R0226,2,Pricing,No price list displayed at reception. Patients have to ask which is uncomfortable.,Needs Review,2
+R0228,2,Waiting Time,Very long wait despite prior appointment. Three people who arrived after me were seen first.,Needs Review,2
+R0230,2,Waiting Time,Arrived on time but was made to wait without any explanation or update from staff.,Needs Review,2
+R0231,2,Staff,Receptionist was on the phone when I arrived and did not acknowledge me for minutes.,Needs Review,2
+R0232,2,Communication,No follow up communication after my implant surgery. Had concerns with no one to call.,Needs Review,2
+R0233,2,Communication,No WhatsApp reminder sent for my appointment. Missed it due to lack of communication.,Needs Review,2
+R0235,2,Waiting Time,Was waiting for 80 minutes without any update. Very poor scheduling system.,Needs Review,2
+R0237,2,Communication,No reminder call. No follow up. Clinic communication is almost non-existent.,Needs Review,2
+R0239,2,Communication,No answer when I called to ask about post treatment care. Very poor accessibility.,Needs Review,2
+R0011,3,Waiting Time,Doctor is excellent but time management inside the clinic needs serious improvement.,Needs Review,2
+R0022,3,Communication,Communication during visit is fine but after visit there is zero follow up from clinic.,Needs Review,2
+R0047,3,Waiting Time,Treatment was satisfactory but waiting time could be improved at this clinic.,Needs Review,2
+R0078,3,Communication,Please improve the appointment confirmation process. System is not reliable currently.,Needs Review,2
+R0088,3,Communication,Average communication. Room for significant improvement in follow up process.,Needs Review,2
+R0099,3,Waiting Time,Good clinic but time management between patients needs serious improvement.,Needs Review,2
+R0129,3,Pricing,Fees are acceptable but a printed price list at reception would help patients.,Needs Review,2
+R0138,3,Communication,Doctor explains well during visit but post treatment follow up is completely lacking.,Needs Review,2
+R0168,3,Waiting Time,Good treatment but clinic needs a token or queue management system urgently.,Needs Review,2
+R0174,3,Staff,Some staff members are friendly while others are quite indifferent. Inconsistent service.,Needs Review,2
+R0175,3,Communication,Doctor explains well inside the room but between visit communication is almost nil.,Needs Review,2
+R0229,3,Communication,Clinic should send WhatsApp reminders before appointments. Missed mine due to no reminder.,Needs Review,2
+R0261,3,Waiting Time,Satisfactory treatment. Could improve waiting time.,Needs Review,2
+R0265,3,Waiting Time,Okay experience. Waiting time was a bit long.,Needs Review,2
+R0025,4,Staff,Dental assistant was extremely gentle during the procedure. Very professional approach.,Needs Review,2
+R0050,4,Communication,Appreciated the follow up call checking on my recovery after root canal procedure.,Needs Review,2
+R0052,4,Staff,Staff were very helpful and made the whole dental experience very comfortable.,Needs Review,2
+R0066,4,Communication,Very clear explanation of what to expect during and after each stage of treatment.,Needs Review,2
+R0109,4,Communication,Doctor communicated the treatment plan clearly and answered all my questions patiently.,Needs Review,2
+R0145,4,Staff,Very supportive staff. Made my anxious child feel at ease before treatment.,Needs Review,2
+R0148,4,Communication,Liked that doctor discussed all alternatives and explained costs before recommending treatment.,Needs Review,2
+R0162,4,Staff,Dental team is well coordinated and staff assist the doctor very efficiently.,Needs Review,2
+R0189,4,Communication,Very responsive to messages and quick to clarify doubts I had after treatment.,Needs Review,2
+R0191,4,Communication,Clear and honest communication about cost before treatment. Appreciated the transparency.,Needs Review,2
+R0217,4,Staff,Staff were reassuring when I was nervous before my first dental procedure here.,Needs Review,2
+R0222,4,Communication,Doctor called to check on my recovery after surgery. Very thoughtful and professional.,Needs Review,2
+R0238,4,Communication,Doctor sends reminders and follows up after major procedures. Excellent practice.,Needs Review,2
+R0019,3,Neutral,Okay experience overall. Doctor was professional and brief during consultation.,Safe,3
+R0029,3,Neutral,Basic consultation done. Doctor was professional. Clinic is clean.,Safe,3
+R0056,3,Neutral,Average experience overall. Came for cleaning and it was completed properly.,Safe,3
+R0083,3,Neutral,Fine experience overall. Nothing special but service was adequate.,Safe,3
+R0091,3,Neutral,Straightforward visit. Treatment was done as expected with no complaints.,Safe,3
+R0106,3,Neutral,Visited for a routine checkup. Everything was done as expected. Nothing exceptional to mention.,Safe,3
+R0113,3,Neutral,Came for a second opinion. Doctor was helpful and gave clear information.,Safe,3
+R0136,3,Neutral,Average clinic with decent facilities for routine dental work.,Safe,3
+R0160,3,Neutral,Normal visit with no specific complaints. Standard dental clinic experience.,Safe,3
+R0164,3,Neutral,Nothing exceptional to report. Clinic is functional and treatment is adequate.,Safe,3
+R0182,3,Neutral,Standard dental visit. Gets the necessary job done without any issues.,Safe,3
+R0198,3,Neutral,Decent clinic. Treatment was satisfactory. Would return if needed.,Safe,3
+R0213,3,Neutral,Visited twice so far. Both times were uneventful and satisfactory.,Safe,3
+R0224,3,Neutral,Decent experience. Staff were neutral but treatment was completed well.,Safe,3
+R0234,3,Neutral,Routine filling completed. No issues experienced. Would consider returning.,Safe,3
+R0281,3,Neutral,Average experience. Treatment was okay.,Safe,3
+R0290,3,Neutral,Decent experience overall. Treatment was done properly.,Safe,3
+R0292,3,Neutral,The treatment and service were satisfactory.,Safe,3
+R0003,4,Positive,Good treatment experience. Recommended.,Safe,3
+R0021,4,Positive,Good clinic. Doctor listened carefully before recommending any treatment.,Safe,3
+R0030,4,Positive,Good treatment and caring staff.,Safe,3
+R0034,4,Positive,Good experience overall. Friendly doctor.,Safe,3
+R0036,4,Positive,Good clinic with quality treatment.,Safe,3
+R0038,4,Positive,Decent clinic with professional treatment.,Safe,3
+R0040,4,Positive,Good clinic overall. Professional approach.,Safe,3
+R0043,4,Positive,Good treatment. Would visit again.,Safe,3
+R0111,4,Positive,Good experience overall. Doctor was thorough and staff were cooperative.,Safe,3
+R0131,4,Positive,Professional and caring approach. Made me feel comfortable throughout.,Safe,3
+R0208,4,Positive,Treatment was done well and the clinic is clean and hygienic throughout.,Safe,3
+R0216,4,Positive,Clean clinic and professional staff. Good overall dental care experience.,Safe,3
+R0244,4,Positive,Good experience. Clean clinic and skilled doctor.,Safe,3
+R0246,4,Positive,Good dental care and friendly environment.,Safe,3
+R0247,4,Positive,I visited Dr. Geetha for my dad's and wife's dental treatment. She listened to our concerns and examined the issues patiently. She suggested solutions along with their pros and cons. Very thorough and professional approach.,Safe,3
+R0260,4,Positive,Good clinic with friendly staff.,Safe,3
+R0262,4,Positive,Good dental clinic. Professional service.,Safe,3
+R0267,4,Positive,Good treatment and professional doctor.,Safe,3
+R0269,4,Positive,Good experience overall. Will visit again.,Safe,3
+R0284,4,Positive,Good service overall. Would recommend.,Safe,3
+R0285,4,Positive,Very good service.,Safe,3
+R0287,4,Positive,Good caring and best treatment provided.,Safe,3
+R0293,4,Positive,Good treatment and clean clinic environment.,Safe,3
+R0294,4,Positive,Good clinic with professional approach.,Safe,3
+R0001,5,Positive,Cost effective within budget. Highly professional treatment and service given by the doctor.,Safe,3
+R0002,5,Positive,Caring is awesome and treatment is excellent. And mainly fees were low comparing to other clinics.,Safe,3
+R0004,5,Positive,Excellent doctor and very affordable treatment.,Safe,3
+R0005,5,Positive,Good clinic. Doctor is very kind and professional.,Safe,3
+R0006,5,Positive,Best treatment and good advice with nominal charges. She is so patient in listening to our problems.,Safe,3
+R0007,5,Positive,She is very patient and listened to all my complaints. Got to know some proper dental care from the doc.,Safe,3
+R0008,5,Positive,The facilities were good and the dentist answered all the questions patiently. Highly Recommended!,Safe,3
+R0009,5,Positive,Very professional. Most recommended. Thank you Dr. Geetha for the best treatment.,Safe,3
+R0016,5,Positive,I went there for a filling and the doctor explained everything so well. Fees was cheap too.,Safe,3
+R0018,5,Positive,Dr. Geetha is very well informed and very patient. She was explaining the process in every detail so that you are aware of what is happening inside your mouth. Definitely will recommend her to anyone who is in need of a helpful dentist.,Safe,3
+R0024,5,Positive,"Excellent, humble, subject matter expert. Certainly a doctor who cares the most about the patient. A place to go for your dental solution.",Safe,3
+R0027,5,Positive,Good service. Friendly doctor. Worth for money and teeth care.,Safe,3
+R0031,5,Positive,Great experience. Doctor explained everything clearly.,Safe,3
+R0032,5,Positive,Had a great and smooth experience. I visited the clinic for dental filling. I have sensitive teeth hence I always get worried before visiting a dentist. But Dr. Geetha was patient and polite throughout the process and I didn't experience any pain.,Safe,3
+R0033,5,Positive,Excellent experience. Doctor is very thorough.,Safe,3
+R0035,5,Positive,Very professional and skilled dentist. Great experience.,Safe,3
+R0037,5,Positive,Kind doctor and excellent dental care provided.,Safe,3
+R0039,5,Positive,Very satisfied with treatment. Will recommend.,Safe,3
+R0041,5,Positive,Excellent dental care. Highly recommend Dr. Geetha.,Safe,3
+R0042,5,Positive,Best dental clinic. Very professional service.,Safe,3
+R0044,5,Positive,Very professional and thorough treatment. Recommended.,Safe,3
+R0046,5,Positive,Excellent doctor. Best dental clinic in Trichy.,Safe,3
+R0053,5,Positive,"Very professional, humble person, doing great work, nice human being. She is not a money minded person. All should visit this clinic.",Safe,3
+R0057,5,Positive,Friendly doctor. Painless procedure. Low cost high class treatment.,Safe,3
+R0059,5,Positive,It was a pleasant experience for me. The ambience and even the staff are so accommodative. Doctor was so friendly and handling patiently.,Safe,3
+R0060,5,Positive,Dr. Geetha is truly one of the best dentists in Trichy. Very highly recommended.,Safe,3
+R0065,5,Positive,"I went there for root canal treatment. Doctor was kind, clearly explained the process, cost effective and highly recommendable.",Safe,3
+R0068,5,Positive,Pleasant environment. Doctor was so friendly.,Safe,3
+R0071,5,Positive,This is a great place to go to take care of your teeth. Dr. Geetha was very professional examining and providing solutions by priority. I felt that I was in good hands. Would highly recommend to anyone!,Safe,3
+R0077,5,Positive,Clinic has a very good ambience. Dr. Geetha is very patient in handling cases especially children. She is a good practitioner. Also the treatment is cost-effective. I would highly recommend her for any dental treatment.,Safe,3
+R0082,5,Positive,Very professional and knowledgeable dentist around.,Safe,3
+R0087,5,Positive,Best dentist I have consulted in Trichy. Honest and very skilled doctor.,Safe,3
+R0092,5,Positive,Treatment was good and cost effective.,Safe,3
+R0103,5,Positive,A place where you can rely on for all your dental problems.,Safe,3
+R0114,5,Positive,I did my root canal with Dr. Geetha mam. She is very kind and soft handling person. Very economy charges also. If you ask any doubt about tooth she explains very well. Highly recommend.,Safe,3
+R0120,5,Positive,Very kind approach. Cheap and best. Value for money given. Thank you.,Safe,3
+R0128,5,Positive,I went to this clinic for teeth cleaning. Dr. Geetha made me comfortable and provided amazing service. Thank you.,Safe,3
+R0139,5,Positive,"Excellent treatment and warm hospitality, felt really cared. I cleaned my teeth. She is really kind.",Safe,3
+R0144,5,Positive,"I got my wisdom tooth surgically extracted here, had a neat experience! Very genuine and hard to find such a clinic where money is not given importance. Would definitely recommend the clinic for dental issues!",Safe,3
+R0151,5,Positive,Very kind. Listening to the problem and treating accordingly.,Safe,3
+R0154,5,Positive,Excellent dental care. Doctor is skilled and very gentle with patients.,Safe,3
+R0169,5,Positive,Outstanding treatment and caring atmosphere. Highly recommend to everyone.,Safe,3
+R0188,5,Positive,Very satisfied with the results of my treatment. Will definitely return here.,Safe,3
+R0243,5,Positive,Very professional and caring dentist. Highly recommended.,Safe,3
+R0245,5,Positive,Very kind approach and quality treatment. Highly recommended.,Safe,3
+R0248,5,Positive,Had a good and nice experience.,Safe,3
+R0249,5,Positive,Treating patients kindly and very good treatment.,Safe,3
+R0250,5,Positive,Excellent dental treatment done very well. Highly satisfied.,Safe,3
+R0251,5,Positive,I went to the hospital for treatment. It was a very good experience. One of the best dental hospitals and best doctor in Trichy.,Safe,3
+R0252,5,Positive,"Geetha Dental Clinic is excellent! Dr. Geetha is very professional and caring. The clinic is clean, modern, and the staff is friendly. I felt comfortable throughout my treatment. Highly recommend for quality dental care!",Safe,3
+R0253,5,Positive,Excellent hospitality and excellent treatment.,Safe,3
+R0254,5,Positive,Had a very good experience. The staff are polite and the doctor clearly explained the procedure and was very professional. The clinic is very clean and hygienic.,Safe,3
+R0255,5,Positive,Good service and comfortable. Friendly handling.,Safe,3
+R0256,5,Positive,"Dr. Geetha mam is an excellent dentist. I had deep cavities, multiple fillings, and an implant done successfully. Now I can chew normally without pain. Very caring, professional, and the cost is also nominal. Highly recommend! Thanks mam.",Safe,3
+R0257,5,Positive,"I had my braces treatment here for the past 1.5 years, and the results are truly amazing. Now I feel much more confident about my smile. Every time I smile, it gives me a positive feeling. The doctor was very supportive throughout the entire journey.",Safe,3
+R0258,5,Positive,"I visited Dr. Geetha Dental Clinic for crown treatment. I received excellent care, and the procedure was completely painless.",Safe,3
+R0259,5,Positive,Excellent treatment and caring approach from the doctor.,Safe,3
+R0263,5,Positive,Highly recommend this clinic for dental care.,Safe,3
+R0264,5,Positive,Excellent doctor and very affordable charges.,Safe,3
+R0266,5,Positive,"I can't recommend this clinic enough! From the moment you walk in, you're greeted with such a warm and welcoming atmosphere. The care and attention to detail are top-notch. It's clear that they truly value their patients' comfort and wellbeing.",Safe,3
+R0268,5,Positive,Very kind doctor. Great treatment experience.,Safe,3
+R0270,5,Positive,Great experience. Doctor is very skilled.,Safe,3
+R0271,5,Positive,Trichy's best dentist to consult with. Treats and takes care of your teeth with clear explanation and makes one feel safe and secure.,Safe,3
+R0272,5,Positive,"I visited this clinic for a filling and some aesthetic correction for my canines, and I'm really happy with the result. The doctor was patient, explained everything properly, and made the whole process feel comfortable. The clinic was neat and clean. Overall, it was a very good experience.",Safe,3
+R0273,5,Positive,Such great support from the doctor and staff. Thank you.,Safe,3
+R0274,5,Positive,Quality treatment. Skilled doctor. Affordable cost.,Safe,3
+R0275,5,Positive,Had a great experience at the clinic. The doctor is highly professional and staff were really helpful at the front.,Safe,3
+R0276,5,Positive,"Trustworthy clinic providing good services and care to patients, highly recommended.",Safe,3
+R0277,5,Positive,Good and friendly service.,Safe,3
+R0278,5,Positive,Good professional treatment. Highly recommended.,Safe,3
+R0279,5,Positive,Excellent dental care and friendly staff. The doctor explained the treatment clearly and made the whole experience comfortable. Clean clinic with good service. Highly satisfied.,Safe,3
+R0280,5,Positive,I went to this hospital for removing my wisdom teeth. I really thank Dr. Geetha because of her excellent treatment and all special facilities are there for the comfort of the patient. Thank you.,Safe,3
+R0282,5,Positive,Very satisfied with the dental treatment here.,Safe,3
+R0283,5,Positive,Good and super treatment.,Safe,3
+R0286,5,Positive,Best service.,Safe,3
+R0288,5,Positive,"Best clinic ever, please visit guys.",Safe,3
+R0289,5,Positive,Very good clinic. Best for Dental care.,Safe,3
+R0291,5,Positive,Very good experience at this clinic.,Safe,3
+R0295,5,Positive,Best dental clinic. Highly satisfied with the treatment.,Safe,3
+R0296,5,Positive,Warm gesture and proper treatment. Best recommendations by doctor for your tooth problems and works well too!,Safe,3
+R0297,5,Positive,Probably one of the best doctors in Trichy. She was very polite and calm. It just showed how passionate she was. Thank you doctor.,Safe,3
+R0298,5,Positive,Nice experience. Very professional.,Safe,3
+R0299,5,Positive,I had a very good experience at the dental hospital. The doctor explained everything clearly and treated me very well with care and patience. I really appreciate the doctor's kindness and professionalism. Thank you so much for the excellent service.,Safe,3
+R0300,5,Positive,Thanks doctor for detailed examination and explanation on my teeth and providing a valuable insight. Highly recommended.,Safe,3

@@ -1,0 +1,29 @@
+MODULE 5 - LLM PROMPT ENGINEERING & EVALUATION
+
+Objective:
+Evaluate prompt quality for review classification tasks.
+
+Dataset:
+300 patient reviews
+
+Model:
+Qwen2.5 7B via Ollama (local)
+
+Prompt Comparison (20-review test)
+
+Prompt V1 — Zero-Shot         : 70%
+Prompt V2 — Detailed          : 75%   ← selected as best
+Prompt V3 — Rules-Based       : 65%
+
+Final Evaluation (300 reviews using Prompt V2)
+
+Accuracy  : 84.33%
+Precision : 84.37%
+Recall    : 78.56%
+F1 Score  : 79.54%
+
+Key Findings:
+1. Prompt V2 achieved the highest accuracy on the 20-review test and was selected.
+2. Full 300-review evaluation with V2 achieved 84.33% accuracy.
+3. Strongest categories : Positive, Pricing, Treatment, Waiting Time
+4. Weakest categories   : Communication, Staff, Neutral

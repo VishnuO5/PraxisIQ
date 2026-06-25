@@ -1,0 +1,43 @@
+Patient_Id,Primary_Treatment,Follow_Up_Required,Follow_Up_Completed
+P0022,Root Canal,Y,N
+P0026,Root Canal,Y,N
+P0027,Root Canal,Y,N
+P0037,Gum Treatment,Y,N
+P0039,Root Canal,Y,N
+P0045,Root Canal,Y,N
+P0046,Gum Treatment,Y,N
+P0054,Root Canal,Y,N
+P0058,Root Canal,Y,N
+P0087,Implant,Y,N
+P0092,Root Canal,Y,N
+P0095,Root Canal,Y,N
+P0198,Partial Denture,Y,N
+P0207,Complete Denture,Y,N
+P0231,Complete Denture,Y,N
+P0268,Root Canal,Y,N
+P0279,Partial Denture,Y,N
+P0309,Implant,Y,N
+P0346,Root Canal,Y,N
+P0358,Fixed Bridge,Y,N
+P0388,Root Canal,Y,N
+P0418,Root Canal,Y,N
+P0426,Implant,Y,N
+P0441,Fixed Bridge,Y,N
+P0487,Complete Denture,Y,N
+P0559,Complete Denture,Y,N
+P0568,Fixed Bridge,Y,N
+P0573,Root Canal,Y,N
+P0619,Fixed Bridge,Y,N
+P0626,Root Canal,Y,N
+P0634,Complete Denture,Y,N
+P0650,Implant,Y,N
+P0654,Implant,Y,N
+P0680,Root Canal,Y,N
+P0713,Complete Denture,Y,N
+P0757,Root Canal,Y,N
+P0790,Root Canal,Y,N
+P0835,Implant,Y,N
+P0844,Root Canal,Y,N
+P0863,Implant,Y,N
+P0880,Fixed Bridge,Y,N
+P0949,Root Canal,Y,N

@@ -1,0 +1,41 @@
+Review Classification Model Results
+
+Model:
+Logistic Regression
+
+Vectorization:
+TF-IDF
+
+Dataset Size:
+300 Reviews
+
+Number of Classes:
+7
+
+Labels:
+Positive
+Communication
+Waiting Time
+Treatment
+Pricing
+Staff
+Neutral
+
+Accuracy:
+68.33%
+
+Observations:
+
+1. Positive reviews were classified successfully.
+
+2. Waiting Time achieved perfect recall.
+
+3. Treatment and Staff categories showed good predictive performance.
+
+4. Neutral category performance was poor due to limited training examples.
+
+5. Dataset exhibits class imbalance.
+
+Conclusion:
+
+The model successfully demonstrates multi-class review classification and content categorization using TF-IDF and Logistic Regression.

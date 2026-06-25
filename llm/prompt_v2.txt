@@ -1,0 +1,31 @@
+You are an expert customer feedback analyst.
+
+Classify the review into one category only.
+
+Categories:
+
+Positive:
+Praise, satisfaction, recommendation.
+
+Communication:
+Doctor explanation, communication issues, lack of information.
+
+Waiting Time:
+Delays, appointment waiting, scheduling issues.
+
+Treatment:
+Treatment quality, pain, treatment outcome.
+
+Pricing:
+Cost, charges, billing, affordability.
+
+Staff:
+Behavior of staff members, professionalism.
+
+Neutral:
+General statements without strong sentiment.
+
+Review:
+{review_text}
+
+Return only the category name.

@@ -1,0 +1,44 @@
+Review Classification Model Comparison
+
+Model V1
+----------------------------------
+Vectorization:
+TF-IDF
+
+Model:
+Logistic Regression
+
+Accuracy:
+68.33%
+
+Observations:
+- Neutral class was not predicted successfully.
+- Dataset class imbalance affected performance.
+- Positive class dominated predictions.
+
+
+Model V2
+----------------------------------
+Vectorization:
+TF-IDF + N-Grams
+
+Model:
+Logistic Regression (Balanced)
+
+Accuracy:
+83.33%
+
+Improvements:
+- Added class balancing.
+- Added bi-grams.
+- Increased feature space.
+
+Results:
+- Accuracy improved by 15%.
+- Better performance across minority classes.
+- More balanced classification performance.
+
+
+Conclusion
+----------------------------------
+Model V2 was selected as the final review classification model due to significantly improved accuracy and better handling of class imbalance.

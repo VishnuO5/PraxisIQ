@@ -1,0 +1,44 @@
+Module 6 - Service Quality Analysis Findings
+
+Objective:
+Analyze customer feedback to identify key service quality issues and improvement opportunities.
+
+Dataset:
+300 Reviews
+
+Findings:
+
+1. Treatment Issues
+   - Review Count: 36
+   - Average Rating: 1.39
+   - Lowest-rated category.
+
+2. Pricing Issues
+   - Review Count: 34
+   - Average Rating: 2.03
+
+3. Waiting Time Issues
+   - Review Count: 36
+   - Average Rating: 2.11
+
+4. Communication Issues
+   - Review Count: 39
+   - Average Rating: 2.56
+
+5. Staff Issues
+   - Review Count: 29
+   - Average Rating: 2.38
+
+Overall Service Quality
+
+Total Reviews:
+300
+
+Negative Review Percentage:
+58.0%
+
+Conclusion:
+
+Treatment quality, pricing concerns, and waiting time are the most significant drivers of negative customer feedback.
+
+Improvement efforts should prioritize treatment experience, cost transparency, and appointment efficiency.

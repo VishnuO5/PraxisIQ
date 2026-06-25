@@ -1,0 +1,301 @@
+Case_ID,Review_ID,Priority,Severity,Status,Label,Rating
+CASE_0048,R0048,P1,Critical,Open,Treatment,1
+CASE_0051,R0051,P1,Critical,Open,Treatment,1
+CASE_0061,R0061,P1,Critical,Open,Treatment,1
+CASE_0062,R0062,P1,Critical,Open,Treatment,1
+CASE_0072,R0072,P1,Critical,Open,Treatment,1
+CASE_0074,R0074,P1,Critical,Open,Treatment,1
+CASE_0093,R0093,P1,Critical,Open,Treatment,1
+CASE_0121,R0121,P1,Critical,Open,Treatment,1
+CASE_0122,R0122,P1,Critical,Open,Treatment,1
+CASE_0124,R0124,P1,Critical,Open,Treatment,1
+CASE_0134,R0134,P1,Critical,Open,Treatment,1
+CASE_0142,R0142,P1,Critical,Open,Treatment,1
+CASE_0143,R0143,P1,Critical,Open,Treatment,1
+CASE_0166,R0166,P1,Critical,Open,Treatment,1
+CASE_0167,R0167,P1,Critical,Open,Treatment,1
+CASE_0173,R0173,P1,Critical,Open,Treatment,1
+CASE_0183,R0183,P1,Critical,Open,Treatment,1
+CASE_0195,R0195,P1,Critical,Open,Treatment,1
+CASE_0201,R0201,P1,Critical,Open,Treatment,1
+CASE_0209,R0209,P1,Critical,Open,Treatment,1
+CASE_0221,R0221,P1,Critical,Open,Treatment,1
+CASE_0223,R0223,P1,Critical,Open,Treatment,1
+CASE_0227,R0227,P1,Critical,Open,Treatment,1
+CASE_0236,R0236,P1,Critical,Open,Treatment,1
+CASE_0240,R0240,P1,Critical,Open,Treatment,1
+CASE_0241,R0241,P1,Critical,Open,Treatment,1
+CASE_0242,R0242,P1,Critical,Open,Treatment,1
+CASE_0015,R0015,P1,Critical,Open,Treatment,2
+CASE_0075,R0075,P1,Critical,Open,Treatment,2
+CASE_0102,R0102,P1,Critical,Open,Treatment,2
+CASE_0119,R0119,P1,Critical,Open,Treatment,2
+CASE_0171,R0171,P1,Critical,Open,Treatment,2
+CASE_0185,R0185,P1,Critical,Open,Treatment,2
+CASE_0203,R0203,P1,Critical,Open,Treatment,2
+CASE_0186,R0186,P2,High,Open,Waiting Time,1
+CASE_0194,R0194,P2,High,Open,Waiting Time,1
+CASE_0010,R0010,P2,High,Open,Pricing,2
+CASE_0012,R0012,P2,High,Open,Staff,2
+CASE_0013,R0013,P2,High,Open,Communication,2
+CASE_0014,R0014,P2,High,Open,Pricing,2
+CASE_0017,R0017,P2,High,Open,Pricing,2
+CASE_0020,R0020,P2,High,Open,Pricing,2
+CASE_0023,R0023,P2,High,Open,Communication,2
+CASE_0026,R0026,P2,High,Open,Pricing,2
+CASE_0028,R0028,P2,High,Open,Waiting Time,2
+CASE_0045,R0045,P2,High,Open,Pricing,2
+CASE_0049,R0049,P2,High,Open,Communication,2
+CASE_0054,R0054,P2,High,Open,Waiting Time,2
+CASE_0058,R0058,P2,High,Open,Waiting Time,2
+CASE_0063,R0063,P2,High,Open,Staff,2
+CASE_0064,R0064,P2,High,Open,Communication,2
+CASE_0067,R0067,P2,High,Open,Waiting Time,2
+CASE_0069,R0069,P2,High,Open,Communication,2
+CASE_0070,R0070,P2,High,Open,Staff,2
+CASE_0073,R0073,P2,High,Open,Pricing,2
+CASE_0076,R0076,P2,High,Open,Pricing,2
+CASE_0079,R0079,P2,High,Open,Staff,2
+CASE_0080,R0080,P2,High,Open,Pricing,2
+CASE_0081,R0081,P2,High,Open,Staff,2
+CASE_0084,R0084,P2,High,Open,Staff,2
+CASE_0085,R0085,P2,High,Open,Staff,2
+CASE_0086,R0086,P2,High,Open,Communication,2
+CASE_0089,R0089,P2,High,Open,Waiting Time,2
+CASE_0090,R0090,P2,High,Open,Staff,2
+CASE_0094,R0094,P2,High,Open,Staff,2
+CASE_0095,R0095,P2,High,Open,Pricing,2
+CASE_0096,R0096,P2,High,Open,Waiting Time,2
+CASE_0097,R0097,P2,High,Open,Communication,2
+CASE_0098,R0098,P2,High,Open,Waiting Time,2
+CASE_0100,R0100,P2,High,Open,Waiting Time,2
+CASE_0101,R0101,P2,High,Open,Staff,2
+CASE_0104,R0104,P2,High,Open,Pricing,2
+CASE_0105,R0105,P2,High,Open,Communication,2
+CASE_0107,R0107,P2,High,Open,Communication,2
+CASE_0108,R0108,P2,High,Open,Pricing,2
+CASE_0110,R0110,P2,High,Open,Waiting Time,2
+CASE_0112,R0112,P2,High,Open,Waiting Time,2
+CASE_0115,R0115,P2,High,Open,Staff,2
+CASE_0116,R0116,P2,High,Open,Communication,2
+CASE_0117,R0117,P2,High,Open,Communication,2
+CASE_0118,R0118,P2,High,Open,Staff,2
+CASE_0123,R0123,P2,High,Open,Waiting Time,2
+CASE_0125,R0125,P2,High,Open,Pricing,2
+CASE_0126,R0126,P2,High,Open,Pricing,2
+CASE_0127,R0127,P2,High,Open,Pricing,2
+CASE_0130,R0130,P2,High,Open,Staff,2
+CASE_0132,R0132,P2,High,Open,Waiting Time,2
+CASE_0133,R0133,P2,High,Open,Staff,2
+CASE_0135,R0135,P2,High,Open,Pricing,2
+CASE_0137,R0137,P2,High,Open,Waiting Time,2
+CASE_0140,R0140,P2,High,Open,Waiting Time,2
+CASE_0141,R0141,P2,High,Open,Pricing,2
+CASE_0146,R0146,P2,High,Open,Staff,2
+CASE_0147,R0147,P2,High,Open,Pricing,2
+CASE_0149,R0149,P2,High,Open,Waiting Time,2
+CASE_0150,R0150,P2,High,Open,Waiting Time,2
+CASE_0152,R0152,P2,High,Open,Pricing,2
+CASE_0153,R0153,P2,High,Open,Communication,2
+CASE_0155,R0155,P2,High,Open,Communication,2
+CASE_0156,R0156,P2,High,Open,Pricing,2
+CASE_0157,R0157,P2,High,Open,Pricing,2
+CASE_0158,R0158,P2,High,Open,Pricing,2
+CASE_0159,R0159,P2,High,Open,Pricing,2
+CASE_0161,R0161,P2,High,Open,Pricing,2
+CASE_0163,R0163,P2,High,Open,Staff,2
+CASE_0165,R0165,P2,High,Open,Pricing,2
+CASE_0170,R0170,P2,High,Open,Waiting Time,2
+CASE_0172,R0172,P2,High,Open,Staff,2
+CASE_0176,R0176,P2,High,Open,Waiting Time,2
+CASE_0177,R0177,P2,High,Open,Communication,2
+CASE_0178,R0178,P2,High,Open,Staff,2
+CASE_0179,R0179,P2,High,Open,Communication,2
+CASE_0180,R0180,P2,High,Open,Pricing,2
+CASE_0181,R0181,P2,High,Open,Communication,2
+CASE_0184,R0184,P2,High,Open,Pricing,2
+CASE_0187,R0187,P2,High,Open,Staff,2
+CASE_0190,R0190,P2,High,Open,Waiting Time,2
+CASE_0192,R0192,P2,High,Open,Staff,2
+CASE_0193,R0193,P2,High,Open,Pricing,2
+CASE_0196,R0196,P2,High,Open,Communication,2
+CASE_0197,R0197,P2,High,Open,Waiting Time,2
+CASE_0199,R0199,P2,High,Open,Waiting Time,2
+CASE_0200,R0200,P2,High,Open,Waiting Time,2
+CASE_0202,R0202,P2,High,Open,Staff,2
+CASE_0204,R0204,P2,High,Open,Waiting Time,2
+CASE_0205,R0205,P2,High,Open,Communication,2
+CASE_0206,R0206,P2,High,Open,Communication,2
+CASE_0207,R0207,P2,High,Open,Pricing,2
+CASE_0210,R0210,P2,High,Open,Pricing,2
+CASE_0211,R0211,P2,High,Open,Staff,2
+CASE_0212,R0212,P2,High,Open,Communication,2
+CASE_0214,R0214,P2,High,Open,Pricing,2
+CASE_0218,R0218,P2,High,Open,Waiting Time,2
+CASE_0219,R0219,P2,High,Open,Waiting Time,2
+CASE_0220,R0220,P2,High,Open,Communication,2
+CASE_0225,R0225,P2,High,Open,Pricing,2
+CASE_0226,R0226,P2,High,Open,Pricing,2
+CASE_0228,R0228,P2,High,Open,Waiting Time,2
+CASE_0230,R0230,P2,High,Open,Waiting Time,2
+CASE_0231,R0231,P2,High,Open,Staff,2
+CASE_0232,R0232,P2,High,Open,Communication,2
+CASE_0233,R0233,P2,High,Open,Communication,2
+CASE_0235,R0235,P2,High,Open,Waiting Time,2
+CASE_0237,R0237,P2,High,Open,Communication,2
+CASE_0239,R0239,P2,High,Open,Communication,2
+CASE_0011,R0011,P3,Medium,Open,Waiting Time,3
+CASE_0022,R0022,P3,Medium,Open,Communication,3
+CASE_0047,R0047,P3,Medium,Open,Waiting Time,3
+CASE_0078,R0078,P3,Medium,Open,Communication,3
+CASE_0088,R0088,P3,Medium,Open,Communication,3
+CASE_0099,R0099,P3,Medium,Open,Waiting Time,3
+CASE_0129,R0129,P3,Medium,Open,Pricing,3
+CASE_0138,R0138,P3,Medium,Open,Communication,3
+CASE_0168,R0168,P3,Medium,Open,Waiting Time,3
+CASE_0174,R0174,P3,Medium,Open,Staff,3
+CASE_0175,R0175,P3,Medium,Open,Communication,3
+CASE_0229,R0229,P3,Medium,Open,Communication,3
+CASE_0261,R0261,P3,Medium,Open,Waiting Time,3
+CASE_0265,R0265,P3,Medium,Open,Waiting Time,3
+CASE_0003,R0003,P3,Medium,Open,Positive,4
+CASE_0021,R0021,P3,Medium,Open,Positive,4
+CASE_0025,R0025,P3,Medium,Open,Staff,4
+CASE_0030,R0030,P3,Medium,Open,Positive,4
+CASE_0034,R0034,P3,Medium,Open,Positive,4
+CASE_0036,R0036,P3,Medium,Open,Positive,4
+CASE_0038,R0038,P3,Medium,Open,Positive,4
+CASE_0040,R0040,P3,Medium,Open,Positive,4
+CASE_0043,R0043,P3,Medium,Open,Positive,4
+CASE_0050,R0050,P3,Medium,Open,Communication,4
+CASE_0052,R0052,P3,Medium,Open,Staff,4
+CASE_0066,R0066,P3,Medium,Open,Communication,4
+CASE_0109,R0109,P3,Medium,Open,Communication,4
+CASE_0111,R0111,P3,Medium,Open,Positive,4
+CASE_0131,R0131,P3,Medium,Open,Positive,4
+CASE_0145,R0145,P3,Medium,Open,Staff,4
+CASE_0148,R0148,P3,Medium,Open,Communication,4
+CASE_0162,R0162,P3,Medium,Open,Staff,4
+CASE_0189,R0189,P3,Medium,Open,Communication,4
+CASE_0191,R0191,P3,Medium,Open,Communication,4
+CASE_0208,R0208,P3,Medium,Open,Positive,4
+CASE_0215,R0215,P3,Medium,Open,Treatment,4
+CASE_0216,R0216,P3,Medium,Open,Positive,4
+CASE_0217,R0217,P3,Medium,Open,Staff,4
+CASE_0222,R0222,P3,Medium,Open,Communication,4
+CASE_0238,R0238,P3,Medium,Open,Communication,4
+CASE_0244,R0244,P3,Medium,Open,Positive,4
+CASE_0246,R0246,P3,Medium,Open,Positive,4
+CASE_0247,R0247,P3,Medium,Open,Positive,4
+CASE_0260,R0260,P3,Medium,Open,Positive,4
+CASE_0262,R0262,P3,Medium,Open,Positive,4
+CASE_0267,R0267,P3,Medium,Open,Positive,4
+CASE_0269,R0269,P3,Medium,Open,Positive,4
+CASE_0284,R0284,P3,Medium,Open,Positive,4
+CASE_0285,R0285,P3,Medium,Open,Positive,4
+CASE_0287,R0287,P3,Medium,Open,Positive,4
+CASE_0293,R0293,P3,Medium,Open,Positive,4
+CASE_0294,R0294,P3,Medium,Open,Positive,4
+CASE_0001,R0001,P3,Medium,Open,Positive,5
+CASE_0002,R0002,P3,Medium,Open,Positive,5
+CASE_0004,R0004,P3,Medium,Open,Positive,5
+CASE_0005,R0005,P3,Medium,Open,Positive,5
+CASE_0006,R0006,P3,Medium,Open,Positive,5
+CASE_0007,R0007,P3,Medium,Open,Positive,5
+CASE_0008,R0008,P3,Medium,Open,Positive,5
+CASE_0009,R0009,P3,Medium,Open,Positive,5
+CASE_0016,R0016,P3,Medium,Open,Positive,5
+CASE_0018,R0018,P3,Medium,Open,Positive,5
+CASE_0024,R0024,P3,Medium,Open,Positive,5
+CASE_0027,R0027,P3,Medium,Open,Positive,5
+CASE_0031,R0031,P3,Medium,Open,Positive,5
+CASE_0032,R0032,P3,Medium,Open,Positive,5
+CASE_0033,R0033,P3,Medium,Open,Positive,5
+CASE_0035,R0035,P3,Medium,Open,Positive,5
+CASE_0037,R0037,P3,Medium,Open,Positive,5
+CASE_0039,R0039,P3,Medium,Open,Positive,5
+CASE_0041,R0041,P3,Medium,Open,Positive,5
+CASE_0042,R0042,P3,Medium,Open,Positive,5
+CASE_0044,R0044,P3,Medium,Open,Positive,5
+CASE_0046,R0046,P3,Medium,Open,Positive,5
+CASE_0053,R0053,P3,Medium,Open,Positive,5
+CASE_0055,R0055,P3,Medium,Open,Treatment,5
+CASE_0057,R0057,P3,Medium,Open,Positive,5
+CASE_0059,R0059,P3,Medium,Open,Positive,5
+CASE_0060,R0060,P3,Medium,Open,Positive,5
+CASE_0065,R0065,P3,Medium,Open,Positive,5
+CASE_0068,R0068,P3,Medium,Open,Positive,5
+CASE_0071,R0071,P3,Medium,Open,Positive,5
+CASE_0077,R0077,P3,Medium,Open,Positive,5
+CASE_0082,R0082,P3,Medium,Open,Positive,5
+CASE_0087,R0087,P3,Medium,Open,Positive,5
+CASE_0092,R0092,P3,Medium,Open,Positive,5
+CASE_0103,R0103,P3,Medium,Open,Positive,5
+CASE_0114,R0114,P3,Medium,Open,Positive,5
+CASE_0120,R0120,P3,Medium,Open,Positive,5
+CASE_0128,R0128,P3,Medium,Open,Positive,5
+CASE_0139,R0139,P3,Medium,Open,Positive,5
+CASE_0144,R0144,P3,Medium,Open,Positive,5
+CASE_0151,R0151,P3,Medium,Open,Positive,5
+CASE_0154,R0154,P3,Medium,Open,Positive,5
+CASE_0169,R0169,P3,Medium,Open,Positive,5
+CASE_0188,R0188,P3,Medium,Open,Positive,5
+CASE_0243,R0243,P3,Medium,Open,Positive,5
+CASE_0245,R0245,P3,Medium,Open,Positive,5
+CASE_0248,R0248,P3,Medium,Open,Positive,5
+CASE_0249,R0249,P3,Medium,Open,Positive,5
+CASE_0250,R0250,P3,Medium,Open,Positive,5
+CASE_0251,R0251,P3,Medium,Open,Positive,5
+CASE_0252,R0252,P3,Medium,Open,Positive,5
+CASE_0253,R0253,P3,Medium,Open,Positive,5
+CASE_0254,R0254,P3,Medium,Open,Positive,5
+CASE_0255,R0255,P3,Medium,Open,Positive,5
+CASE_0256,R0256,P3,Medium,Open,Positive,5
+CASE_0257,R0257,P3,Medium,Open,Positive,5
+CASE_0258,R0258,P3,Medium,Open,Positive,5
+CASE_0259,R0259,P3,Medium,Open,Positive,5
+CASE_0263,R0263,P3,Medium,Open,Positive,5
+CASE_0264,R0264,P3,Medium,Open,Positive,5
+CASE_0266,R0266,P3,Medium,Open,Positive,5
+CASE_0268,R0268,P3,Medium,Open,Positive,5
+CASE_0270,R0270,P3,Medium,Open,Positive,5
+CASE_0271,R0271,P3,Medium,Open,Positive,5
+CASE_0272,R0272,P3,Medium,Open,Positive,5
+CASE_0273,R0273,P3,Medium,Open,Positive,5
+CASE_0274,R0274,P3,Medium,Open,Positive,5
+CASE_0275,R0275,P3,Medium,Open,Positive,5
+CASE_0276,R0276,P3,Medium,Open,Positive,5
+CASE_0277,R0277,P3,Medium,Open,Positive,5
+CASE_0278,R0278,P3,Medium,Open,Positive,5
+CASE_0279,R0279,P3,Medium,Open,Positive,5
+CASE_0280,R0280,P3,Medium,Open,Positive,5
+CASE_0282,R0282,P3,Medium,Open,Positive,5
+CASE_0283,R0283,P3,Medium,Open,Positive,5
+CASE_0286,R0286,P3,Medium,Open,Positive,5
+CASE_0288,R0288,P3,Medium,Open,Positive,5
+CASE_0289,R0289,P3,Medium,Open,Positive,5
+CASE_0291,R0291,P3,Medium,Open,Positive,5
+CASE_0295,R0295,P3,Medium,Open,Positive,5
+CASE_0296,R0296,P3,Medium,Open,Positive,5
+CASE_0297,R0297,P3,Medium,Open,Positive,5
+CASE_0298,R0298,P3,Medium,Open,Positive,5
+CASE_0299,R0299,P3,Medium,Open,Positive,5
+CASE_0300,R0300,P3,Medium,Open,Positive,5
+CASE_0019,R0019,P4,Low,Open,Neutral,3
+CASE_0029,R0029,P4,Low,Open,Neutral,3
+CASE_0056,R0056,P4,Low,Open,Neutral,3
+CASE_0083,R0083,P4,Low,Open,Neutral,3
+CASE_0091,R0091,P4,Low,Open,Neutral,3
+CASE_0106,R0106,P4,Low,Open,Neutral,3
+CASE_0113,R0113,P4,Low,Open,Neutral,3
+CASE_0136,R0136,P4,Low,Open,Neutral,3
+CASE_0160,R0160,P4,Low,Open,Neutral,3
+CASE_0164,R0164,P4,Low,Open,Neutral,3
+CASE_0182,R0182,P4,Low,Open,Neutral,3
+CASE_0198,R0198,P4,Low,Open,Neutral,3
+CASE_0213,R0213,P4,Low,Open,Neutral,3
+CASE_0224,R0224,P4,Low,Open,Neutral,3
+CASE_0234,R0234,P4,Low,Open,Neutral,3
+CASE_0281,R0281,P4,Low,Open,Neutral,3
+CASE_0290,R0290,P4,Low,Open,Neutral,3
+CASE_0292,R0292,P4,Low,Open,Neutral,3
