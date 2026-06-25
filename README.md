@@ -74,7 +74,7 @@ The confusion matrix shows Communication and Neutral as the hardest categories t
 - Reviews mentioning multiple signals were assigned to the primary complaint category (e.g. a review mentioning both pricing and treatment quality was labeled Treatment if the treatment complaint was the dominant signal)
 - Ambiguous reviews defaulted to Neutral rather than Positive to avoid inflating the positive class
 - Label distribution was checked for class imbalance before evaluation — Positive was the largest class (108 reviews), Neutral the smallest (18 reviews)
-- All 300 labels were assigned by a single annotator to ensure consistency in boundary decisions
+- All 300 labels were assigned by a single annotator to ensure consistency in boundary decisions. This is a known limitation: with only one labeler, there is no inter-annotator agreement (e.g. Cohen's kappa) to quantify labeling reliability, and any boundary bias in how that one person interpreted ambiguous cases (especially Communication vs Staff vs Neutral) propagates uncorrected into the evaluation set. A production labeling pipeline would use 2-3 annotators per item with a measured agreement score before trusting the ground truth.
 
 ---
 
@@ -90,6 +90,19 @@ This project simulates the core analytical workflows in a T&S engineering role:
 - **Dashboard and reporting** — Interactive Streamlit dashboard across 6 analytical views for stakeholder communication
 
 > **Domain note:** Patient reviews are structurally identical to user-generated content on any platform — free-text submissions, star ratings, coordinated posting patterns, and abuse signals. The workflows here directly mirror Trust & Safety systems at scale. The domain is dental; the methodology is platform trust and safety.
+
+---
+
+## Limitations and What Changes at Platform Scale
+
+This project runs on 959 patients, 4,603 visits, and 300 labeled reviews — small enough to query with SQL batch jobs and label by hand. That methodology does not transfer directly to a platform like YouTube, and being explicit about what changes is part of the analysis:
+
+- **Batch SQL → streaming detection.** Burst detection here runs as a periodic batch query against a static SQLite file. At platform scale, the same logic (volume vs. a rolling baseline) needs to run as a streaming job against live ingestion, with sub-minute latency rather than end-of-day reports.
+- **Single annotator → labeling pipeline with agreement scoring.** 300 reviews labeled by one person works for a portfolio evaluation set. Production labeling at scale requires multiple annotators per item, a measured inter-annotator agreement score, and an adjudication process for disagreements — none of which this project has, and which is a real gap if this were a hiring claim rather than a demonstration of method.
+- **Static thresholds → adaptive baselines.** The 3.67 reviews/day burst threshold and the 1-2 star Treatment auto-escalation rule are fixed constants tuned to this dataset. At scale, thresholds need to adapt per-entity (per channel, per creator) and shift over time as baseline behavior changes, rather than being one global constant.
+- **300-row confusion matrix → continuous model monitoring.** The LLM evaluation here is a one-time benchmark on a fixed test set. A production classifier needs continuous accuracy monitoring against fresh human-reviewed samples, since both content patterns and model behavior drift over time.
+
+The point of this project isn't that the dental clinic data *is* YouTube-scale Trust & Safety — it's that the analytical reasoning (volume-based abuse detection, severity-aware risk tiering, precision/recall tradeoffs in classification, human-review routing for ambiguous content) is the same reasoning, applied at a scale small enough to fully own end-to-end: from raw Excel data to a working dashboard.
 
 ---
 

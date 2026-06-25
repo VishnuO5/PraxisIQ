@@ -949,6 +949,45 @@ elif page == "Trust & Safety":
         )
         st.dataframe(high_risk_reviews, use_container_width=True, height=300)
         st.markdown("<hr/>", unsafe_allow_html=True)
+
+    section("Product Vulnerability Analysis", "What's being exploited")
+
+    vulnerabilities = [
+        (
+            "Unverified reviewer identity",
+            "No identity verification is required to submit a review. The same reviewer name "
+            "(Yashoda S) appears twice with no account-level linkage, meaning repeat or coordinated "
+            "posting cannot be confirmed or denied at the platform level — only inferred from text matching.",
+            ROSE
+        ),
+        (
+            "No rate-limiting on submission volume",
+            "There is no cap on how many reviews can be posted to the same business in a short window. "
+            "This is what allows a single event (good or bad) to produce a burst — 17 reviews in one day "
+            "against a 3.67/day baseline — without any system intervention until after the fact.",
+            AMBER
+        ),
+        (
+            "Free-text severity is invisible to volume-only monitoring",
+            "A platform that only tracks review *count* would miss that 12% of reviews are patient-safety-grade "
+            "complaints, not just negative sentiment. Volume-based alerting alone under-detects the highest-severity content.",
+            VIOLET
+        ),
+        (
+            "Single-annotator labeling introduces blind spots",
+            "All 300 ground-truth labels were assigned by one person. There is no inter-annotator agreement score, "
+            "so categories with semantic overlap (Communication vs Staff vs Neutral) may carry undetected labeling bias "
+            "that an LLM trained or evaluated against this set would inherit.",
+            CYAN
+        ),
+    ]
+    for title, desc, color in vulnerabilities:
+        st.markdown(f"""<div class='finding-card'>
+            <div class='finding-title'><span style='color:{color}'>●</span>&nbsp; {title}</div>
+            <div class='finding-text'>{desc}</div>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
     section("Classification Threshold — False Positive vs False Negative Tradeoff")
 
     col_fp, col_fn = st.columns(2)
