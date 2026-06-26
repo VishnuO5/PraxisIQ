@@ -483,6 +483,52 @@ def finding(title, text):
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB   = os.path.join(BASE, "PraxisIQ.db")
 RPT  = os.path.join(BASE, "reports")
+EXCEL = os.path.join(BASE, "Patient_Data.xlsx")
+
+
+def _build_database_if_missing():
+    """
+    PraxisIQ.db is a local build artifact (gitignored) and won't exist on a
+    fresh deployment (e.g. Streamlit Community Cloud). If it's missing but
+    the source Excel file is present, build it automatically on first load.
+    """
+    if os.path.exists(DB):
+        return
+    if not os.path.exists(EXCEL):
+        st.error(
+            f"Database not found and source file '{EXCEL}' is missing. "
+            "Cannot build the database automatically."
+        )
+        st.stop()
+
+    with st.spinner("First-time setup: building database from source data..."):
+        treatment_map = {
+            "root Canal": "Root Canal", "Root Canal ": "Root Canal",
+            "Aligners": "Aligner", "Braces": "Metal Braces Treatment",
+            "Ceramic Braces Treatment": "Metal Braces Treatment",
+            "Deep Cleaning": "Deep Scaling and Root Planing",
+            "Gum Surgery": "Gum Treatment", "Scaling ": "Scaling",
+            "Scaling and Filling": "Scaling",
+            "Scaling and Polishing": "Scaling and Polishing",
+            "Teeth Cleaning": "Teeth Cleaning",
+            "Wisdom Tooth Extraction": "Tooth Extraction",
+        }
+
+        patients = pd.read_excel(EXCEL, sheet_name="Patients")
+        visits   = pd.read_excel(EXCEL, sheet_name="Visits")
+        reviews  = pd.read_excel(EXCEL, sheet_name="Reviews")
+
+        patients["Primary_Treatment"] = patients["Primary_Treatment"].str.strip().replace(treatment_map)
+        visits["Treatment_Type"] = visits["Treatment_Type"].str.strip().replace(treatment_map)
+
+        conn = sqlite3.connect(DB)
+        patients.to_sql("Patients", conn, if_exists="replace", index=False)
+        visits.to_sql("Visits", conn, if_exists="replace", index=False)
+        reviews.to_sql("Reviews", conn, if_exists="replace", index=False)
+        conn.close()
+
+
+_build_database_if_missing()
 
 
 @st.cache_data
