@@ -580,7 +580,7 @@ if page == "Overview":
             hovertemplate='<b>%{x}</b><br>%{y} visits<extra></extra>'
         )
         chart_layout(fig, 330)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col_b:
         section("Review Sentiment Distribution")
@@ -594,7 +594,7 @@ if page == "Overview":
             marker=dict(line=dict(color=INK, width=2))
         )
         chart_layout(fig, 330)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     finding(
@@ -645,7 +645,7 @@ elif page == "Patient Analytics":
         ))
         chart_layout(fig, 320)
         fig.update_layout(showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col_b:
         section("Top Treatments by Visit Volume")
@@ -659,7 +659,7 @@ elif page == "Patient Analytics":
         chart_layout(fig, 320)
         fig.update_layout(yaxis=dict(autorange='reversed', gridcolor=BORDER_SOFT,
                                      tickfont=dict(color=TEXT_LOW, size=11)))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     section("Follow-Up Compliance")
@@ -683,12 +683,12 @@ elif page == "Patient Analytics":
                            textfont=dict(color=TEXT_HI, size=12.5))
         chart_layout(fig, 300)
         fig.update_layout(showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col_d:
         section("High-Risk Patient Queue")
         if not high_risk.empty:
-            st.dataframe(high_risk.head(15), use_container_width=True, height=300)
+            st.dataframe(high_risk.head(15), width='stretch', height=300)
         else:
             st.info("Run analytics/followup_risk_analysis.py to generate the high-risk queue.")
 
@@ -742,7 +742,7 @@ elif page == "Review Intelligence":
         fig.update_traces(marker_line_width=0, opacity=0.92)
         chart_layout(fig, 320)
         fig.update_layout(showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col_b:
         section("Rating Distribution")
@@ -752,7 +752,7 @@ elif page == "Review Intelligence":
         chart_layout(fig, 320)
         fig.update_layout(xaxis=dict(tickvals=[1, 2, 3, 4, 5], gridcolor=BORDER_SOFT,
                                      tickfont=dict(color=TEXT_LOW, size=11)))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     section("Service Quality by Complaint Category", "Module 6")
@@ -765,7 +765,7 @@ elif page == "Review Intelligence":
             fig.update_traces(marker_line_width=0, opacity=0.92)
             chart_layout(fig, 360)
             fig.update_layout(coloraxis_showscale=False)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         with col_d:
             for _, row in sq.iterrows():
                 rating = row['Average_Rating']
@@ -814,7 +814,7 @@ elif page == "Anomaly Screening":
                 annotation_font_size=11
             )
         chart_layout(fig, 330)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col_b:
         section("Burst Events Flagged")
@@ -845,13 +845,13 @@ elif page == "Anomaly Screening":
         LIMIT 15
     """)
     if not outliers.empty:
-        st.dataframe(outliers, use_container_width=True, height=280)
+        st.dataframe(outliers, width='stretch', height=280)
     else:
         high_visit = load_db(
             "SELECT Patient_Id, Primary_Treatment, Total_Visits "
             "FROM Patients ORDER BY Total_Visits DESC LIMIT 15"
         )
-        st.dataframe(high_visit, use_container_width=True, height=280)
+        st.dataframe(high_visit, width='stretch', height=280)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     section("Complaint Category Trend — Monthly Volume", "Emerging Risk Detection")
@@ -874,7 +874,7 @@ elif page == "Anomaly Screening":
             legend=dict(orientation='h', y=-0.25),
             xaxis=dict(tickangle=-45)
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
         treatment_trend = monthly_trend[monthly_trend['Label'] == 'Treatment'].sort_values('Month')
         if len(treatment_trend) >= 6:
@@ -920,7 +920,7 @@ elif page == "Trust & Safety":
         ))
         chart_layout(fig, 320)
         fig.update_layout(showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col_b:
         section("Risk Classification Logic")
@@ -941,13 +941,13 @@ elif page == "Trust & Safety":
     section("Moderation Queue")
     mq = load_csv('moderation_queue.csv')
     if not mq.empty:
-        st.dataframe(mq.head(20), use_container_width=True, height=300)
+        st.dataframe(mq.head(20), width='stretch', height=300)
     else:
         high_risk_reviews = load_db(
             "SELECT Review_ID, Reviewer_Name, Review_Date, Rating, Label, Review_Text "
             "FROM Reviews WHERE Label = 'Treatment' ORDER BY Rating ASC LIMIT 15"
         )
-        st.dataframe(high_risk_reviews, use_container_width=True, height=300)
+        st.dataframe(high_risk_reviews, width='stretch', height=300)
         st.markdown("<hr/>", unsafe_allow_html=True)
 
     section("Product Vulnerability Analysis", "What's being exploited")
@@ -1061,7 +1061,7 @@ elif page == "LLM Evaluation":
             yaxis=dict(range=[0, 100], gridcolor=BORDER_SOFT,
                        tickfont=dict(color=TEXT_LOW, size=11))
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col_b:
         section("Prompt Design Rationale")
@@ -1126,7 +1126,7 @@ elif page == "LLM Evaluation":
         yaxis=dict(range=[0, 100], gridcolor=BORDER_SOFT,
                    tickfont=dict(color=TEXT_LOW, size=11))
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
     finding(
         "Recommendation",
@@ -1160,7 +1160,7 @@ elif page == "LLM Evaluation":
             xaxis=dict(tickfont=dict(color=TEXT_MED, size=11)),
             yaxis=dict(tickfont=dict(color=TEXT_MED, size=11))
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         finding(
             "Classification Difficulty Analysis",
             f"<b style='color:{EMERALD}'>Strongest categories:</b> Positive, Pricing, Treatment, Waiting Time \u2014 clear keyword signals make these easy to classify.<br><br>"
@@ -1177,7 +1177,7 @@ elif page == "LLM Evaluation":
         preds['Match']   = preds['Correct'].map({True: '✓', False: '✗'})
         display_cols = ['Review_Text', 'Label', 'Prediction', 'Match']
         available = [c for c in display_cols if c in preds.columns]
-        st.dataframe(preds[available].head(20), use_container_width=True, height=350)
+        st.dataframe(preds[available].head(20), width='stretch', height=350)
 
         correct = preds['Correct'].sum()
         total   = len(preds)
