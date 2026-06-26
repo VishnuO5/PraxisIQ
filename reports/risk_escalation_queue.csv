@@ -1,301 +1,301 @@
-Review_ID,Rating,Label,Review_Text,Severity
-R0001,5,Positive,Cost effective within budget. Highly professional treatment and service given by the doctor.,Medium
-R0002,5,Positive,Caring is awesome and treatment is excellent. And mainly fees were low comparing to other clinics.,Medium
-R0003,4,Positive,Good treatment experience. Recommended.,Medium
-R0004,5,Positive,Excellent doctor and very affordable treatment.,Medium
-R0005,5,Positive,Good clinic. Doctor is very kind and professional.,Medium
-R0006,5,Positive,Best treatment and good advice with nominal charges. She is so patient in listening to our problems.,Medium
-R0007,5,Positive,She is very patient and listened to all my complaints. Got to know some proper dental care from the doc.,Medium
-R0008,5,Positive,The facilities were good and the dentist answered all the questions patiently. Highly Recommended!,Medium
-R0009,5,Positive,Very professional. Most recommended. Thank you Dr. Geetha for the best treatment.,Medium
-R0010,2,Pricing,Was not informed about the cost breakdown. Final bill had items I was not expecting.,High
-R0011,3,Waiting Time,Doctor is excellent but time management inside the clinic needs serious improvement.,Medium
-R0012,2,Staff,Staff were unfriendly and dismissive during check in process. Very unwelcoming.,High
-R0013,2,Communication,No update about delay. Waited 90 minutes without any information from reception.,High
-R0014,2,Pricing,Higher fees than expected with no clear breakdown provided in the bill.,High
-R0015,2,Treatment,Treatment was rushed. Doctor seemed in a hurry and quality of work suffered as a result.,Critical
-R0016,5,Positive,I went there for a filling and the doctor explained everything so well. Fees was cheap too.,Medium
-R0017,2,Pricing,Expensive for a small clinic. Similar treatments available at much lower cost nearby.,High
-R0018,5,Positive,Dr. Geetha is very well informed and very patient. She was explaining the process in every detail so that you are aware of what is happening inside your mouth. Definitely will recommend her to anyone who is in need of a helpful dentist.,Medium
-R0019,3,Neutral,Okay experience overall. Doctor was professional and brief during consultation.,Low
-R0020,2,Pricing,Treatment cost breakdown not shared. Felt charged arbitrarily for some procedures.,High
-R0021,4,Positive,Good clinic. Doctor listened carefully before recommending any treatment.,Medium
-R0022,3,Communication,Communication during visit is fine but after visit there is zero follow up from clinic.,Medium
-R0023,2,Communication,No written prescription or treatment summary given after the procedure.,High
-R0024,5,Positive,"Excellent, humble, subject matter expert. Certainly a doctor who cares the most about the patient. A place to go for your dental solution.",Medium
-R0025,4,Staff,Dental assistant was extremely gentle during the procedure. Very professional approach.,Medium
-R0026,2,Pricing,Fees are too high for this locality. Difficult to afford for regular dental checkups.,High
-R0027,5,Positive,Good service. Friendly doctor. Worth for money and teeth care.,Medium
-R0028,2,Waiting Time,Appointment was at 11am. Was seen at 12:30pm. No apology or explanation given.,High
-R0029,3,Neutral,Basic consultation done. Doctor was professional. Clinic is clean.,Low
-R0030,4,Positive,Good treatment and caring staff.,Medium
-R0031,5,Positive,Great experience. Doctor explained everything clearly.,Medium
-R0032,5,Positive,Had a great and smooth experience. I visited the clinic for dental filling. I have sensitive teeth hence I always get worried before visiting a dentist. But Dr. Geetha was patient and polite throughout the process and I didn't experience any pain.,Medium
-R0033,5,Positive,Excellent experience. Doctor is very thorough.,Medium
-R0034,4,Positive,Good experience overall. Friendly doctor.,Medium
-R0035,5,Positive,Very professional and skilled dentist. Great experience.,Medium
-R0036,4,Positive,Good clinic with quality treatment.,Medium
-R0037,5,Positive,Kind doctor and excellent dental care provided.,Medium
-R0038,4,Positive,Decent clinic with professional treatment.,Medium
-R0039,5,Positive,Very satisfied with treatment. Will recommend.,Medium
-R0040,4,Positive,Good clinic overall. Professional approach.,Medium
-R0041,5,Positive,Excellent dental care. Highly recommend Dr. Geetha.,Medium
-R0042,5,Positive,Best dental clinic. Very professional service.,Medium
-R0043,4,Positive,Good treatment. Would visit again.,Medium
-R0044,5,Positive,Very professional and thorough treatment. Recommended.,Medium
-R0045,2,Pricing,Cost of treatment is too high for people on a limited income. No concession given.,High
-R0046,5,Positive,Excellent doctor. Best dental clinic in Trichy.,Medium
-R0047,3,Waiting Time,Treatment was satisfactory but waiting time could be improved at this clinic.,Medium
-R0048,1,Treatment,Filling procedure was painful throughout despite assurance it would be pain free.,Critical
-R0049,2,Communication,No follow up call after my surgery. Had complications and did not know who to contact.,High
-R0050,4,Communication,Appreciated the follow up call checking on my recovery after root canal procedure.,Medium
-R0051,1,Treatment,Gum treatment outcome was poor. Condition did not improve and had to seek second opinion.,Critical
-R0052,4,Staff,Staff were very helpful and made the whole dental experience very comfortable.,Medium
-R0053,5,Positive,"Very professional, humble person, doing great work, nice human being. She is not a money minded person. All should visit this clinic.",Medium
-R0054,2,Waiting Time,Three patients were attended before me even though I had an earlier appointment slot.,High
-R0055,5,Treatment,Implant procedure was excellent. Doctor monitored progress at every stage carefully.,Medium
-R0056,3,Neutral,Average experience overall. Came for cleaning and it was completed properly.,Low
-R0057,5,Positive,Friendly doctor. Painless procedure. Low cost high class treatment.,Medium
-R0058,2,Waiting Time,Took half day off from work and still waited over an hour. Very frustrating experience.,High
-R0059,5,Positive,It was a pleasant experience for me. The ambience and even the staff are so accommodative. Doctor was so friendly and handling patiently.,Medium
-R0060,5,Positive,Dr. Geetha is truly one of the best dentists in Trichy. Very highly recommended.,Medium
-R0061,1,Treatment,Tooth pain persisted after filling for more than two months. Treatment was ineffective.,Critical
-R0062,1,Treatment,Crown fell off after two weeks. Very poor workmanship. Will not return.,Critical
-R0063,2,Staff,Staff attitude during peak hours is noticeably worse. Becomes dismissive and rushed.,High
-R0064,2,Communication,Appointment was confirmed but doctor was unavailable. No one informed me beforehand.,High
-R0065,5,Positive,"I went there for root canal treatment. Doctor was kind, clearly explained the process, cost effective and highly recommendable.",Medium
-R0066,4,Communication,Very clear explanation of what to expect during and after each stage of treatment.,Medium
-R0067,2,Waiting Time,Waited 75 minutes for a 15 minute cleaning appointment. Please respect patients' time.,High
-R0068,5,Positive,Pleasant environment. Doctor was so friendly.,Medium
-R0069,2,Communication,Instructions after extraction were not explained clearly. Had to call back multiple times.,High
-R0070,2,Staff,Reception staff did not know basic details about treatment options. Needs better training.,High
-R0071,5,Positive,This is a great place to go to take care of your teeth. Dr. Geetha was very professional examining and providing solutions by priority. I felt that I was in good hands. Would highly recommend to anyone!,Medium
-R0072,1,Treatment,Tooth that was treated here developed abscess three weeks later. Very poor outcome.,Critical
-R0073,2,Pricing,Clinic should provide a price list upfront. I only found out the cost after treatment.,High
-R0074,1,Treatment,Tooth pain increased after the treatment. Had to visit another dentist who said the procedure was incomplete.,Critical
-R0075,2,Treatment,Post procedure recovery was longer than informed. Need better patient guidance.,Critical
-R0076,2,Pricing,Cost of braces treatment is very high here compared to standard market rates.,High
-R0077,5,Positive,Clinic has a very good ambience. Dr. Geetha is very patient in handling cases especially children. She is a good practitioner. Also the treatment is cost-effective. I would highly recommend her for any dental treatment.,Medium
-R0078,3,Communication,Please improve the appointment confirmation process. System is not reliable currently.,Medium
-R0079,2,Staff,Staff were chatting among themselves while patients waited to be attended to.,High
-R0080,2,Pricing,Total cost was higher than the estimate given. Should be more transparent on pricing.,High
-R0081,2,Staff,Receptionist was dismissive when I asked about treatment cost before starting. Very unprofessional.,High
-R0082,5,Positive,Very professional and knowledgeable dentist around.,Medium
-R0083,3,Neutral,Fine experience overall. Nothing special but service was adequate.,Low
-R0084,2,Staff,Staff did not greet or acknowledge me when I arrived for my scheduled appointment.,High
-R0085,2,Staff,Reception staff were on their phone when I came to check in. Very unprofessional behavior.,High
-R0086,2,Communication,Tried calling the clinic multiple times to confirm appointment but no one picked up.,High
-R0087,5,Positive,Best dentist I have consulted in Trichy. Honest and very skilled doctor.,Medium
-R0088,3,Communication,Average communication. Room for significant improvement in follow up process.,Medium
-R0089,2,Waiting Time,Had to wait 90 minutes for a scheduled appointment. No one gave any updates about the delay.,High
-R0090,2,Staff,Front desk staff need training on how to communicate professionally with patients.,High
-R0091,3,Neutral,Straightforward visit. Treatment was done as expected with no complaints.,Low
-R0092,5,Positive,Treatment was good and cost effective.,Medium
-R0093,1,Treatment,My filling fell off within 10 days. Had to visit another clinic to redo it. Very disappointed.,Critical
-R0094,2,Staff,Staff at reception were too busy talking among themselves to attend to me properly.,High
-R0095,2,Pricing,Would highly recommend the doctor but fees are a barrier for many patients.,High
-R0096,2,Waiting Time,Doctor is good but waiting time is a consistent problem on every visit I have made.,High
-R0097,2,Communication,Had trouble reaching the clinic by phone for three days after my procedure.,High
-R0098,2,Waiting Time,Scheduled at 3pm but seen at 5pm. Two hours waiting with a painful tooth. Terrible.,High
-R0099,3,Waiting Time,Good clinic but time management between patients needs serious improvement.,Medium
-R0100,2,Waiting Time,Appointment system seems completely ignored. Patients seen in random order not by schedule.,High
-R0101,2,Staff,Staff seemed disinterested and unhelpful during my visit. Poor customer service.,High
-R0102,2,Treatment,Scaling was done too aggressively. Gums bled for several days after the procedure.,Critical
-R0103,5,Positive,A place where you can rely on for all your dental problems.,Medium
-R0104,2,Pricing,Final bill was almost double the initial estimate. Very poor pricing transparency.,High
-R0105,2,Communication,No written care instructions given after extraction. Had to search online for guidance.,High
-R0106,3,Neutral,Visited for a routine checkup. Everything was done as expected. Nothing exceptional to mention.,Low
-R0107,2,Communication,Did not receive any reminder before my scheduled appointment. Missed it entirely.,High
-R0108,2,Pricing,Same treatment costs nearly double here compared to another clinic I checked in Trichy.,High
-R0109,4,Communication,Doctor communicated the treatment plan clearly and answered all my questions patiently.,Medium
-R0110,2,Waiting Time,Waited almost two hours even after taking prior appointment. Very poor time management at this clinic.,High
-R0111,4,Positive,Good experience overall. Doctor was thorough and staff were cooperative.,Medium
-R0112,2,Waiting Time,Waited over one hour for a routine checkup. Clinic needs better appointment management.,High
-R0113,3,Neutral,Came for a second opinion. Doctor was helpful and gave clear information.,Low
-R0114,5,Positive,I did my root canal with Dr. Geetha mam. She is very kind and soft handling person. Very economy charges also. If you ask any doubt about tooth she explains very well. Highly recommend.,Medium
-R0115,2,Staff,Staff were having personal conversations loudly while patients were waiting to be seen.,High
-R0116,2,Communication,Could not reach anyone at the clinic for two days after my procedure for follow up.,High
-R0117,2,Communication,Post care instructions given verbally only. Hard to remember everything after procedure.,High
-R0118,2,Staff,Staff were unhelpful when I had questions about my treatment plan. Poor experience.,High
-R0119,2,Treatment,Post treatment sensitivity lasted two months. Doctor said it would resolve in two weeks.,Critical
-R0120,5,Positive,Very kind approach. Cheap and best. Value for money given. Thank you.,Medium
-R0121,1,Treatment,Tooth condition worsened after treatment. Had to seek urgent care elsewhere.,Critical
-R0122,1,Treatment,Tooth extracted without exploring all alternatives. Felt the decision was rushed.,Critical
-R0123,2,Waiting Time,Waited two hours for a scheduled appointment. This happens every single time I visit.,High
-R0124,1,Treatment,Filling fell out after one week. Had to spend money at another clinic to fix it.,Critical
-R0125,2,Pricing,Charged for X-ray I was not told about beforehand. Should disclose all charges upfront.,High
-R0126,2,Pricing,Charged more than other clinics for the same procedure. No justification given for the higher price.,High
-R0127,2,Pricing,Pricing is not transparent. Additional charges added at billing without prior notice.,High
-R0128,5,Positive,I went to this clinic for teeth cleaning. Dr. Geetha made me comfortable and provided amazing service. Thank you.,Medium
-R0129,3,Pricing,Fees are acceptable but a printed price list at reception would help patients.,Medium
-R0130,2,Staff,Staff were talking among themselves and not attending to waiting patients. Poor attitude.,High
-R0131,4,Positive,Professional and caring approach. Made me feel comfortable throughout.,Medium
-R0132,2,Waiting Time,Even for a simple checkup the wait was 60 minutes. Please fix appointment management.,High
-R0133,2,Staff,Staff interrupted consultation to ask doctor about another patient. Very unprofessional.,High
-R0134,1,Treatment,Procedure was rushed. Doctor spent very little time and treatment outcome was poor.,Critical
-R0135,2,Pricing,Treatment was okay but the billing had extra charges that were never mentioned upfront.,High
-R0136,3,Neutral,Average clinic with decent facilities for routine dental work.,Low
-R0137,2,Waiting Time,Waiting area has only a few seats and patients were standing for long periods.,High
-R0138,3,Communication,Doctor explains well during visit but post treatment follow up is completely lacking.,Medium
-R0139,5,Positive,"Excellent treatment and warm hospitality, felt really cared. I cleaned my teeth. She is really kind.",Medium
-R0140,2,Waiting Time,Doctor is excellent but please address the long waiting time immediately.,High
-R0141,2,Pricing,Charges were not transparent. Asked for a receipt and was given a handwritten note only.,High
-R0142,1,Treatment,Denture was poorly fitted and caused sores. Had to get it redone at another clinic.,Critical
-R0143,1,Treatment,Scaling caused nerve sensitivity that lasted over a month. Should have warned me.,Critical
-R0144,5,Positive,"I got my wisdom tooth surgically extracted here, had a neat experience! Very genuine and hard to find such a clinic where money is not given importance. Would definitely recommend the clinic for dental issues!",Medium
-R0145,4,Staff,Very supportive staff. Made my anxious child feel at ease before treatment.,Medium
-R0146,2,Staff,Staff at the reception were very rude when I called to reschedule. Not acceptable behavior.,High
-R0147,2,Pricing,Fees for a simple filling here is higher than what three other clinics charge nearby.,High
-R0148,4,Communication,Liked that doctor discussed all alternatives and explained costs before recommending treatment.,Medium
-R0149,2,Waiting Time,Waited 80 minutes for a routine consultation. This is a recurring issue at this clinic.,High
-R0150,2,Waiting Time,Long waiting time has been an issue across all four visits I have made to this clinic.,High
-R0151,5,Positive,Very kind. Listening to the problem and treating accordingly.,Medium
-R0152,2,Pricing,Cost of implant here is very high. No EMI or flexible payment option available.,High
-R0153,2,Communication,Treatment started without the doctor explaining the full procedure beforehand.,High
-R0154,5,Positive,Excellent dental care. Doctor is skilled and very gentle with patients.,Medium
-R0155,2,Communication,Had to call three times for a simple query. Phone handling needs improvement.,High
-R0156,2,Pricing,Clinic charges premium price but waiting room facilities are very basic.,High
-R0157,2,Pricing,No EMI option available for costly treatments. Makes it inaccessible for many.,High
-R0158,2,Pricing,Cost was significantly higher than what was initially quoted. Very misleading pricing.,High
-R0159,2,Pricing,Charged for consultation even though I just came to collect my prescription. Unfair.,High
-R0160,3,Neutral,Normal visit with no specific complaints. Standard dental clinic experience.,Low
-R0161,2,Pricing,Price was not discussed beforehand. Felt like I was overcharged for a simple procedure.,High
-R0162,4,Staff,Dental team is well coordinated and staff assist the doctor very efficiently.,Medium
-R0163,2,Staff,Staff were not properly sanitising equipment between patients that I could observe.,High
-R0164,3,Neutral,Nothing exceptional to report. Clinic is functional and treatment is adequate.,Low
-R0165,2,Pricing,Doctor was friendly but clinic is too expensive compared to similar clinics nearby.,High
-R0166,1,Treatment,Bridge work done here came loose within a month. Very poor dental craftsmanship.,Critical
-R0167,1,Treatment,Implant site did not heal properly. Complications arose that required further treatment.,Critical
-R0168,3,Waiting Time,Good treatment but clinic needs a token or queue management system urgently.,Medium
-R0169,5,Positive,Outstanding treatment and caring atmosphere. Highly recommend to everyone.,Medium
-R0170,2,Waiting Time,Had to wait almost two hours. Was not even offered a seat initially in the clinic.,High
-R0171,2,Treatment,Filling was not done evenly. Had to go back for correction within a week.,Critical
-R0172,2,Staff,Reception staff could not answer basic questions about treatment options. Needs training.,High
-R0173,1,Treatment,Denture fitting was poor. Had to go elsewhere to get it properly adjusted.,Critical
-R0174,3,Staff,Some staff members are friendly while others are quite indifferent. Inconsistent service.,Medium
-R0175,3,Communication,Doctor explains well inside the room but between visit communication is almost nil.,Medium
-R0176,2,Waiting Time,Appointment scheduled but doctor arrived 45 minutes late with no prior notification.,High
-R0177,2,Communication,No call or message before my appointment. System needs to be more organised.,High
-R0178,2,Staff,Staff member was rude when I asked for clarification on the treatment procedure.,High
-R0179,2,Communication,Post extraction care instructions were not given clearly. Had swelling and had to call back for guidance.,High
-R0180,2,Pricing,Charges were higher than what three nearby clinics quoted for the same treatment.,High
-R0181,2,Communication,"No reminder call before appointment. When I arrived, was told doctor is not available. Wasted my time completely.",High
-R0182,3,Neutral,Standard dental visit. Gets the necessary job done without any issues.,Low
-R0183,1,Treatment,Aligner treatment showed no progress after three months. Switched to another clinic.,Critical
-R0184,2,Pricing,Fees are on the higher side. Wish there were more affordable options for basic treatments.,High
-R0185,2,Treatment,Procedure took much longer than estimated and outcome was only average quality.,Critical
-R0186,1,Waiting Time,Waited nearly two hours in an uncomfortable waiting area. Totally unacceptable for a clinic with appointments.,High
-R0187,2,Staff,Staff member gave me wrong information about appointment time which caused confusion.,High
-R0188,5,Positive,Very satisfied with the results of my treatment. Will definitely return here.,Medium
-R0189,4,Communication,Very responsive to messages and quick to clarify doubts I had after treatment.,Medium
-R0190,2,Waiting Time,Waited for more than an hour without any update from the reception desk.,High
-R0191,4,Communication,Clear and honest communication about cost before treatment. Appreciated the transparency.,Medium
-R0192,2,Staff,Staff member interrupted consultation to attend to another patient. Very disrespectful.,High
-R0193,2,Pricing,High fees with no EMI option. Difficult to afford major procedures at this clinic.,High
-R0194,1,Waiting Time,Very long waiting time every single visit. Appointment system seems to be completely ignored here.,High
-R0195,1,Treatment,Root canal was painful throughout. Doctor said it would be pain free but it was not.,Critical
-R0196,2,Communication,Could not confirm appointment on the day. Phone went unanswered repeatedly.,High
-R0197,2,Waiting Time,Waited too long again for a scheduled appointment. This is a recurring issue.,High
-R0198,3,Neutral,Decent clinic. Treatment was satisfactory. Would return if needed.,Low
-R0199,2,Waiting Time,Very long waiting time. Clinic is popular but has not expanded capacity to match demand.,High
-R0200,2,Waiting Time,Waiting room was overcrowded with patients spilling outside. Capacity is insufficient.,High
-R0201,1,Treatment,Post procedure pain was far more than expected and no proper guidance was given.,Critical
-R0202,2,Staff,Was not offered basic information about wait time or queue position by any staff.,High
-R0203,2,Treatment,Treatment outcome was below expectations. Had to seek a second opinion elsewhere.,Critical
-R0204,2,Waiting Time,Long queue with no proper management. Appointment system needs complete overhaul.,High
-R0205,2,Communication,No follow up call after my surgery. Had concerns and could not reach anyone.,High
-R0206,2,Communication,Appointment confirmed but no one called when the doctor was not available that day.,High
-R0207,2,Pricing,Total bill was higher than the verbal estimate given before treatment started.,High
-R0208,4,Positive,Treatment was done well and the clinic is clean and hygienic throughout.,Medium
-R0209,1,Treatment,Post extraction instructions were unclear and I developed dry socket complications.,Critical
-R0210,2,Pricing,The fees were not communicated before starting treatment. Got a shock when the final bill came.,High
-R0211,2,Staff,Staff member was dismissive when I asked about my treatment cost before starting.,High
-R0212,2,Communication,No SMS or call reminder sent before my scheduled appointment time.,High
-R0213,3,Neutral,Visited twice so far. Both times were uneventful and satisfactory.,Low
-R0214,2,Pricing,Fees for teeth cleaning was higher than three other clinics I checked in Trichy.,High
-R0215,4,Treatment,Root canal was completed successfully over two sittings with minimal discomfort.,Medium
-R0216,4,Positive,Clean clinic and professional staff. Good overall dental care experience.,Medium
-R0217,4,Staff,Staff were reassuring when I was nervous before my first dental procedure here.,Medium
-R0218,2,Waiting Time,Very crowded waiting area. Patients standing outside. Needs better capacity management.,High
-R0219,2,Waiting Time,Scheduled at 2pm but was seen only at 3:45pm. Two patients arrived after me were seen first.,High
-R0220,2,Communication,No post treatment message or call to check on recovery. Very poor follow up culture.,High
-R0221,1,Treatment,Crown came loose within three weeks. Very poor quality of work done here.,Critical
-R0222,4,Communication,Doctor called to check on my recovery after surgery. Very thoughtful and professional.,Medium
-R0223,1,Treatment,Scaling caused excessive gum bleeding that lasted for days. Not normal after care.,Critical
-R0224,3,Neutral,Decent experience. Staff were neutral but treatment was completed well.,Low
-R0225,2,Pricing,Expensive clinic for patients from lower income backgrounds. No discount offered.,High
-R0226,2,Pricing,No price list displayed at reception. Patients have to ask which is uncomfortable.,High
-R0227,1,Treatment,Filling done here cracked within a month. Poor quality materials used.,Critical
-R0228,2,Waiting Time,Very long wait despite prior appointment. Three people who arrived after me were seen first.,High
-R0229,3,Communication,Clinic should send WhatsApp reminders before appointments. Missed mine due to no reminder.,Medium
-R0230,2,Waiting Time,Arrived on time but was made to wait without any explanation or update from staff.,High
-R0231,2,Staff,Receptionist was on the phone when I arrived and did not acknowledge me for minutes.,High
-R0232,2,Communication,No follow up communication after my implant surgery. Had concerns with no one to call.,High
-R0233,2,Communication,No WhatsApp reminder sent for my appointment. Missed it due to lack of communication.,High
-R0234,3,Neutral,Routine filling completed. No issues experienced. Would consider returning.,Low
-R0235,2,Waiting Time,Was waiting for 80 minutes without any update. Very poor scheduling system.,High
-R0236,1,Treatment,Root canal had to be redone at another clinic. Procedure here was incomplete.,Critical
-R0237,2,Communication,No reminder call. No follow up. Clinic communication is almost non-existent.,High
-R0238,4,Communication,Doctor sends reminders and follows up after major procedures. Excellent practice.,Medium
-R0239,2,Communication,No answer when I called to ask about post treatment care. Very poor accessibility.,High
-R0240,1,Treatment,Had to redo root canal at another clinic. The procedure done here was not completed properly.,Critical
-R0241,1,Treatment,Sensitivity increased after filling procedure and has not resolved even after one month.,Critical
-R0242,1,Treatment,Tooth extraction site got infected. Doctor did not give proper post care instructions.,Critical
-R0243,5,Positive,Very professional and caring dentist. Highly recommended.,Medium
-R0244,4,Positive,Good experience. Clean clinic and skilled doctor.,Medium
-R0245,5,Positive,Very kind approach and quality treatment. Highly recommended.,Medium
-R0246,4,Positive,Good dental care and friendly environment.,Medium
-R0247,4,Positive,I visited Dr. Geetha for my dad's and wife's dental treatment. She listened to our concerns and examined the issues patiently. She suggested solutions along with their pros and cons. Very thorough and professional approach.,Medium
-R0248,5,Positive,Had a good and nice experience.,Medium
-R0249,5,Positive,Treating patients kindly and very good treatment.,Medium
-R0250,5,Positive,Excellent dental treatment done very well. Highly satisfied.,Medium
-R0251,5,Positive,I went to the hospital for treatment. It was a very good experience. One of the best dental hospitals and best doctor in Trichy.,Medium
-R0252,5,Positive,"Geetha Dental Clinic is excellent! Dr. Geetha is very professional and caring. The clinic is clean, modern, and the staff is friendly. I felt comfortable throughout my treatment. Highly recommend for quality dental care!",Medium
-R0253,5,Positive,Excellent hospitality and excellent treatment.,Medium
-R0254,5,Positive,Had a very good experience. The staff are polite and the doctor clearly explained the procedure and was very professional. The clinic is very clean and hygienic.,Medium
-R0255,5,Positive,Good service and comfortable. Friendly handling.,Medium
-R0256,5,Positive,"Dr. Geetha mam is an excellent dentist. I had deep cavities, multiple fillings, and an implant done successfully. Now I can chew normally without pain. Very caring, professional, and the cost is also nominal. Highly recommend! Thanks mam.",Medium
-R0257,5,Positive,"I had my braces treatment here for the past 1.5 years, and the results are truly amazing. Now I feel much more confident about my smile. Every time I smile, it gives me a positive feeling. The doctor was very supportive throughout the entire journey.",Medium
-R0258,5,Positive,"I visited Dr. Geetha Dental Clinic for crown treatment. I received excellent care, and the procedure was completely painless.",Medium
-R0259,5,Positive,Excellent treatment and caring approach from the doctor.,Medium
-R0260,4,Positive,Good clinic with friendly staff.,Medium
-R0261,3,Waiting Time,Satisfactory treatment. Could improve waiting time.,Medium
-R0262,4,Positive,Good dental clinic. Professional service.,Medium
-R0263,5,Positive,Highly recommend this clinic for dental care.,Medium
-R0264,5,Positive,Excellent doctor and very affordable charges.,Medium
-R0265,3,Waiting Time,Okay experience. Waiting time was a bit long.,Medium
-R0266,5,Positive,"I can't recommend this clinic enough! From the moment you walk in, you're greeted with such a warm and welcoming atmosphere. The care and attention to detail are top-notch. It's clear that they truly value their patients' comfort and wellbeing.",Medium
-R0267,4,Positive,Good treatment and professional doctor.,Medium
-R0268,5,Positive,Very kind doctor. Great treatment experience.,Medium
-R0269,4,Positive,Good experience overall. Will visit again.,Medium
-R0270,5,Positive,Great experience. Doctor is very skilled.,Medium
-R0271,5,Positive,Trichy's best dentist to consult with. Treats and takes care of your teeth with clear explanation and makes one feel safe and secure.,Medium
-R0272,5,Positive,"I visited this clinic for a filling and some aesthetic correction for my canines, and I'm really happy with the result. The doctor was patient, explained everything properly, and made the whole process feel comfortable. The clinic was neat and clean. Overall, it was a very good experience.",Medium
-R0273,5,Positive,Such great support from the doctor and staff. Thank you.,Medium
-R0274,5,Positive,Quality treatment. Skilled doctor. Affordable cost.,Medium
-R0275,5,Positive,Had a great experience at the clinic. The doctor is highly professional and staff were really helpful at the front.,Medium
-R0276,5,Positive,"Trustworthy clinic providing good services and care to patients, highly recommended.",Medium
-R0277,5,Positive,Good and friendly service.,Medium
-R0278,5,Positive,Good professional treatment. Highly recommended.,Medium
-R0279,5,Positive,Excellent dental care and friendly staff. The doctor explained the treatment clearly and made the whole experience comfortable. Clean clinic with good service. Highly satisfied.,Medium
-R0280,5,Positive,I went to this hospital for removing my wisdom teeth. I really thank Dr. Geetha because of her excellent treatment and all special facilities are there for the comfort of the patient. Thank you.,Medium
-R0281,3,Neutral,Average experience. Treatment was okay.,Low
-R0282,5,Positive,Very satisfied with the dental treatment here.,Medium
-R0283,5,Positive,Good and super treatment.,Medium
-R0284,4,Positive,Good service overall. Would recommend.,Medium
-R0285,4,Positive,Very good service.,Medium
-R0286,5,Positive,Best service.,Medium
-R0287,4,Positive,Good caring and best treatment provided.,Medium
-R0288,5,Positive,"Best clinic ever, please visit guys.",Medium
-R0289,5,Positive,Very good clinic. Best for Dental care.,Medium
-R0290,3,Neutral,Decent experience overall. Treatment was done properly.,Low
-R0291,5,Positive,Very good experience at this clinic.,Medium
-R0292,3,Neutral,The treatment and service were satisfactory.,Low
-R0293,4,Positive,Good treatment and clean clinic environment.,Medium
-R0294,4,Positive,Good clinic with professional approach.,Medium
-R0295,5,Positive,Best dental clinic. Highly satisfied with the treatment.,Medium
-R0296,5,Positive,Warm gesture and proper treatment. Best recommendations by doctor for your tooth problems and works well too!,Medium
-R0297,5,Positive,Probably one of the best doctors in Trichy. She was very polite and calm. It just showed how passionate she was. Thank you doctor.,Medium
-R0298,5,Positive,Nice experience. Very professional.,Medium
-R0299,5,Positive,I had a very good experience at the dental hospital. The doctor explained everything clearly and treated me very well with care and patience. I really appreciate the doctor's kindness and professionalism. Thank you so much for the excellent service.,Medium
-R0300,5,Positive,Thanks doctor for detailed examination and explanation on my teeth and providing a valuable insight. Highly recommended.,Medium
+Case_ID,Queue_Position,Moderation_Tier,Severity,Priority,Review_ID,Reviewer_Name,Review_Date,Rating,Label,Risk_Level,Risk_Score,Repeat_Low_Rater,Review_Text
+CASE_0001,1,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0048,Carnation R,2022-06-18,1,Treatment,High Risk,25.0,0,Filling procedure was painful throughout despite assurance it would be pain free.
+CASE_0002,2,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0051,Deepa M,2022-06-24,1,Treatment,High Risk,25.0,0,Gum treatment outcome was poor. Condition did not improve and had to seek second opinion.
+CASE_0003,3,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0061,Rani S,2022-07-18,1,Treatment,High Risk,25.0,0,Tooth pain persisted after filling for more than two months. Treatment was ineffective.
+CASE_0004,4,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0062,Queen N,2022-07-23,1,Treatment,High Risk,25.0,0,Crown fell off after two weeks. Very poor workmanship. Will not return.
+CASE_0005,5,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0072,Indumathi R,2022-08-25,1,Treatment,High Risk,25.0,0,Tooth that was treated here developed abscess three weeks later. Very poor outcome.
+CASE_0006,6,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0074,Dinesh P,2022-08-31,1,Treatment,High Risk,25.0,0,Tooth pain increased after the treatment. Had to visit another dentist who said the procedure was incomplete.
+CASE_0007,7,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0093,Preethi S,2022-11-08,1,Treatment,High Risk,25.0,0,My filling fell off within 10 days. Had to visit another clinic to redo it. Very disappointed.
+CASE_0008,8,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0121,Aathirai K,2023-04-14,1,Treatment,High Risk,25.0,0,Tooth condition worsened after treatment. Had to seek urgent care elsewhere.
+CASE_0009,9,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0122,Kamala R,2023-04-16,1,Treatment,High Risk,25.0,0,Tooth extracted without exploring all alternatives. Felt the decision was rushed.
+CASE_0010,10,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0124,Ilavarasi M,2023-04-27,1,Treatment,High Risk,25.0,0,Filling fell out after one week. Had to spend money at another clinic to fix it.
+CASE_0011,11,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0134,Uma P,2023-06-14,1,Treatment,High Risk,25.0,0,Procedure was rushed. Doctor spent very little time and treatment outcome was poor.
+CASE_0012,12,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0142,Kalavathy M,2023-07-04,1,Treatment,High Risk,25.0,0,Denture was poorly fitted and caused sores. Had to get it redone at another clinic.
+CASE_0013,13,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0143,Hamsa K,2023-07-05,1,Treatment,High Risk,25.0,0,Scaling caused nerve sensitivity that lasted over a month. Should have warned me.
+CASE_0014,14,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0166,Venkatesh M,2023-09-18,1,Treatment,High Risk,25.0,0,Bridge work done here came loose within a month. Very poor dental craftsmanship.
+CASE_0015,15,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0167,Esakkiammal K,2023-09-21,1,Treatment,High Risk,25.0,0,Implant site did not heal properly. Complications arose that required further treatment.
+CASE_0016,16,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0173,Padma S,2023-11-07,1,Treatment,High Risk,25.0,0,Denture fitting was poor. Had to go elsewhere to get it properly adjusted.
+CASE_0017,17,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0183,Zahira M,2024-01-08,1,Treatment,High Risk,25.0,0,Aligner treatment showed no progress after three months. Switched to another clinic.
+CASE_0018,18,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0195,Devi S,2024-02-12,1,Treatment,High Risk,25.0,0,Root canal was painful throughout. Doctor said it would be pain free but it was not.
+CASE_0019,19,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0201,Jaya K,2024-02-26,1,Treatment,High Risk,25.0,0,Post procedure pain was far more than expected and no proper guidance was given.
+CASE_0020,20,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0209,Malar S,2024-03-20,1,Treatment,High Risk,25.0,0,Post extraction instructions were unclear and I developed dry socket complications.
+CASE_0021,21,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0221,Senthil V,2024-04-18,1,Treatment,High Risk,25.0,0,Crown came loose within three weeks. Very poor quality of work done here.
+CASE_0022,22,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0223,Anbu K,2024-04-22,1,Treatment,High Risk,25.0,0,Scaling caused excessive gum bleeding that lasted for days. Not normal after care.
+CASE_0023,23,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0227,Ganesh T,2024-04-30,1,Treatment,High Risk,25.0,0,Filling done here cracked within a month. Poor quality materials used.
+CASE_0024,24,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0236,Gracy S,2024-05-21,1,Treatment,High Risk,25.0,0,Root canal had to be redone at another clinic. Procedure here was incomplete.
+CASE_0025,25,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0240,Revathi P,2024-05-28,1,Treatment,High Risk,25.0,0,Had to redo root canal at another clinic. The procedure done here was not completed properly.
+CASE_0026,26,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0241,Manoj B,2024-06-01,1,Treatment,High Risk,25.0,0,Sensitivity increased after filling procedure and has not resolved even after one month.
+CASE_0027,27,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0242,Madhan G,2024-06-10,1,Treatment,High Risk,25.0,0,Tooth extraction site got infected. Doctor did not give proper post care instructions.
+CASE_0028,28,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0015,Lilavathi R,2022-04-13,2,Treatment,High Risk,20.0,0,Treatment was rushed. Doctor seemed in a hurry and quality of work suffered as a result.
+CASE_0029,29,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0075,Bakiyalakshmi R,2022-09-01,2,Treatment,High Risk,20.0,0,Post procedure recovery was longer than informed. Need better patient guidance.
+CASE_0030,30,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0102,Florina M,2022-12-07,2,Treatment,High Risk,20.0,0,Scaling was done too aggressively. Gums bled for several days after the procedure.
+CASE_0031,31,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0119,Haseena K,2023-04-09,2,Treatment,High Risk,20.0,0,Post treatment sensitivity lasted two months. Doctor said it would resolve in two weeks.
+CASE_0032,32,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0171,Dharani M,2023-10-17,2,Treatment,High Risk,20.0,0,Filling was not done evenly. Had to go back for correction within a week.
+CASE_0033,33,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0185,Janarthani S,2024-01-16,2,Treatment,High Risk,20.0,0,Procedure took much longer than estimated and outcome was only average quality.
+CASE_0034,34,TIER 1 — Immediate Review,Critical,P1 — Immediate (< 4 hours),R0203,Daisy S,2024-03-05,2,Treatment,High Risk,20.0,0,Treatment outcome was below expectations. Had to seek a second opinion elsewhere.
+CASE_0035,35,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0186,Durga N,2024-01-19,1,Waiting Time,Needs Review,10.0,0,Waited nearly two hours in an uncomfortable waiting area. Totally unacceptable for a clinic with appointments.
+CASE_0036,36,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0194,Praveen M,2024-02-09,1,Waiting Time,Needs Review,10.0,0,Very long waiting time every single visit. Appointment system seems to be completely ignored here.
+CASE_0037,37,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0013,Ganga S,2022-04-06,2,Communication,Needs Review,16.0,0,No update about delay. Waited 90 minutes without any information from reception.
+CASE_0038,38,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0023,Hameed S,2022-05-16,2,Communication,Needs Review,16.0,0,No written prescription or treatment summary given after the procedure.
+CASE_0039,39,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0049,Vignesh A,2022-06-19,2,Communication,Needs Review,16.0,0,No follow up call after my surgery. Had complications and did not know who to contact.
+CASE_0040,40,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0064,Wahida S,2022-07-29,2,Communication,Needs Review,16.0,0,Appointment was confirmed but doctor was unavailable. No one informed me beforehand.
+CASE_0041,41,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0069,Queen M,2022-08-14,2,Communication,Needs Review,16.0,0,Instructions after extraction were not explained clearly. Had to call back multiple times.
+CASE_0042,42,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0086,Nalini C,2022-10-14,2,Communication,Needs Review,16.0,0,Tried calling the clinic multiple times to confirm appointment but no one picked up.
+CASE_0043,43,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0097,Thangam P,2022-11-19,2,Communication,Needs Review,16.0,0,Had trouble reaching the clinic by phone for three days after my procedure.
+CASE_0044,44,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0105,Celina R,2023-01-05,2,Communication,Needs Review,16.0,0,No written care instructions given after extraction. Had to search online for guidance.
+CASE_0045,45,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0107,Padmavathi R,2023-01-28,2,Communication,Needs Review,16.0,0,Did not receive any reminder before my scheduled appointment. Missed it entirely.
+CASE_0046,46,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0116,Chitra V,2023-03-19,2,Communication,Needs Review,16.0,0,Could not reach anyone at the clinic for two days after my procedure for follow up.
+CASE_0047,47,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0117,Irene K,2023-03-21,2,Communication,Needs Review,16.0,0,Post care instructions given verbally only. Hard to remember everything after procedure.
+CASE_0048,48,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0153,Zainab R,2023-08-10,2,Communication,Needs Review,16.0,0,Treatment started without the doctor explaining the full procedure beforehand.
+CASE_0049,49,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0155,Leelavathi M,2023-08-16,2,Communication,Needs Review,16.0,0,Had to call three times for a simple query. Phone handling needs improvement.
+CASE_0050,50,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0177,Oviya M,2023-12-05,2,Communication,Needs Review,16.0,0,No call or message before my appointment. System needs to be more organised.
+CASE_0051,51,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0179,Janani C,2023-12-20,2,Communication,Needs Review,16.0,0,Post extraction care instructions were not given clearly. Had swelling and had to call back for guidance.
+CASE_0052,52,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0181,Sangeetha L,2024-01-05,2,Communication,Needs Review,16.0,0,"No reminder call before appointment. When I arrived, was told doctor is not available. Wasted my time completely."
+CASE_0053,53,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0196,Esther K,2024-02-15,2,Communication,Needs Review,16.0,0,Could not confirm appointment on the day. Phone went unanswered repeatedly.
+CASE_0054,54,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0205,Rajalakshmi S,2024-03-09,2,Communication,Needs Review,16.0,0,No follow up call after my surgery. Had concerns and could not reach anyone.
+CASE_0055,55,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0206,Ashwin R,2024-03-14,2,Communication,Needs Review,16.0,0,Appointment confirmed but no one called when the doctor was not available that day.
+CASE_0056,56,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0212,Neelaveni S,2024-03-26,2,Communication,Needs Review,16.0,0,No SMS or call reminder sent before my scheduled appointment time.
+CASE_0057,57,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0220,Chandra S,2024-04-17,2,Communication,Needs Review,16.0,0,No post treatment message or call to check on recovery. Very poor follow up culture.
+CASE_0058,58,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0232,Oorvasi R,2024-05-14,2,Communication,Needs Review,16.0,0,No follow up communication after my implant surgery. Had concerns with no one to call.
+CASE_0059,59,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0233,Saraswathi V,2024-05-15,2,Communication,Needs Review,16.0,0,No WhatsApp reminder sent for my appointment. Missed it due to lack of communication.
+CASE_0060,60,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0237,Wesly R,2024-05-22,2,Communication,Needs Review,16.0,0,No reminder call. No follow up. Clinic communication is almost non-existent.
+CASE_0061,61,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0239,Leela M,2024-05-27,2,Communication,Needs Review,16.0,0,No answer when I called to ask about post treatment care. Very poor accessibility.
+CASE_0062,62,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0012,Meenal S,2022-03-28,2,Staff,Needs Review,12.0,0,Staff were unfriendly and dismissive during check in process. Very unwelcoming.
+CASE_0063,63,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0063,Zohra K,2022-07-27,2,Staff,Needs Review,12.0,0,Staff attitude during peak hours is noticeably worse. Becomes dismissive and rushed.
+CASE_0064,64,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0070,Gomathi R,2022-08-15,2,Staff,Needs Review,12.0,0,Reception staff did not know basic details about treatment options. Needs better training.
+CASE_0065,65,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0079,Amudha K,2022-09-12,2,Staff,Needs Review,12.0,0,Staff were chatting among themselves while patients waited to be attended to.
+CASE_0066,66,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0081,Usha R,2022-09-16,2,Staff,Needs Review,12.0,0,Receptionist was dismissive when I asked about treatment cost before starting. Very unprofessional.
+CASE_0067,67,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0084,Yamuna R,2022-09-30,2,Staff,Needs Review,12.0,0,Staff did not greet or acknowledge me when I arrived for my scheduled appointment.
+CASE_0068,68,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0085,Kala V,2022-10-09,2,Staff,Needs Review,12.0,0,Reception staff were on their phone when I came to check in. Very unprofessional behavior.
+CASE_0069,69,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0090,Gnanambal R,2022-10-29,2,Staff,Needs Review,12.0,0,Front desk staff need training on how to communicate professionally with patients.
+CASE_0070,70,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0094,Nallathambi K,2022-11-10,2,Staff,Needs Review,12.0,0,Staff at reception were too busy talking among themselves to attend to me properly.
+CASE_0071,71,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0101,Harish G,2022-12-03,2,Staff,Needs Review,12.0,0,Staff seemed disinterested and unhelpful during my visit. Poor customer service.
+CASE_0072,72,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0115,Xavierammal R,2023-03-18,2,Staff,Needs Review,12.0,0,Staff were having personal conversations loudly while patients were waiting to be seen.
+CASE_0073,73,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0118,Chandran M,2023-04-05,2,Staff,Needs Review,12.0,0,Staff were unhelpful when I had questions about my treatment plan. Poor experience.
+CASE_0074,74,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0130,Latha M,2023-05-28,2,Staff,Needs Review,12.0,0,Staff were talking among themselves and not attending to waiting patients. Poor attitude.
+CASE_0075,75,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0133,Dhanamani K,2023-06-13,2,Staff,Needs Review,12.0,0,Staff interrupted consultation to ask doctor about another patient. Very unprofessional.
+CASE_0076,76,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0146,Kavitha M,2023-07-19,2,Staff,Needs Review,12.0,0,Staff at the reception were very rude when I called to reschedule. Not acceptable behavior.
+CASE_0077,77,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0163,Faisal R,2023-09-07,2,Staff,Needs Review,12.0,0,Staff were not properly sanitising equipment between patients that I could observe.
+CASE_0078,78,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0172,Fathima B,2023-10-22,2,Staff,Needs Review,12.0,0,Reception staff could not answer basic questions about treatment options. Needs training.
+CASE_0079,79,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0178,Rajiv B,2023-12-11,2,Staff,Needs Review,12.0,0,Staff member was rude when I asked for clarification on the treatment procedure.
+CASE_0080,80,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0187,Ilampirai K,2024-01-21,2,Staff,Needs Review,12.0,0,Staff member gave me wrong information about appointment time which caused confusion.
+CASE_0081,81,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0192,Thenmozhi P,2024-02-04,2,Staff,Needs Review,12.0,0,Staff member interrupted consultation to attend to another patient. Very disrespectful.
+CASE_0082,82,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0202,Banumathi R,2024-02-28,2,Staff,Needs Review,12.0,0,Was not offered basic information about wait time or queue position by any staff.
+CASE_0083,83,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0211,Lakshmikantham R,2024-03-22,2,Staff,Needs Review,12.0,0,Staff member was dismissive when I asked about my treatment cost before starting.
+CASE_0084,84,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0231,Yamunadevi S,2024-05-12,2,Staff,Needs Review,12.0,0,Receptionist was on the phone when I arrived and did not acknowledge me for minutes.
+CASE_0085,85,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0137,Yashoda S,2023-06-23,2,Waiting Time,Needs Review,9.6,1,Waiting area has only a few seats and patients were standing for long periods.
+CASE_0086,86,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0010,Eswaran P,2022-03-11,2,Pricing,Needs Review,8.0,0,Was not informed about the cost breakdown. Final bill had items I was not expecting.
+CASE_0087,87,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0014,Xavier K,2022-04-07,2,Pricing,Needs Review,8.0,0,Higher fees than expected with no clear breakdown provided in the bill.
+CASE_0088,88,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0017,Tamilselvi K,2022-04-19,2,Pricing,Needs Review,8.0,0,Expensive for a small clinic. Similar treatments available at much lower cost nearby.
+CASE_0089,89,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0020,Jansi S,2022-05-03,2,Pricing,Needs Review,8.0,0,Treatment cost breakdown not shared. Felt charged arbitrarily for some procedures.
+CASE_0090,90,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0026,Bharathi K,2022-05-28,2,Pricing,Needs Review,8.0,0,Fees are too high for this locality. Difficult to afford for regular dental checkups.
+CASE_0091,91,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0028,Brindha M,2022-06-05,2,Waiting Time,Needs Review,8.0,0,Appointment was at 11am. Was seen at 12:30pm. No apology or explanation given.
+CASE_0092,92,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0045,Parveen S,2022-06-10,2,Pricing,Needs Review,8.0,0,Cost of treatment is too high for people on a limited income. No concession given.
+CASE_0093,93,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0054,Gopal S,2022-07-02,2,Waiting Time,Needs Review,8.0,0,Three patients were attended before me even though I had an earlier appointment slot.
+CASE_0094,94,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0058,Vennila S,2022-07-11,2,Waiting Time,Needs Review,8.0,0,Took half day off from work and still waited over an hour. Very frustrating experience.
+CASE_0095,95,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0067,Kumar V,2022-08-07,2,Waiting Time,Needs Review,8.0,0,Waited 75 minutes for a 15 minute cleaning appointment. Please respect patients' time.
+CASE_0096,96,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0073,Nirmal K,2022-08-26,2,Pricing,Needs Review,8.0,0,Clinic should provide a price list upfront. I only found out the cost after treatment.
+CASE_0097,97,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0076,Waheeda K,2022-09-02,2,Pricing,Needs Review,8.0,0,Cost of braces treatment is very high here compared to standard market rates.
+CASE_0098,98,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0080,Hemambigai K,2022-09-15,2,Pricing,Needs Review,8.0,0,Total cost was higher than the estimate given. Should be more transparent on pricing.
+CASE_0099,99,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0089,Nithya B,2022-10-25,2,Waiting Time,Needs Review,8.0,0,Had to wait 90 minutes for a scheduled appointment. No one gave any updates about the delay.
+CASE_0100,100,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0095,Thilagavathi R,2022-11-14,2,Pricing,Needs Review,8.0,0,Would highly recommend the doctor but fees are a barrier for many patients.
+CASE_0101,101,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0096,Hema R,2022-11-18,2,Waiting Time,Needs Review,8.0,0,Doctor is good but waiting time is a consistent problem on every visit I have made.
+CASE_0102,102,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0098,Umarani V,2022-11-22,2,Waiting Time,Needs Review,8.0,0,Scheduled at 3pm but seen at 5pm. Two hours waiting with a painful tooth. Terrible.
+CASE_0103,103,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0100,Savitha M,2022-12-02,2,Waiting Time,Needs Review,8.0,0,Appointment system seems completely ignored. Patients seen in random order not by schedule.
+CASE_0104,104,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0104,Elango P,2022-12-28,2,Pricing,Needs Review,8.0,0,Final bill was almost double the initial estimate. Very poor pricing transparency.
+CASE_0105,105,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0108,Malarvizhi S,2023-02-09,2,Pricing,Needs Review,8.0,0,Same treatment costs nearly double here compared to another clinic I checked in Trichy.
+CASE_0106,106,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0110,Murugan K,2023-02-14,2,Waiting Time,Needs Review,8.0,0,Waited almost two hours even after taking prior appointment. Very poor time management at this clinic.
+CASE_0107,107,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0112,Sathish K,2023-03-08,2,Waiting Time,Needs Review,8.0,0,Waited over one hour for a routine checkup. Clinic needs better appointment management.
+CASE_0108,108,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0123,Radha S,2023-04-17,2,Waiting Time,Needs Review,8.0,0,Waited two hours for a scheduled appointment. This happens every single time I visit.
+CASE_0109,109,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0125,Selvam K,2023-05-02,2,Pricing,Needs Review,8.0,0,Charged for X-ray I was not told about beforehand. Should disclose all charges upfront.
+CASE_0110,110,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0126,Rajan T,2023-05-11,2,Pricing,Needs Review,8.0,0,Charged more than other clinics for the same procedure. No justification given for the higher price.
+CASE_0111,111,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0127,Vijayalakshmi M,2023-05-16,2,Pricing,Needs Review,8.0,0,Pricing is not transparent. Additional charges added at billing without prior notice.
+CASE_0112,112,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0132,Yamini M,2023-06-08,2,Waiting Time,Needs Review,8.0,0,Even for a simple checkup the wait was 60 minutes. Please fix appointment management.
+CASE_0113,113,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0135,Shalini D,2023-06-17,2,Pricing,Needs Review,8.0,0,Treatment was okay but the billing had extra charges that were never mentioned upfront.
+CASE_0114,114,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0140,Ximena R,2023-07-03,2,Waiting Time,Needs Review,8.0,0,Doctor is excellent but please address the long waiting time immediately.
+CASE_0115,115,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0141,Indira S,2023-07-03,2,Pricing,Needs Review,8.0,0,Charges were not transparent. Asked for a receipt and was given a handwritten note only.
+CASE_0116,116,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0147,Sakunthala M,2023-07-28,2,Pricing,Needs Review,8.0,0,Fees for a simple filling here is higher than what three other clinics charge nearby.
+CASE_0117,117,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0149,Logu P,2023-07-31,2,Waiting Time,Needs Review,8.0,0,Waited 80 minutes for a routine consultation. This is a recurring issue at this clinic.
+CASE_0118,118,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0150,Backiyalakshmi M,2023-08-02,2,Waiting Time,Needs Review,8.0,0,Long waiting time has been an issue across all four visits I have made to this clinic.
+CASE_0119,119,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0152,Babu R,2023-08-09,2,Pricing,Needs Review,8.0,0,Cost of implant here is very high. No EMI or flexible payment option available.
+CASE_0120,120,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0156,Zubair S,2023-08-18,2,Pricing,Needs Review,8.0,0,Clinic charges premium price but waiting room facilities are very basic.
+CASE_0121,121,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0157,Jothimani S,2023-08-20,2,Pricing,Needs Review,8.0,0,No EMI option available for costly treatments. Makes it inaccessible for many.
+CASE_0122,122,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0158,Lakshmi V,2023-08-24,2,Pricing,Needs Review,8.0,0,Cost was significantly higher than what was initially quoted. Very misleading pricing.
+CASE_0123,123,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0159,Oomayal R,2023-08-24,2,Pricing,Needs Review,8.0,0,Charged for consultation even though I just came to collect my prescription. Unfair.
+CASE_0124,124,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0161,Oviya R,2023-09-01,2,Pricing,Needs Review,8.0,0,Price was not discussed beforehand. Felt like I was overcharged for a simple procedure.
+CASE_0125,125,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0165,Rekha N,2023-09-14,2,Pricing,Needs Review,8.0,0,Doctor was friendly but clinic is too expensive compared to similar clinics nearby.
+CASE_0126,126,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0170,Nagar K,2023-10-03,2,Waiting Time,Needs Review,8.0,0,Had to wait almost two hours. Was not even offered a seat initially in the clinic.
+CASE_0127,127,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0176,Ezhil P,2023-11-14,2,Waiting Time,Needs Review,8.0,0,Appointment scheduled but doctor arrived 45 minutes late with no prior notification.
+CASE_0128,128,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0180,Firdose R,2024-01-04,2,Pricing,Needs Review,8.0,0,Charges were higher than what three nearby clinics quoted for the same treatment.
+CASE_0129,129,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0184,Jayanthi R,2024-01-14,2,Pricing,Needs Review,8.0,0,Fees are on the higher side. Wish there were more affordable options for basic treatments.
+CASE_0130,130,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0190,Vasanth M,2024-01-28,2,Waiting Time,Needs Review,8.0,0,Waited for more than an hour without any update from the reception desk.
+CASE_0131,131,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0193,Umadevi S,2024-02-08,2,Pricing,Needs Review,8.0,0,High fees with no EMI option. Difficult to afford major procedures at this clinic.
+CASE_0132,132,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0197,Watsa K,2024-02-17,2,Waiting Time,Needs Review,8.0,0,Waited too long again for a scheduled appointment. This is a recurring issue.
+CASE_0133,133,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0199,Iyanar M,2024-02-19,2,Waiting Time,Needs Review,8.0,0,Very long waiting time. Clinic is popular but has not expanded capacity to match demand.
+CASE_0134,134,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0200,Wilma K,2024-02-22,2,Waiting Time,Needs Review,8.0,0,Waiting room was overcrowded with patients spilling outside. Capacity is insufficient.
+CASE_0135,135,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0204,Prakash S,2024-03-07,2,Waiting Time,Needs Review,8.0,0,Long queue with no proper management. Appointment system needs complete overhaul.
+CASE_0136,136,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0207,Rajamani K,2024-03-15,2,Pricing,Needs Review,8.0,0,Total bill was higher than the verbal estimate given before treatment started.
+CASE_0137,137,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0210,Balaji R,2024-03-22,2,Pricing,Needs Review,8.0,0,The fees were not communicated before starting treatment. Got a shock when the final bill came.
+CASE_0138,138,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0214,Farida S,2024-03-29,2,Pricing,Needs Review,8.0,0,Fees for teeth cleaning was higher than three other clinics I checked in Trichy.
+CASE_0139,139,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0218,Pandiyan R,2024-04-09,2,Waiting Time,Needs Review,8.0,0,Very crowded waiting area. Patients standing outside. Needs better capacity management.
+CASE_0140,140,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0219,Abarna S,2024-04-14,2,Waiting Time,Needs Review,8.0,0,Scheduled at 2pm but was seen only at 3:45pm. Two patients arrived after me were seen first.
+CASE_0141,141,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0225,Ilakumari R,2024-04-25,2,Pricing,Needs Review,8.0,0,Expensive clinic for patients from lower income backgrounds. No discount offered.
+CASE_0142,142,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0226,Neetha K,2024-04-29,2,Pricing,Needs Review,8.0,0,No price list displayed at reception. Patients have to ask which is uncomfortable.
+CASE_0143,143,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0228,Girija K,2024-05-03,2,Waiting Time,Needs Review,8.0,0,Very long wait despite prior appointment. Three people who arrived after me were seen first.
+CASE_0144,144,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0230,Thilaga K,2024-05-08,2,Waiting Time,Needs Review,8.0,0,Arrived on time but was made to wait without any explanation or update from staff.
+CASE_0145,145,TIER 2 — Review within 24h,High,P2 — Same Day (< 24 hours),R0235,Zareena M,2024-05-19,2,Waiting Time,Needs Review,8.0,0,Was waiting for 80 minutes without any update. Very poor scheduling system.
+CASE_0146,146,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0022,Ambika S,2022-05-15,3,Communication,Needs Review,12.0,0,Communication during visit is fine but after visit there is zero follow up from clinic.
+CASE_0147,147,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0078,Jeyanthi R,2022-09-08,3,Communication,Needs Review,12.0,0,Please improve the appointment confirmation process. System is not reliable currently.
+CASE_0148,148,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0088,Deivanai M,2022-10-21,3,Communication,Needs Review,12.0,0,Average communication. Room for significant improvement in follow up process.
+CASE_0149,149,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0138,Saroja K,2023-06-24,3,Communication,Needs Review,12.0,0,Doctor explains well during visit but post treatment follow up is completely lacking.
+CASE_0150,150,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0175,Omana K,2023-11-12,3,Communication,Needs Review,12.0,0,Doctor explains well inside the room but between visit communication is almost nil.
+CASE_0151,151,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0229,Uma V,2024-05-04,3,Communication,Needs Review,12.0,0,Clinic should send WhatsApp reminders before appointments. Missed mine due to no reminder.
+CASE_0152,152,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0174,Annalakshmi M,2023-11-09,3,Staff,Needs Review,9.0,0,Some staff members are friendly while others are quite indifferent. Inconsistent service.
+CASE_0153,153,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0099,Yashoda S,2022-11-28,3,Waiting Time,Needs Review,7.2,1,Good clinic but time management between patients needs serious improvement.
+CASE_0154,154,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0011,Zeenath R,2022-03-24,3,Waiting Time,Needs Review,6.0,0,Doctor is excellent but time management inside the clinic needs serious improvement.
+CASE_0155,155,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0047,Valliammai S,2022-06-13,3,Waiting Time,Needs Review,6.0,0,Treatment was satisfactory but waiting time could be improved at this clinic.
+CASE_0156,156,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0129,Ganthimathi S,2023-05-20,3,Pricing,Needs Review,6.0,0,Fees are acceptable but a printed price list at reception would help patients.
+CASE_0157,157,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0168,Umayal R,2023-09-26,3,Waiting Time,Needs Review,6.0,0,Good treatment but clinic needs a token or queue management system urgently.
+CASE_0158,158,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0261,Sindhu Kavi T,2025-04-10,3,Waiting Time,Needs Review,6.0,0,Satisfactory treatment. Could improve waiting time.
+CASE_0159,159,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0265,Nishanth Sai,2025-04-10,3,Waiting Time,Needs Review,6.0,0,Okay experience. Waiting time was a bit long.
+CASE_0160,160,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0215,Choodamani S,2024-03-31,4,Treatment,High Risk,10.0,0,Root canal was completed successfully over two sittings with minimal discomfort.
+CASE_0161,161,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0050,Meenakshi R,2022-06-22,4,Communication,Needs Review,8.0,0,Appreciated the follow up call checking on my recovery after root canal procedure.
+CASE_0162,162,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0066,Prema R,2022-08-03,4,Communication,Needs Review,8.0,0,Very clear explanation of what to expect during and after each stage of treatment.
+CASE_0163,163,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0109,Vasantha M,2023-02-13,4,Communication,Needs Review,8.0,0,Doctor communicated the treatment plan clearly and answered all my questions patiently.
+CASE_0164,164,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0148,Femi R,2023-07-30,4,Communication,Needs Review,8.0,0,Liked that doctor discussed all alternatives and explained costs before recommending treatment.
+CASE_0165,165,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0189,Yazhini K,2024-01-25,4,Communication,Needs Review,8.0,0,Very responsive to messages and quick to clarify doubts I had after treatment.
+CASE_0166,166,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0191,Kamakshi S,2024-01-30,4,Communication,Needs Review,8.0,0,Clear and honest communication about cost before treatment. Appreciated the transparency.
+CASE_0167,167,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0222,Bala K,2024-04-20,4,Communication,Needs Review,8.0,0,Doctor called to check on my recovery after surgery. Very thoughtful and professional.
+CASE_0168,168,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0238,Hannah M,2024-05-25,4,Communication,Needs Review,8.0,0,Doctor sends reminders and follows up after major procedures. Excellent practice.
+CASE_0169,169,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0025,Chellammal S,2022-05-22,4,Staff,Needs Review,6.0,0,Dental assistant was extremely gentle during the procedure. Very professional approach.
+CASE_0170,170,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0052,Kalpagam M,2022-06-30,4,Staff,Needs Review,6.0,0,Staff were very helpful and made the whole dental experience very comfortable.
+CASE_0171,171,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0145,Mangaiyarkarasi S,2023-07-15,4,Staff,Needs Review,6.0,0,Very supportive staff. Made my anxious child feel at ease before treatment.
+CASE_0172,172,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0162,Hemavathi S,2023-09-05,4,Staff,Needs Review,6.0,0,Dental team is well coordinated and staff assist the doctor very efficiently.
+CASE_0173,173,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0217,Eswari M,2024-04-08,4,Staff,Needs Review,6.0,0,Staff were reassuring when I was nervous before my first dental procedure here.
+CASE_0174,174,TIER 3 — Weekly Batch,Medium,P3 — Weekly Batch,R0055,Elamathi K,2022-07-06,5,Treatment,High Risk,5.0,0,Implant procedure was excellent. Doctor monitored progress at every stage carefully.
+CASE_0175,175,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0281,Xavier Raja,2026-05-20,3,Neutral,Safe,4.5,0,Average experience. Treatment was okay.
+CASE_0176,176,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0290,subashini pandiyan,2026-06-08,3,Neutral,Safe,4.5,0,Decent experience overall. Treatment was done properly.
+CASE_0177,177,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0292,Nithya Lakshmi narasimhan,2026-06-08,3,Neutral,Safe,4.5,0,The treatment and service were satisfactory.
+CASE_0178,178,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0019,Elavarasi P,2022-04-30,3,Neutral,Safe,3.0,0,Okay experience overall. Doctor was professional and brief during consultation.
+CASE_0179,179,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0029,Narmadha P,2022-06-07,3,Neutral,Safe,3.0,0,Basic consultation done. Doctor was professional. Clinic is clean.
+CASE_0180,180,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0056,Banupriya S,2022-07-08,3,Neutral,Safe,3.0,0,Average experience overall. Came for cleaning and it was completed properly.
+CASE_0181,181,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0083,Haripriya K,2022-09-22,3,Neutral,Safe,3.0,0,Fine experience overall. Nothing special but service was adequate.
+CASE_0182,182,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0091,Kalai S,2022-11-03,3,Neutral,Safe,3.0,0,Straightforward visit. Treatment was done as expected with no complaints.
+CASE_0183,183,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0106,Abinaya K,2023-01-14,3,Neutral,Safe,3.0,0,Visited for a routine checkup. Everything was done as expected. Nothing exceptional to mention.
+CASE_0184,184,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0113,Geetha S,2023-03-11,3,Neutral,Safe,3.0,0,Came for a second opinion. Doctor was helpful and gave clear information.
+CASE_0185,185,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0136,Janaki R,2023-06-18,3,Neutral,Safe,3.0,0,Average clinic with decent facilities for routine dental work.
+CASE_0186,186,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0160,Dhanalakshmi M,2023-08-25,3,Neutral,Safe,3.0,0,Normal visit with no specific complaints. Standard dental clinic experience.
+CASE_0187,187,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0164,Mangai K,2023-09-14,3,Neutral,Safe,3.0,0,Nothing exceptional to report. Clinic is functional and treatment is adequate.
+CASE_0188,188,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0182,Ilakiya M,2024-01-07,3,Neutral,Safe,3.0,0,Standard dental visit. Gets the necessary job done without any issues.
+CASE_0189,189,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0198,Chellam R,2024-02-19,3,Neutral,Safe,3.0,0,Decent clinic. Treatment was satisfactory. Would return if needed.
+CASE_0190,190,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0213,Lalitha V,2024-03-28,3,Neutral,Safe,3.0,0,Visited twice so far. Both times were uneventful and satisfactory.
+CASE_0191,191,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0224,Oormila S,2024-04-23,3,Neutral,Safe,3.0,0,Decent experience. Staff were neutral but treatment was completed well.
+CASE_0192,192,TIER 3 — Weekly Batch,Low,P4 — Monthly Review,R0234,Felicia R,2024-05-16,3,Neutral,Safe,3.0,0,Routine filling completed. No issues experienced. Would consider returning.
+CASE_0193,193,APPROVED — No Action,Safe,P5 — No Action Required,R0003,ASWIN NAMBIAR123,2021-06-10,4,Positive,Safe,0.0,0,Good treatment experience. Recommended.
+CASE_0194,194,APPROVED — No Action,Safe,P5 — No Action Required,R0021,Narayani K,2022-05-04,4,Positive,Safe,0.0,0,Good clinic. Doctor listened carefully before recommending any treatment.
+CASE_0195,195,APPROVED — No Action,Safe,P5 — No Action Required,R0030,vijayalakshmi R,2022-06-10,4,Positive,Safe,0.0,0,Good treatment and caring staff.
+CASE_0196,196,APPROVED — No Action,Safe,P5 — No Action Required,R0034,nivetha devarajan,2022-06-10,4,Positive,Safe,0.0,0,Good experience overall. Friendly doctor.
+CASE_0197,197,APPROVED — No Action,Safe,P5 — No Action Required,R0036,Rajeev Rajendran,2022-06-10,4,Positive,Safe,0.0,0,Good clinic with quality treatment.
+CASE_0198,198,APPROVED — No Action,Safe,P5 — No Action Required,R0038,Moral Humility,2022-06-10,4,Positive,Safe,0.0,0,Decent clinic with professional treatment.
+CASE_0199,199,APPROVED — No Action,Safe,P5 — No Action Required,R0040,Karthik Shridar,2022-06-10,4,Positive,Safe,0.0,0,Good clinic overall. Professional approach.
+CASE_0200,200,APPROVED — No Action,Safe,P5 — No Action Required,R0043,K A N D Y,2022-06-10,4,Positive,Safe,0.0,0,Good treatment. Would visit again.
+CASE_0201,201,APPROVED — No Action,Safe,P5 — No Action Required,R0111,Jagadeeswari S,2023-02-22,4,Positive,Safe,0.0,0,Good experience overall. Doctor was thorough and staff were cooperative.
+CASE_0202,202,APPROVED — No Action,Safe,P5 — No Action Required,R0131,Rajeswari S,2023-06-07,4,Positive,Safe,0.0,0,Professional and caring approach. Made me feel comfortable throughout.
+CASE_0203,203,APPROVED — No Action,Safe,P5 — No Action Required,R0208,Leelambikai M,2024-03-18,4,Positive,Safe,0.0,0,Treatment was done well and the clinic is clean and hygienic throughout.
+CASE_0204,204,APPROVED — No Action,Safe,P5 — No Action Required,R0216,Thayammal K,2024-04-02,4,Positive,Safe,0.0,0,Clean clinic and professional staff. Good overall dental care experience.
+CASE_0205,205,APPROVED — No Action,Safe,P5 — No Action Required,R0244,Yonika Bose,2024-06-10,4,Positive,Safe,0.0,0,Good experience. Clean clinic and skilled doctor.
+CASE_0206,206,APPROVED — No Action,Safe,P5 — No Action Required,R0246,shanmuga priya,2024-11-15,4,Positive,Safe,0.0,0,Good dental care and friendly environment.
+CASE_0207,207,APPROVED — No Action,Safe,P5 — No Action Required,R0247,Vijayabaskar Manoharan,2025-01-15,4,Positive,Safe,0.0,0,I visited Dr. Geetha for my dad's and wife's dental treatment. She listened to our concerns and examined the issues patiently. She suggested solutions along with their pros and cons. Very thorough and professional approach.
+CASE_0208,208,APPROVED — No Action,Safe,P5 — No Action Required,R0260,Devayane,2025-04-10,4,Positive,Safe,0.0,0,Good clinic with friendly staff.
+CASE_0209,209,APPROVED — No Action,Safe,P5 — No Action Required,R0262,arul selvaraj,2025-04-10,4,Positive,Safe,0.0,0,Good dental clinic. Professional service.
+CASE_0210,210,APPROVED — No Action,Safe,P5 — No Action Required,R0267,Jarja Saravanan,2025-04-10,4,Positive,Safe,0.0,0,Good treatment and professional doctor.
+CASE_0211,211,APPROVED — No Action,Safe,P5 — No Action Required,R0269,Bharathi Boobalan,2025-04-10,4,Positive,Safe,0.0,0,Good experience overall. Will visit again.
+CASE_0212,212,APPROVED — No Action,Safe,P5 — No Action Required,R0284,MP SK BOY CHANNEL,2026-05-20,4,Positive,Safe,0.0,0,Good service overall. Would recommend.
+CASE_0213,213,APPROVED — No Action,Safe,P5 — No Action Required,R0285,Priyadharshini S,2026-05-25,4,Positive,Safe,0.0,0,Very good service.
+CASE_0214,214,APPROVED — No Action,Safe,P5 — No Action Required,R0287,Shanthi S,2026-06-01,4,Positive,Safe,0.0,0,Good caring and best treatment provided.
+CASE_0215,215,APPROVED — No Action,Safe,P5 — No Action Required,R0293,Melchizedek Prabu,2026-06-08,4,Positive,Safe,0.0,0,Good treatment and clean clinic environment.
+CASE_0216,216,APPROVED — No Action,Safe,P5 — No Action Required,R0294,Hari prakash,2026-06-15,4,Positive,Safe,0.0,0,Good clinic with professional approach.
+CASE_0217,217,APPROVED — No Action,Safe,P5 — No Action Required,R0001,Venkat Prashanth,2021-03-14,5,Positive,Safe,0.0,0,Cost effective within budget. Highly professional treatment and service given by the doctor.
+CASE_0218,218,APPROVED — No Action,Safe,P5 — No Action Required,R0002,Massive mahendaran,2021-04-22,5,Positive,Safe,0.0,0,Caring is awesome and treatment is excellent. And mainly fees were low comparing to other clinics.
+CASE_0219,219,APPROVED — No Action,Safe,P5 — No Action Required,R0004,parvathy priya,2021-06-10,5,Positive,Safe,0.0,0,Excellent doctor and very affordable treatment.
+CASE_0220,220,APPROVED — No Action,Safe,P5 — No Action Required,R0005,shahnaaz sayima,2021-06-10,5,Positive,Safe,0.0,0,Good clinic. Doctor is very kind and professional.
+CASE_0221,221,APPROVED — No Action,Safe,P5 — No Action Required,R0006,Gowtham KD,2022-01-17,5,Positive,Safe,0.0,0,Best treatment and good advice with nominal charges. She is so patient in listening to our problems.
+CASE_0222,222,APPROVED — No Action,Safe,P5 — No Action Required,R0007,gautham ravi,2022-02-11,5,Positive,Safe,0.0,0,She is very patient and listened to all my complaints. Got to know some proper dental care from the doc.
+CASE_0223,223,APPROVED — No Action,Safe,P5 — No Action Required,R0008,Logeswaran Anandan,2022-02-28,5,Positive,Safe,0.0,0,The facilities were good and the dentist answered all the questions patiently. Highly Recommended!
+CASE_0224,224,APPROVED — No Action,Safe,P5 — No Action Required,R0009,Vignesh kumar Prakash,2022-03-05,5,Positive,Safe,0.0,0,Very professional. Most recommended. Thank you Dr. Geetha for the best treatment.
+CASE_0225,225,APPROVED — No Action,Safe,P5 — No Action Required,R0016,k p Sriram,2022-04-18,5,Positive,Safe,0.0,0,I went there for a filling and the doctor explained everything so well. Fees was cheap too.
+CASE_0226,226,APPROVED — No Action,Safe,P5 — No Action Required,R0018,Viji Balasubramanian,2022-04-22,5,Positive,Safe,0.0,0,Dr. Geetha is very well informed and very patient. She was explaining the process in every detail so that you are aware of what is happening inside your mouth. Definitely will recommend her to anyone who is in need of a helpful dentist.
+CASE_0227,227,APPROVED — No Action,Safe,P5 — No Action Required,R0024,Arun Venkatesan,2022-05-18,5,Positive,Safe,0.0,0,"Excellent, humble, subject matter expert. Certainly a doctor who cares the most about the patient. A place to go for your dental solution."
+CASE_0228,228,APPROVED — No Action,Safe,P5 — No Action Required,R0027,Amjathkhan L,2022-05-30,5,Positive,Safe,0.0,0,Good service. Friendly doctor. Worth for money and teeth care.
+CASE_0229,229,APPROVED — No Action,Safe,P5 — No Action Required,R0031,Redha,2022-06-10,5,Positive,Safe,0.0,0,Great experience. Doctor explained everything clearly.
+CASE_0230,230,APPROVED — No Action,Safe,P5 — No Action Required,R0032,Sruthi Guna,2022-06-10,5,Positive,Safe,0.0,0,Had a great and smooth experience. I visited the clinic for dental filling. I have sensitive teeth hence I always get worried before visiting a dentist. But Dr. Geetha was patient and polite throughout the process and I didn't experience any pain.
+CASE_0231,231,APPROVED — No Action,Safe,P5 — No Action Required,R0033,Ashwin Babu,2022-06-10,5,Positive,Safe,0.0,0,Excellent experience. Doctor is very thorough.
+CASE_0232,232,APPROVED — No Action,Safe,P5 — No Action Required,R0035,Arun bala kumar,2022-06-10,5,Positive,Safe,0.0,0,Very professional and skilled dentist. Great experience.
+CASE_0233,233,APPROVED — No Action,Safe,P5 — No Action Required,R0037,Umaselvi Maruthaiah,2022-06-10,5,Positive,Safe,0.0,0,Kind doctor and excellent dental care provided.
+CASE_0234,234,APPROVED — No Action,Safe,P5 — No Action Required,R0039,Sreshta Hari,2022-06-10,5,Positive,Safe,0.0,0,Very satisfied with treatment. Will recommend.
+CASE_0235,235,APPROVED — No Action,Safe,P5 — No Action Required,R0041,chandra sekaran,2022-06-10,5,Positive,Safe,0.0,0,Excellent dental care. Highly recommend Dr. Geetha.
+CASE_0236,236,APPROVED — No Action,Safe,P5 — No Action Required,R0042,Mohnish Francis,2022-06-10,5,Positive,Safe,0.0,0,Best dental clinic. Very professional service.
+CASE_0237,237,APPROVED — No Action,Safe,P5 — No Action Required,R0044,Lokesh Chakkarapani,2022-06-10,5,Positive,Safe,0.0,0,Very professional and thorough treatment. Recommended.
+CASE_0238,238,APPROVED — No Action,Safe,P5 — No Action Required,R0046,R Mohanamurali,2022-06-10,5,Positive,Safe,0.0,0,Excellent doctor. Best dental clinic in Trichy.
+CASE_0239,239,APPROVED — No Action,Safe,P5 — No Action Required,R0053,Karthick,2022-06-30,5,Positive,Safe,0.0,0,"Very professional, humble person, doing great work, nice human being. She is not a money minded person. All should visit this clinic."
+CASE_0240,240,APPROVED — No Action,Safe,P5 — No Action Required,R0057,Dr. Chella,2022-07-09,5,Positive,Safe,0.0,0,Friendly doctor. Painless procedure. Low cost high class treatment.
+CASE_0241,241,APPROVED — No Action,Safe,P5 — No Action Required,R0059,Teena Cookie,2022-07-15,5,Positive,Safe,0.0,0,It was a pleasant experience for me. The ambience and even the staff are so accommodative. Doctor was so friendly and handling patiently.
+CASE_0242,242,APPROVED — No Action,Safe,P5 — No Action Required,R0060,Kamalam R,2022-07-15,5,Positive,Safe,0.0,0,Dr. Geetha is truly one of the best dentists in Trichy. Very highly recommended.
+CASE_0243,243,APPROVED — No Action,Safe,P5 — No Action Required,R0065,Manikanta Gutti,2022-08-03,5,Positive,Safe,0.0,0,"I went there for root canal treatment. Doctor was kind, clearly explained the process, cost effective and highly recommendable."
+CASE_0244,244,APPROVED — No Action,Safe,P5 — No Action Required,R0068,dhilip rani,2022-08-14,5,Positive,Safe,0.0,0,Pleasant environment. Doctor was so friendly.
+CASE_0245,245,APPROVED — No Action,Safe,P5 — No Action Required,R0071,Rajesh Ragi,2022-08-19,5,Positive,Safe,0.0,0,This is a great place to go to take care of your teeth. Dr. Geetha was very professional examining and providing solutions by priority. I felt that I was in good hands. Would highly recommend to anyone!
+CASE_0246,246,APPROVED — No Action,Safe,P5 — No Action Required,R0077,Jayasri Prabhu,2022-09-05,5,Positive,Safe,0.0,0,Clinic has a very good ambience. Dr. Geetha is very patient in handling cases especially children. She is a good practitioner. Also the treatment is cost-effective. I would highly recommend her for any dental treatment.
+CASE_0247,247,APPROVED — No Action,Safe,P5 — No Action Required,R0082,Yeshwant Rajchander,2022-09-21,5,Positive,Safe,0.0,0,Very professional and knowledgeable dentist around.
+CASE_0248,248,APPROVED — No Action,Safe,P5 — No Action Required,R0087,Seethalakshmi M,2022-10-18,5,Positive,Safe,0.0,0,Best dentist I have consulted in Trichy. Honest and very skilled doctor.
+CASE_0249,249,APPROVED — No Action,Safe,P5 — No Action Required,R0092,Revathy M,2022-11-03,5,Positive,Safe,0.0,0,Treatment was good and cost effective.
+CASE_0250,250,APPROVED — No Action,Safe,P5 — No Action Required,R0103,mohan rangan,2022-12-15,5,Positive,Safe,0.0,0,A place where you can rely on for all your dental problems.
+CASE_0251,251,APPROVED — No Action,Safe,P5 — No Action Required,R0114,Lavanya Senthil,2023-03-12,5,Positive,Safe,0.0,0,I did my root canal with Dr. Geetha mam. She is very kind and soft handling person. Very economy charges also. If you ask any doubt about tooth she explains very well. Highly recommend.
+CASE_0252,252,APPROVED — No Action,Safe,P5 — No Action Required,R0120,Sivneshwar Duraikannan,2023-04-11,5,Positive,Safe,0.0,0,Very kind approach. Cheap and best. Value for money given. Thank you.
+CASE_0253,253,APPROVED — No Action,Safe,P5 — No Action Required,R0128,kavi malar,2023-05-19,5,Positive,Safe,0.0,0,I went to this clinic for teeth cleaning. Dr. Geetha made me comfortable and provided amazing service. Thank you.
+CASE_0254,254,APPROVED — No Action,Safe,P5 — No Action Required,R0139,Jenila Sree,2023-06-28,5,Positive,Safe,0.0,0,"Excellent treatment and warm hospitality, felt really cared. I cleaned my teeth. She is really kind."
+CASE_0255,255,APPROVED — No Action,Safe,P5 — No Action Required,R0144,Prashanth,2023-07-14,5,Positive,Safe,0.0,0,"I got my wisdom tooth surgically extracted here, had a neat experience! Very genuine and hard to find such a clinic where money is not given importance. Would definitely recommend the clinic for dental issues!"
+CASE_0256,256,APPROVED — No Action,Safe,P5 — No Action Required,R0151,Sivakumar O S,2023-08-07,5,Positive,Safe,0.0,0,Very kind. Listening to the problem and treating accordingly.
+CASE_0257,257,APPROVED — No Action,Safe,P5 — No Action Required,R0154,Maragatham S,2023-08-11,5,Positive,Safe,0.0,0,Excellent dental care. Doctor is skilled and very gentle with patients.
+CASE_0258,258,APPROVED — No Action,Safe,P5 — No Action Required,R0169,Udayalakshmi R,2023-09-27,5,Positive,Safe,0.0,0,Outstanding treatment and caring atmosphere. Highly recommend to everyone.
+CASE_0259,259,APPROVED — No Action,Safe,P5 — No Action Required,R0188,Pechiyammal R,2024-01-22,5,Positive,Safe,0.0,0,Very satisfied with the results of my treatment. Will definitely return here.
+CASE_0260,260,APPROVED — No Action,Safe,P5 — No Action Required,R0243,Shoba Krishna kanthan,2024-06-10,5,Positive,Safe,0.0,0,Very professional and caring dentist. Highly recommended.
+CASE_0261,261,APPROVED — No Action,Safe,P5 — No Action Required,R0245,seenivasan ramanujam,2024-06-19,5,Positive,Safe,0.0,0,Very kind approach and quality treatment. Highly recommended.
+CASE_0262,262,APPROVED — No Action,Safe,P5 — No Action Required,R0248,Priya Baskar,2025-01-20,5,Positive,Safe,0.0,0,Had a good and nice experience.
+CASE_0263,263,APPROVED — No Action,Safe,P5 — No Action Required,R0249,Bala meena,2025-02-08,5,Positive,Safe,0.0,0,Treating patients kindly and very good treatment.
+CASE_0264,264,APPROVED — No Action,Safe,P5 — No Action Required,R0250,Ramesh Maha,2025-03-10,5,Positive,Safe,0.0,0,Excellent dental treatment done very well. Highly satisfied.
+CASE_0265,265,APPROVED — No Action,Safe,P5 — No Action Required,R0251,Saravanakumar Kanapathy,2025-03-12,5,Positive,Safe,0.0,0,I went to the hospital for treatment. It was a very good experience. One of the best dental hospitals and best doctor in Trichy.
+CASE_0266,266,APPROVED — No Action,Safe,P5 — No Action Required,R0252,Vishnu Prasath,2025-03-15,5,Positive,Safe,0.0,0,"Geetha Dental Clinic is excellent! Dr. Geetha is very professional and caring. The clinic is clean, modern, and the staff is friendly. I felt comfortable throughout my treatment. Highly recommend for quality dental care!"
+CASE_0267,267,APPROVED — No Action,Safe,P5 — No Action Required,R0253,Harish Raja,2025-03-18,5,Positive,Safe,0.0,0,Excellent hospitality and excellent treatment.
+CASE_0268,268,APPROVED — No Action,Safe,P5 — No Action Required,R0254,Dhakshinamoorthi MK,2025-03-20,5,Positive,Safe,0.0,0,Had a very good experience. The staff are polite and the doctor clearly explained the procedure and was very professional. The clinic is very clean and hygienic.
+CASE_0269,269,APPROVED — No Action,Safe,P5 — No Action Required,R0255,suriya gunasekaran,2025-03-22,5,Positive,Safe,0.0,0,Good service and comfortable. Friendly handling.
+CASE_0270,270,APPROVED — No Action,Safe,P5 — No Action Required,R0256,Sindhuja Jayaraman,2025-04-05,5,Positive,Safe,0.0,0,"Dr. Geetha mam is an excellent dentist. I had deep cavities, multiple fillings, and an implant done successfully. Now I can chew normally without pain. Very caring, professional, and the cost is also nominal. Highly recommend! Thanks mam."
+CASE_0271,271,APPROVED — No Action,Safe,P5 — No Action Required,R0257,hariharan .s,2025-04-08,5,Positive,Safe,0.0,0,"I had my braces treatment here for the past 1.5 years, and the results are truly amazing. Now I feel much more confident about my smile. Every time I smile, it gives me a positive feeling. The doctor was very supportive throughout the entire journey."
+CASE_0272,272,APPROVED — No Action,Safe,P5 — No Action Required,R0258,Dr. Malathi Padmanaban,2025-04-10,5,Positive,Safe,0.0,0,"I visited Dr. Geetha Dental Clinic for crown treatment. I received excellent care, and the procedure was completely painless."
+CASE_0273,273,APPROVED — No Action,Safe,P5 — No Action Required,R0259,Fahima Hairunnisa J,2025-04-10,5,Positive,Safe,0.0,0,Excellent treatment and caring approach from the doctor.
+CASE_0274,274,APPROVED — No Action,Safe,P5 — No Action Required,R0263,kannan dsp,2025-04-10,5,Positive,Safe,0.0,0,Highly recommend this clinic for dental care.
+CASE_0275,275,APPROVED — No Action,Safe,P5 — No Action Required,R0264,Kannan,2025-04-10,5,Positive,Safe,0.0,0,Excellent doctor and very affordable charges.
+CASE_0276,276,APPROVED — No Action,Safe,P5 — No Action Required,R0266,Muthukumar thillai,2025-04-10,5,Positive,Safe,0.0,0,"I can't recommend this clinic enough! From the moment you walk in, you're greeted with such a warm and welcoming atmosphere. The care and attention to detail are top-notch. It's clear that they truly value their patients' comfort and wellbeing."
+CASE_0277,277,APPROVED — No Action,Safe,P5 — No Action Required,R0268,sumithra B,2025-04-10,5,Positive,Safe,0.0,0,Very kind doctor. Great treatment experience.
+CASE_0278,278,APPROVED — No Action,Safe,P5 — No Action Required,R0270,Ram achandran,2025-04-10,5,Positive,Safe,0.0,0,Great experience. Doctor is very skilled.
+CASE_0279,279,APPROVED — No Action,Safe,P5 — No Action Required,R0271,Ramya Asok,2025-04-12,5,Positive,Safe,0.0,0,Trichy's best dentist to consult with. Treats and takes care of your teeth with clear explanation and makes one feel safe and secure.
+CASE_0280,280,APPROVED — No Action,Safe,P5 — No Action Required,R0272,Sanjeev Gunasekaran,2025-04-14,5,Positive,Safe,0.0,0,"I visited this clinic for a filling and some aesthetic correction for my canines, and I'm really happy with the result. The doctor was patient, explained everything properly, and made the whole process feel comfortable. The clinic was neat and clean. Overall, it was a very good experience."
+CASE_0281,281,APPROVED — No Action,Safe,P5 — No Action Required,R0273,Alice Annamani Hepzibah J,2025-04-15,5,Positive,Safe,0.0,0,Such great support from the doctor and staff. Thank you.
+CASE_0282,282,APPROVED — No Action,Safe,P5 — No Action Required,R0274,Karunanithi Muthaiyah,2025-04-15,5,Positive,Safe,0.0,0,Quality treatment. Skilled doctor. Affordable cost.
+CASE_0283,283,APPROVED — No Action,Safe,P5 — No Action Required,R0275,sridhar,2025-04-18,5,Positive,Safe,0.0,0,Had a great experience at the clinic. The doctor is highly professional and staff were really helpful at the front.
+CASE_0284,284,APPROVED — No Action,Safe,P5 — No Action Required,R0276,Swetha K,2025-04-20,5,Positive,Safe,0.0,0,"Trustworthy clinic providing good services and care to patients, highly recommended."
+CASE_0285,285,APPROVED — No Action,Safe,P5 — No Action Required,R0277,Jamuna Rajaram,2025-04-25,5,Positive,Safe,0.0,0,Good and friendly service.
+CASE_0286,286,APPROVED — No Action,Safe,P5 — No Action Required,R0278,Raghavan Raghu,2025-04-28,5,Positive,Safe,0.0,0,Good professional treatment. Highly recommended.
+CASE_0287,287,APPROVED — No Action,Safe,P5 — No Action Required,R0279,Swathi,2025-05-20,5,Positive,Safe,0.0,0,Excellent dental care and friendly staff. The doctor explained the treatment clearly and made the whole experience comfortable. Clean clinic with good service. Highly satisfied.
+CASE_0288,288,APPROVED — No Action,Safe,P5 — No Action Required,R0280,Shanthi Dhara shri,2025-12-10,5,Positive,Safe,0.0,0,I went to this hospital for removing my wisdom teeth. I really thank Dr. Geetha because of her excellent treatment and all special facilities are there for the comfort of the patient. Thank you.
+CASE_0289,289,APPROVED — No Action,Safe,P5 — No Action Required,R0282,Hema Latha,2026-05-20,5,Positive,Safe,0.0,0,Very satisfied with the dental treatment here.
+CASE_0290,290,APPROVED — No Action,Safe,P5 — No Action Required,R0283,Gowsalya Kannan,2026-05-20,5,Positive,Safe,0.0,0,Good and super treatment.
+CASE_0291,291,APPROVED — No Action,Safe,P5 — No Action Required,R0286,S. Annapoorani,2026-06-01,5,Positive,Safe,0.0,0,Best service.
+CASE_0292,292,APPROVED — No Action,Safe,P5 — No Action Required,R0288,Deepalakshmi R,2026-06-01,5,Positive,Safe,0.0,0,"Best clinic ever, please visit guys."
+CASE_0293,293,APPROVED — No Action,Safe,P5 — No Action Required,R0289,senthil kumaran,2026-06-08,5,Positive,Safe,0.0,0,Very good clinic. Best for Dental care.
+CASE_0294,294,APPROVED — No Action,Safe,P5 — No Action Required,R0291,Siva M,2026-06-08,5,Positive,Safe,0.0,0,Very good experience at this clinic.
+CASE_0295,295,APPROVED — No Action,Safe,P5 — No Action Required,R0295,Elakiya Anand,2026-06-15,5,Positive,Safe,0.0,0,Best dental clinic. Highly satisfied with the treatment.
+CASE_0296,296,APPROVED — No Action,Safe,P5 — No Action Required,R0296,Gowri M,2026-06-16,5,Positive,Safe,0.0,0,Warm gesture and proper treatment. Best recommendations by doctor for your tooth problems and works well too!
+CASE_0297,297,APPROVED — No Action,Safe,P5 — No Action Required,R0297,KRISHNA k,2026-06-16,5,Positive,Safe,0.0,0,Probably one of the best doctors in Trichy. She was very polite and calm. It just showed how passionate she was. Thank you doctor.
+CASE_0298,298,APPROVED — No Action,Safe,P5 — No Action Required,R0298,vanitha mariappan,2026-06-17,5,Positive,Safe,0.0,0,Nice experience. Very professional.
+CASE_0299,299,APPROVED — No Action,Safe,P5 — No Action Required,R0299,Divya Prasanna,2026-06-18,5,Positive,Safe,0.0,0,I had a very good experience at the dental hospital. The doctor explained everything clearly and treated me very well with care and patience. I really appreciate the doctor's kindness and professionalism. Thank you so much for the excellent service.
+CASE_0300,300,APPROVED — No Action,Safe,P5 — No Action Required,R0300,bhuaneswaran palaniyandi,2026-06-18,5,Positive,Safe,0.0,0,Thanks doctor for detailed examination and explanation on my teeth and providing a valuable insight. Highly recommended.

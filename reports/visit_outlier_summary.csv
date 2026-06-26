@@ -1,0 +1,8 @@
+Metric,Value
+Total Patients,959.0
+Mean Visits,4.8
+Std Deviation,3.38
+Outlier Threshold (mean+2σ),11.56
+Outlier Count,31.0
+Outlier Rate (%),3.2
+Low Engagement Count,4.0
