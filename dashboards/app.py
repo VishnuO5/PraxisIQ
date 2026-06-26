@@ -1086,9 +1086,10 @@ elif page == "LLM Evaluation":
     with col_ml:
         finding(
             "Traditional ML — TF-IDF + Logistic Regression",
-            f"Accuracy: <b style='color:{ACCENT}'>83.3%</b> on 300 reviews. "
+            f"Accuracy: <b style='color:{ACCENT}'>82.22%</b> on the same 90-review held-out test set "
+            f"used to benchmark the LLM (identical split: test_size=0.30, random_state=42, stratified). "
             f"Fast, deterministic, and fully interpretable — each prediction traces directly to weighted token features. "
-            f"Performs well on categories with strong keyword signals (Treatment, Pricing, Waiting Time) "
+            f"Performs well on categories with strong keyword signals (Pricing, Staff, Positive) "
             f"but struggles with semantic nuance in Communication and Neutral reviews where the same words "
             f"appear across multiple categories."
         )
@@ -1106,7 +1107,7 @@ elif page == "LLM Evaluation":
 
     comparison_data = pd.DataFrame({
         'Approach': ['TF-IDF + Logistic Regression', 'Qwen2.5 7B (Prompt V2)'],
-        'Accuracy': [83.3, 86.67],
+        'Accuracy': [82.22, 86.67],
         'Type':     ['Traditional ML', 'LLM']
     })
     fig = px.bar(
