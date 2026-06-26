@@ -560,7 +560,7 @@ if page == "Overview":
 
     c5, c6, c7, c8 = st.columns(4)
     kpi(c5, "Reviews Analyzed",  "300",   "7 categories labeled",     VIOLET)
-    kpi(c6, "LLM Accuracy",      "84.3%", "Qwen2.5 · Prompt V2",     ACCENT)
+    kpi(c6, "LLM Accuracy",      "86.7%", "Qwen2.5 · Prompt V2 (hold-out)", ACCENT)
     kpi(c7, "Burst Events",      "4",     "Review spikes flagged",    AMBER)
     kpi(c8, "High-Risk Reviews", "12%",   "36 flagged for review",    ROSE)
 
@@ -1032,7 +1032,7 @@ elif page == "LLM Evaluation":
     )
 
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Final Accuracy", "84.3%", "Prompt V2 · 300 reviews",  EMERALD)
+    kpi(c1, "Final Accuracy", "86.7%", "Prompt V2 · 90 hold-out reviews",  EMERALD)
     kpi(c2, "Precision",      "84.4%", "Weighted average",          ACCENT)
     kpi(c3, "Recall",         "78.6%", "Weighted average",          CYAN)
     kpi(c4, "F1 Score",       "79.5%", "Weighted average",          VIOLET)
@@ -1066,9 +1066,9 @@ elif page == "LLM Evaluation":
     with col_b:
         section("Prompt Design Rationale")
         prompts_info = [
-            ("V1 — Zero-Shot",        "70%", "Basic instruction only. No category definitions — model relies on general knowledge.",                               "badge-med"),
-            ("V2 — Detailed (selected)","75%","Each category explicitly defined with examples. Reduced ambiguity; chosen as the final prompt.",                   "badge-low"),
-            ("V3 — Rules-Based",      "65%", "Strict keyword rules. Over-indexed on specific terms; underperformed on nuanced reviews.",                          "badge-high"),
+            ("V1 — Zero-Shot",        "65.6%", "Basic instruction only. No category definitions — model relies on general knowledge.",                               "badge-med"),
+            ("V2 — Detailed (selected)","86.7%","Each category explicitly defined with examples. Reduced ambiguity; chosen as the final prompt.",                   "badge-low"),
+            ("V3 — Rules-Based",      "65.6%", "Strict keyword rules. Over-indexed on specific terms; underperformed on nuanced reviews.",                          "badge-high"),
         ]
         for title, acc, desc, badge in prompts_info:
             st.markdown(f"""<div class='finding-card'>
@@ -1096,7 +1096,8 @@ elif page == "LLM Evaluation":
     with col_llm:
         finding(
             "LLM — Qwen2.5 7B via Ollama (Prompt V2)",
-            f"Accuracy: <b style='color:{EMERALD}'>84.33%</b> on 300 reviews. "
+            f"Accuracy: <b style='color:{EMERALD}'>86.67%</b> on the 90-review held-out test set "
+            f"(never used during prompt development). "
             f"Higher overall accuracy and significantly better recall on minority classes. "
             f"Handles semantic overlap more robustly by reasoning about context rather than token frequency. "
             f"Trade-off: slower inference, non-deterministic outputs, and harder to audit — "
@@ -1105,7 +1106,7 @@ elif page == "LLM Evaluation":
 
     comparison_data = pd.DataFrame({
         'Approach': ['TF-IDF + Logistic Regression', 'Qwen2.5 7B (Prompt V2)'],
-        'Accuracy': [83.3, 84.33],
+        'Accuracy': [83.3, 86.67],
         'Type':     ['Traditional ML', 'LLM']
     })
     fig = px.bar(

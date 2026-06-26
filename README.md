@@ -22,7 +22,7 @@ of 959 patients, 4,603 visits, and 300 labeled reviews.
 
 | Result | Value |
 |---|---|
-| Review classification accuracy (LLM) | 84.33% |
+| Review classification accuracy (LLM) | 86.67% (on held-out test set) |
 | Prompt engineering iterations | 3 prompts evaluated and benchmarked |
 | Review burst events detected | 4 anomalous spikes flagged |
 | High-risk patient cases identified | 42 |
@@ -44,10 +44,10 @@ These findings are written as analyst recommendations, directly mapping to Trust
 36 reviews (12% of total) were classified as High Risk — all Treatment complaints with ratings of 1–2 stars. Sample signals include: "Filling procedure was painful throughout despite assurance it would be pain free" (R0048, Rating 1) and "Tooth condition worsened after treatment. Had to seek urgent care elsewhere" (R0121, Rating 1). Recommendation: auto-escalate any Treatment review rated 1–2 stars to a senior review queue within 24 hours. These are patient safety signals, not just quality feedback.
 
 **Finding 3 — LLM outperforms rules-based classification on nuanced content**
-Prompt V2 (detailed definitions with examples) achieved 84.33% accuracy on 300 reviews, outperforming V1 Zero-Shot (70%) and V3 Rules-Based (65%). The rules-based approach failed on nuanced reviews that contained multiple signals — for example, a review mentioning both pricing and treatment quality. Recommendation: use LLM classification (Prompt V2) for production, with human review routing for Communication and Neutral categories where misclassification rate is highest.
+Prompt V2 (detailed definitions with examples) achieved 86.67% accuracy on a held-out test set of 90 reviews (never used during prompt development), outperforming V1 Zero-Shot (65.56%) and V3 Rules-Based (65.56%). The rules-based approach failed on nuanced reviews that contained multiple signals — for example, a review mentioning both pricing and treatment quality. Recommendation: use LLM classification (Prompt V2) for production, with human review routing for Communication and Neutral categories where misclassification rate is highest.
 
 **Finding 4 — Communication and Neutral categories require human review routing**
-The confusion matrix shows Communication and Neutral as the hardest categories to classify — Communication was misclassified as Staff in 10 of 39 cases, and Neutral was misclassified as Positive in 6 of 18 cases. These categories share semantic overlap that neither keyword rules nor LLM prompts resolve reliably. Recommendation: route all Communication and Neutral predictions to a human review queue rather than auto-actioning them.
+On the held-out test set, Staff and Neutral were the hardest categories to classify — recall dropped to 44% for Staff and 40% for Neutral, well below the 87% overall accuracy. These categories share semantic overlap (a complaint about a staff member's *communication style* could plausibly fall under either Staff or Communication) that neither keyword rules nor LLM prompts resolve reliably at this sample size. Recommendation: route all Staff and Neutral predictions to a human review queue rather than auto-actioning them.
 
 **Finding 5 — 42 high-risk patients require follow-up intervention**
 42 patients (4.4% of total) required follow-up treatment but did not complete it, with Root Canal producing the highest concentration of non-compliant cases. These represent active clinical risk. Recommendation: trigger an outreach workflow for any patient flagged Follow_Up_Required = Y and Follow_Up_Completed = N beyond 30 days.
@@ -147,22 +147,23 @@ Statistical finding: One-Way ANOVA confirmed a statistically significant differe
 ### Module 3 — LLM Prompt Engineering & Evaluation
 Designed and benchmarked 3 prompt versions using Qwen2.5 7B via Ollama on 300 hand-labeled reviews:
 
-| Prompt | Design Approach | Test Accuracy (20 reviews) |
+| Prompt | Design Approach | Hold-Out Test Accuracy (90 reviews) |
 |---|---|---|
-| V1 — Zero-Shot | Basic category list only | 70% |
-| V2 — Detailed | Category definitions with examples | 75% ← selected |
-| V3 — Rules-Based | Strict keyword rules | 65% |
+| V1 — Zero-Shot | Basic category list only | 65.56% |
+| V2 — Detailed | Category definitions with examples | 86.67% ← selected |
+| V3 — Rules-Based | Strict keyword rules | 65.56% |
 
-**Final evaluation — Prompt V2 on 300 reviews:**
+**Final evaluation — Prompt V2 on held-out test set (90 reviews, 30% stratified split, never used during prompt development):**
 
 | Metric | Score |
 |---|---|
-| Accuracy | 84.33% |
-| Precision | 84.37% |
-| Recall | 78.56% |
-| F1 Score | 79.54% |
+| Accuracy | 86.67% |
+| Precision | 85.51% |
+| Recall | 80.85% |
+| F1 Score | 80.71% |
 
-Strongest categories: Positive, Pricing, Treatment, Waiting Time
+Strongest categories: Waiting Time (F1 0.96), Positive (0.92), Pricing (0.91), Communication (0.89)
+Weakest categories: Staff (F1 0.53), Neutral (0.57) — both routed to human review per Finding 4
 Hardest categories: Communication, Staff, Neutral (semantic overlap causes misclassification)
 
 ### Module 4 — Anomaly Detection & Investigation

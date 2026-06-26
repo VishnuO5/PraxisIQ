@@ -1,41 +1,47 @@
-Review Classification Model Results
+Review Classification — Model Results Summary
+=============================================
 
-Model:
-Logistic Regression
+TWO MODELS WERE BUILT AND COMPARED. See model_comparison.txt for full comparison.
 
-Vectorization:
-TF-IDF
+─────────────────────────────────────────────
+MODEL V1 — Baseline (Rejected)
+─────────────────────────────────────────────
+Vectorization : TF-IDF (unigrams only, max_features=5000)
+Model         : Logistic Regression (default, no class balancing)
+Dataset       : 300 reviews → 240 train / 60 test (80/20 split, stratified)
+Accuracy      : 68.33%
 
-Dataset Size:
-300 Reviews
+Issues identified:
+- No class balancing → Positive class dominated predictions
+- Unigrams only → missed multi-word patterns (e.g. "waiting time", "root canal")
+- Neutral category F1 near zero due to only 18 samples in full dataset
 
-Number of Classes:
-7
+─────────────────────────────────────────────
+MODEL V2 — Final Selected Model
+─────────────────────────────────────────────
+Vectorization : TF-IDF (unigrams + bigrams, max_features=5000)
+Model         : Logistic Regression (max_iter=2000, class_weight='balanced')
+Dataset       : 300 reviews → 240 train / 60 test (80/20 split, stratified)
+Accuracy      : 83.33%
 
-Labels:
-Positive
-Communication
-Waiting Time
-Treatment
-Pricing
-Staff
-Neutral
+Per-class results:
+  Positive      → Precision: 0.84  Recall: 0.95  F1: 0.89  (support: 22)
+  Pricing       → Precision: 0.88  Recall: 1.00  F1: 0.93  (support: 7)
+  Staff         → Precision: 1.00  Recall: 0.83  F1: 0.91  (support: 6)
+  Waiting Time  → Precision: 0.78  Recall: 1.00  F1: 0.88  (support: 7)
+  Treatment     → Precision: 0.83  Recall: 0.71  F1: 0.77  (support: 7)
+  Communication → Precision: 0.67  Recall: 0.50  F1: 0.57  (support: 8)
+  Neutral       → Precision: 1.00  Recall: 0.33  F1: 0.50  (support: 3)
 
-Accuracy:
-68.33%
+Weighted average:
+  Precision: 0.84  Recall: 0.83  F1: 0.82
 
-Observations:
+Improvements over V1:
+- +15% accuracy (68.33% → 83.33%)
+- Class balancing corrected minority class suppression
+- Bigrams captured multi-word treatment and complaint phrases
+- Better recall on Communication, Treatment, Staff categories
 
-1. Positive reviews were classified successfully.
-
-2. Waiting Time achieved perfect recall.
-
-3. Treatment and Staff categories showed good predictive performance.
-
-4. Neutral category performance was poor due to limited training examples.
-
-5. Dataset exhibits class imbalance.
-
-Conclusion:
-
-The model successfully demonstrates multi-class review classification and content categorization using TF-IDF and Logistic Regression.
+Hardest categories: Communication (F1: 0.57), Neutral (F1: 0.50)
+Reason: Semantic overlap — same words appear across Communication, Staff,
+and Neutral reviews. These categories benefit most from LLM classification.

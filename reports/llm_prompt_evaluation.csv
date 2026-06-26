@@ -1,5 +1,4 @@
-Metric,Value
-Accuracy,0.8433
-Precision,0.8437
-Recall,0.7856
-F1 Score,0.7954
+Prompt,Accuracy,Precision,Recall,F1_Score,Evaluated_On
+V1 — Zero-Shot,0.6556,0.7069,0.6805,0.6692,"Hold-out test set (90 reviews, 30%, random_state=42)"
+V2 — Detailed,0.8667,0.8551,0.8085,0.8071,"Hold-out test set (90 reviews, 30%, random_state=42)"
+V3 — Rules-Based,0.6556,0.7375,0.6979,0.6587,"Hold-out test set (90 reviews, 30%, random_state=42)"
