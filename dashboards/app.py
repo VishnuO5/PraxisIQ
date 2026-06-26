@@ -1014,8 +1014,8 @@ elif page == "Trust & Safety":
         "Current Threshold Calibration",
         f"The current system is calibrated to <b style='color:{EMERALD}'>minimize false negatives on Treatment complaints</b> "
         f"specifically, given their patient safety implications. Treatment reviews rated 1–2 stars are auto-escalated "
-        f"to Critical/P1 regardless of other signals. Communication and Neutral categories — where the LLM "
-        f"misclassification rate is highest (10/39 and 6/18 respectively) — are routed to the Needs Review tier "
+        f"to Critical/P1 regardless of other signals. Staff and Neutral categories — where the LLM "
+        f"recall is lowest on the held-out test set (44% and 40% respectively) — are routed to the Needs Review tier "
         f"for human adjudication rather than auto-actioned. This directly mirrors real T&S queue design: "
         f"high-confidence signals get automated action, ambiguous signals get human review."
     )
@@ -1130,10 +1130,10 @@ elif page == "LLM Evaluation":
 
     finding(
         "Recommendation",
-        f"The LLM outperforms traditional ML by <b style='color:{EMERALD}'>+1.03%</b> in accuracy "
+        f"The LLM outperforms traditional ML by <b style='color:{EMERALD}'>+4.45%</b> in accuracy "
         f"with meaningfully better recall on semantically ambiguous categories. "
         f"For a production T&S system handling review classification at scale, the recommended architecture is: "
-        f"<b style='color:{ACCENT}'>LLM classification for all categories</b>, with Communication and Neutral "
+        f"<b style='color:{ACCENT}'>LLM classification for all categories</b>, with Staff and Neutral "
         f"predictions routed to a human review queue given their higher misclassification rate in both approaches."
     )
 
@@ -1163,8 +1163,8 @@ elif page == "LLM Evaluation":
         st.plotly_chart(fig, width='stretch')
         finding(
             "Classification Difficulty Analysis",
-            f"<b style='color:{EMERALD}'>Strongest categories:</b> Positive, Pricing, Treatment, Waiting Time \u2014 clear keyword signals make these easy to classify.<br><br>"
-            f"<b style='color:{ROSE}'>Hardest categories:</b> Communication and Neutral \u2014 these overlap semantically with each other and with Positive reviews, "
+            f"<b style='color:{EMERALD}'>Strongest categories:</b> Waiting Time, Positive, Pricing, Communication \u2014 clear signals make these easy to classify.<br><br>"
+            f"<b style='color:{ROSE}'>Hardest categories:</b> Staff and Neutral \u2014 these overlap semantically with each other and with Communication, "
             "causing most misclassifications. In a real Trust &amp; Safety system, these ambiguous cases would be "
             "routed to a human review queue rather than auto-actioned."
         )
