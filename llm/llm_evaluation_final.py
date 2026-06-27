@@ -14,6 +14,7 @@ from sklearn.metrics import (
     classification_report
 )
 from sklearn.model_selection import train_test_split
+from scipy.stats import norm as _norm
 
 log.info("\nModule 3 - LLM Prompt Engineering & Evaluation")
 log.info("=" * 60)
@@ -196,6 +197,30 @@ log.info(f"Accuracy   : {best['accuracy']:.2%}")
 log.info(f"Precision  : {best['precision']:.2%}")
 log.info(f"Recall     : {best['recall']:.2%}")
 log.info(f"F1 Score   : {best['f1']:.2%}")
+
+# ── CONFIDENCE INTERVAL ON ACCURACY ──────────────────────────────────────────
+# Wilson score interval — same method used for the ML baseline, so the two
+# accuracy figures are directly comparable on identical statistical footing.
+
+n_ci        = len(test_df)
+z_ci        = _norm.ppf(0.975)
+p_ci        = best["accuracy"]
+denom_ci    = 1 + z_ci**2 / n_ci
+centre_ci   = (p_ci + z_ci**2 / (2 * n_ci)) / denom_ci
+margin_ci   = (z_ci * ((p_ci * (1 - p_ci) / n_ci) + z_ci**2 / (4 * n_ci**2))**0.5) / denom_ci
+llm_ci_lower = round((centre_ci - margin_ci) * 100, 1)
+llm_ci_upper = round((centre_ci + margin_ci) * 100, 1)
+
+log.info(
+    "Accuracy: %.2f%% (95%% CI: %.1f%% - %.1f%%, n=%d, Wilson interval)",
+    round(p_ci * 100, 2), llm_ci_lower, llm_ci_upper, n_ci
+)
+
+pd.DataFrame({
+    "Metric": ["Prompt", "Accuracy", "CI_Lower_95", "CI_Upper_95", "Sample_Size", "CI_Method"],
+    "Value" : [best_name, round(p_ci * 100, 2), llm_ci_lower, llm_ci_upper, n_ci, "Wilson Score Interval"]
+}).to_csv(os.path.join(REPORTS_DIR, "llm_accuracy_with_ci.csv"), index=False)
+log.info("Saved: reports/llm_accuracy_with_ci.csv")
 
 log.info(f"\nDetailed Classification Report — {best_name}")
 log.info("=" * 60)

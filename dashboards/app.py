@@ -4,6 +4,19 @@ import plotly.express as px
 import plotly.graph_objects as go
 import sqlite3
 import os
+import sys
+
+# Import shared config — thresholds, weights, risk maps, queue counts
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import (
+    RISK_MAP,
+    CATEGORY_WEIGHT,
+    PRIORITY_MAP,
+    TIER_MAP,
+    SEVERITY_ORDER,
+    SLA_P1_HOURS,
+    SLA_P2_HOURS,
+)
 
 # ─────────────────────────────────────────────
 # PAGE CONFIG
@@ -1108,10 +1121,21 @@ elif page == "Anomaly Screening":
     with sim_col2:
         mins_per_case = st.slider("Minutes per case review", min_value=2, max_value=30, value=8, step=1)
 
-    # Queue counts from pipeline output
-    P1_COUNT = 34    # Critical
-    P2_COUNT = 111   # High
-    P3_COUNT = 29    # Medium
+    # Queue counts loaded live from the most recent pipeline run rather than
+    # hardcoded, so this simulator never silently drifts from the actual data.
+    severity_df = load_csv('severity_distribution.csv')
+    if not severity_df.empty:
+        # First column holds the severity label despite its header (source
+        # script names it "Count"); second column holds the actual count.
+        severity_counts = severity_df.set_index(severity_df.columns[0])[severity_df.columns[1]].to_dict()
+        P1_COUNT = int(severity_counts.get("Critical", 0))
+        P2_COUNT = int(severity_counts.get("High", 0))
+        P3_COUNT = int(severity_counts.get("Medium", 0))
+    else:
+        # Fallback only if the report is missing entirely — last known-good
+        # values, kept only as a safety net, not the primary source.
+        P1_COUNT, P2_COUNT, P3_COUNT = 34, 111, 29
+        st.caption("⚠ severity_distribution.csv not found — showing last known values. Run run_all.py to refresh.")
 
     capacity_per_hour = (60 / mins_per_case) * num_analysts
 
@@ -1124,15 +1148,15 @@ elif page == "Anomaly Screening":
 
     kc1, kc2, kc3, kc4 = st.columns(4)
     kpi(kc1, "Analyst Capacity",   f"{round(capacity_per_hour, 1)}/hr", f"{num_analysts} analyst{'s' if num_analysts > 1 else ''} · {mins_per_case} min/case", ACCENT)
-    kpi(kc2, "P1 Clear Time",      f"{p1_hours}h",  f"34 Critical cases · SLA: 4h",   EMERALD if p1_sla_ok else ROSE)
-    kpi(kc3, "P1+P2 Clear Time",   f"{p2_hours}h",  f"145 cases · SLA: 24h",          EMERALD if p2_sla_ok else AMBER)
-    kpi(kc4, "Full Queue Clear",   f"{p3_hours}h",  f"174 total cases (P1+P2+P3)",    CYAN)
+    kpi(kc2, "P1 Clear Time",      f"{p1_hours}h",  f"{P1_COUNT} Critical cases · SLA: 4h",   EMERALD if p1_sla_ok else ROSE)
+    kpi(kc3, "P1+P2 Clear Time",   f"{p2_hours}h",  f"{P1_COUNT + P2_COUNT} cases · SLA: 24h",          EMERALD if p2_sla_ok else AMBER)
+    kpi(kc4, "Full Queue Clear",   f"{p3_hours}h",  f"{P1_COUNT + P2_COUNT + P3_COUNT} total cases (P1+P2+P3)",    CYAN)
 
     sim_chart_col, sim_verdict_col = st.columns(2)
     with sim_chart_col:
 
         tier_df = pd.DataFrame({
-            "Tier":  ["P1 — Critical\n(34 cases)", "P2 — High\n(111 cases)", "P3 — Medium\n(29 cases)"],
+            "Tier":  [f"P1 — Critical\n({P1_COUNT} cases)", f"P2 — High\n({P2_COUNT} cases)", f"P3 — Medium\n({P3_COUNT} cases)"],
             "Hours": [p1_hours, p2_hours - p1_hours, p3_hours - p2_hours],
             "Color": [ROSE, AMBER, ACCENT],
             "SLA":   ["4h SLA", "24h SLA", "Weekly"],
@@ -1222,15 +1246,7 @@ elif page == "Trust & Safety":
             ts_rating_options = ["All"] + [str(i) for i in sorted(all_ts_reviews["Rating"].dropna().unique().tolist())]
             selected_ts_rating = st.selectbox("Rating", ts_rating_options, key="ts_rating")
 
-    RISK_MAP = {
-        "Treatment":     "High Risk",
-        "Communication": "Needs Review",
-        "Waiting Time":  "Needs Review",
-        "Pricing":       "Needs Review",
-        "Staff":         "Needs Review",
-        "Neutral":       "Safe",
-        "Positive":      "Safe",
-    }
+    # RISK_MAP imported from config.py
     all_ts_reviews["Risk_Level"] = all_ts_reviews["Label"].map(RISK_MAP)
 
     ts_filtered = all_ts_reviews.copy()
@@ -1684,9 +1700,66 @@ elif page == "LLM Evaluation":
 
     c1, c2, c3, c4 = st.columns(4)
     kpi(c1, "Final Accuracy", "86.7%", "Prompt V2 · 90 hold-out reviews", EMERALD)
-    kpi(c2, "Precision",      "84.4%", "Weighted average",                 ACCENT)
-    kpi(c3, "Recall",         "78.6%", "Weighted average",                 CYAN)
-    kpi(c4, "F1 Score",       "79.5%", "Weighted average",                 VIOLET)
+    kpi(c2, "Precision",      "85.5%", "Weighted average",                 ACCENT)
+    kpi(c3, "Recall",         "80.9%", "Weighted average",                 CYAN)
+    kpi(c4, "F1 Score",       "80.7%", "Weighted average",                 VIOLET)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+    section("Statistical Confidence", "Wilson Score Interval, 95% CI")
+
+    def wilson_ci(accuracy_fraction, n, z=1.96):
+        """Wilson score interval — same closed-form method for both models,
+        computed live here rather than hardcoded, so it can't go stale if
+        the underlying evaluation data changes."""
+        p = accuracy_fraction
+        denom = 1 + z**2 / n
+        center = (p + z**2 / (2 * n)) / denom
+        margin = z * ((p * (1 - p) / n + z**2 / (4 * n**2)) ** 0.5) / denom
+        return max(0.0, center - margin) * 100, min(1.0, center + margin) * 100
+
+    # LLM: computed live from the best prompt's accuracy and hold-out sample
+    # size — no Ollama re-run needed, since Wilson CI only needs accuracy + n.
+    llm_eval_df = load_csv('llm_prompt_evaluation.csv')
+    ml_ci_df = load_csv('ml_accuracy_with_ci.csv')
+
+    ci_col1, ci_col2 = st.columns(2)
+    with ci_col1:
+        if not llm_eval_df.empty:
+            best_row = llm_eval_df.loc[llm_eval_df['Accuracy'].idxmax()]
+            llm_acc = best_row['Accuracy'] * 100
+            n_match = best_row['Evaluated_On']
+            n_llm = int(n_match.split('(')[1].split(' ')[0]) if '(' in str(n_match) else 90
+            llm_lo, llm_hi = wilson_ci(best_row['Accuracy'], n_llm)
+            finding(
+                f"LLM — {best_row['Prompt']}",
+                f"Accuracy: <b style='color:{EMERALD}'>{llm_acc:.2f}%</b> &nbsp; "
+                f"95% CI: <b>[{llm_lo:.1f}%, {llm_hi:.1f}%]</b><br>"
+                f"If re-evaluated on a new random sample of {n_llm} reviews from the same "
+                f"population, accuracy would fall in this range 95% of the time."
+            )
+        else:
+            st.info("Run llm_evaluation_final.py to generate live LLM accuracy data.")
+
+    with ci_col2:
+        if not ml_ci_df.empty:
+            ml_vals = ml_ci_df.set_index('Metric')['Value']
+            ml_acc = float(ml_vals['Accuracy'])
+            ml_lo = float(ml_vals['CI_Lower_95'])
+            ml_hi = float(ml_vals['CI_Upper_95'])
+            n_ml = int(float(ml_vals['Sample_Size']))
+            gap = abs(llm_acc - ml_acc) if not llm_eval_df.empty else None
+            gap_text = f"the {gap:.2f}-point gap" if gap is not None else "the observed gap"
+            finding(
+                "ML — TF-IDF + Logistic Regression",
+                f"Accuracy: <b style='color:{ACCENT}'>{ml_acc:.2f}%</b> &nbsp; "
+                f"95% CI: <b>[{ml_lo:.1f}%, {ml_hi:.1f}%]</b><br>"
+                f"<span style='color:{TEXT_LOW}'>Note: these two intervals overlap. "
+                f"With only {n_ml} held-out reviews, {gap_text} is the best point "
+                f"estimate, not a statistically certain difference — see "
+                f"FINDINGS.md for the full discussion.</span>"
+            )
+        else:
+            st.info("Run ml/review_classifier_v2.py to generate live ML accuracy data.")
 
     col_a, col_b = st.columns(2)
     with col_a:

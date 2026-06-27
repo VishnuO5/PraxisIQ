@@ -155,8 +155,11 @@ SLA_P2_HOURS = 24    # High — must clear within 24 hours
 
 # ── QUEUE COUNTS (from trust_safety_pipeline.py output) ──────────────────────
 
-# These are the current queue sizes used in the Queue Clearance Simulator.
-# Update these if re-running the pipeline produces different counts.
+# NOTE: The Queue Clearance Simulator in dashboards/app.py no longer reads
+# these — it loads live counts from reports/severity_distribution.csv on
+# every run, so the simulator can't go stale. These constants are kept only
+# as a documented historical reference / fallback value if that report is
+# ever missing.
 QUEUE_P1_CRITICAL = 34
 QUEUE_P2_HIGH     = 111
 QUEUE_P3_MEDIUM   = 29
