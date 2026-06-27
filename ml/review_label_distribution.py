@@ -1,7 +1,12 @@
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
-conn = sqlite3.connect("PraxisIQ.db")
+conn = sqlite3.connect(DB_PATH)
 
 df = pd.read_sql_query(
     """
@@ -13,7 +18,7 @@ df = pd.read_sql_query(
     conn
 )
 
-print("\nReview Label Distribution\n")
-print(df)
+log.info("Review Label Distribution")
+log.info("\n%s", df.to_string())
 
 conn.close()

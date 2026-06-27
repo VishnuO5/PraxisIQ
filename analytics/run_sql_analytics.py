@@ -1,8 +1,13 @@
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
 # Connect to SQLite database
-conn = sqlite3.connect("PraxisIQ.db")
+conn = sqlite3.connect(DB_PATH)
 
 # All SQL Analytics Queries
 queries = {
@@ -143,26 +148,26 @@ queries = {
 # Execute all reports
 for report_name, query in queries.items():
 
-    print("\n" + "=" * 60)
-    print(f"Generating Report: {report_name}")
-    print("=" * 60)
+    log.info("\n" + "=" * 60)
+    log.info(f"Generating Report: {report_name}")
+    log.info("=" * 60)
 
     df = pd.read_sql_query(query, conn)
 
-    print(df.head())
+    log.info(df.head())
 
-    output_file = f"reports/{report_name}.csv"
+    output_file = fos.path.join(REPORTS_DIR, "{report_name}.csv")
 
     df.to_csv(
         output_file,
         index=False
     )
 
-    print(f"\nSaved: {output_file}")
+    log.info(f"\nSaved: {output_file}")
 
 # Close connection
 conn.close()
 
-print("\n" + "=" * 60)
-print("ALL ANALYTICS REPORTS GENERATED SUCCESSFULLY")
-print("=" * 60)
+log.info("\n" + "=" * 60)
+log.info("ALL ANALYTICS REPORTS GENERATED SUCCESSFULLY")
+log.info("=" * 60)
