@@ -264,3 +264,43 @@ log.info("  reports/llm_prompt_evaluation.csv")
 log.info("  reports/llm_evaluation_methodology.txt")
 log.info("\nNote: All accuracy figures above are on the HOLD-OUT TEST SET only.")
 log.info("      Development set (210 reviews) was used for prompt design only.")
+# ── SINGLE-ANNOTATOR LIMITATION & LOW-CONFIDENCE FLAGGING ────────────────────
+# This dataset was labeled by a single annotator (no inter-annotator agreement
+# score available). Categories with highest semantic overlap — Communication,
+# Staff, and Neutral — are most vulnerable to inconsistent labeling.
+#
+# Mitigation: flag predictions in these ambiguous categories for human review
+# rather than auto-actioning them. This is standard T&S practice when
+# classifier confidence is low.
+
+AMBIGUOUS_CATEGORIES = {"Communication", "Staff", "Neutral"}
+
+if "Prediction" in test_df.columns:
+    low_confidence = test_df[
+        test_df["Prediction"].isin(AMBIGUOUS_CATEGORIES)
+    ].copy()
+
+    low_confidence["Routing"] = "HUMAN REVIEW REQUIRED"
+    low_confidence["Reason"]  = (
+        "Prediction falls in ambiguous category (Communication / Staff / Neutral). "
+        "These categories share semantic overlap and have the lowest per-class F1 "
+        "in both ML (F1: 0.57 Communication, 0.50 Neutral) and LLM evaluation. "
+        "Single-annotator labeling means boundary decisions in these categories "
+        "cannot be validated by inter-annotator agreement. Route to human review."
+    )
+
+    low_confidence.to_csv(
+        os.path.join(REPORTS_DIR, "low_confidence_human_review_queue.csv"),
+        index=False
+    )
+
+    log.info(f"\nLow-confidence flagging:")
+    log.info(f"  {len(low_confidence)} reviews flagged for human review")
+    log.info(f"  Categories: {sorted(AMBIGUOUS_CATEGORIES)}")
+    log.info(f"  Saved: reports/low_confidence_human_review_queue.csv")
+    log.info(
+        f"\n  Note: Single-annotator limitation — no inter-annotator agreement "
+        f"(Cohen's kappa) was computed. In a production pipeline, ambiguous "
+        f"categories would be re-labeled by 2-3 annotators with kappa >= 0.7 "
+        f"as the acceptance threshold before trusting ground-truth labels."
+    )
