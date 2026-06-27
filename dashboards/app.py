@@ -1619,7 +1619,7 @@ elif page == "Trust & Safety":
         (
             "Real abuse signals are present in the data",
             f"The dataset contains a documented repeat reviewer (Yashoda S — 2 reviews, avg 2.5★), "
-            f"4 burst events, and 36 Treatment complaints that cluster at 1–2 stars. These are genuine "
+            f"7 burst events, and 36 Treatment complaints that cluster at 1–2 stars. These are genuine "
             f"signals that a volume-only system would miss. The same patterns — repeat actors, "
             f"sentiment concentration, temporal clustering — are the core signals in platform-scale "
             f"review manipulation detection.",
