@@ -20,20 +20,24 @@ Output:
 
 import os
 import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
-DB_PATH = "PraxisIQ.db"
+
+
 
 if not os.path.exists(DB_PATH):
-    print(f"[ERROR] Database not found: {DB_PATH}")
-    print("Run create_database.py first.")
+    log.error(f"[ERROR] Database not found: {DB_PATH}")
+    log.info("Run create_database.py first.")
     sys.exit(1)
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
-print("\nSuspicious Reviewer Detection")
-print("=" * 60)
+log.info("\nSuspicious Reviewer Detection")
+log.info("=" * 60)
 
 conn = sqlite3.connect(DB_PATH)
 
@@ -57,7 +61,7 @@ reviews["Review_Date"] = pd.to_datetime(reviews["Review_Date"], format="mixed")
 reviews["Review_Day"]  = reviews["Review_Date"].dt.date
 
 total_reviews = len(reviews)
-print(f"\nTotal reviews loaded: {total_reviews}")
+log.info(f"\nTotal reviews loaded: {total_reviews}")
 
 # ── PER-REVIEWER AGGREGATION ──────────────────────────────────────────────────
 
@@ -132,13 +136,13 @@ flagged = agg[agg["Suspicion_Score"] >= 2].sort_values(
     "Suspicion_Score", ascending=False
 ).reset_index(drop=True)
 
-print(f"\nReviewers analysed       : {len(agg)}")
-print(f"Clean (score 0)          : {len(agg[agg['Suspicion_Score'] == 0])}")
-print(f"Low suspicion (score 1)  : {len(agg[agg['Suspicion_Score'] == 1])}")
-print(f"Medium suspicion (score 2): {len(agg[agg['Suspicion_Score'] == 2])}")
-print(f"High suspicion  (score 3+): {len(agg[agg['Suspicion_Score'] >= 3])}")
+log.info(f"\nReviewers analysed       : {len(agg)}")
+log.info(f"Clean (score 0)          : {len(agg[agg['Suspicion_Score'] == 0])}")
+log.info(f"Low suspicion (score 1)  : {len(agg[agg['Suspicion_Score'] == 1])}")
+log.info(f"Medium suspicion (score 2): {len(agg[agg['Suspicion_Score'] == 2])}")
+log.info(f"High suspicion  (score 3+): {len(agg[agg['Suspicion_Score'] >= 3])}")
 
-print(f"\nFlagged for review (score ≥ 2): {len(flagged)}")
+log.info(f"\nFlagged for review (score ≥ 2): {len(flagged)}")
 
 if len(flagged) > 0:
     display_cols = [
@@ -148,18 +152,18 @@ if len(flagged) > 0:
         "Flag_High_Volume", "Flag_Sentiment_Flip",
         "Suspicion_Score", "Suspicion_Tier"
     ]
-    print("\nFlagged Reviewers:\n")
-    print(flagged[display_cols].to_string(index=False))
+    log.info("\nFlagged Reviewers:\n")
+    log.info(flagged[display_cols].to_string(index=False))
 else:
-    print("\nNo reviewers flagged at score ≥ 2.")
+    log.info("\nNo reviewers flagged at score ≥ 2.")
 
 # ── SIGNAL BREAKDOWN ──────────────────────────────────────────────────────────
 
-print("\nSignal Breakdown (how many reviewers triggered each flag):")
-print(f"  Velocity (same-day multiple reviews) : {agg['Flag_Velocity'].sum()}")
-print(f"  No rating variance (all same score)  : {agg['Flag_No_Variance'].sum()}")
-print(f"  High volume (3+ reviews)             : {agg['Flag_High_Volume'].sum()}")
-print(f"  Sentiment flip (low AND high ratings): {agg['Flag_Sentiment_Flip'].sum()}")
+log.info("\nSignal Breakdown (how many reviewers triggered each flag):")
+log.info(f"  Velocity (same-day multiple reviews) : {agg['Flag_Velocity'].sum()}")
+log.info(f"  No rating variance (all same score)  : {agg['Flag_No_Variance'].sum()}")
+log.info(f"  High volume (3+ reviews)             : {agg['Flag_High_Volume'].sum()}")
+log.info(f"  Sentiment flip (low AND high ratings): {agg['Flag_Sentiment_Flip'].sum()}")
 
 # ── SAVE ──────────────────────────────────────────────────────────────────────
 
@@ -171,7 +175,7 @@ save_cols = [
 ]
 
 agg[save_cols].sort_values("Suspicion_Score", ascending=False).to_csv(
-    "reports/suspicious_reviewer_detection.csv", index=False
+    os.path.join(REPORTS_DIR, "suspicious_reviewer_detection.csv"), index=False
 )
 
 summary = pd.DataFrame({
@@ -195,8 +199,8 @@ summary = pd.DataFrame({
     ]
 })
 
-summary.to_csv("reports/suspicious_reviewer_summary.csv", index=False)
+summary.to_csv(os.path.join(REPORTS_DIR, "suspicious_reviewer_summary.csv"), index=False)
 
-print("\nSaved:")
-print("  reports/suspicious_reviewer_detection.csv")
-print("  reports/suspicious_reviewer_summary.csv")
+log.info("\nSaved:")
+log.info("  reports/suspicious_reviewer_detection.csv")
+log.info("  reports/suspicious_reviewer_summary.csv")

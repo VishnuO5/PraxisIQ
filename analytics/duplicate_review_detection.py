@@ -1,14 +1,20 @@
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
-print("\nDuplicate Review Detection")
-print("=" * 50)
+
+log.info("\nDuplicate Review Detection")
+log.info("=" * 50)
 
 # ==========================
 # CONNECT DATABASE
 # ==========================
 
-conn = sqlite3.connect("PraxisIQ.db")
+conn = sqlite3.connect(DB_PATH)
 
 # ==========================
 # FIND DUPLICATE REVIEWS
@@ -32,22 +38,22 @@ conn.close()
 # DISPLAY RESULTS
 # ==========================
 
-print("\nPotential Duplicate Reviews:\n")
+log.info("\nPotential Duplicate Reviews:\n")
 
-print(df)
+log.info(df)
 
-print("\nTotal Duplicate Review Patterns Found:")
+log.info("\nTotal Duplicate Review Patterns Found:")
 
-print(len(df))
+log.info(len(df))
 
 # ==========================
 # SAVE RESULTS
 # ==========================
 
 df.to_csv(
-    "reports/duplicate_review_detection.csv",
+    os.path.join(REPORTS_DIR, "duplicate_review_detection.csv"),
     index=False
 )
 
-print("\nSaved:")
-print("reports/duplicate_review_detection.csv")
+log.info("\nSaved:")
+log.info(os.path.join(REPORTS_DIR, "duplicate_review_detection.csv"))

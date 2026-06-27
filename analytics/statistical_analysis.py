@@ -1,15 +1,21 @@
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
+
 from scipy.stats import f_oneway
 
-print("\nModule 2 - Statistical Analysis")
-print("=" * 60)
+log.info("\nModule 2 - Statistical Analysis")
+log.info("=" * 60)
 
 # ==========================
 # LOAD DATA
 # ==========================
 
-conn = sqlite3.connect("PraxisIQ.db")
+conn = sqlite3.connect(DB_PATH)
 
 df = pd.read_sql_query(
     """
@@ -23,8 +29,8 @@ df = pd.read_sql_query(
 
 conn.close()
 
-print("\nTreatment Distribution:")
-print(df["Primary_Treatment"].value_counts())
+log.info("\nTreatment Distribution:")
+log.info(df["Primary_Treatment"].value_counts())
 
 # ==========================
 # PREPARE GROUPS
@@ -46,11 +52,11 @@ for treatment in df["Primary_Treatment"].unique():
 
 f_statistic, p_value = f_oneway(*groups)
 
-print("\nANOVA Results")
-print("=" * 60)
+log.info("\nANOVA Results")
+log.info("=" * 60)
 
-print(f"F Statistic: {f_statistic:.4f}")
-print(f"P Value    : {p_value:.6f}")
+log.info(f"F Statistic: {f_statistic:.4f}")
+log.info(f"P Value    : {p_value:.6f}")
 
 # ==========================
 # INTERPRETATION
@@ -70,8 +76,8 @@ else:
         "between treatment groups."
     )
 
-print("\nConclusion:")
-print(conclusion)
+log.info("\nConclusion:")
+log.info(conclusion)
 
 # ==========================
 # SAVE RESULTS
@@ -89,16 +95,16 @@ results = pd.DataFrame({
 })
 
 results.to_csv(
-    "reports/statistical_analysis.csv",
+    os.path.join(REPORTS_DIR, "statistical_analysis.csv"),
     index=False
 )
 
-print("\nSaved:")
-print("reports/statistical_analysis.csv")
+log.info("\nSaved:")
+log.info(os.path.join(REPORTS_DIR, "statistical_analysis.csv"))
 # ── Chi-Square: Review Category vs Rating Tier ──────────────────
 from scipy.stats import chi2_contingency
 
-conn2 = sqlite3.connect("PraxisIQ.db")
+conn2 = sqlite3.connect(DB_PATH)
 reviews = pd.read_sql_query("SELECT Label, Rating FROM Reviews", conn2)
 conn2.close()
 
@@ -109,21 +115,21 @@ reviews['Rating_Tier'] = reviews['Rating'].apply(
 contingency = pd.crosstab(reviews['Label'], reviews['Rating_Tier'])
 chi2, p, dof, expected = chi2_contingency(contingency)
 
-print("\nChi-Square Test — Review Category vs Rating Tier")
-print("=" * 50)
-print(f"Chi2 Statistic    : {chi2:.4f}")
-print(f"P-Value           : {p:.6f}")
-print(f"Degrees of Freedom: {dof}")
+log.info("\nChi-Square Test — Review Category vs Rating Tier")
+log.info("=" * 50)
+log.info(f"Chi2 Statistic    : {chi2:.4f}")
+log.info(f"P-Value           : {p:.6f}")
+log.info(f"Degrees of Freedom: {dof}")
 
 if p < 0.05:
-    print("Result: Significant association between review category and rating.")
+    log.info("Result: Significant association between review category and rating.")
 else:
-    print("Result: No significant association found.")
+    log.info("Result: No significant association found.")
 
 chi2_results = pd.DataFrame({
     "Metric": ["Chi2 Statistic", "P-Value", "Degrees of Freedom"],
     "Value": [round(chi2, 4), round(p, 6), dof]
 })
 
-chi2_results.to_csv("reports/chi2_analysis.csv", index=False)
-print("\nSaved: reports/chi2_analysis.csv")
+chi2_results.to_csv(os.path.join(REPORTS_DIR, "chi2_analysis.csv"), index=False)
+log.info("\nSaved: reports/chi2_analysis.csv")

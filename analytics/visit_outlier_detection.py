@@ -14,20 +14,24 @@ Outputs:
 
 import os
 import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
-DB_PATH = "PraxisIQ.db"
+
+
 
 if not os.path.exists(DB_PATH):
-    print(f"[ERROR] Database not found: {DB_PATH}")
-    print("Run create_database.py first.")
+    log.error(f"[ERROR] Database not found: {DB_PATH}")
+    log.info("Run create_database.py first.")
     sys.exit(1)
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
-print("\nVisit Outlier Detection")
-print("=" * 60)
+log.info("\nVisit Outlier Detection")
+log.info("=" * 60)
 
 conn = sqlite3.connect(DB_PATH)
 
@@ -56,18 +60,18 @@ std_visits  = patients["Total_Visits"].std()
 SIGMA       = 2.0
 threshold   = mean_visits + SIGMA * std_visits
 
-print(f"\nVisit Distribution")
-print(f"  Mean visits       : {mean_visits:.2f}")
-print(f"  Std deviation     : {std_visits:.2f}")
-print(f"  Outlier threshold : {threshold:.2f} visits  (mean + {SIGMA}σ)")
-print(f"  Min / Max         : {patients['Total_Visits'].min()} / {patients['Total_Visits'].max()}")
+log.info(f"\nVisit Distribution")
+log.info(f"  Mean visits       : {mean_visits:.2f}")
+log.info(f"  Std deviation     : {std_visits:.2f}")
+log.info(f"  Outlier threshold : {threshold:.2f} visits  (mean + {SIGMA}σ)")
+log.info(f"  Min / Max         : {patients['Total_Visits'].min()} / {patients['Total_Visits'].max()}")
 
 # ── PERCENTILE BREAKDOWN ──────────────────────────────────────────────────────
 
 percentiles = patients["Total_Visits"].quantile([0.50, 0.75, 0.90, 0.95, 0.99])
-print("\nVisit Count Percentiles:")
+log.info("\nVisit Count Percentiles:")
 for p, v in percentiles.items():
-    print(f"  {int(p * 100)}th percentile : {v:.0f} visits")
+    log.info(f"  {int(p * 100)}th percentile : {v:.0f} visits")
 
 # ── Z-SCORE OUTLIERS ──────────────────────────────────────────────────────────
 
@@ -78,7 +82,7 @@ patients["Z_Score"] = (
 outliers = patients[patients["Total_Visits"] > threshold].copy()
 outliers = outliers.sort_values("Total_Visits", ascending=False).reset_index(drop=True)
 
-print(f"\nOutlier Patients (Z > {SIGMA}σ) : {len(outliers)}")
+log.info(f"\nOutlier Patients (Z > {SIGMA}σ) : {len(outliers)}")
 
 # ── CARE SPAN ─────────────────────────────────────────────────────────────────
 
@@ -95,8 +99,8 @@ low_engagement = patients[
     (patients["Total_Visits"] <= 2)
 ].copy()
 
-print(f"Low-Engagement Patients        : {len(low_engagement)}")
-print(f"  (care span > {span_q75:.0f} days but ≤ 2 visits)")
+log.info(f"Low-Engagement Patients        : {len(low_engagement)}")
+log.info(f"  (care span > {span_q75:.0f} days but ≤ 2 visits)")
 
 # ── TREATMENT BREAKDOWN ───────────────────────────────────────────────────────
 
@@ -118,8 +122,8 @@ treatment_summary = (
     .reset_index()
 )
 
-print("\nOutliers by Treatment Type:")
-print(treatment_summary.to_string(index=False))
+log.info("\nOutliers by Treatment Type:")
+log.info(treatment_summary.to_string(index=False))
 
 # ── TOP OUTLIERS ──────────────────────────────────────────────────────────────
 
@@ -127,8 +131,8 @@ display_cols = [
     "Patient_Id", "Age", "Gender",
     "Primary_Treatment", "Total_Visits", "Z_Score", "Care_Span_Days"
 ]
-print("\nTop 20 High-Visit Outlier Patients:")
-print(outliers_with_span[display_cols].head(20).to_string(index=False))
+log.info("\nTop 20 High-Visit Outlier Patients:")
+log.info(outliers_with_span[display_cols].head(20).to_string(index=False))
 
 # ── SAVE ──────────────────────────────────────────────────────────────────────
 
@@ -137,7 +141,7 @@ save_cols = [
     "Total_Visits", "Z_Score", "Care_Span_Days", "Returned_Patient"
 ]
 outliers_with_span[[c for c in save_cols if c in outliers_with_span.columns]].to_csv(
-    "reports/visit_outliers.csv", index=False
+    os.path.join(REPORTS_DIR, "visit_outliers.csv"), index=False
 )
 
 summary = pd.DataFrame({
@@ -160,8 +164,8 @@ summary = pd.DataFrame({
         len(low_engagement),
     ],
 })
-summary.to_csv("reports/visit_outlier_summary.csv", index=False)
+summary.to_csv(os.path.join(REPORTS_DIR, "visit_outlier_summary.csv"), index=False)
 
-print("\nSaved:")
-print("  reports/visit_outliers.csv")
-print("  reports/visit_outlier_summary.csv")
+log.info("\nSaved:")
+log.info("  reports/visit_outliers.csv")
+log.info("  reports/visit_outlier_summary.csv")

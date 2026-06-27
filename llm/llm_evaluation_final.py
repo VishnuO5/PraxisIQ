@@ -1,9 +1,13 @@
-
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, LLM_TEST_FRACTION, LLM_RANDOM_STATE, LLM_MODEL, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 import requests
 import json
-import os
+
 from sklearn.metrics import (
     accuracy_score,
     precision_recall_fscore_support,
@@ -11,16 +15,16 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import train_test_split
 
-print("\nModule 3 - LLM Prompt Engineering & Evaluation")
-print("=" * 60)
-print("\nMethodology: Hold-out test set (30%, never used during prompt dev)")
-print("=" * 60)
+log.info("\nModule 3 - LLM Prompt Engineering & Evaluation")
+log.info("=" * 60)
+log.info("\nMethodology: Hold-out test set (30%, never used during prompt dev)")
+log.info("=" * 60)
 
 # =============================================
 # LOAD DATA
 # =============================================
 
-conn = sqlite3.connect("PraxisIQ.db")
+conn = sqlite3.connect(DB_PATH)
 
 df = pd.read_sql_query(
     """
@@ -34,7 +38,7 @@ df = pd.read_sql_query(
 
 conn.close()
 
-print(f"\nTotal Reviews: {len(df)}")
+log.info(f"\nTotal Reviews: {len(df)}")
 
 # =============================================
 # CREATE REPRODUCIBLE TRAIN/TEST SPLIT
@@ -44,17 +48,17 @@ print(f"\nTotal Reviews: {len(df)}")
 
 dev_df, test_df = train_test_split(
     df,
-    test_size=0.30,
-    random_state=42,
+    test_size=LLM_TEST_FRACTION,
+    random_state=LLM_RANDOM_STATE,
     stratify=df["Label"]
 )
 
 test_df = test_df.reset_index(drop=True)
 
-print(f"\nDevelopment set : {len(dev_df)} reviews (used during prompt design — NOT evaluated here)")
-print(f"Hold-out test set: {len(test_df)} reviews (used for final benchmarking only)")
-print(f"\nHold-out class distribution:")
-print(test_df["Label"].value_counts().to_string())
+log.info(f"\nDevelopment set : {len(dev_df)} reviews (used during prompt design — NOT evaluated here)")
+log.info(f"Hold-out test set: {len(test_df)} reviews (used for final benchmarking only)")
+log.info(f"\nHold-out class distribution:")
+log.info(test_df["Label"].value_counts().to_string())
 
 # =============================================
 # LOAD PROMPT VERSIONS
@@ -86,7 +90,7 @@ def evaluate_prompt(prompt_name, prompt_template, eval_df):
     predictions = []
     invalid_count = 0
 
-    print(f"\n[{prompt_name}] — Running on {len(eval_df)} reviews...")
+    log.info(f"\n[{prompt_name}] — Running on {len(eval_df)} reviews...")
 
     for i, (_, row) in enumerate(eval_df.iterrows(), start=1):
         prompt = prompt_template.replace("{review_text}", row["Review_Text"])
@@ -95,7 +99,7 @@ def evaluate_prompt(prompt_name, prompt_template, eval_df):
             response = requests.post(
                 "http://localhost:11434/api/generate",
                 json={
-                    "model": "qwen2.5:7b",
+                    "model": LLM_MODEL,
                     "prompt": prompt,
                     "stream": False
                 },
@@ -123,10 +127,10 @@ def evaluate_prompt(prompt_name, prompt_template, eval_df):
         predictions.append(pred)
 
         if i % 15 == 0:
-            print(f"  Processed {i}/{len(eval_df)} reviews")
+            log.info(f"  Processed {i}/{len(eval_df)} reviews")
 
     if invalid_count > 0:
-        print(f"  Warning: {invalid_count} invalid/unparseable responses — defaulted to Neutral")
+        log.warning(f"  Warning: {invalid_count} invalid/unparseable responses — defaulted to Neutral")
 
     # Metrics
     accuracy = accuracy_score(eval_df["Label"], predictions)
@@ -167,10 +171,10 @@ for name, template in prompts.items():
 # PRINT COMPARISON
 # =============================================
 
-print("\n\nPROMPT COMPARISON — Hold-Out Test Set (90 reviews)")
-print("=" * 60)
-print(f"{'Prompt':<25} {'Accuracy':>10} {'Precision':>10} {'Recall':>10} {'F1':>10}")
-print("-" * 65)
+log.info("\n\nPROMPT COMPARISON — Hold-Out Test Set (90 reviews)")
+log.info("=" * 60)
+log.info(f"{'Prompt':<25} {'Accuracy':>10} {'Precision':>10} {'Recall':>10} {'F1':>10}")
+log.info("-" * 65)
 
 for name, r in results.items():
     print(
@@ -181,27 +185,27 @@ for name, r in results.items():
         f"{r['f1']:>9.2%}"
     )
 
-print("-" * 65)
+log.info("-" * 65)
 
 # Identify best
 best_name = max(results, key=lambda k: results[k]["accuracy"])
 best = results[best_name]
 
-print(f"\nBest prompt: {best_name}")
-print(f"Accuracy   : {best['accuracy']:.2%}")
-print(f"Precision  : {best['precision']:.2%}")
-print(f"Recall     : {best['recall']:.2%}")
-print(f"F1 Score   : {best['f1']:.2%}")
+log.info(f"\nBest prompt: {best_name}")
+log.info(f"Accuracy   : {best['accuracy']:.2%}")
+log.info(f"Precision  : {best['precision']:.2%}")
+log.info(f"Recall     : {best['recall']:.2%}")
+log.info(f"F1 Score   : {best['f1']:.2%}")
 
-print(f"\nDetailed Classification Report — {best_name}")
-print("=" * 60)
-print(best["report"])
+log.info(f"\nDetailed Classification Report — {best_name}")
+log.info("=" * 60)
+log.info(best["report"])
 
 # =============================================
 # SAVE OUTPUTS
 # =============================================
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
 # Save hold-out predictions for best prompt
 test_df = test_df.copy()
@@ -209,7 +213,7 @@ test_df["Prediction"]  = best["predictions"]
 test_df["Correct"]     = test_df["Label"] == test_df["Prediction"]
 test_df["Split"]       = "hold_out_test"
 
-test_df.to_csv("reports/llm_predictions.csv", index=False)
+test_df.to_csv(os.path.join(REPORTS_DIR, "llm_predictions.csv"), index=False)
 
 # Save summary comparison
 summary_rows = []
@@ -220,16 +224,16 @@ for name, r in results.items():
         "Precision"   : round(r["precision"], 4),
         "Recall"      : round(r["recall"], 4),
         "F1_Score"    : round(r["f1"], 4),
-        "Evaluated_On": "Hold-out test set (90 reviews, 30%, random_state=42)"
+        "Evaluated_On": "Hold-out test set (90 reviews, 30%, random_state=LLM_RANDOM_STATE)"
     })
 
 pd.DataFrame(summary_rows).to_csv(
-    "reports/llm_prompt_evaluation.csv",
+    os.path.join(REPORTS_DIR, "llm_prompt_evaluation.csv"),
     index=False
 )
 
 # Save methodology note alongside results
-with open("reports/llm_evaluation_methodology.txt", "w") as f:
+with open(os.path.join(REPORTS_DIR, "llm_evaluation_methodology.txt"), "w") as f:
     f.write("""LLM Evaluation Methodology
 ===========================
 
@@ -238,7 +242,7 @@ Split:
   Development set (70%)  : 210 reviews — used ONLY during prompt iteration
   Hold-out test set (30%): 90 reviews  — used ONLY for final benchmarking
 
-Split parameters: train_test_split(test_size=0.30, random_state=42, stratify=Label)
+Split parameters: train_test_split(test_size=LLM_TEST_FRACTION, random_state=LLM_RANDOM_STATE, stratify=Label)
 
 Why this matters:
   Evaluating on the same data used to design the prompt inflates accuracy.
@@ -254,9 +258,9 @@ Prompt versions evaluated:
 Model: Qwen2.5 7B via Ollama (local inference)
 """)
 
-print("\nSaved:")
-print("  reports/llm_predictions.csv")
-print("  reports/llm_prompt_evaluation.csv")
-print("  reports/llm_evaluation_methodology.txt")
-print("\nNote: All accuracy figures above are on the HOLD-OUT TEST SET only.")
-print("      Development set (210 reviews) was used for prompt design only.")
+log.info("\nSaved:")
+log.info("  reports/llm_predictions.csv")
+log.info("  reports/llm_prompt_evaluation.csv")
+log.info("  reports/llm_evaluation_methodology.txt")
+log.info("\nNote: All accuracy figures above are on the HOLD-OUT TEST SET only.")
+log.info("      Development set (210 reviews) was used for prompt design only.")

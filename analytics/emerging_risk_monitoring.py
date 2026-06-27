@@ -20,20 +20,24 @@ Outputs:
 
 import os
 import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
-DB_PATH = "PraxisIQ.db"
+
+
 
 if not os.path.exists(DB_PATH):
-    print(f"[ERROR] Database not found: {DB_PATH}")
-    print("Run create_database.py first.")
+    log.error(f"[ERROR] Database not found: {DB_PATH}")
+    log.info("Run create_database.py first.")
     sys.exit(1)
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
-print("\nEmerging Risk Monitoring")
-print("=" * 60)
+log.info("\nEmerging Risk Monitoring")
+log.info("=" * 60)
 
 conn = sqlite3.connect(DB_PATH)
 
@@ -60,9 +64,9 @@ reviews["Quarter"]     = reviews["Review_Date"].dt.to_period("Q")
 COMPLAINT_LABELS = ["Treatment", "Communication", "Waiting Time", "Pricing", "Staff"]
 complaints = reviews[reviews["Label"].isin(COMPLAINT_LABELS)].copy()
 
-print(f"\nTotal reviews          : {len(reviews)}")
-print(f"Complaint reviews      : {len(complaints)}")
-print(f"Date range             : {reviews['Review_Date'].min().date()} → {reviews['Review_Date'].max().date()}")
+log.info(f"\nTotal reviews          : {len(reviews)}")
+log.info(f"Complaint reviews      : {len(complaints)}")
+log.info(f"Date range             : {reviews['Review_Date'].min().date()} → {reviews['Review_Date'].max().date()}")
 
 # ── QUARTERLY VOLUME PER CATEGORY ─────────────────────────────────────────────
 
@@ -82,7 +86,7 @@ pivot = quarterly.pivot_table(
     index="Quarter", columns="Label", values="Count", fill_value=0
 )
 
-print(f"\nQuarters with complaint data: {len(pivot)}")
+log.info(f"\nQuarters with complaint data: {len(pivot)}")
 
 # ── QoQ GROWTH RATE ───────────────────────────────────────────────────────────
 
@@ -90,8 +94,8 @@ print(f"\nQuarters with complaint data: {len(pivot)}")
 growth = pivot.pct_change() * 100
 growth = growth.round(1).fillna(0)
 
-print("\nQuarter-over-Quarter Growth Rate (%) by Category:")
-print(growth.tail(8).to_string())
+log.info("\nQuarter-over-Quarter Growth Rate (%) by Category:")
+log.info(growth.tail(8).to_string())
 
 # ── TREND DIRECTION ───────────────────────────────────────────────────────────
 
@@ -148,23 +152,23 @@ trend_df = pd.DataFrame(trend_summary).sort_values("Trend_Pct", ascending=False)
 
 # ── PRINT RESULTS ─────────────────────────────────────────────────────────────
 
-print("\nCategory Trend Summary:")
-print(trend_df.to_string(index=False))
+log.info("\nCategory Trend Summary:")
+log.info(trend_df.to_string(index=False))
 
 emerging = trend_df[trend_df["Emerging_Risk"]]
 if len(emerging) > 0:
-    print(f"\n⚠  Emerging Risk Categories (latest QoQ > 50%): {len(emerging)}")
+    log.warning(f"\n⚠  Emerging Risk Categories (latest QoQ > 50%): {len(emerging)}")
     for _, row in emerging.iterrows():
-        print(f"   {row['Category']:20s} — QoQ: {row['Latest_QoQ_Growth']:+.1f}%  |  Trend: {row['Trend_Direction']}")
+        log.info(f"   {row['Category']:20s} — QoQ: {row['Latest_QoQ_Growth']:+.1f}%  |  Trend: {row['Trend_Direction']}")
 else:
-    print("\nNo categories with >50% QoQ growth in the latest quarter.")
+    log.info("\nNo categories with >50% QoQ growth in the latest quarter.")
 
 # ── SAVE ──────────────────────────────────────────────────────────────────────
 
 quarterly_save = quarterly.sort_values(["Quarter_Str", "Label"])
-quarterly_save.to_csv("reports/emerging_risk_monitoring.csv", index=False)
-trend_df.to_csv("reports/emerging_risk_summary.csv", index=False)
+quarterly_save.to_csv(os.path.join(REPORTS_DIR, "emerging_risk_monitoring.csv"), index=False)
+trend_df.to_csv(os.path.join(REPORTS_DIR, "emerging_risk_summary.csv"), index=False)
 
-print("\nSaved:")
-print("  reports/emerging_risk_monitoring.csv")
-print("  reports/emerging_risk_summary.csv")
+log.info("\nSaved:")
+log.info("  reports/emerging_risk_monitoring.csv")
+log.info("  reports/emerging_risk_summary.csv")

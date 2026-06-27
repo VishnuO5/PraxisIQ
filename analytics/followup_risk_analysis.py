@@ -13,20 +13,24 @@ Risk is derived from three signals that DO exist in the real data:
 
 import os
 import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
-DB_PATH = "PraxisIQ.db"
+
+
 
 if not os.path.exists(DB_PATH):
-    print(f"[ERROR] Database not found: {DB_PATH}")
-    print("Run create_database.py first.")
+    log.error(f"[ERROR] Database not found: {DB_PATH}")
+    log.info("Run create_database.py first.")
     sys.exit(1)
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
-print("\nFollow-Up Risk Analysis")
-print("=" * 60)
+log.info("\nFollow-Up Risk Analysis")
+log.info("=" * 60)
 
 conn = sqlite3.connect(DB_PATH)
 
@@ -95,11 +99,11 @@ patients["Risk_Tier"] = patients["Risk_Score"].apply(risk_tier)
 
 # ── PRINT SUMMARY ─────────────────────────────────────────────────────────────
 
-print(f"\nTotal Patients Analysed : {len(patients)}")
-print(f"Critical Risk (score=3) : {len(patients[patients['Risk_Score'] == 3])}")
-print(f"High Risk     (score=2) : {len(patients[patients['Risk_Score'] == 2])}")
-print(f"Medium Risk   (score=1) : {len(patients[patients['Risk_Score'] == 1])}")
-print(f"Low Risk      (score=0) : {len(patients[patients['Risk_Score'] == 0])}")
+log.info(f"\nTotal Patients Analysed : {len(patients)}")
+log.info(f"Critical Risk (score=3) : {len(patients[patients['Risk_Score'] == 3])}")
+log.info(f"High Risk     (score=2) : {len(patients[patients['Risk_Score'] == 2])}")
+log.info(f"Medium Risk   (score=1) : {len(patients[patients['Risk_Score'] == 1])}")
+log.info(f"Low Risk      (score=0) : {len(patients[patients['Risk_Score'] == 0])}")
 
 # ── DROPOUT RATE BY TREATMENT ─────────────────────────────────────────────────
 
@@ -118,8 +122,8 @@ treatment_risk = (
     .reset_index()
 )
 
-print("\nDropout Rate by Treatment:\n")
-print(treatment_risk.to_string(index=False))
+log.info("\nDropout Rate by Treatment:\n")
+log.info(treatment_risk.to_string(index=False))
 
 # ── SAVE ──────────────────────────────────────────────────────────────────────
 
@@ -131,9 +135,9 @@ save_cols = [
     "Patient_Id", "Age", "Gender", "Primary_Treatment",
     "Total_Visits", "Care_Span_Days", "Risk_Score", "Risk_Tier"
 ]
-at_risk[save_cols].to_csv("reports/followup_risk_queue.csv", index=False)
-treatment_risk.to_csv("reports/treatment_dropout_rates.csv", index=False)
+at_risk[save_cols].to_csv(os.path.join(REPORTS_DIR, "followup_risk_queue.csv"), index=False)
+treatment_risk.to_csv(os.path.join(REPORTS_DIR, "treatment_dropout_rates.csv"), index=False)
 
-print("\nSaved:")
-print("  reports/followup_risk_queue.csv")
-print("  reports/treatment_dropout_rates.csv")
+log.info("\nSaved:")
+log.info("  reports/followup_risk_queue.csv")
+log.info("  reports/treatment_dropout_rates.csv")

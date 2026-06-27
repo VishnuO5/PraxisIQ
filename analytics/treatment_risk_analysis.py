@@ -14,23 +14,26 @@ Goes beyond simple counts to identify:
 
 import os
 import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
+
+
 import numpy as np
 from scipy import stats
 
-DB_PATH  = "PraxisIQ.db"
-OUT_PATH = "reports/treatment_risk_analysis.csv"
 
 # ── PRE-FLIGHT ───────────────────────────────────────────────────────────────
 
 if not os.path.exists(DB_PATH):
-    print(f"[ERROR] Database not found: {DB_PATH}")
-    print("Run create_database.py first.")
+    log.error(f"[ERROR] Database not found: {DB_PATH}")
+    log.info("Run create_database.py first.")
     sys.exit(1)
 
-print("\nTreatment Risk Analysis")
-print("=" * 60)
+log.info("\nTreatment Risk Analysis")
+log.info("=" * 60)
 
 conn = sqlite3.connect(DB_PATH)
 
@@ -52,7 +55,7 @@ patients = pd.read_sql_query("""
 
 conn.close()
 
-print(f"\nLoaded {len(patients)} patients")
+log.info(f"\nLoaded {len(patients)} patients")
 
 # ── FEATURE ENGINEERING ──────────────────────────────────────────────────────
 
@@ -64,7 +67,7 @@ patients["did_not_return"] = (patients["Returned_Patient"] == "No").astype(int)
 visit_threshold = patients["Total_Visits"].quantile(0.75)
 patients["high_visit_count"] = (patients["Total_Visits"] > visit_threshold).astype(int)
 
-print(f"High-visit threshold (75th percentile): > {visit_threshold:.0f} visits")
+log.info(f"High-visit threshold (75th percentile): > {visit_threshold:.0f} visits")
 
 # ── TREATMENT-LEVEL RISK PROFILE ─────────────────────────────────────────────
 
@@ -129,19 +132,19 @@ if len(contingency_data) >= 2:
     chi2, p_value, dof, _ = stats.chi2_contingency(
         contingency_data[["Did_Not_Return", "Returned"]].values
     )
-    print(f"\nChi-Square Test — Non-Return Rate across Treatments:")
-    print(f"  Chi2 = {chi2:.4f}, p = {p_value:.4f}, dof = {dof}")
+    log.info(f"\nChi-Square Test — Non-Return Rate across Treatments:")
+    log.info(f"  Chi2 = {chi2:.4f}, p = {p_value:.4f}, dof = {dof}")
     if p_value < 0.05:
-        print("  Result: SIGNIFICANT — non-return rate differs meaningfully by treatment (p < 0.05)")
+        log.info("  Result: SIGNIFICANT — non-return rate differs meaningfully by treatment (p < 0.05)")
     else:
-        print("  Result: NOT SIGNIFICANT — no strong treatment-level difference detected")
+        log.info("  Result: NOT SIGNIFICANT — no strong treatment-level difference detected")
 
 # ── PRINT RESULTS ────────────────────────────────────────────────────────────
 
 results = treatment_stats.sort_values("Non_Return_Rate_Pct", ascending=False)
 
-print(f"\n{'Treatment':<35} {'Patients':>8} {'NonReturn%':>11} {'HighVisit%':>11} {'Tier':>10}")
-print("-" * 80)
+log.info(f"\n{'Treatment':<35} {'Patients':>8} {'NonReturn%':>11} {'HighVisit%':>11} {'Tier':>10}")
+log.info("-" * 80)
 
 for _, row in results.iterrows():
     print(
@@ -155,7 +158,7 @@ for _, row in results.iterrows():
 # ── CRITICAL TREATMENTS SUMMARY ───────────────────────────────────────────────
 
 critical = results[results["Risk_Tier"].isin(["CRITICAL", "HIGH"])]
-print(f"\nCRITICAL/HIGH risk treatments: {len(critical)}")
+log.info(f"\nCRITICAL/HIGH risk treatments: {len(critical)}")
 for _, row in critical.iterrows():
     print(
         f"  {row['Primary_Treatment']}: "
@@ -166,6 +169,6 @@ for _, row in critical.iterrows():
 
 # ── SAVE ─────────────────────────────────────────────────────────────────────
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 results.to_csv(OUT_PATH, index=False)
-print(f"\nSaved: {OUT_PATH}")
+log.info(f"\nSaved: {OUT_PATH}")

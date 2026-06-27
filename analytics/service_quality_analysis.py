@@ -1,10 +1,16 @@
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import DB_PATH, REPORTS_DIR, get_logger
+log = get_logger(__name__)
 import sqlite3
 import pandas as pd
 
-print("\nService Quality Analysis")
-print("=" * 50)
 
-conn = sqlite3.connect("PraxisIQ.db")
+log.info("\nService Quality Analysis")
+log.info("=" * 50)
+
+conn = sqlite3.connect(DB_PATH)
 
 query = """
 SELECT
@@ -20,8 +26,8 @@ df = pd.read_sql_query(query, conn)
 
 conn.close()
 
-print("\nService Quality Findings:\n")
-print(df)
+log.info("\nService Quality Findings:\n")
+log.info(df)
 
 total_reviews = df["Review_Count"].sum()
 
@@ -42,14 +48,14 @@ negative_percentage = round(
     2
 )
 
-print("\nTotal Reviews:")
-print(total_reviews)
+log.info("\nTotal Reviews:")
+log.info(total_reviews)
 
-print("\nNegative Review Percentage:")
-print(f"{negative_percentage}%")
+log.info("\nNegative Review Percentage:")
+log.info(f"{negative_percentage}%")
 
 df.to_csv(
-    "reports/service_quality_analysis.csv",
+    os.path.join(REPORTS_DIR, "service_quality_analysis.csv"),
     index=False
 )
 
@@ -65,10 +71,10 @@ summary = pd.DataFrame({
 })
 
 summary.to_csv(
-    "reports/service_quality_summary.csv",
+    os.path.join(REPORTS_DIR, "service_quality_summary.csv"),
     index=False
 )
 
-print("\nSaved:")
-print("reports/service_quality_analysis.csv")
-print("reports/service_quality_summary.csv")
+log.info("\nSaved:")
+log.info(os.path.join(REPORTS_DIR, "service_quality_analysis.csv"))
+log.info(os.path.join(REPORTS_DIR, "service_quality_summary.csv"))
