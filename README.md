@@ -6,6 +6,9 @@ An end-to-end data analytics and LLM evaluation platform built to demonstrate
 Trust & Safety engineering workflows, applied to a 6-year dental clinic dataset
 of 959 patients, 4,603 visits, and 300 labeled reviews.
 
+
+📋 See [METHODOLOGY.md](METHODOLOGY.md) for the reasoning behind key analytical decisions, and [FINDINGS.md](FINDINGS.md) for a summary of what the analysis found.
+
 ---
 
 ## Dashboard Preview
