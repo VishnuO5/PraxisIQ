@@ -77,37 +77,36 @@ flowchart TD
 ```mermaid
 erDiagram
     PATIENTS {
-        int Patient_ID PK
-        string Patient_Name
+        string Patient_Id PK
         string Gender
         int Age
+        string First_Visit_Date
+        string Last_Visit_Date
+        int Total_Visits
+        string Returned_Patient
         string Primary_Treatment
-        string Risk_Category
-        int Follow_Up_Required
-        int Follow_Up_Completed
     }
 
     VISITS {
-        int Visit_ID PK
-        int Patient_ID FK
-        string Treatment_Type
+        string Visit_ID PK
+        string Patient_ID FK
         string Visit_Date
-        int Visit_Count
-        string Completion_Status
+        string Treatment_Type
+        int Visit_Number
+        string Treatment_Status
     }
 
     REVIEWS {
-        int Review_ID PK
+        string Review_ID PK
         string Reviewer_Name
-        int Rating
         string Review_Date
+        int Rating
         string Review_Text
         string Label
-        string Sentiment
     }
 
     PATIENTS ||--o{ VISITS : "has"
-    PATIENTS ||--o| REVIEWS : "may leave"
+    PATIENTS ||--o{ REVIEWS : "generates"
 ```
 
 ---
@@ -129,7 +128,7 @@ Prompt V2 (detailed definitions with examples) achieved 86.67% accuracy on a hel
 On the held-out test set, Staff and Neutral were the hardest categories to classify — recall dropped to 44% for Staff and 40% for Neutral, well below the 87% overall accuracy. These categories share semantic overlap (a complaint about a staff member's communication style could plausibly fall under either Staff or Communication) that neither keyword rules nor LLM prompts resolve reliably at this sample size. Recommendation: route all Staff and Neutral predictions to a human review queue rather than auto-actioning them.
 
 **Finding 5 — 42 high-risk patients require follow-up intervention**
-42 patients (4.4% of total) required follow-up treatment but did not complete it, with Root Canal producing the highest concentration of non-compliant cases. These represent active clinical risk. Recommendation: trigger an outreach workflow for any patient flagged Follow_Up_Required = Y and Follow_Up_Completed = N beyond 30 days.
+42 patients (4.4% of total) required follow-up treatment but did not complete it, with Root Canal producing the highest concentration of non-compliant cases. These represent active clinical risk. Recommendation: trigger an outreach workflow for any patient with a follow-up-required treatment type (Root Canal, Implant, Braces, Aligners, Gum Treatment) who has not returned within 30 days of their last visit.
 
 ---
 
