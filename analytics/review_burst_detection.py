@@ -35,17 +35,19 @@ from config import (
     BURST_ROLLING_WINDOW,
     BURST_ROLLING_MULTIPLIER,
     COMPLAINT_CATEGORIES,
+    get_logger,
 )
 
+log = get_logger(__name__)
+
 if not os.path.exists(DB_PATH):
-    print(f"[ERROR] Database not found: {DB_PATH}")
-    print("Run create_database.py first.")
+    log.error("Database not found: %s", DB_PATH)
+    log.error("Run create_database.py first.")
     sys.exit(1)
 
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
-print("\nReview Burst Detection")
-print("=" * 60)
+log.info("Review Burst Detection starting")
 
 conn = sqlite3.connect(DB_PATH)
 reviews = pd.read_sql_query(
@@ -121,33 +123,33 @@ daily = daily.merge(dominant[["Review_Day", "Dominant_Category"]], on="Review_Da
 
 bursts = daily[daily["Burst_Detected"]].sort_values("Review_Count", ascending=False)
 
-print(f"\nDate range    : {daily['Review_Day'].min().date()} → {daily['Review_Day'].max().date()}")
-print(f"Total days    : {len(daily)}")
-print(f"Mean per day  : {mean_daily:.2f}")
-print(f"Std deviation : {std_daily:.2f}")
-print(f"Static threshold (mean+{BURST_STATIC_SIGMA}σ): {static_threshold:.2f} reviews/day")
-print(f"Rolling window: {BURST_ROLLING_WINDOW} days · multiplier: {BURST_ROLLING_MULTIPLIER}×")
-print(f"\nBurst days detected  : {len(bursts)}")
-print(f"  Via static threshold : {daily['Flag_Static'].sum()}")
-print(f"  Via rolling window   : {daily['Flag_Rolling'].sum()}")
+log.info("Date range    : %s → %s", daily["Review_Day"].min().date(), daily["Review_Day"].max().date())
+log.info("Total days    : %d", len(daily))
+log.info("Mean per day  : %.2f", mean_daily)
+log.info("Std deviation : %.2f", std_daily)
+log.info("Static threshold (mean+%dσ): %.2f reviews/day", BURST_STATIC_SIGMA, static_threshold)
+log.info("Rolling window: %d days · multiplier: %.1f×", BURST_ROLLING_WINDOW, BURST_ROLLING_MULTIPLIER)
+log.info("Burst days detected  : %d", len(bursts))
+log.info("  Via static threshold : %d", daily["Flag_Static"].sum())
+log.info("  Via rolling window   : %d", daily["Flag_Rolling"].sum())
 
 if len(bursts) > 0:
-    print("\nBurst Days Detail:\n")
+    log.info("Burst Days Detail:")
     display_cols = [
         "Review_Day", "Review_Count", "Avg_Rating",
         "Negative_Rate", "Dominant_Category",
         "Rolling_7d_Avg", "Flag_Static", "Flag_Rolling"
     ]
-    print(bursts[display_cols].to_string(index=False))
+    log.info("\n%s", bursts[display_cols].to_string(index=False))
 
     negative_bursts = bursts[bursts["Negative_Rate"] > 50]
     if len(negative_bursts) > 0:
         print(f"\n⚠  Negative-skewed bursts (>50% negative reviews): {len(negative_bursts)}")
-        print("   These warrant priority investigation — potential coordinated negative campaign.")
+        log.warning("These warrant priority investigation — potential coordinated negative campaign.")
     else:
-        print("\nNo negative-skewed bursts detected.")
+        log.info("No negative-skewed bursts detected.")
 else:
-    print("\nNo burst days detected.")
+    log.info("No burst days detected.")
 
 # ── MONTHLY TREND ─────────────────────────────────────────────────────────────
 
@@ -159,8 +161,8 @@ monthly = (
 monthly["Review_Date"] = monthly["Review_Date"].astype(str)
 monthly["Avg_Rating"]  = monthly["Avg_Rating"].round(2)
 
-print("\nMonthly Review Volume:")
-print(monthly.to_string(index=False))
+log.info("Monthly Review Volume:")
+log.info("\n%s", monthly.to_string(index=False))
 
 # ── SAVE ──────────────────────────────────────────────────────────────────────
 
@@ -186,6 +188,6 @@ summary = pd.DataFrame({
 })
 summary.to_csv(os.path.join(REPORTS_DIR, "review_burst_summary.csv"), index=False)
 
-print("\nSaved:")
-print(f"  {REPORTS_DIR}/review_burst_detection.csv")
-print(f"  {REPORTS_DIR}/review_burst_summary.csv")
+log.info("Saved outputs:")
+log.info("  %s/review_burst_detection.csv", REPORTS_DIR)
+log.info("  %s/review_burst_summary.csv", REPORTS_DIR)

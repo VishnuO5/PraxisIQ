@@ -41,7 +41,10 @@ from config import (
     PRIORITY_MAP,
     TIER_MAP,
     SEVERITY_ORDER,
+    get_logger,
 )
+
+log = get_logger(__name__)
 
 # ── PRE-FLIGHT ───────────────────────────────────────────────────────────────
 
@@ -52,8 +55,7 @@ if not os.path.exists(DB_PATH):
 
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
-print("\nTrust & Safety Pipeline")
-print("=" * 70)
+log.info("Trust & Safety Pipeline starting")
 
 # ── LOAD DATA ────────────────────────────────────────────────────────────────
 
@@ -72,7 +74,7 @@ reviews = pd.read_sql_query("""
 
 conn.close()
 
-print(f"Loaded {len(reviews)} reviews")
+log.info("Loaded %d reviews", len(reviews))
 
 # ── STEP 1: RISK CLASSIFICATION ───────────────────────────────────────────────
 
@@ -146,30 +148,30 @@ reviews_sorted["Status"]          = "Open"
 
 # ── STEP 4: PRINT SUMMARY ─────────────────────────────────────────────────────
 
-print("\n── Risk Level Distribution ──")
+log.info("── Risk Level Distribution ──")
 risk_counts = reviews["Risk_Level"].value_counts()
 for level, count in risk_counts.items():
     pct = count / len(reviews) * 100
-    print(f"  {level:<15}: {count:>4} reviews ({pct:.1f}%)")
+    log.info("  %-15s: %4d reviews (%.1f%%)", level, count, pct)
 
-print("\n── Severity Distribution ──")
+log.info("── Severity Distribution ──")
 sev_counts = reviews["Severity"].value_counts()
 for sev, count in sev_counts.items():
     pct = count / len(reviews) * 100
-    print(f"  {sev:<10}: {count:>4} reviews ({pct:.1f}%)")
+    log.info("  %-10s: %4d reviews (%.1f%%)", sev, count, pct)
 
-print("\n── Top 15 Priority Cases ──")
+log.info("── Top 15 Priority Cases ──")
 top_cases = reviews_sorted[
     ["Case_ID", "Queue_Position", "Severity", "Priority",
      "Label", "Rating", "Risk_Score", "Reviewer_Name"]
 ].head(15)
-print(top_cases.to_string(index=False))
+log.info("\n%s", top_cases.to_string(index=False))
 
 critical_count = len(reviews[reviews["Severity"] == "Critical"])
 high_count     = len(reviews[reviews["Severity"] == "High"])
-print(f"\nCritical cases requiring immediate review : {critical_count}")
-print(f"High priority cases (same day)            : {high_count}")
-print(f"Total cases in moderation queue           : {len(reviews)}")
+log.info("Critical cases requiring immediate review : %d", critical_count)
+log.info("High priority cases (same day)            : %d", high_count)
+log.info("Total cases in moderation queue           : %d", len(reviews))
 
 # ── STEP 5: SAVE ALL OUTPUTS ──────────────────────────────────────────────────
 
@@ -226,11 +228,11 @@ sev_dist = (
 )
 sev_dist.to_csv(os.path.join(REPORTS_DIR, "severity_distribution.csv"), index=False)
 
-print("\nSaved:")
-print(f"  {REPORTS_DIR}/trust_safety_metrics.csv")
-print(f"  {REPORTS_DIR}/trust_safety_risk_summary.csv")
-print(f"  {REPORTS_DIR}/moderation_queue.csv")
-print(f"  {REPORTS_DIR}/case_management_queue.csv")
-print(f"  {REPORTS_DIR}/risk_escalation_queue.csv")
-print(f"  {REPORTS_DIR}/severity_distribution.csv")
-print("\nPipeline complete.")
+log.info("Saved outputs to %s", REPORTS_DIR)
+
+
+
+
+
+
+log.info("Pipeline complete.")

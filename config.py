@@ -3,15 +3,20 @@ config.py
 =========
 Central configuration for PraxisIQ.
 
-All thresholds, weights, model parameters, and paths are defined here.
-Import this module in any script that needs these values instead of
-hardcoding them inline.
+All thresholds, weights, model parameters, paths, and logging setup
+are defined here. Import this module in any script instead of
+hardcoding values inline.
 
 Usage:
     from config import BURST_STATIC_SIGMA, CATEGORY_WEIGHT, ML_TEST_SIZE
+    from config import get_logger
+    log = get_logger(__name__)
+    log.info("Pipeline started")
 """
 
 import os
+import logging
+import logging.handlers
 
 # ── PATHS ─────────────────────────────────────────────────────────────────────
 
@@ -19,6 +24,45 @@ ROOT        = os.path.dirname(os.path.abspath(__file__))
 DB_PATH     = os.path.join(ROOT, "PraxisIQ.db")
 REPORTS_DIR = os.path.join(ROOT, "reports")
 EXCEL_PATH  = os.path.join(ROOT, "Patient_Data.xlsx")
+
+
+# ── LOGGING ───────────────────────────────────────────────────────────────────
+
+LOG_DIR        = os.path.join(ROOT, "logs")
+LOG_FILE       = os.path.join(LOG_DIR, "praxisiq.log")
+LOG_LEVEL      = logging.INFO
+LOG_FORMAT     = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+
+def get_logger(name: str) -> logging.Logger:
+    """
+    Return a named logger writing to console + logs/praxisiq.log.
+
+    Usage in any script:
+        from config import get_logger
+        log = get_logger(__name__)
+        log.info("Started")
+        log.warning("Something unexpected")
+        log.error("Something failed")
+    """
+    os.makedirs(LOG_DIR, exist_ok=True)
+    logger = logging.getLogger(name)
+    if logger.handlers:
+        return logger  # avoid duplicate handlers on re-import
+    logger.setLevel(LOG_LEVEL)
+    formatter = logging.Formatter(fmt=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
+    console = logging.StreamHandler()
+    console.setLevel(LOG_LEVEL)
+    console.setFormatter(formatter)
+    logger.addHandler(console)
+    file_handler = logging.handlers.RotatingFileHandler(
+        LOG_FILE, maxBytes=5 * 1024 * 1024, backupCount=3, encoding="utf-8"
+    )
+    file_handler.setLevel(LOG_LEVEL)
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    return logger
 
 # ── BURST DETECTION ───────────────────────────────────────────────────────────
 

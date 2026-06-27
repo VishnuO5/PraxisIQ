@@ -17,7 +17,10 @@ from config import (
     ML_NGRAM_RANGE,
     ML_MAX_ITER,
     ML_CLASS_WEIGHT,
+    get_logger,
 )
+
+log = get_logger(__name__)
 
 conn = sqlite3.connect(DB_PATH)
 df = pd.read_sql_query("SELECT Review_Text, Label FROM Reviews", conn)
@@ -51,10 +54,9 @@ model.fit(X_train_tfidf, y_train)
 y_pred   = model.predict(X_test_tfidf)
 accuracy = accuracy_score(y_test, y_pred)
 
-print("\nReview Classification V2")
-print("=" * 50)
-print(f"\nAccuracy: {round(accuracy * 100, 2)}%")
-print("\nClassification Report:\n")
-print(classification_report(y_test, y_pred))
-print("\nConfusion Matrix:\n")
-print(confusion_matrix(y_test, y_pred))
+log.info("Review Classification V2 starting")
+log.info("Accuracy: %.2f%%", round(accuracy * 100, 2))
+log.info("Classification Report:")
+log.info("\n%s", classification_report(y_test, y_pred))
+log.info("Confusion Matrix:")
+log.info("\n%s", confusion_matrix(y_test, y_pred))
