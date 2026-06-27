@@ -24,7 +24,7 @@ of 959 patients, 4,603 visits, and 300 labeled reviews.
 
 | Result | Value |
 |---|---|
-| Review classification accuracy (ML — TF-IDF + Logistic Regression V2) | 83.33% |
+| Review classification accuracy (ML — TF-IDF + Logistic Regression V2) | 82.22% |
 | Review classification accuracy (LLM — Prompt V2, hold-out test set) | 86.67% |
 | Prompt engineering iterations | 3 prompts evaluated (V1 Zero-Shot: 65.56%, V2 Detailed: 86.67%, V3 Rules-Based: 65.56%) |
 | Review burst events detected | 7 anomalous spikes flagged |
@@ -46,7 +46,7 @@ flowchart TD
     B --> C[(PraxisIQ.db\nSQLite Database)]
 
     C --> D[analytics/\nStatistical Analysis\nANOVA · Chi-Square · Outliers]
-    C --> E[ml/\nML Classifier\nTF-IDF · Logistic Regression\n83.33% Accuracy]
+    C --> E[ml/\nML Classifier\nTF-IDF · Logistic Regression\n82.22% Accuracy]
     C --> F[sql/trust_safety/\n7 SQL Queries\nCTEs · Window Functions · Risk Scoring]
     C --> G[llm/\nLLM Prompt Evaluation\nQwen2.5 7B · 3 Prompts · Hold-out Test]
     C --> H[trust_safety/\nUnified T&S Pipeline\nRisk Scoring · Moderation Queue · Case Management]
@@ -188,7 +188,7 @@ Two models were built iteratively on the same 300-review dataset (240 train / 60
 |---|---|---|
 | Vectorization | TF-IDF (unigrams) | TF-IDF (unigrams + bigrams) |
 | Class balancing | None | class_weight='balanced' |
-| Accuracy | 68.33% | **83.33%** |
+| Accuracy | 68.33% | **82.22%** |
 | Macro F1 | 0.57 | **0.78** |
 
 V2 improvements: bigrams captured multi-word clinical phrases ("waiting time", "root canal"); class balancing corrected Positive-class dominance. Weakest categories remain Communication (F1: 0.57) and Neutral (F1: 0.50) due to semantic overlap — these benefit most from LLM classification.
