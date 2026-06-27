@@ -57,16 +57,22 @@ queries = {
         GROUP BY Returned_Patient;
     """,
 
-    # 4. Follow-Up Compliance
+    # 4. Dropout Compliance by Treatment
+    # Note: Follow_Up_Required/Completed columns do not exist in real schema.
+    # Rewritten using Returned_Patient and Total_Visits (real columns).
     "followup_compliance": """
         SELECT
-            Follow_Up_Required,
-            Follow_Up_Completed,
-            COUNT(*) AS Patient_Count
+            Primary_Treatment,
+            COUNT(*) AS Total_Patients,
+            SUM(CASE WHEN Returned_Patient = 'No'  THEN 1 ELSE 0 END) AS Never_Returned,
+            SUM(CASE WHEN Returned_Patient = 'Yes' THEN 1 ELSE 0 END) AS Returned,
+            ROUND(
+                100.0 * SUM(CASE WHEN Returned_Patient = 'No' THEN 1 ELSE 0 END)
+                / COUNT(*), 2
+            ) AS Dropout_Rate_Pct
         FROM Patients
-        GROUP BY
-            Follow_Up_Required,
-            Follow_Up_Completed;
+        GROUP BY Primary_Treatment
+        ORDER BY Dropout_Rate_Pct DESC;
     """,
 
     # 5. Average Visits by Treatment
@@ -94,17 +100,32 @@ queries = {
     """,
 
     # 7. High Risk Patients
+    # Note: Follow_Up_Required/Completed columns do not exist in real schema.
+    # Rewritten using Returned_Patient, Total_Visits, Primary_Treatment (real columns).
     "high_risk_patients": """
         SELECT
             Patient_Id,
+            Age,
+            Gender,
             Primary_Treatment,
-            Follow_Up_Required,
-            Follow_Up_Completed
+            Total_Visits,
+            Returned_Patient,
+            CASE
+                WHEN Returned_Patient = 'No'
+                     AND Total_Visits = 1
+                     AND Primary_Treatment IN (
+                         'Root Canal', 'Implant', 'Metal Braces Treatment',
+                         'Aligner', 'Gum Treatment', 'Fixed Bridge',
+                         'Partial Denture', 'Complete Denture',
+                         'Deep Scaling and Root Planing', 'Crown/Cap'
+                     ) THEN 'CRITICAL'
+                WHEN Returned_Patient = 'No' AND Total_Visits = 1 THEN 'HIGH'
+                WHEN Returned_Patient = 'No' THEN 'MEDIUM'
+                ELSE 'LOW'
+            END AS Risk_Tier
         FROM Patients
-        WHERE
-            Follow_Up_Required = 'Y'
-            AND
-            Follow_Up_Completed = 'N';
+        WHERE Returned_Patient = 'No'
+        ORDER BY Total_Visits ASC, Age DESC;
     """,
 
     # 8. Behavioral Insights
