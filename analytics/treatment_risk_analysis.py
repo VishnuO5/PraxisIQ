@@ -16,6 +16,7 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import DB_PATH, REPORTS_DIR, get_logger
+OUT_PATH = os.path.join(REPORTS_DIR, "treatment_risk_analysis.csv")
 log = get_logger(__name__)
 import sqlite3
 import pandas as pd

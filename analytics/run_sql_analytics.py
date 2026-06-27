@@ -156,7 +156,7 @@ for report_name, query in queries.items():
 
     log.info(df.head())
 
-    output_file = fos.path.join(REPORTS_DIR, "{report_name}.csv")
+    output_file = os.path.join(REPORTS_DIR, f"{report_name}.csv")
 
     df.to_csv(
         output_file,

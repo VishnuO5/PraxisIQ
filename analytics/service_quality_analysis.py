@@ -8,7 +8,7 @@ Goes beyond simple GROUP BY averages to identify:
   - Which categories are getting worse over time (rising complaint volume)
   - Quarter-over-quarter trend direction per category
   - Whether low-rated categories are improving or declining
-  - Service quality score — composite of volume, rating, and trend
+  - Service quality score -- composite of volume, rating, and trend
 
 Outputs:
   - reports/service_quality_analysis.csv   (per-category metrics)
@@ -28,16 +28,16 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
-# ── PRE-FLIGHT ────────────────────────────────────────────────────────────────
+# -- PRE-FLIGHT ----------------------------------------------------------------
 
 if not os.path.exists(DB_PATH):
     log.error(f"Database not found: {DB_PATH}")
     sys.exit(1)
 
 os.makedirs(REPORTS_DIR, exist_ok=True)
-log.info("Service Quality Analysis — starting")
+log.info("Service Quality Analysis -- starting")
 
-# ── LOAD DATA ─────────────────────────────────────────────────────────────────
+# -- LOAD DATA -----------------------------------------------------------------
 
 conn = sqlite3.connect(DB_PATH)
 reviews = pd.read_sql_query("""
@@ -57,9 +57,9 @@ reviews["Year"]        = reviews["Review_Date"].dt.year
 reviews["Quarter"]     = reviews["Review_Date"].dt.to_period("Q").astype(str)
 reviews["YearMonth"]   = reviews["Review_Date"].dt.to_period("M").astype(str)
 
-log.info(f"Loaded {len(reviews)} reviews spanning {reviews['Year'].min()}–{reviews['Year'].max()}")
+log.info(f"Loaded {len(reviews)} reviews spanning {reviews['Year'].min()}-{reviews['Year'].max()}")
 
-# ── STEP 1: OVERALL CATEGORY METRICS ─────────────────────────────────────────
+# -- STEP 1: OVERALL CATEGORY METRICS -----------------------------------------
 
 overall = (
     reviews.groupby("Label")
@@ -80,7 +80,7 @@ overall["Std_Rating"]      = overall["Std_Rating"].round(2)
 overall["One_Star_Pct"]    = (overall["One_Star_Count"] / overall["Review_Count"] * 100).round(1)
 overall["Share_Of_Total"]  = (overall["Review_Count"] / len(reviews) * 100).round(1)
 
-# ── STEP 2: QUARTERLY TREND PER CATEGORY ─────────────────────────────────────
+# -- STEP 2: QUARTERLY TREND PER CATEGORY -------------------------------------
 
 quarterly = (
     reviews.groupby(["Quarter", "Label"])
@@ -93,7 +93,7 @@ quarterly = (
 quarterly["Avg_Rating"] = quarterly["Avg_Rating"].round(2)
 quarterly = quarterly.sort_values(["Label", "Quarter"])
 
-# ── STEP 3: TREND DIRECTION PER CATEGORY ─────────────────────────────────────
+# -- STEP 3: TREND DIRECTION PER CATEGORY -------------------------------------
 # Compare last 2 quarters vs prior 2 quarters for each category
 
 def get_trend(group):
@@ -113,11 +113,11 @@ def get_trend(group):
     change_pct = (recent - prior) / prior * 100
 
     if change_pct >= 30:
-        return "RISING ↑"
+        return "RISING (UP)"
     elif change_pct >= 10:
         return "INCREASING"
     elif change_pct <= -30:
-        return "DECLINING ↓"
+        return "DECLINING (DOWN)"
     elif change_pct <= -10:
         return "DECREASING"
     else:
@@ -131,7 +131,7 @@ trend_map = (
     .rename(columns={0: "Trend_Direction"})
 )
 
-# ── STEP 4: LINEAR REGRESSION ON RATING OVER TIME ────────────────────────────
+# -- STEP 4: LINEAR REGRESSION ON RATING OVER TIME ----------------------------
 # Is the average rating for each category improving or worsening?
 
 def rating_slope(group):
@@ -159,7 +159,7 @@ rating_slopes["Rating_Direction"] = rating_slopes["Rating_Slope"].apply(
     else "Insufficient Data"
 )
 
-# ── STEP 5: COMPOSITE SERVICE QUALITY SCORE ───────────────────────────────────
+# -- STEP 5: COMPOSITE SERVICE QUALITY SCORE -----------------------------------
 # Higher score = worse service quality (more attention needed)
 # Score = (5 - Avg_Rating) * log(Review_Count + 1) * one_star_weight
 
@@ -169,7 +169,7 @@ overall["Quality_Risk_Score"] = (
     * (1 + overall["One_Star_Pct"] / 100)
 ).round(2)
 
-# ── COMBINE ───────────────────────────────────────────────────────────────────
+# -- COMBINE -------------------------------------------------------------------
 
 final = (
     overall
@@ -179,11 +179,11 @@ final = (
 
 final = final.sort_values("Quality_Risk_Score", ascending=False).reset_index(drop=True)
 
-# ── PRINT RESULTS ─────────────────────────────────────────────────────────────
+# -- PRINT RESULTS -------------------------------------------------------------
 
 print("\nService Quality Analysis")
 print("=" * 80)
-print(f"\n{'Category':<16} {'Count':>6} {'Avg★':>6} {'1★%':>6} {'Trend':>12} {'Rating Dir':>12} {'Risk Score':>11}")
+print(f"\n{'Category':<16} {'Count':>6} {'AvgRating':>10} {'1StarPct':>9} {'Trend':>12} {'Rating Dir':>12} {'Risk Score':>11}")
 print("-" * 80)
 
 for _, row in final.iterrows():
@@ -199,16 +199,16 @@ for _, row in final.iterrows():
         f"{row['Quality_Risk_Score']:>11.2f}"
     )
 
-print("\n── Key Findings ──")
+print("\n-- Key Findings --")
 
 complaints = final[final["Label"].isin(COMPLAINT_CATEGORIES)]
 if not complaints.empty:
     worst = complaints.iloc[0]
     print(f"Highest risk category : {worst['Label']} "
           f"(score {worst['Quality_Risk_Score']:.2f}, "
-          f"avg rating {worst['Avg_Rating']:.2f}★)")
+          f"avg rating {worst['Avg_Rating']:.2f} stars)")
 
-rising = final[final["Trend_Direction"] == "RISING ↑"]
+rising = final[final["Trend_Direction"] == "RISING (UP)"]
 if not rising.empty:
     print(f"Rising complaint categories: {', '.join(rising['Label'].tolist())}")
 else:
@@ -220,7 +220,7 @@ if not worsening.empty:
 else:
     print("No categories showing worsening rating trend.")
 
-# ── SAVE ──────────────────────────────────────────────────────────────────────
+# -- SAVE ----------------------------------------------------------------------
 
 final.to_csv(os.path.join(REPORTS_DIR, "service_quality_analysis.csv"), index=False)
 quarterly.to_csv(os.path.join(REPORTS_DIR, "service_quality_trends.csv"), index=False)
