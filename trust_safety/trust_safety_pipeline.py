@@ -27,7 +27,21 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
-DB_PATH = "PraxisIQ.db"
+# ── CONFIG ────────────────────────────────────────────────────────────────────
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import (
+    DB_PATH,
+    REPORTS_DIR,
+    RISK_MAP,
+    CATEGORY_WEIGHT,
+    RECENCY_WINDOW_DAYS,
+    RECENCY_MULTIPLIER,
+    REPEAT_LOW_RATER_BONUS,
+    PRIORITY_MAP,
+    TIER_MAP,
+    SEVERITY_ORDER,
+)
 
 # ── PRE-FLIGHT ───────────────────────────────────────────────────────────────
 
@@ -36,7 +50,7 @@ if not os.path.exists(DB_PATH):
     print("Run create_database.py first.")
     sys.exit(1)
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
 print("\nTrust & Safety Pipeline")
 print("=" * 70)
@@ -62,18 +76,6 @@ print(f"Loaded {len(reviews)} reviews")
 
 # ── STEP 1: RISK CLASSIFICATION ───────────────────────────────────────────────
 
-# Category-level risk mapping
-RISK_MAP = {
-    "Treatment"    : "High Risk",
-    "Communication": "Needs Review",
-    "Waiting Time" : "Needs Review",
-    "Pricing"      : "Needs Review",
-    "Staff"        : "Needs Review",
-    "Neutral"      : "Safe",
-    "Positive"     : "Safe",
-}
-
-# Severity assignment — combines category AND rating
 def assign_severity(row):
     if row["Label"] == "Treatment" and row["Rating"] <= 2:
         return "Critical"
@@ -90,52 +92,26 @@ def assign_severity(row):
     else:
         return "Medium"
 
-PRIORITY_MAP = {
-    "Critical": "P1 — Immediate (< 4 hours)",
-    "High"    : "P2 — Same Day (< 24 hours)",
-    "Medium"  : "P3 — Weekly Batch",
-    "Low"     : "P4 — Monthly Review",
-    "Safe"    : "P5 — No Action Required",
-}
-
-TIER_MAP = {
-    "Critical": "TIER 1 — Immediate Review",
-    "High"    : "TIER 2 — Review within 24h",
-    "Medium"  : "TIER 3 — Weekly Batch",
-    "Low"     : "TIER 3 — Weekly Batch",
-    "Safe"    : "APPROVED — No Action",
-}
-
-reviews["Risk_Level"]     = reviews["Label"].map(RISK_MAP)
-reviews["Severity"]       = reviews.apply(assign_severity, axis=1)
-reviews["Priority"]       = reviews["Severity"].map(PRIORITY_MAP)
-reviews["Moderation_Tier"]= reviews["Severity"].map(TIER_MAP)
+reviews["Risk_Level"]      = reviews["Label"].map(RISK_MAP)
+reviews["Severity"]        = reviews.apply(assign_severity, axis=1)
+reviews["Priority"]        = reviews["Severity"].map(PRIORITY_MAP)
+reviews["Moderation_Tier"] = reviews["Severity"].map(TIER_MAP)
 
 # ── STEP 2: COMPOSITE RISK SCORE ─────────────────────────────────────────────
 
-CATEGORY_WEIGHT = {
-    "Treatment"    : 5,
-    "Communication": 4,
-    "Staff"        : 3,
-    "Waiting Time" : 2,
-    "Pricing"      : 2,
-    "Neutral"      : 1,
-    "Positive"     : 0,
-}
-
-# Recency: reviews in last 90 days get 1.5x weight
+# Recency multiplier — from config
 reviews["Review_Date_parsed"] = pd.to_datetime(reviews["Review_Date"], errors="coerce")
-cutoff_90d = pd.Timestamp.now() - pd.Timedelta(days=90)
+cutoff = pd.Timestamp.now() - pd.Timedelta(days=RECENCY_WINDOW_DAYS)
 reviews["Recency_Multiplier"] = reviews["Review_Date_parsed"].apply(
-    lambda d: 1.5 if pd.notna(d) and d >= cutoff_90d else 1.0
+    lambda d: RECENCY_MULTIPLIER if pd.notna(d) and d >= cutoff else 1.0
 )
 
 # Reviewer history: repeat low-rater flag
 reviewer_history = (
     reviews.groupby("Reviewer_Name")
     .agg(
-        Prior_Reviews        = ("Review_ID", "count"),
-        Historical_Avg_Rating= ("Rating", "mean")
+        Prior_Reviews         = ("Review_ID", "count"),
+        Historical_Avg_Rating = ("Rating", "mean")
     )
     .reset_index()
 )
@@ -152,12 +128,11 @@ reviews["Risk_Score"] = (
     reviews["Category_Weight"]
     * (6 - reviews["Rating"])
     * reviews["Recency_Multiplier"]
-    * (1 + 0.2 * reviews["Repeat_Low_Rater"])
+    * (1 + REPEAT_LOW_RATER_BONUS * reviews["Repeat_Low_Rater"])
 ).round(2)
 
 # ── STEP 3: CASE ID + QUEUE POSITION ─────────────────────────────────────────
 
-SEVERITY_ORDER = {"Critical": 1, "High": 2, "Medium": 3, "Low": 4, "Safe": 5}
 reviews["Severity_Order"] = reviews["Severity"].map(SEVERITY_ORDER)
 
 reviews_sorted = reviews.sort_values(
@@ -165,9 +140,9 @@ reviews_sorted = reviews.sort_values(
     ascending=[True, True, False]
 ).reset_index(drop=True)
 
-reviews_sorted["Case_ID"]       = [f"CASE_{i+1:04d}" for i in range(len(reviews_sorted))]
-reviews_sorted["Queue_Position"] = range(1, len(reviews_sorted) + 1)
-reviews_sorted["Status"]         = "Open"
+reviews_sorted["Case_ID"]        = [f"CASE_{i+1:04d}" for i in range(len(reviews_sorted))]
+reviews_sorted["Queue_Position"]  = range(1, len(reviews_sorted) + 1)
+reviews_sorted["Status"]          = "Open"
 
 # ── STEP 4: PRINT SUMMARY ─────────────────────────────────────────────────────
 
@@ -198,18 +173,12 @@ print(f"Total cases in moderation queue           : {len(reviews)}")
 
 # ── STEP 5: SAVE ALL OUTPUTS ──────────────────────────────────────────────────
 
-# 1. Trust & Safety Metrics summary
 total = len(reviews)
+
 metrics = pd.DataFrame({
     "Metric": [
-        "Total Reviews",
-        "Safe Reviews",
-        "Needs Review",
-        "High Risk Reviews",
-        "Safe %",
-        "Needs Review %",
-        "High Risk %",
-        "Critical Cases",
+        "Total Reviews", "Safe Reviews", "Needs Review", "High Risk Reviews",
+        "Safe %", "Needs Review %", "High Risk %", "Critical Cases",
         "Avg Risk Score (non-safe)",
     ],
     "Value": [
@@ -224,9 +193,8 @@ metrics = pd.DataFrame({
         round(reviews[reviews["Risk_Level"] != "Safe"]["Risk_Score"].mean(), 2),
     ]
 })
-metrics.to_csv("reports/trust_safety_metrics.csv", index=False)
+metrics.to_csv(os.path.join(REPORTS_DIR, "trust_safety_metrics.csv"), index=False)
 
-# 2. Risk summary by category
 risk_summary = (
     reviews.groupby(["Label", "Risk_Level"])
     .agg(Count=("Review_ID", "count"), Avg_Rating=("Rating", "mean"))
@@ -234,39 +202,35 @@ risk_summary = (
     .sort_values("Count", ascending=False)
 )
 risk_summary["Avg_Rating"] = risk_summary["Avg_Rating"].round(2)
-risk_summary.to_csv("reports/trust_safety_risk_summary.csv", index=False)
+risk_summary.to_csv(os.path.join(REPORTS_DIR, "trust_safety_risk_summary.csv"), index=False)
 
-# 3. Full moderation queue
 moderation_cols = [
     "Case_ID", "Queue_Position", "Moderation_Tier", "Severity", "Priority",
     "Review_ID", "Reviewer_Name", "Review_Date", "Rating", "Label",
     "Risk_Level", "Risk_Score", "Repeat_Low_Rater", "Review_Text"
 ]
-reviews_sorted[moderation_cols].to_csv("reports/moderation_queue.csv", index=False)
+reviews_sorted[moderation_cols].to_csv(os.path.join(REPORTS_DIR, "moderation_queue.csv"), index=False)
 
-# 4. Case management queue (P1 and P2 only)
 case_mgmt = reviews_sorted[
     reviews_sorted["Severity"].isin(["Critical", "High"])
 ][moderation_cols].copy()
-case_mgmt.to_csv("reports/case_management_queue.csv", index=False)
+case_mgmt.to_csv(os.path.join(REPORTS_DIR, "case_management_queue.csv"), index=False)
 
-# 5. Risk escalation queue
-reviews_sorted[moderation_cols].to_csv("reports/risk_escalation_queue.csv", index=False)
+reviews_sorted[moderation_cols].to_csv(os.path.join(REPORTS_DIR, "risk_escalation_queue.csv"), index=False)
 
-# 6. Severity distribution
 sev_dist = (
     reviews["Severity"]
     .value_counts()
     .reset_index()
     .rename(columns={"index": "Severity", "Severity": "Count"})
 )
-sev_dist.to_csv("reports/severity_distribution.csv", index=False)
+sev_dist.to_csv(os.path.join(REPORTS_DIR, "severity_distribution.csv"), index=False)
 
 print("\nSaved:")
-print("  reports/trust_safety_metrics.csv")
-print("  reports/trust_safety_risk_summary.csv")
-print("  reports/moderation_queue.csv")
-print("  reports/case_management_queue.csv")
-print("  reports/risk_escalation_queue.csv")
-print("  reports/severity_distribution.csv")
+print(f"  {REPORTS_DIR}/trust_safety_metrics.csv")
+print(f"  {REPORTS_DIR}/trust_safety_risk_summary.csv")
+print(f"  {REPORTS_DIR}/moderation_queue.csv")
+print(f"  {REPORTS_DIR}/case_management_queue.csv")
+print(f"  {REPORTS_DIR}/risk_escalation_queue.csv")
+print(f"  {REPORTS_DIR}/severity_distribution.csv")
 print("\nPipeline complete.")

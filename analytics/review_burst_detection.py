@@ -27,33 +27,35 @@ import sys
 import sqlite3
 import pandas as pd
 
-DB_PATH = "PraxisIQ.db"
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import (
+    DB_PATH,
+    REPORTS_DIR,
+    BURST_STATIC_SIGMA,
+    BURST_ROLLING_WINDOW,
+    BURST_ROLLING_MULTIPLIER,
+    COMPLAINT_CATEGORIES,
+)
 
 if not os.path.exists(DB_PATH):
     print(f"[ERROR] Database not found: {DB_PATH}")
     print("Run create_database.py first.")
     sys.exit(1)
 
-os.makedirs("reports", exist_ok=True)
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
 print("\nReview Burst Detection")
 print("=" * 60)
 
 conn = sqlite3.connect(DB_PATH)
-
 reviews = pd.read_sql_query(
     """
-    SELECT
-        Review_ID,
-        Review_Date,
-        Rating,
-        Label
+    SELECT Review_ID, Review_Date, Rating, Label
     FROM Reviews
     ORDER BY Review_Date
     """,
     conn,
 )
-
 conn.close()
 
 reviews["Review_Date"] = pd.to_datetime(reviews["Review_Date"], format="mixed")
@@ -64,39 +66,37 @@ reviews["Review_Day"]  = reviews["Review_Date"].dt.date
 daily = (
     reviews.groupby("Review_Day")
     .agg(
-        Review_Count    = ("Review_ID", "count"),
-        Avg_Rating      = ("Rating",    "mean"),
-        Negative_Count  = ("Label",     lambda x: x.isin(
-            ["Treatment", "Communication", "Waiting Time", "Pricing", "Staff"]
-        ).sum()),
+        Review_Count   = ("Review_ID", "count"),
+        Avg_Rating     = ("Rating",    "mean"),
+        Negative_Count = ("Label",     lambda x: x.isin(COMPLAINT_CATEGORIES).sum()),
     )
     .reset_index()
 )
 
-daily["Review_Day"]      = pd.to_datetime(daily["Review_Day"])
-daily["Negative_Rate"]   = (daily["Negative_Count"] / daily["Review_Count"] * 100).round(1)
+daily["Review_Day"]    = pd.to_datetime(daily["Review_Day"])
+daily["Negative_Rate"] = (daily["Negative_Count"] / daily["Review_Count"] * 100).round(1)
 
-# ── METHOD 1: STATIC THRESHOLD (mean + 2σ) ───────────────────────────────────
+# ── METHOD 1: STATIC THRESHOLD (mean + Nσ) ────────────────────────────────────
 
-mean_daily = daily["Review_Count"].mean()
-std_daily  = daily["Review_Count"].std()
-static_threshold = mean_daily + 2 * std_daily
+mean_daily       = daily["Review_Count"].mean()
+std_daily        = daily["Review_Count"].std()
+static_threshold = mean_daily + BURST_STATIC_SIGMA * std_daily
 
 daily["Flag_Static"] = daily["Review_Count"] > static_threshold
 
-# ── METHOD 2: ROLLING 7-DAY WINDOW ───────────────────────────────────────────
+# ── METHOD 2: ROLLING WINDOW ──────────────────────────────────────────────────
 
 daily = daily.sort_values("Review_Day").reset_index(drop=True)
 daily["Rolling_7d_Avg"] = (
     daily["Review_Count"]
-    .rolling(window=7, min_periods=1)
+    .rolling(window=BURST_ROLLING_WINDOW, min_periods=1)
     .mean()
-    .shift(1)                    # compare today against the PRIOR 7-day average
+    .shift(1)
     .fillna(daily["Review_Count"].mean())
     .round(2)
 )
 
-daily["Flag_Rolling"] = daily["Review_Count"] > (daily["Rolling_7d_Avg"] * 2)
+daily["Flag_Rolling"] = daily["Review_Count"] > (daily["Rolling_7d_Avg"] * BURST_ROLLING_MULTIPLIER)
 
 # ── COMBINE FLAGS ─────────────────────────────────────────────────────────────
 
@@ -125,7 +125,8 @@ print(f"\nDate range    : {daily['Review_Day'].min().date()} → {daily['Review_
 print(f"Total days    : {len(daily)}")
 print(f"Mean per day  : {mean_daily:.2f}")
 print(f"Std deviation : {std_daily:.2f}")
-print(f"Static threshold (mean+2σ): {static_threshold:.2f} reviews/day")
+print(f"Static threshold (mean+{BURST_STATIC_SIGMA}σ): {static_threshold:.2f} reviews/day")
+print(f"Rolling window: {BURST_ROLLING_WINDOW} days · multiplier: {BURST_ROLLING_MULTIPLIER}×")
 print(f"\nBurst days detected  : {len(bursts)}")
 print(f"  Via static threshold : {daily['Flag_Static'].sum()}")
 print(f"  Via rolling window   : {daily['Flag_Rolling'].sum()}")
@@ -152,10 +153,7 @@ else:
 
 monthly = (
     reviews.groupby(reviews["Review_Date"].dt.to_period("M"))
-    .agg(
-        Monthly_Count   = ("Review_ID", "count"),
-        Avg_Rating      = ("Rating",    "mean"),
-    )
+    .agg(Monthly_Count=("Review_ID", "count"), Avg_Rating=("Rating", "mean"))
     .reset_index()
 )
 monthly["Review_Date"] = monthly["Review_Date"].astype(str)
@@ -171,30 +169,23 @@ save_cols = [
     "Negative_Rate", "Dominant_Category", "Rolling_7d_Avg",
     "Flag_Static", "Flag_Rolling", "Burst_Detected"
 ]
-daily[save_cols].to_csv("reports/review_burst_detection.csv", index=False)
+daily[save_cols].to_csv(os.path.join(REPORTS_DIR, "review_burst_detection.csv"), index=False)
 
 summary = pd.DataFrame({
     "Metric": [
-        "Total Review Days",
-        "Mean Reviews Per Day",
-        "Static Threshold (mean+2σ)",
-        "Burst Days (static)",
-        "Burst Days (rolling 7d)",
-        "Total Burst Days",
-        "Negative-Skewed Bursts",
+        "Total Review Days", "Mean Reviews Per Day",
+        f"Static Threshold (mean+{BURST_STATIC_SIGMA}σ)",
+        "Burst Days (static)", "Burst Days (rolling 7d)",
+        "Total Burst Days", "Negative-Skewed Bursts",
     ],
     "Value": [
-        len(daily),
-        round(mean_daily, 2),
-        round(static_threshold, 2),
-        int(daily["Flag_Static"].sum()),
-        int(daily["Flag_Rolling"].sum()),
-        int(len(bursts)),
-        int(len(bursts[bursts["Negative_Rate"] > 50])),
+        len(daily), round(mean_daily, 2), round(static_threshold, 2),
+        int(daily["Flag_Static"].sum()), int(daily["Flag_Rolling"].sum()),
+        int(len(bursts)), int(len(bursts[bursts["Negative_Rate"] > 50])),
     ]
 })
-summary.to_csv("reports/review_burst_summary.csv", index=False)
+summary.to_csv(os.path.join(REPORTS_DIR, "review_burst_summary.csv"), index=False)
 
 print("\nSaved:")
-print("  reports/review_burst_detection.csv")
-print("  reports/review_burst_summary.csv")
+print(f"  {REPORTS_DIR}/review_burst_detection.csv")
+print(f"  {REPORTS_DIR}/review_burst_summary.csv")
