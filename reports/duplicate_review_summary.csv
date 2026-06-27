@@ -1,0 +1,4 @@
+Method,Flags_Found,Description
+Exact Match,0,Reviews with identical normalized text
+Fuzzy Match (≥85%),0,Reviews with ≥85% character-level similarity (SequenceMatcher)
+Same Reviewer Same Day,0,Same reviewer submitted multiple reviews on the same date

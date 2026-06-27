@@ -5,58 +5,58 @@ Month,Treatment_Type,Visit_Count
 2020-10,Root Canal,3
 2020-10,Scaling,1
 2020-10,Tooth Extraction,4
-2020-11,Braces,1
 2020-11,Consultation,3
 2020-11,Crown/Cap,6
 2020-11,Filling,7
-2020-11,Gum Surgery,2
+2020-11,Gum Treatment,2
 2020-11,Implant,1
+2020-11,Metal Braces Treatment,1
 2020-11,Partial Denture,1
 2020-11,Pediatric Dental,1
 2020-11,Root Canal,16
 2020-11,Scaling,4
 2020-11,Teeth Whitening,1
 2020-11,Tooth Extraction,9
-2020-12,Braces,4
 2020-12,Consultation,5
 2020-12,Crown/Cap,4
-2020-12,Deep Cleaning,1
+2020-12,Deep Scaling and Root Planing,1
 2020-12,Filling,3
+2020-12,Metal Braces Treatment,4
 2020-12,Pediatric Dental,1
 2020-12,Root Canal,5
 2020-12,Teeth Cleaning,2
 2020-12,Tooth Extraction,5
-2021-01,Aligners,2
-2021-01,Braces,5
+2021-01,Aligner,2
 2021-01,Consultation,1
 2021-01,Crown/Cap,3
-2021-01,Deep Cleaning,1
+2021-01,Deep Scaling and Root Planing,1
 2021-01,Filling,3
 2021-01,Implant,2
+2021-01,Metal Braces Treatment,5
 2021-01,Pediatric Dental,6
 2021-01,Root Canal,1
 2021-01,Scaling,4
 2021-01,Teeth Cleaning,1
 2021-01,Tooth Extraction,14
-2021-02,Aligners,4
-2021-02,Braces,9
+2021-02,Aligner,4
 2021-02,Consultation,6
 2021-02,Crown/Cap,1
-2021-02,Deep Cleaning,2
+2021-02,Deep Scaling and Root Planing,2
 2021-02,Filling,1
 2021-02,Gum Treatment,3
 2021-02,Implant,1
+2021-02,Metal Braces Treatment,9
 2021-02,Pediatric Dental,2
 2021-02,Root Canal,14
 2021-02,Scaling,2
 2021-02,Teeth Whitening,1
 2021-02,Tooth Extraction,18
-2021-03,Aligners,3
-2021-03,Braces,2
+2021-03,Aligner,3
 2021-03,Consultation,8
 2021-03,Filling,1
 2021-03,Gum Treatment,2
 2021-03,Implant,2
+2021-03,Metal Braces Treatment,2
 2021-03,Pediatric Dental,2
 2021-03,Root Canal,16
 2021-03,Scaling,3
@@ -73,10 +73,10 @@ Month,Treatment_Type,Visit_Count
 2021-06,Tooth Extraction,1
 2021-07,Consultation,1
 2021-07,Tooth Extraction,1
-2021-08,Braces,3
 2021-08,Consultation,2
 2021-08,Filling,1
 2021-08,Implant,1
+2021-08,Metal Braces Treatment,3
 2021-08,Scaling,2
 2021-08,Tooth Extraction,4
 2021-09,Consultation,1
@@ -111,56 +111,44 @@ Month,Treatment_Type,Visit_Count
 2022-02,Teeth Whitening,1
 2022-02,Tooth Extraction,2
 2022-03,Aligner,2
-2022-03,Ceramic Braces Treatment,2
 2022-03,Consultation,15
 2022-03,Fixed Bridge,2
 2022-03,Implant,1
-2022-03,Metal Braces Treatment,5
+2022-03,Metal Braces Treatment,7
 2022-03,Orthodontic Consultation,1
 2022-03,Partial Denture,1
 2022-03,Root Canal,6
 2022-03,Scaling and Polishing,3
 2022-03,Teeth Whitening,1
-2022-03,Tooth Extraction,7
-2022-03,Wisdom Tooth Extraction,1
+2022-03,Tooth Extraction,8
 2022-04,Aligner,2
-2022-04,Braces,2
-2022-04,Ceramic Braces Treatment,1
 2022-04,Complete Denture,3
 2022-04,Consultation,22
 2022-04,Crown/Cap,4
 2022-04,Filling,1
 2022-04,Fixed Bridge,3
-2022-04,Metal Braces Treatment,5
+2022-04,Metal Braces Treatment,8
 2022-04,Orthodontic Consultation,1
 2022-04,Partial Denture,1
 2022-04,Root Canal,4
 2022-04,Scaling and Polishing,5
 2022-04,Teeth Whitening,3
-2022-04,Tooth Extraction,5
-2022-04,Wisdom Tooth Extraction,3
-2022-05,Aligner,3
-2022-05,Aligners,1
-2022-05,Braces,2
-2022-05,Ceramic Braces Treatment,2
+2022-04,Tooth Extraction,8
+2022-05,Aligner,4
 2022-05,Complete Denture,4
 2022-05,Consultation,18
 2022-05,Filling,4
 2022-05,Fixed Bridge,8
 2022-05,Implant,5
-2022-05,Metal Braces Treatment,1
+2022-05,Metal Braces Treatment,5
 2022-05,Orthodontic Consultation,5
 2022-05,Partial Denture,2
 2022-05,Root Canal,7
 2022-05,Scaling and Polishing,8
 2022-05,Teeth Cleaning,1
 2022-05,Teeth Whitening,3
-2022-05,Tooth Extraction,2
-2022-05,Wisdom Tooth Extraction,3
-2022-06,Aligner,1
-2022-06,Aligners,2
-2022-06,Braces,2
-2022-06,Ceramic Braces Treatment,1
+2022-05,Tooth Extraction,5
+2022-06,Aligner,3
 2022-06,Complete Denture,1
 2022-06,Consultation,16
 2022-06,Crown/Cap,4
@@ -168,32 +156,28 @@ Month,Treatment_Type,Visit_Count
 2022-06,Filling,5
 2022-06,Fixed Bridge,2
 2022-06,Implant,5
-2022-06,Metal Braces Treatment,6
+2022-06,Metal Braces Treatment,9
 2022-06,Orthodontic Consultation,2
 2022-06,Partial Denture,3
 2022-06,Root Canal,4
 2022-06,Scaling and Polishing,6
 2022-06,Teeth Whitening,4
-2022-06,Tooth Extraction,1
-2022-06,Wisdom Tooth Extraction,2
+2022-06,Tooth Extraction,3
 2022-07,Aligner,3
-2022-07,Ceramic Braces Treatment,3
 2022-07,Complete Denture,7
 2022-07,Consultation,12
 2022-07,Deep Scaling and Root Planing,1
 2022-07,Filling,4
 2022-07,Fixed Bridge,4
 2022-07,Implant,3
-2022-07,Metal Braces Treatment,7
+2022-07,Metal Braces Treatment,10
 2022-07,Orthodontic Consultation,2
 2022-07,Partial Denture,2
 2022-07,Root Canal,3
 2022-07,Scaling and Polishing,7
 2022-07,Teeth Whitening,4
-2022-07,Tooth Extraction,3
-2022-07,Wisdom Tooth Extraction,3
-2022-08,Aligner,2
-2022-08,Aligners,1
+2022-07,Tooth Extraction,6
+2022-08,Aligner,3
 2022-08,Complete Denture,5
 2022-08,Consultation,14
 2022-08,Deep Scaling and Root Planing,2
@@ -206,10 +190,8 @@ Month,Treatment_Type,Visit_Count
 2022-08,Root Canal,3
 2022-08,Scaling and Polishing,6
 2022-08,Teeth Whitening,4
-2022-08,Tooth Extraction,4
-2022-08,Wisdom Tooth Extraction,5
+2022-08,Tooth Extraction,9
 2022-09,Aligner,2
-2022-09,Ceramic Braces Treatment,4
 2022-09,Complete Denture,4
 2022-09,Consultation,14
 2022-09,Crown/Cap,3
@@ -217,16 +199,14 @@ Month,Treatment_Type,Visit_Count
 2022-09,Filling,4
 2022-09,Fixed Bridge,4
 2022-09,Implant,1
-2022-09,Metal Braces Treatment,6
+2022-09,Metal Braces Treatment,10
 2022-09,Orthodontic Consultation,1
 2022-09,Partial Denture,3
 2022-09,Root Canal,7
 2022-09,Scaling and Polishing,7
 2022-09,Teeth Whitening,1
-2022-09,Tooth Extraction,7
-2022-09,Wisdom Tooth Extraction,8
+2022-09,Tooth Extraction,15
 2022-10,Aligner,4
-2022-10,Ceramic Braces Treatment,3
 2022-10,Complete Denture,7
 2022-10,Consultation,12
 2022-10,Crown/Cap,1
@@ -234,16 +214,14 @@ Month,Treatment_Type,Visit_Count
 2022-10,Filling,2
 2022-10,Fixed Bridge,13
 2022-10,Implant,3
-2022-10,Metal Braces Treatment,2
+2022-10,Metal Braces Treatment,5
 2022-10,Orthodontic Consultation,5
 2022-10,Partial Denture,3
 2022-10,Root Canal,3
 2022-10,Scaling and Polishing,7
 2022-10,Teeth Whitening,4
-2022-10,Tooth Extraction,4
-2022-10,Wisdom Tooth Extraction,9
+2022-10,Tooth Extraction,13
 2022-11,Aligner,5
-2022-11,Ceramic Braces Treatment,5
 2022-11,Complete Denture,5
 2022-11,Consultation,9
 2022-11,Crown/Cap,2
@@ -251,65 +229,56 @@ Month,Treatment_Type,Visit_Count
 2022-11,Filling,6
 2022-11,Fixed Bridge,9
 2022-11,Implant,2
-2022-11,Metal Braces Treatment,2
+2022-11,Metal Braces Treatment,7
 2022-11,Orthodontic Consultation,6
 2022-11,Partial Denture,2
 2022-11,Root Canal,1
 2022-11,Scaling and Polishing,3
 2022-11,Teeth Whitening,5
-2022-11,Tooth Extraction,1
-2022-11,Wisdom Tooth Extraction,10
+2022-11,Tooth Extraction,11
 2022-12,Aligner,3
-2022-12,Ceramic Braces Treatment,6
 2022-12,Complete Denture,4
 2022-12,Consultation,14
 2022-12,Deep Scaling and Root Planing,2
 2022-12,Filling,2
 2022-12,Fixed Bridge,10
 2022-12,Implant,6
-2022-12,Metal Braces Treatment,5
+2022-12,Metal Braces Treatment,11
 2022-12,Orthodontic Consultation,7
 2022-12,Partial Denture,4
 2022-12,Root Canal,5
 2022-12,Scaling and Polishing,3
 2022-12,Teeth Whitening,3
-2022-12,Tooth Extraction,7
-2022-12,Wisdom Tooth Extraction,8
+2022-12,Tooth Extraction,15
 2023-01,Aligner,4
-2023-01,Ceramic Braces Treatment,2
 2023-01,Complete Denture,5
 2023-01,Consultation,12
 2023-01,Deep Scaling and Root Planing,8
 2023-01,Filling,4
 2023-01,Fixed Bridge,14
 2023-01,Implant,1
-2023-01,Metal Braces Treatment,7
+2023-01,Metal Braces Treatment,9
 2023-01,Orthodontic Consultation,3
 2023-01,Partial Denture,5
 2023-01,Root Canal,5
 2023-01,Scaling and Polishing,5
 2023-01,Teeth Whitening,5
-2023-01,Tooth Extraction,3
-2023-01,Wisdom Tooth Extraction,10
-2023-02,Aligner,9
-2023-02,Aligners,1
-2023-02,Ceramic Braces Treatment,3
+2023-01,Tooth Extraction,13
+2023-02,Aligner,10
 2023-02,Complete Denture,3
 2023-02,Consultation,14
 2023-02,Deep Scaling and Root Planing,2
 2023-02,Filling,4
 2023-02,Fixed Bridge,5
 2023-02,Implant,2
-2023-02,Metal Braces Treatment,4
+2023-02,Metal Braces Treatment,7
 2023-02,Orthodontic Consultation,2
 2023-02,Partial Denture,2
 2023-02,Root Canal,3
 2023-02,Scaling and Polishing,3
 2023-02,Teeth Whitening,4
-2023-02,Tooth Extraction,4
-2023-02,Wisdom Tooth Extraction,6
+2023-02,Tooth Extraction,10
 2023-03,Aligner,4
-2023-03,Ceramic Braces Treatment,4
 2023-03,Complete Denture,5
 2023-03,Consultation,11
 2023-03,Crown/Cap,3
@@ -317,18 +286,15 @@ Month,Treatment_Type,Visit_Count
 2023-03,Filling,4
 2023-03,Fixed Bridge,7
 2023-03,Implant,1
-2023-03,Metal Braces Treatment,4
+2023-03,Metal Braces Treatment,8
 2023-03,Orthodontic Consultation,3
 2023-03,Partial Denture,4
 2023-03,Root Canal,5
 2023-03,Scaling and Polishing,6
 2023-03,Teeth Cleaning,1
 2023-03,Teeth Whitening,6
-2023-03,Tooth Extraction,3
-2023-03,Wisdom Tooth Extraction,8
-2023-04,Aligner,9
-2023-04,Aligners,1
-2023-04,Ceramic Braces Treatment,5
+2023-03,Tooth Extraction,11
+2023-04,Aligner,10
 2023-04,Complete Denture,8
 2023-04,Consultation,19
 2023-04,Crown/Cap,1
@@ -336,16 +302,14 @@ Month,Treatment_Type,Visit_Count
 2023-04,Filling,5
 2023-04,Fixed Bridge,8
 2023-04,Implant,5
-2023-04,Metal Braces Treatment,2
+2023-04,Metal Braces Treatment,7
 2023-04,Orthodontic Consultation,1
 2023-04,Partial Denture,5
 2023-04,Root Canal,8
 2023-04,Scaling and Polishing,3
 2023-04,Teeth Whitening,3
-2023-04,Tooth Extraction,4
-2023-04,Wisdom Tooth Extraction,8
+2023-04,Tooth Extraction,12
 2023-05,Aligner,6
-2023-05,Ceramic Braces Treatment,5
 2023-05,Complete Denture,8
 2023-05,Consultation,19
 2023-05,Crown/Cap,4
@@ -353,13 +317,12 @@ Month,Treatment_Type,Visit_Count
 2023-05,Filling,6
 2023-05,Fixed Bridge,3
 2023-05,Implant,6
-2023-05,Metal Braces Treatment,4
+2023-05,Metal Braces Treatment,9
 2023-05,Orthodontic Consultation,2
 2023-05,Partial Denture,6
 2023-05,Root Canal,7
 2023-05,Scaling and Polishing,4
-2023-05,Tooth Extraction,3
-2023-05,Wisdom Tooth Extraction,5
+2023-05,Tooth Extraction,8
 2023-06,Aligner,4
 2023-06,Complete Denture,4
 2023-06,Consultation,18
@@ -375,10 +338,8 @@ Month,Treatment_Type,Visit_Count
 2023-06,Root Canal,7
 2023-06,Scaling and Polishing,7
 2023-06,Teeth Whitening,5
-2023-06,Tooth Extraction,1
-2023-06,Wisdom Tooth Extraction,6
+2023-06,Tooth Extraction,7
 2023-07,Aligner,10
-2023-07,Ceramic Braces Treatment,3
 2023-07,Complete Denture,9
 2023-07,Consultation,12
 2023-07,Crown/Cap,4
@@ -386,16 +347,14 @@ Month,Treatment_Type,Visit_Count
 2023-07,Filling,5
 2023-07,Fixed Bridge,4
 2023-07,Implant,7
-2023-07,Metal Braces Treatment,3
+2023-07,Metal Braces Treatment,6
 2023-07,Orthodontic Consultation,3
 2023-07,Partial Denture,8
 2023-07,Root Canal,4
 2023-07,Scaling and Polishing,6
 2023-07,Teeth Whitening,5
-2023-07,Tooth Extraction,3
-2023-07,Wisdom Tooth Extraction,8
+2023-07,Tooth Extraction,11
 2023-08,Aligner,6
-2023-08,Ceramic Braces Treatment,1
 2023-08,Complete Denture,13
 2023-08,Consultation,13
 2023-08,Crown/Cap,1
@@ -403,16 +362,14 @@ Month,Treatment_Type,Visit_Count
 2023-08,Filling,4
 2023-08,Fixed Bridge,7
 2023-08,Implant,2
-2023-08,Metal Braces Treatment,1
+2023-08,Metal Braces Treatment,2
 2023-08,Orthodontic Consultation,1
 2023-08,Partial Denture,8
 2023-08,Root Canal,5
 2023-08,Scaling and Polishing,6
 2023-08,Teeth Whitening,3
-2023-08,Tooth Extraction,4
-2023-08,Wisdom Tooth Extraction,2
+2023-08,Tooth Extraction,6
 2023-09,Aligner,8
-2023-09,Ceramic Braces Treatment,2
 2023-09,Complete Denture,8
 2023-09,Consultation,15
 2023-09,Crown/Cap,1
@@ -420,16 +377,14 @@ Month,Treatment_Type,Visit_Count
 2023-09,Filling,7
 2023-09,Fixed Bridge,7
 2023-09,Implant,4
-2023-09,Metal Braces Treatment,5
+2023-09,Metal Braces Treatment,7
 2023-09,Orthodontic Consultation,4
 2023-09,Partial Denture,4
 2023-09,Root Canal,4
 2023-09,Scaling and Polishing,13
 2023-09,Teeth Whitening,4
-2023-09,Tooth Extraction,4
-2023-09,Wisdom Tooth Extraction,4
+2023-09,Tooth Extraction,8
 2023-10,Aligner,6
-2023-10,Ceramic Braces Treatment,2
 2023-10,Complete Denture,8
 2023-10,Consultation,11
 2023-10,Crown/Cap,1
@@ -437,16 +392,14 @@ Month,Treatment_Type,Visit_Count
 2023-10,Filling,7
 2023-10,Fixed Bridge,4
 2023-10,Implant,2
-2023-10,Metal Braces Treatment,4
+2023-10,Metal Braces Treatment,6
 2023-10,Orthodontic Consultation,8
 2023-10,Partial Denture,5
 2023-10,Root Canal,4
 2023-10,Scaling and Polishing,6
 2023-10,Teeth Whitening,7
-2023-10,Tooth Extraction,3
-2023-10,Wisdom Tooth Extraction,5
+2023-10,Tooth Extraction,8
 2023-11,Aligner,6
-2023-11,Ceramic Braces Treatment,3
 2023-11,Complete Denture,7
 2023-11,Consultation,10
 2023-11,Crown/Cap,1
@@ -454,34 +407,29 @@ Month,Treatment_Type,Visit_Count
 2023-11,Filling,10
 2023-11,Fixed Bridge,7
 2023-11,Implant,5
-2023-11,Metal Braces Treatment,2
+2023-11,Metal Braces Treatment,5
 2023-11,Orthodontic Consultation,1
 2023-11,Partial Denture,5
 2023-11,Root Canal,3
 2023-11,Scaling and Polishing,3
 2023-11,Teeth Whitening,4
-2023-11,Tooth Extraction,5
-2023-11,Wisdom Tooth Extraction,6
+2023-11,Tooth Extraction,11
 2023-12,Aligner,10
-2023-12,Ceramic Braces Treatment,2
 2023-12,Complete Denture,7
 2023-12,Consultation,8
 2023-12,Crown/Cap,3
-2023-12,Deep Cleaning,1
-2023-12,Deep Scaling and Root Planing,4
+2023-12,Deep Scaling and Root Planing,5
 2023-12,Filling,3
 2023-12,Fixed Bridge,3
 2023-12,Implant,1
-2023-12,Metal Braces Treatment,5
+2023-12,Metal Braces Treatment,7
 2023-12,Orthodontic Consultation,5
 2023-12,Partial Denture,4
 2023-12,Root Canal,8
 2023-12,Scaling and Polishing,3
 2023-12,Teeth Whitening,8
-2023-12,Tooth Extraction,7
-2023-12,Wisdom Tooth Extraction,2
+2023-12,Tooth Extraction,9
 2024-01,Aligner,5
-2024-01,Ceramic Braces Treatment,4
 2024-01,Complete Denture,6
 2024-01,Consultation,15
 2024-01,Crown/Cap,2
@@ -489,7 +437,7 @@ Month,Treatment_Type,Visit_Count
 2024-01,Filling,11
 2024-01,Fixed Bridge,5
 2024-01,Implant,4
-2024-01,Metal Braces Treatment,6
+2024-01,Metal Braces Treatment,10
 2024-01,Orthodontic Consultation,7
 2024-01,Partial Denture,1
 2024-01,Root Canal,2
@@ -497,23 +445,20 @@ Month,Treatment_Type,Visit_Count
 2024-01,Teeth Whitening,11
 2024-01,Tooth Extraction,6
 2024-02,Aligner,6
-2024-02,Ceramic Braces Treatment,6
 2024-02,Complete Denture,4
 2024-02,Consultation,10
 2024-02,Deep Scaling and Root Planing,1
 2024-02,Filling,4
 2024-02,Fixed Bridge,4
 2024-02,Implant,7
-2024-02,Metal Braces Treatment,6
+2024-02,Metal Braces Treatment,12
 2024-02,Orthodontic Consultation,3
 2024-02,Partial Denture,2
 2024-02,Root Canal,4
 2024-02,Scaling and Polishing,5
 2024-02,Teeth Whitening,6
-2024-02,Tooth Extraction,6
-2024-02,Wisdom Tooth Extraction,5
+2024-02,Tooth Extraction,11
 2024-03,Aligner,6
-2024-03,Ceramic Braces Treatment,9
 2024-03,Complete Denture,1
 2024-03,Consultation,12
 2024-03,Crown/Cap,3
@@ -521,32 +466,28 @@ Month,Treatment_Type,Visit_Count
 2024-03,Filling,4
 2024-03,Fixed Bridge,6
 2024-03,Implant,11
-2024-03,Metal Braces Treatment,8
+2024-03,Metal Braces Treatment,17
 2024-03,Orthodontic Consultation,5
 2024-03,Partial Denture,4
 2024-03,Root Canal,4
 2024-03,Scaling and Polishing,6
 2024-03,Teeth Whitening,7
-2024-03,Tooth Extraction,4
-2024-03,Wisdom Tooth Extraction,3
+2024-03,Tooth Extraction,7
 2024-04,Aligner,2
-2024-04,Ceramic Braces Treatment,9
 2024-04,Complete Denture,1
 2024-04,Consultation,13
 2024-04,Deep Scaling and Root Planing,1
 2024-04,Filling,5
 2024-04,Fixed Bridge,5
 2024-04,Implant,6
-2024-04,Metal Braces Treatment,4
+2024-04,Metal Braces Treatment,13
 2024-04,Orthodontic Consultation,4
 2024-04,Partial Denture,6
 2024-04,Root Canal,10
 2024-04,Scaling and Polishing,4
 2024-04,Teeth Whitening,9
-2024-04,Tooth Extraction,2
-2024-04,Wisdom Tooth Extraction,6
+2024-04,Tooth Extraction,8
 2024-05,Aligner,7
-2024-05,Ceramic Braces Treatment,7
 2024-05,Complete Denture,2
 2024-05,Consultation,10
 2024-05,Crown/Cap,3
@@ -554,16 +495,14 @@ Month,Treatment_Type,Visit_Count
 2024-05,Filling,2
 2024-05,Fixed Bridge,1
 2024-05,Implant,4
-2024-05,Metal Braces Treatment,6
+2024-05,Metal Braces Treatment,13
 2024-05,Orthodontic Consultation,3
 2024-05,Partial Denture,8
 2024-05,Root Canal,7
 2024-05,Scaling and Polishing,2
 2024-05,Teeth Whitening,8
-2024-05,Tooth Extraction,7
-2024-05,Wisdom Tooth Extraction,3
+2024-05,Tooth Extraction,10
 2024-06,Aligner,3
-2024-06,Ceramic Braces Treatment,8
 2024-06,Complete Denture,1
 2024-06,Consultation,17
 2024-06,Crown/Cap,3
@@ -571,32 +510,28 @@ Month,Treatment_Type,Visit_Count
 2024-06,Filling,5
 2024-06,Fixed Bridge,3
 2024-06,Implant,7
-2024-06,Metal Braces Treatment,3
+2024-06,Metal Braces Treatment,11
 2024-06,Orthodontic Consultation,4
 2024-06,Partial Denture,9
 2024-06,Root Canal,4
 2024-06,Scaling and Polishing,4
 2024-06,Teeth Whitening,7
-2024-06,Tooth Extraction,2
-2024-06,Wisdom Tooth Extraction,7
+2024-06,Tooth Extraction,9
 2024-07,Aligner,5
-2024-07,Ceramic Braces Treatment,4
 2024-07,Complete Denture,2
 2024-07,Consultation,10
 2024-07,Deep Scaling and Root Planing,1
 2024-07,Filling,2
 2024-07,Fixed Bridge,2
 2024-07,Implant,7
-2024-07,Metal Braces Treatment,6
+2024-07,Metal Braces Treatment,10
 2024-07,Orthodontic Consultation,3
 2024-07,Partial Denture,6
 2024-07,Root Canal,5
 2024-07,Scaling and Polishing,4
 2024-07,Teeth Whitening,7
-2024-07,Tooth Extraction,3
-2024-07,Wisdom Tooth Extraction,3
+2024-07,Tooth Extraction,6
 2024-08,Aligner,6
-2024-08,Ceramic Braces Treatment,5
 2024-08,Complete Denture,2
 2024-08,Consultation,15
 2024-08,Crown/Cap,1
@@ -604,16 +539,14 @@ Month,Treatment_Type,Visit_Count
 2024-08,Filling,4
 2024-08,Fixed Bridge,7
 2024-08,Implant,11
-2024-08,Metal Braces Treatment,8
+2024-08,Metal Braces Treatment,13
 2024-08,Orthodontic Consultation,2
 2024-08,Partial Denture,7
 2024-08,Root Canal,6
 2024-08,Scaling and Polishing,4
 2024-08,Teeth Whitening,8
-2024-08,Tooth Extraction,2
-2024-08,Wisdom Tooth Extraction,7
+2024-08,Tooth Extraction,9
 2024-09,Aligner,4
-2024-09,Ceramic Braces Treatment,4
 2024-09,Complete Denture,1
 2024-09,Consultation,8
 2024-09,Crown/Cap,1
@@ -621,16 +554,14 @@ Month,Treatment_Type,Visit_Count
 2024-09,Filling,5
 2024-09,Fixed Bridge,7
 2024-09,Implant,10
-2024-09,Metal Braces Treatment,4
+2024-09,Metal Braces Treatment,8
 2024-09,Orthodontic Consultation,2
 2024-09,Partial Denture,1
 2024-09,Root Canal,5
 2024-09,Scaling and Polishing,4
 2024-09,Teeth Whitening,3
-2024-09,Tooth Extraction,4
-2024-09,Wisdom Tooth Extraction,2
+2024-09,Tooth Extraction,6
 2024-10,Aligner,8
-2024-10,Ceramic Braces Treatment,6
 2024-10,Complete Denture,3
 2024-10,Consultation,10
 2024-10,Crown/Cap,2
@@ -638,31 +569,28 @@ Month,Treatment_Type,Visit_Count
 2024-10,Filling,2
 2024-10,Fixed Bridge,1
 2024-10,Implant,7
+2024-10,Metal Braces Treatment,6
 2024-10,Orthodontic Consultation,2
 2024-10,Partial Denture,6
 2024-10,Root Canal,4
 2024-10,Scaling and Polishing,3
 2024-10,Teeth Whitening,4
-2024-10,Tooth Extraction,5
-2024-10,Wisdom Tooth Extraction,4
+2024-10,Tooth Extraction,9
 2024-11,Aligner,2
-2024-11,Ceramic Braces Treatment,4
 2024-11,Complete Denture,1
 2024-11,Consultation,14
 2024-11,Deep Scaling and Root Planing,5
 2024-11,Filling,6
 2024-11,Fixed Bridge,6
 2024-11,Implant,4
-2024-11,Metal Braces Treatment,5
+2024-11,Metal Braces Treatment,9
 2024-11,Orthodontic Consultation,4
 2024-11,Partial Denture,3
 2024-11,Root Canal,3
 2024-11,Scaling and Polishing,4
 2024-11,Teeth Whitening,3
-2024-11,Tooth Extraction,5
-2024-11,Wisdom Tooth Extraction,2
+2024-11,Tooth Extraction,7
 2024-12,Aligner,11
-2024-12,Ceramic Braces Treatment,4
 2024-12,Complete Denture,6
 2024-12,Consultation,18
 2024-12,Crown/Cap,5
@@ -670,16 +598,14 @@ Month,Treatment_Type,Visit_Count
 2024-12,Filling,5
 2024-12,Fixed Bridge,4
 2024-12,Implant,3
-2024-12,Metal Braces Treatment,6
+2024-12,Metal Braces Treatment,10
 2024-12,Orthodontic Consultation,2
 2024-12,Partial Denture,3
 2024-12,Root Canal,4
 2024-12,Scaling and Polishing,4
 2024-12,Teeth Whitening,10
-2024-12,Tooth Extraction,3
-2024-12,Wisdom Tooth Extraction,4
+2024-12,Tooth Extraction,7
 2025-01,Aligner,6
-2025-01,Ceramic Braces Treatment,5
 2025-01,Complete Denture,5
 2025-01,Consultation,12
 2025-01,Crown/Cap,2
@@ -687,15 +613,14 @@ Month,Treatment_Type,Visit_Count
 2025-01,Filling,3
 2025-01,Fixed Bridge,5
 2025-01,Implant,3
-2025-01,Metal Braces Treatment,4
+2025-01,Metal Braces Treatment,9
 2025-01,Orthodontic Consultation,2
 2025-01,Partial Denture,6
 2025-01,Root Canal,3
 2025-01,Scaling and Polishing,6
 2025-01,Teeth Whitening,5
-2025-01,Wisdom Tooth Extraction,7
+2025-01,Tooth Extraction,7
 2025-02,Aligner,6
-2025-02,Ceramic Braces Treatment,1
 2025-02,Complete Denture,5
 2025-02,Consultation,8
 2025-02,Crown/Cap,2
@@ -703,31 +628,28 @@ Month,Treatment_Type,Visit_Count
 2025-02,Filling,3
 2025-02,Fixed Bridge,6
 2025-02,Implant,6
-2025-02,Metal Braces Treatment,3
+2025-02,Metal Braces Treatment,4
 2025-02,Orthodontic Consultation,8
 2025-02,Partial Denture,1
 2025-02,Root Canal,6
 2025-02,Scaling and Polishing,4
 2025-02,Teeth Whitening,6
-2025-02,Tooth Extraction,1
-2025-02,Wisdom Tooth Extraction,1
+2025-02,Tooth Extraction,2
 2025-03,Aligner,6
-2025-03,Ceramic Braces Treatment,1
 2025-03,Complete Denture,3
 2025-03,Consultation,10
 2025-03,Deep Scaling and Root Planing,6
 2025-03,Filling,5
 2025-03,Fixed Bridge,1
 2025-03,Implant,6
-2025-03,Metal Braces Treatment,5
+2025-03,Metal Braces Treatment,6
 2025-03,Orthodontic Consultation,9
 2025-03,Partial Denture,4
 2025-03,Root Canal,6
 2025-03,Scaling and Polishing,4
 2025-03,Teeth Whitening,6
-2025-03,Wisdom Tooth Extraction,4
+2025-03,Tooth Extraction,4
 2025-04,Aligner,9
-2025-04,Ceramic Braces Treatment,3
 2025-04,Complete Denture,1
 2025-04,Consultation,15
 2025-04,Crown/Cap,2
@@ -735,16 +657,14 @@ Month,Treatment_Type,Visit_Count
 2025-04,Filling,4
 2025-04,Fixed Bridge,2
 2025-04,Implant,2
-2025-04,Metal Braces Treatment,8
+2025-04,Metal Braces Treatment,11
 2025-04,Orthodontic Consultation,2
 2025-04,Partial Denture,4
 2025-04,Root Canal,5
 2025-04,Scaling and Polishing,6
 2025-04,Teeth Whitening,2
-2025-04,Tooth Extraction,3
-2025-04,Wisdom Tooth Extraction,2
+2025-04,Tooth Extraction,5
 2025-05,Aligner,10
-2025-05,Ceramic Braces Treatment,2
 2025-05,Complete Denture,2
 2025-05,Consultation,15
 2025-05,Crown/Cap,2
@@ -752,15 +672,14 @@ Month,Treatment_Type,Visit_Count
 2025-05,Filling,5
 2025-05,Fixed Bridge,2
 2025-05,Implant,3
-2025-05,Metal Braces Treatment,8
+2025-05,Metal Braces Treatment,10
 2025-05,Orthodontic Consultation,6
 2025-05,Partial Denture,1
 2025-05,Root Canal,8
 2025-05,Scaling and Polishing,7
 2025-05,Teeth Whitening,4
-2025-05,Wisdom Tooth Extraction,5
+2025-05,Tooth Extraction,5
 2025-06,Aligner,12
-2025-06,Ceramic Braces Treatment,4
 2025-06,Complete Denture,3
 2025-06,Consultation,13
 2025-06,Crown/Cap,1
@@ -768,16 +687,14 @@ Month,Treatment_Type,Visit_Count
 2025-06,Filling,3
 2025-06,Fixed Bridge,2
 2025-06,Implant,3
-2025-06,Metal Braces Treatment,5
+2025-06,Metal Braces Treatment,9
 2025-06,Orthodontic Consultation,3
 2025-06,Partial Denture,6
 2025-06,Root Canal,7
 2025-06,Scaling and Polishing,7
 2025-06,Teeth Whitening,7
-2025-06,Tooth Extraction,8
-2025-06,Wisdom Tooth Extraction,4
+2025-06,Tooth Extraction,12
 2025-07,Aligner,13
-2025-07,Ceramic Braces Treatment,6
 2025-07,Complete Denture,2
 2025-07,Consultation,12
 2025-07,Crown/Cap,1
@@ -785,16 +702,14 @@ Month,Treatment_Type,Visit_Count
 2025-07,Filling,2
 2025-07,Fixed Bridge,3
 2025-07,Implant,4
-2025-07,Metal Braces Treatment,6
+2025-07,Metal Braces Treatment,12
 2025-07,Orthodontic Consultation,5
 2025-07,Partial Denture,5
 2025-07,Root Canal,8
 2025-07,Scaling and Polishing,1
 2025-07,Teeth Whitening,5
-2025-07,Tooth Extraction,3
-2025-07,Wisdom Tooth Extraction,7
+2025-07,Tooth Extraction,10
 2025-08,Aligner,10
-2025-08,Ceramic Braces Treatment,5
 2025-08,Complete Denture,1
 2025-08,Consultation,10
 2025-08,Crown/Cap,3
@@ -802,16 +717,14 @@ Month,Treatment_Type,Visit_Count
 2025-08,Filling,4
 2025-08,Fixed Bridge,4
 2025-08,Implant,4
-2025-08,Metal Braces Treatment,7
+2025-08,Metal Braces Treatment,12
 2025-08,Orthodontic Consultation,2
 2025-08,Partial Denture,5
 2025-08,Root Canal,5
 2025-08,Scaling and Polishing,7
 2025-08,Teeth Whitening,4
-2025-08,Tooth Extraction,4
-2025-08,Wisdom Tooth Extraction,3
+2025-08,Tooth Extraction,7
 2025-09,Aligner,15
-2025-09,Ceramic Braces Treatment,7
 2025-09,Complete Denture,5
 2025-09,Consultation,16
 2025-09,Crown/Cap,2
@@ -819,16 +732,14 @@ Month,Treatment_Type,Visit_Count
 2025-09,Filling,5
 2025-09,Fixed Bridge,3
 2025-09,Implant,5
-2025-09,Metal Braces Treatment,6
+2025-09,Metal Braces Treatment,13
 2025-09,Orthodontic Consultation,6
 2025-09,Partial Denture,4
 2025-09,Root Canal,3
 2025-09,Scaling and Polishing,8
 2025-09,Teeth Whitening,6
-2025-09,Tooth Extraction,3
-2025-09,Wisdom Tooth Extraction,3
+2025-09,Tooth Extraction,6
 2025-10,Aligner,14
-2025-10,Ceramic Braces Treatment,5
 2025-10,Complete Denture,2
 2025-10,Consultation,9
 2025-10,Crown/Cap,3
@@ -836,16 +747,14 @@ Month,Treatment_Type,Visit_Count
 2025-10,Filling,3
 2025-10,Fixed Bridge,4
 2025-10,Implant,4
-2025-10,Metal Braces Treatment,3
+2025-10,Metal Braces Treatment,8
 2025-10,Orthodontic Consultation,3
 2025-10,Partial Denture,6
 2025-10,Root Canal,7
 2025-10,Scaling and Polishing,6
 2025-10,Teeth Whitening,5
-2025-10,Tooth Extraction,6
-2025-10,Wisdom Tooth Extraction,7
+2025-10,Tooth Extraction,13
 2025-11,Aligner,6
-2025-11,Ceramic Braces Treatment,4
 2025-11,Complete Denture,2
 2025-11,Consultation,13
 2025-11,Crown/Cap,2
@@ -853,16 +762,14 @@ Month,Treatment_Type,Visit_Count
 2025-11,Filling,3
 2025-11,Fixed Bridge,5
 2025-11,Implant,4
-2025-11,Metal Braces Treatment,6
+2025-11,Metal Braces Treatment,10
 2025-11,Orthodontic Consultation,3
 2025-11,Partial Denture,9
 2025-11,Root Canal,8
 2025-11,Scaling and Polishing,5
 2025-11,Teeth Whitening,4
-2025-11,Tooth Extraction,3
-2025-11,Wisdom Tooth Extraction,9
+2025-11,Tooth Extraction,12
 2025-12,Aligner,7
-2025-12,Ceramic Braces Treatment,10
 2025-12,Complete Denture,7
 2025-12,Consultation,20
 2025-12,Crown/Cap,2
@@ -870,150 +777,129 @@ Month,Treatment_Type,Visit_Count
 2025-12,Filling,5
 2025-12,Fixed Bridge,2
 2025-12,Implant,5
-2025-12,Metal Braces Treatment,6
+2025-12,Metal Braces Treatment,16
 2025-12,Orthodontic Consultation,4
 2025-12,Partial Denture,2
 2025-12,Root Canal,2
 2025-12,Scaling and Polishing,5
 2025-12,Teeth Whitening,5
-2025-12,Tooth Extraction,4
-2025-12,Wisdom Tooth Extraction,6
+2025-12,Tooth Extraction,10
 2026-01,Aligner,3
-2026-01,Ceramic Braces Treatment,9
 2026-01,Complete Denture,5
 2026-01,Deep Scaling and Root Planing,2
 2026-01,Filling,2
 2026-01,Fixed Bridge,9
 2026-01,Implant,2
-2026-01,Metal Braces Treatment,6
+2026-01,Metal Braces Treatment,15
 2026-01,Partial Denture,6
 2026-01,Root Canal,2
 2026-01,Scaling and Polishing,6
 2026-01,Teeth Whitening,3
-2026-01,Tooth Extraction,5
-2026-01,Wisdom Tooth Extraction,6
+2026-01,Tooth Extraction,11
 2026-02,Aligner,3
-2026-02,Ceramic Braces Treatment,6
 2026-02,Complete Denture,2
 2026-02,Deep Scaling and Root Planing,7
 2026-02,Filling,3
 2026-02,Fixed Bridge,7
 2026-02,Implant,2
-2026-02,Metal Braces Treatment,8
+2026-02,Metal Braces Treatment,14
 2026-02,Partial Denture,3
 2026-02,Root Canal,3
 2026-02,Scaling and Polishing,8
 2026-02,Teeth Whitening,4
-2026-02,Tooth Extraction,5
-2026-02,Wisdom Tooth Extraction,2
+2026-02,Tooth Extraction,7
 2026-03,Aligner,4
-2026-03,Ceramic Braces Treatment,9
 2026-03,Complete Denture,1
 2026-03,Crown/Cap,2
 2026-03,Deep Scaling and Root Planing,3
 2026-03,Filling,2
 2026-03,Fixed Bridge,7
 2026-03,Implant,4
-2026-03,Metal Braces Treatment,7
+2026-03,Metal Braces Treatment,16
 2026-03,Partial Denture,4
 2026-03,Root Canal,3
 2026-03,Scaling and Polishing,5
 2026-03,Teeth Whitening,3
-2026-03,Tooth Extraction,2
-2026-03,Wisdom Tooth Extraction,3
+2026-03,Tooth Extraction,5
 2026-04,Aligner,1
-2026-04,Ceramic Braces Treatment,6
 2026-04,Complete Denture,3
 2026-04,Crown/Cap,1
 2026-04,Deep Scaling and Root Planing,5
 2026-04,Filling,4
 2026-04,Fixed Bridge,7
 2026-04,Implant,2
-2026-04,Metal Braces Treatment,9
+2026-04,Metal Braces Treatment,15
 2026-04,Partial Denture,4
 2026-04,Root Canal,2
 2026-04,Scaling and Polishing,5
 2026-04,Teeth Whitening,2
-2026-04,Tooth Extraction,4
-2026-04,Wisdom Tooth Extraction,1
+2026-04,Tooth Extraction,5
 2026-05,Aligner,2
-2026-05,Ceramic Braces Treatment,5
 2026-05,Complete Denture,3
 2026-05,Deep Scaling and Root Planing,5
 2026-05,Filling,3
 2026-05,Fixed Bridge,8
 2026-05,Implant,1
-2026-05,Metal Braces Treatment,5
+2026-05,Metal Braces Treatment,10
 2026-05,Partial Denture,2
 2026-05,Root Canal,2
-2026-05,Tooth Extraction,4
-2026-05,Wisdom Tooth Extraction,1
+2026-05,Tooth Extraction,5
 2026-06,Aligner,2
-2026-06,Ceramic Braces Treatment,6
 2026-06,Complete Denture,2
 2026-06,Deep Scaling and Root Planing,2
 2026-06,Filling,1
 2026-06,Fixed Bridge,6
 2026-06,Implant,3
-2026-06,Metal Braces Treatment,4
+2026-06,Metal Braces Treatment,10
 2026-06,Partial Denture,2
 2026-06,Root Canal,2
 2026-06,Scaling and Polishing,4
 2026-06,Teeth Whitening,1
-2026-06,Tooth Extraction,1
-2026-06,Wisdom Tooth Extraction,1
+2026-06,Tooth Extraction,2
 2026-07,Aligner,1
-2026-07,Ceramic Braces Treatment,1
 2026-07,Deep Scaling and Root Planing,2
 2026-07,Filling,3
 2026-07,Fixed Bridge,1
 2026-07,Implant,2
-2026-07,Metal Braces Treatment,6
+2026-07,Metal Braces Treatment,7
 2026-07,Partial Denture,1
 2026-07,Root Canal,4
 2026-07,Scaling and Polishing,4
-2026-07,Tooth Extraction,3
-2026-07,Wisdom Tooth Extraction,1
+2026-07,Tooth Extraction,4
 2026-08,Aligner,2
-2026-08,Ceramic Braces Treatment,3
 2026-08,Complete Denture,2
 2026-08,Deep Scaling and Root Planing,2
 2026-08,Fixed Bridge,1
 2026-08,Implant,1
-2026-08,Metal Braces Treatment,5
+2026-08,Metal Braces Treatment,8
 2026-08,Partial Denture,1
 2026-08,Root Canal,4
 2026-08,Scaling and Polishing,2
 2026-08,Teeth Whitening,1
-2026-08,Tooth Extraction,1
-2026-08,Wisdom Tooth Extraction,1
-2026-09,Ceramic Braces Treatment,2
+2026-08,Tooth Extraction,2
 2026-09,Complete Denture,2
 2026-09,Deep Scaling and Root Planing,2
 2026-09,Filling,3
 2026-09,Fixed Bridge,1
-2026-09,Metal Braces Treatment,2
+2026-09,Metal Braces Treatment,4
 2026-09,Partial Denture,1
 2026-09,Teeth Whitening,1
-2026-09,Tooth Extraction,1
-2026-09,Wisdom Tooth Extraction,1
-2026-10,Ceramic Braces Treatment,3
+2026-09,Tooth Extraction,2
 2026-10,Complete Denture,3
 2026-10,Deep Scaling and Root Planing,2
 2026-10,Filling,1
 2026-10,Fixed Bridge,1
 2026-10,Implant,1
-2026-10,Metal Braces Treatment,3
+2026-10,Metal Braces Treatment,6
 2026-10,Partial Denture,1
 2026-10,Root Canal,2
 2026-10,Teeth Whitening,1
 2026-10,Tooth Extraction,1
-2026-11,Ceramic Braces Treatment,1
 2026-11,Complete Denture,1
 2026-11,Deep Scaling and Root Planing,2
 2026-11,Filling,1
 2026-11,Implant,1
-2026-11,Metal Braces Treatment,2
+2026-11,Metal Braces Treatment,3
 2026-11,Partial Denture,1
 2026-11,Root Canal,1
 2026-11,Scaling and Polishing,2

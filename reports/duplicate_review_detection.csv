@@ -1,1 +1,1 @@
-Review_Text,Duplicate_Count
+Review_ID,Reviewer_Name,Rating,Review_Date,Label,Text_Preview,Detection_Method,Similarity_Score
