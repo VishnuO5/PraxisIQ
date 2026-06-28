@@ -3,6 +3,9 @@
 *.sqlite
 *.sqlite3
 
+# Secrets — never commit API keys
+.streamlit/secrets.toml
+
 # Logs
 logs/
 *.log
