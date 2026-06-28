@@ -2383,111 +2383,168 @@ elif page == "Investigation Playbooks":
 # ─────────────────────────────────────────────
 elif page == "AI Copilot":
 
-    # ── UNIQUE COPILOT CSS ─────────────────────────────────────────────────────
     st.markdown(f"""
     <style>
-    /* Copilot page — distinct gradient background */
+    /* Copilot page — distinct deep purple creative background */
     .copilot-hero {{
-        background: linear-gradient(135deg, #0d1117 0%, #0f1729 40%, #0d1a2e 100%);
-        border: 1px solid rgba(108,140,255,0.2);
+        background: linear-gradient(135deg, #0e0b1a 0%, #130d24 40%, #0f0d20 70%, #0b1020 100%);
+        border: 1px solid rgba(139,92,246,0.3);
         border-radius: 20px;
         padding: 36px 40px 32px 40px;
         margin-bottom: 28px;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 0 60px rgba(139,92,246,0.08), inset 0 1px 0 rgba(139,92,246,0.1);
     }}
     .copilot-hero::before {{
         content: '';
         position: absolute;
-        top: -60px; right: -60px;
-        width: 240px; height: 240px;
-        background: radial-gradient(circle, rgba(108,140,255,0.12) 0%, transparent 70%);
+        top: -80px; right: -80px;
+        width: 300px; height: 300px;
+        background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
         border-radius: 50%;
     }}
     .copilot-hero::after {{
         content: '';
         position: absolute;
-        bottom: -40px; left: -40px;
-        width: 180px; height: 180px;
-        background: radial-gradient(circle, rgba(61,217,214,0.08) 0%, transparent 70%);
+        bottom: -60px; left: -60px;
+        width: 220px; height: 220px;
+        background: radial-gradient(circle, rgba(236,72,153,0.08) 0%, transparent 70%);
         border-radius: 50%;
     }}
     .copilot-title {{
-        font-size: 32px;
+        font-size: 34px;
         font-weight: 800;
         letter-spacing: -0.02em;
-        background: linear-gradient(135deg, #6C8CFF 0%, #3DD9D6 60%, #ffffff 100%);
+        background: linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #f9a8d4 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        margin: 0 0 6px 0;
+        margin: 0 0 10px 0;
         line-height: 1.2;
     }}
     .copilot-subtitle {{
-        color: {TEXT_MED};
-        font-size: 13px;
-        letter-spacing: 0.02em;
+        color: #94a3b8;
+        font-size: 12.5px;
+        letter-spacing: 0.01em;
         margin: 0 0 20px 0;
+        line-height: 1.7;
+        max-width: 820px;
     }}
     .copilot-badge-row {{
         display: flex;
-        gap: 10px;
+        gap: 8px;
         flex-wrap: wrap;
     }}
     .copilot-badge {{
-        background: rgba(108,140,255,0.12);
-        border: 1px solid rgba(108,140,255,0.25);
-        color: {ACCENT};
+        background: rgba(139,92,246,0.12);
+        border: 1px solid rgba(139,92,246,0.3);
+        color: #a78bfa;
         font-size: 11px;
         font-weight: 600;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.05em;
         padding: 4px 12px;
         border-radius: 20px;
     }}
     .copilot-badge.green {{
-        background: rgba(61,217,140,0.1);
-        border-color: rgba(61,217,140,0.25);
-        color: {EMERALD};
+        background: rgba(52,211,153,0.1);
+        border-color: rgba(52,211,153,0.3);
+        color: #34d399;
     }}
     .copilot-badge.cyan {{
-        background: rgba(61,217,214,0.1);
-        border-color: rgba(61,217,214,0.25);
-        color: {CYAN};
+        background: rgba(6,182,212,0.1);
+        border-color: rgba(6,182,212,0.25);
+        color: #22d3ee;
     }}
-    /* Suggested question pills */
-    .q-grid {{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin-bottom: 24px;
+    /* Live stats strip */
+    .live-strip {{
+        display: flex;
+        gap: 0;
+        background: rgba(14,11,26,0.9);
+        border: 1px solid rgba(139,92,246,0.15);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 22px;
     }}
-    .q-pill {{
-        background: rgba(18,22,36,0.9);
-        border: 1px solid rgba(108,140,255,0.18);
-        border-radius: 10px;
-        padding: 11px 14px;
-        color: {TEXT_MED};
-        font-size: 12px;
-        line-height: 1.5;
-        cursor: pointer;
-        transition: all 0.15s;
+    .live-stat {{
+        flex: 1;
+        padding: 12px 16px;
+        border-right: 1px solid rgba(139,92,246,0.1);
+        text-align: center;
     }}
-    .q-pill:hover {{
-        border-color: rgba(108,140,255,0.45);
-        color: {TEXT_HI};
-        background: rgba(108,140,255,0.06);
+    .live-stat:last-child {{ border-right: none; }}
+    .live-stat-val {{
+        font-size: 20px;
+        font-weight: 700;
+        color: #e2e8f0;
+        line-height: 1.2;
     }}
-    .q-pill-icon {{
-        font-size: 14px;
-        margin-right: 6px;
+    .live-stat-lbl {{
+        font-size: 10px;
+        color: #64748b;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 3px;
     }}
-    /* Chat messages */
+    .live-dot {{
+        display: inline-block;
+        width: 6px; height: 6px;
+        background: #34d399;
+        border-radius: 50%;
+        margin-right: 4px;
+        animation: pulse 2s infinite;
+    }}
+    @keyframes pulse {{
+        0%, 100% {{ opacity: 1; }}
+        50% {{ opacity: 0.2; }}
+    }}
+    /* Question category labels */
+    .qcat-label {{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #a78bfa;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 18px 0 10px 0;
+    }}
+    .qcat-label .line {{
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(139,92,246,0.4), transparent);
+    }}
+    .qcat-label.project {{ color: #22d3ee; }}
+    .qcat-label.project .line {{ background: linear-gradient(90deg, rgba(34,211,238,0.4), transparent); }}
+    /* Suggested question buttons */
+    .stButton > button {{
+        background: rgba(14,11,26,0.8) !important;
+        border: 1px solid rgba(139,92,246,0.2) !important;
+        border-radius: 10px !important;
+        color: #94a3b8 !important;
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+        text-align: left !important;
+        padding: 10px 14px !important;
+        height: auto !important;
+        min-height: 52px !important;
+        white-space: normal !important;
+        transition: all 0.15s !important;
+    }}
+    .stButton > button:hover {{
+        border-color: rgba(139,92,246,0.5) !important;
+        color: #e2e8f0 !important;
+        background: rgba(139,92,246,0.08) !important;
+        box-shadow: 0 0 16px rgba(139,92,246,0.1) !important;
+    }}
+    /* Chat bubbles */
     .chat-wrap {{
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 18px;
         margin: 20px 0;
-        max-height: 520px;
+        max-height: 540px;
         overflow-y: auto;
         padding-right: 4px;
     }}
@@ -2496,12 +2553,12 @@ elif page == "AI Copilot":
         justify-content: flex-end;
     }}
     .msg-user .bubble {{
-        background: linear-gradient(135deg, rgba(108,140,255,0.25), rgba(108,140,255,0.15));
-        border: 1px solid rgba(108,140,255,0.3);
+        background: linear-gradient(135deg, rgba(139,92,246,0.22), rgba(236,72,153,0.12));
+        border: 1px solid rgba(139,92,246,0.3);
         border-radius: 16px 16px 4px 16px;
         padding: 12px 16px;
-        max-width: 75%;
-        color: {TEXT_HI};
+        max-width: 72%;
+        color: #e2e8f0;
         font-size: 13.5px;
         line-height: 1.6;
     }}
@@ -2512,71 +2569,60 @@ elif page == "AI Copilot":
         align-items: flex-start;
     }}
     .ai-avatar {{
-        width: 32px; height: 32px;
-        background: linear-gradient(135deg, {ACCENT}, {CYAN});
+        width: 34px; height: 34px;
+        background: linear-gradient(135deg, #7c3aed, #ec4899);
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        font-size: 15px;
+        font-size: 16px;
         flex-shrink: 0;
         margin-top: 2px;
+        box-shadow: 0 0 16px rgba(139,92,246,0.3);
     }}
     .msg-ai .bubble {{
-        background: rgba(15,23,42,0.95);
-        border: 1px solid rgba(108,140,255,0.15);
+        background: rgba(14,11,26,0.95);
+        border: 1px solid rgba(139,92,246,0.15);
         border-radius: 4px 16px 16px 16px;
         padding: 14px 18px;
-        max-width: 80%;
-        color: {TEXT_HI};
+        max-width: 78%;
+        color: #e2e8f0;
         font-size: 13.5px;
-        line-height: 1.7;
+        line-height: 1.75;
     }}
     .msg-meta {{
-        color: {TEXT_LOW};
+        color: #475569;
         font-size: 10px;
-        margin-top: 6px;
+        margin-top: 5px;
         letter-spacing: 0.04em;
     }}
-    /* Live data strip */
-    .live-strip {{
-        display: flex;
-        gap: 0;
-        background: rgba(10,14,26,0.8);
-        border: 1px solid rgba(108,140,255,0.12);
-        border-radius: 10px;
-        overflow: hidden;
-        margin-bottom: 20px;
-    }}
-    .live-stat {{
-        flex: 1;
-        padding: 10px 16px;
-        border-right: 1px solid rgba(108,140,255,0.1);
+    /* Capability cards */
+    .cap-card {{
+        background: rgba(14,11,26,0.7);
+        border: 1px solid rgba(139,92,246,0.12);
+        border-radius: 12px;
+        padding: 16px;
         text-align: center;
+        transition: border-color 0.2s;
     }}
-    .live-stat:last-child {{ border-right: none; }}
-    .live-stat-val {{
-        font-size: 18px;
-        font-weight: 700;
-        color: {TEXT_HI};
-        line-height: 1.2;
+    .cap-card:hover {{
+        border-color: rgba(139,92,246,0.3);
     }}
-    .live-stat-lbl {{
-        font-size: 10px;
-        color: {TEXT_LOW};
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        margin-top: 2px;
+    /* Error card */
+    .copilot-error-card {{
+        background: rgba(239,111,111,0.08);
+        border: 1px solid rgba(239,111,111,0.3);
+        border-radius: 12px;
+        padding: 16px 18px;
+        color: #fca5a5;
+        font-size: 12.5px;
+        line-height: 1.7;
+        margin-bottom: 18px;
     }}
-    .live-dot {{
-        display: inline-block;
-        width: 6px; height: 6px;
-        background: {EMERALD};
-        border-radius: 50%;
-        margin-right: 4px;
-        animation: pulse 2s infinite;
-    }}
-    @keyframes pulse {{
-        0%, 100% {{ opacity: 1; }}
-        50% {{ opacity: 0.3; }}
+    .copilot-error-card b {{ color: #fecaca; }}
+    .copilot-error-card code {{
+        background: rgba(0,0,0,0.3);
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 11.5px;
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -2586,27 +2632,60 @@ elif page == "AI Copilot":
     <div class='copilot-hero'>
         <div class='copilot-title'>⬡ PraxisIQ AI Copilot</div>
         <div class='copilot-subtitle'>
-            Dental intelligence assistant — ask anything about treatments, patient risk,
-            moderation signals, clinical patterns, or T&S operations
+            Domain-aware dental intelligence — clinical procedures, patient analytics, practice operations,
+            oral health education, and Trust &amp; Safety, powered by live data and advanced LLMs.
         </div>
         <div class='copilot-badge-row'>
             <span class='copilot-badge'>◆ Llama 3.1 8B · Groq</span>
             <span class='copilot-badge green'><span class='live-dot'></span>Live database</span>
             <span class='copilot-badge cyan'>959 patients · 300 reviews</span>
             <span class='copilot-badge'>Dental + T&S knowledge</span>
+            <span class='copilot-badge'>Clinical · Operational · Educational</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     # ── GROQ SETUP ────────────────────────────────────────────────────────────
+    groq_available = False
+    GROQ_KEY = ""
+    groq_setup_error = None
+
     try:
         from groq import Groq
-        GROQ_KEY = os.environ.get("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
-        groq_client = Groq(api_key=GROQ_KEY)
-        groq_available = True
+        try:
+            GROQ_KEY = os.environ.get("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
+        except Exception:
+            GROQ_KEY = os.environ.get("GROQ_API_KEY", "")
+
+        if not GROQ_KEY:
+            groq_setup_error = "no_key"
+        else:
+            groq_client = Groq(api_key=GROQ_KEY)
+            groq_available = True
     except ImportError:
-        groq_available = False
-        st.error("Groq package not installed. Run: `pip install groq`")
+        groq_setup_error = "no_package"
+
+    if groq_setup_error == "no_package":
+        st.markdown("""
+        <div class='copilot-error-card'>
+            <b>Groq package not installed.</b><br>
+            Add <code>groq>=0.4.0</code> to <code>requirements.txt</code> and redeploy.
+        </div>
+        """, unsafe_allow_html=True)
+    elif groq_setup_error == "no_key":
+        st.markdown("""
+        <div class='copilot-error-card'>
+            <b>No Groq API key found.</b> The Copilot can't run without one.<br><br>
+            <b>To fix on Streamlit Community Cloud:</b> open your app → ⋮ menu → <b>Settings</b> →
+            <b>Secrets</b>, and add a line exactly like:<br>
+            <code>GROQ_API_KEY = "gsk_your_actual_key_here"</code><br>
+            then save — the app will restart automatically.<br><br>
+            <b>To fix locally:</b> create a file at <code>.streamlit/secrets.toml</code> in your project
+            root with the same line, or set a <code>GROQ_API_KEY</code> environment variable before running
+            <code>streamlit run</code>.<br><br>
+            Get a free key at <code>console.groq.com/keys</code> if you don't have one yet.
+        </div>
+        """, unsafe_allow_html=True)
 
     # ── LIVE DATA CONTEXT ─────────────────────────────────────────────────────
     @st.cache_data(ttl=300)
@@ -2642,7 +2721,11 @@ elif page == "AI Copilot":
         p2 = len(mq[mq["Severity"] == "High"])     if not mq.empty and "Severity" in mq.columns else 111
 
         burst = load_csv("review_burst_detection.csv")
-        burst_days = len(burst[burst.get("Burst_Status", pd.Series()) == "BURST DETECTED"]) if not burst.empty else 4
+        burst_days = 4
+        if not burst.empty and "Burst_Status" in burst.columns:
+            burst_days = int((burst["Burst_Status"] == "BURST DETECTED").sum())
+        elif not burst.empty and "Burst_Detected" in burst.columns:
+            burst_days = int(burst["Burst_Detected"].sum())
 
         return f"""You are PraxisIQ AI Copilot — an expert dental intelligence assistant with deep knowledge of:
 - Dental procedures, terminology, and clinical workflows
@@ -2682,8 +2765,47 @@ RESPONSE STYLE:
 - Never make up data — if something isn't in the context, say so clearly
 - Always be helpful, professional, and thorough"""
 
-    if groq_available:
+    # ── CHAT STATE ────────────────────────────────────────────────────────────
+    if "copilot_messages" not in st.session_state:
+        st.session_state.copilot_messages = []
+    if "copilot_pending_question" not in st.session_state:
+        st.session_state.copilot_pending_question = None
+
+    # ── CORE ASK FUNCTION ─────────────────────────────────────────────────────
+    def ask_copilot(question: str):
+        """Send a question to Groq and append both turns to chat history."""
         context = build_copilot_context()
+        st.session_state.copilot_messages.append({"role": "user", "content": question})
+
+        history = st.session_state.copilot_messages[:-1][-6:]
+        messages = [{"role": "system", "content": context}]
+        messages.extend({"role": m["role"], "content": m["content"]} for m in history)
+        messages.append({"role": "user", "content": question})
+
+        try:
+            response = groq_client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=messages,
+                max_tokens=1200,
+                temperature=0.4,
+            )
+            answer = response.choices[0].message.content.strip()
+        except Exception as e:
+            err_text = str(e)
+            if "401" in err_text or "auth" in err_text.lower() or "api key" in err_text.lower():
+                answer = ("**Authentication failed.** The Groq API key is set but was rejected. "
+                           "Double-check it was copied correctly into Streamlit secrets, with no "
+                           "extra spaces or quotes issues, and that it hasn't been revoked at "
+                           "console.groq.com/keys.")
+            elif "429" in err_text or "rate" in err_text.lower():
+                answer = ("**Rate limit reached.** Groq's free tier has a request-per-minute cap. "
+                           "Wait a few seconds and try again.")
+            else:
+                answer = f"**Copilot error:** {err_text}"
+
+        st.session_state.copilot_messages.append({"role": "assistant", "content": answer})
+
+    if groq_available:
 
         # ── LIVE STATS STRIP ──────────────────────────────────────────────────
         patients_live = load_db("SELECT COUNT(*) as n FROM Patients")
@@ -2717,36 +2839,48 @@ RESPONSE STYLE:
         </div>
         """, unsafe_allow_html=True)
 
-        # ── CHAT STATE ────────────────────────────────────────────────────────
-        if "copilot_messages" not in st.session_state:
-            st.session_state.copilot_messages = []
-        if "copilot_input" not in st.session_state:
-            st.session_state.copilot_input = ""
-
-        # ── SUGGESTED QUESTIONS ───────────────────────────────────────────────
-        suggested = [
+        # ── SUGGESTED QUESTIONS — 5 dental + 5 project, click = instant answer ──
+        dental_questions = [
             ("🦷", "What is a root canal and when is it needed?"),
-            ("📊", "Which treatment has the highest patient dropout rate?"),
-            ("⚠️", "What are the top 3 Trust & Safety risks in this dataset?"),
-            ("🔬", "Explain the difference between scaling and deep scaling."),
+            ("🔬", "What is the difference between scaling and deep scaling?"),
+            ("🦷", "What is the typical recovery process after a tooth extraction?"),
+            ("💊", "How do dental implants work and who is a good candidate?"),
+            ("🪥", "What's the difference between braces and clear aligners?"),
+        ]
+        project_questions = [
+            ("📊", "Which treatment has the highest patient dropout rate, and why might that be?"),
+            ("⚠️", "What are the top 3 Trust & Safety risks found in this dataset?"),
+            ("📈", "Compare the ML and LLM classifiers — which should go to production and why?"),
             ("🚨", "Summarize the current moderation queue status."),
-            ("💡", "What causes Treatment complaints and how to reduce them?"),
-            ("📈", "Compare ML vs LLM performance — which should go to production?"),
-            ("🌐", "What would change about this pipeline at YouTube scale?"),
-            ("🦷", "What is the recovery process after a tooth extraction?"),
-            ("📋", "Which patients need urgent follow-up and why?"),
-            ("🔍", "Why did complaints increase? What are the signals?"),
-            ("💬", "What is the difference between Communication and Staff complaints?"),
+            ("🌐", "What would need to change about this pipeline to work at YouTube's scale?"),
         ]
 
         if not st.session_state.copilot_messages:
-            st.markdown("<div style='color:#6B7A99;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;'>✦ Suggested Questions</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class='qcat-label'>🦷 General Dental Knowledge<span class='line'></span></div>
+            """, unsafe_allow_html=True)
+            cols = st.columns(5)
+            for i, (icon, q) in enumerate(dental_questions):
+                with cols[i]:
+                    if st.button(f"{icon}  {q}", key=f"dq_{i}", use_container_width=True):
+                        st.session_state.copilot_pending_question = q
 
-            cols = st.columns(3)
-            for i, (icon, q) in enumerate(suggested[:9]):
-                with cols[i % 3]:
-                    if st.button(f"{icon} {q}", key=f"sq_{i}", use_container_width=True):
-                        st.session_state.copilot_input = q
+            st.markdown("""
+            <div class='qcat-label project'>⬡ About This Project<span class='line'></span></div>
+            """, unsafe_allow_html=True)
+            cols2 = st.columns(5)
+            for i, (icon, q) in enumerate(project_questions):
+                with cols2[i]:
+                    if st.button(f"{icon}  {q}", key=f"pq_{i}", use_container_width=True):
+                        st.session_state.copilot_pending_question = q
+
+        # Process a click from either question grid immediately
+        if st.session_state.copilot_pending_question:
+            pending = st.session_state.copilot_pending_question
+            st.session_state.copilot_pending_question = None
+            with st.spinner("PraxisIQ Copilot is thinking..."):
+                ask_copilot(pending)
+            st.rerun()
 
         # ── CHAT HISTORY ──────────────────────────────────────────────────────
         if st.session_state.copilot_messages:
@@ -2775,47 +2909,25 @@ RESPONSE STYLE:
 
             if st.button("🗑️ Clear conversation", key="clear_chat"):
                 st.session_state.copilot_messages = []
-                st.session_state.copilot_input = ""
                 st.rerun()
 
-        # ── INPUT ─────────────────────────────────────────────────────────────
+        # ── FREE-TEXT INPUT (st.form avoids widget/session-state sync bugs) ────
         st.markdown("<hr style='border-color:rgba(108,140,255,0.1);margin:16px 0;'/>", unsafe_allow_html=True)
 
-        user_input = st.text_input(
-            "Ask PraxisIQ Copilot",
-            value=st.session_state.copilot_input,
-            placeholder="Ask about dental procedures, patient risk, moderation queue, T&S signals...",
-            label_visibility="collapsed",
-            key="copilot_text_input"
-        )
+        with st.form(key="copilot_form", clear_on_submit=True):
+            col_input, col_send = st.columns([5, 1])
+            with col_input:
+                free_text = st.text_input(
+                    "Ask PraxisIQ Copilot",
+                    placeholder="Ask about dental procedures, patient risk, moderation queue, T&S signals...",
+                    label_visibility="collapsed",
+                )
+            with col_send:
+                submitted = st.form_submit_button("⬡ Ask", type="primary", use_container_width=True)
 
-        col_send, col_clear = st.columns([1, 4])
-        with col_send:
-            send = st.button("⬡ Ask Copilot", type="primary", use_container_width=True)
-
-        if (send or st.session_state.copilot_input) and user_input.strip():
-            question = user_input.strip()
-            st.session_state.copilot_input = ""
-            st.session_state.copilot_messages.append({"role": "user", "content": question})
-
+        if submitted and free_text.strip():
             with st.spinner("PraxisIQ Copilot is thinking..."):
-                try:
-                    messages = [{"role": "system", "content": context}]
-                    for m in st.session_state.copilot_messages[:-1][-6:]:
-                        messages.append({"role": m["role"], "content": m["content"]})
-                    messages.append({"role": "user", "content": question})
-
-                    response = groq_client.chat.completions.create(
-                        model="llama-3.1-8b-instant",
-                        messages=messages,
-                        max_tokens=1200,
-                        temperature=0.4,
-                    )
-                    answer = response.choices[0].message.content.strip()
-                except Exception as e:
-                    answer = f"Copilot error: {e}. Check your API key in Streamlit secrets."
-
-            st.session_state.copilot_messages.append({"role": "assistant", "content": answer})
+                ask_copilot(free_text.strip())
             st.rerun()
 
         # ── CAPABILITIES FOOTER ───────────────────────────────────────────────
@@ -2825,20 +2937,16 @@ RESPONSE STYLE:
 
             cap_cols = st.columns(4)
             caps = [
-                ("🦷", "Dental Procedures", "Root Canal, Implants, Scaling, Braces, Crowns, Bridges, Whitening, Extractions"),
-                ("📊", "Patient Analytics", "Retention, dropout rates, visit patterns, high-risk identification"),
-                ("🛡️", "Trust & Safety", "Moderation queue, escalation tiers, fraud signals, review classification"),
-                ("🔬", "Clinical Intelligence", "Treatment complications, recovery, aftercare, benchmarks"),
+                ("🦷", "Clinical Dentistry", "Root Canal, Implants, Scaling, Braces, Crowns, Bridges, Whitening, Extractions, Pediatric, Gum Treatment"),
+                ("📊", "Patient Analytics", "Retention, dropout rates, visit patterns, high-risk identification, follow-up compliance"),
+                ("🛡️", "Trust & Safety", "Moderation queue, escalation tiers, fraud signals, review classification, burst detection"),
+                ("🔬", "Dental Industry", "Treatment benchmarks, practice management, oral health education, clinical workflows, diagnostics"),
             ]
             for col, (icon, title, desc) in zip(cap_cols, caps):
                 with col:
                     st.markdown(f"""
-                    <div style='background:rgba(10,14,26,0.6);border:1px solid rgba(108,140,255,0.1);
-                         border-radius:10px;padding:14px;text-align:center;'>
-                        <div style='font-size:22px;margin-bottom:6px;'>{icon}</div>
-                        <div style='color:{TEXT_HI};font-size:12px;font-weight:600;margin-bottom:4px;'>{title}</div>
-                        <div style='color:{TEXT_LOW};font-size:11px;line-height:1.5;'>{desc}</div>
+                    <div class='cap-card'>
+                        <div style='font-size:24px;margin-bottom:8px;'>{icon}</div>
+                        <div style='color:#e2e8f0;font-size:12px;font-weight:600;margin-bottom:5px;'>{title}</div>
+                        <div style='color:#64748b;font-size:11px;line-height:1.5;'>{desc}</div>
                     </div>""", unsafe_allow_html=True)
-
-    else:
-        st.error("Groq package not installed. Run: `pip install groq` and add `groq>=0.4.0` to requirements.txt")
