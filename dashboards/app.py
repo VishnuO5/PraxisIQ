@@ -656,6 +656,48 @@ if page == "Overview":
         _burst_n = int((_ov_burst_csv["Burst_Status"] == "BURST DETECTED").sum())
     elif not _ov_burst_csv.empty and "Burst_Detected" in _ov_burst_csv.columns:
         _burst_n = int(_ov_burst_csv["Burst_Detected"].sum())
+
+    # -- COHORT COMPARISON: first half vs second half of the dataset's timeline --
+    # The dataset is a single 6-year snapshot with no separate "prior period" to
+    # compare against. Rather than inventing comparison numbers, this splits the
+    # patient base at the median First_Visit_Date and compares the two real
+    # halves — an honest, computable trend signal instead of a fabricated one.
+    @st.cache_data(ttl=300)
+    def _compute_cohort_deltas():
+        all_patients = load_db("SELECT First_Visit_Date, Returned_Patient, Total_Visits FROM Patients")
+        all_patients["First_Visit_Date"] = pd.to_datetime(all_patients["First_Visit_Date"], format="mixed")
+        mid = all_patients["First_Visit_Date"].median()
+        early = all_patients[all_patients["First_Visit_Date"] <= mid]
+        recent = all_patients[all_patients["First_Visit_Date"] > mid]
+
+        ret_early  = (early["Returned_Patient"]  == "Yes").mean() * 100 if len(early)  else 0
+        ret_recent = (recent["Returned_Patient"] == "Yes").mean() * 100 if len(recent) else 0
+
+        risk_early  = int(((early["Returned_Patient"]  == "No") & (early["Total_Visits"]  == 1)).sum())
+        risk_recent = int(((recent["Returned_Patient"] == "No") & (recent["Total_Visits"] == 1)).sum())
+
+        av_early  = early["Total_Visits"].mean()  if len(early)  else 0
+        av_recent = recent["Total_Visits"].mean() if len(recent) else 0
+
+        all_reviews = load_db("SELECT Review_Date FROM Reviews")
+        all_reviews["Review_Date"] = pd.to_datetime(all_reviews["Review_Date"], format="mixed")
+        rev_mid = all_reviews["Review_Date"].median()
+        daily = all_reviews.groupby("Review_Date").size()
+        burst_threshold = daily.mean() + 2 * daily.std()
+        burst_early  = int((daily[daily.index <= rev_mid]  > burst_threshold).sum())
+        burst_recent = int((daily[daily.index > rev_mid] > burst_threshold).sum())
+
+        return {
+            "retention_delta": round(ret_recent - ret_early, 1),
+            "at_risk_delta": risk_recent - risk_early,
+            "avg_visits_delta": round(av_recent - av_early, 2),
+            "burst_early": burst_early,
+            "burst_recent": burst_recent,
+            "split_date": mid.strftime("%b %Y"),
+        }
+
+    _cohort = _compute_cohort_deltas()
+
     c1, c2, c3, c4 = st.columns(4)
     kpi(c1, "Total Patients",    "959",   "6-year dataset · <b>+786</b> retained",                    ACCENT)
     kpi(c2, "Retention Rate",    "81.9%", "<b style='color:#3DDC8C'>↑ above 80% industry benchmark</b>", EMERALD)
@@ -672,7 +714,12 @@ if page == "Overview":
     st.markdown("<hr/>", unsafe_allow_html=True)
     st.markdown(f"""
     <div style='color:{TEXT_LOW};font-size:10px;font-weight:700;letter-spacing:0.12em;
-                text-transform:uppercase;margin-bottom:14px;'>Key Metric Trends</div>
+                text-transform:uppercase;margin-bottom:6px;'>Key Metric Trends</div>
+    <div style='color:{TEXT_LOW};font-size:11px;margin-bottom:14px;line-height:1.5;'>
+        Comparing patients whose first visit was before vs. after {_cohort['split_date']}
+        (the median date in this dataset) — an honest split of the available data,
+        not a comparison against a separate prior-period dataset.
+    </div>
     """, unsafe_allow_html=True)
 
     dm1, dm2, dm3, dm4 = st.columns(4)
@@ -696,10 +743,20 @@ if page == "Overview":
         </div>
         """, unsafe_allow_html=True)
 
-    delta_kpi(dm1, "Retention Rate",     f"{_retention}%",  f"+{round(_retention-78.3,1)}pp vs prior year", True,  EMERALD)
-    delta_kpi(dm2, "At-Risk Patients",   f"{_at_risk_n}",   "-12 vs prior cohort",                          False, ROSE)
-    delta_kpi(dm3, "Avg Visits/Patient", f"{_avg_visits}",  "+0.3 vs 2023 baseline",                        True,  CYAN)
-    delta_kpi(dm4, "Burst Events",       f"{_burst_n}",     "All positive-skewed",                          True,  AMBER)
+    _ret_d = _cohort["retention_delta"]
+    delta_kpi(dm1, "Retention Rate",     f"{_retention}%",
+               f"{'+' if _ret_d >= 0 else ''}{_ret_d}pp vs earlier cohort", _ret_d >= 0, EMERALD)
+
+    _risk_d = _cohort["at_risk_delta"]
+    delta_kpi(dm2, "At-Risk Patients",   f"{_at_risk_n}",
+               f"{'+' if _risk_d >= 0 else ''}{_risk_d} vs earlier cohort", _risk_d <= 0, ROSE)
+
+    _av_d = _cohort["avg_visits_delta"]
+    delta_kpi(dm3, "Avg Visits/Patient", f"{_avg_visits}",
+               f"{'+' if _av_d >= 0 else ''}{_av_d} vs earlier cohort", _av_d >= 0, CYAN)
+
+    delta_kpi(dm4, "Burst Events",       f"{_burst_n}",
+               f"{_cohort['burst_early']} earlier · {_cohort['burst_recent']} recent cohort", True, AMBER)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
