@@ -2382,13 +2382,223 @@ elif page == "Investigation Playbooks":
 # PAGE 8 — AI COPILOT
 # ─────────────────────────────────────────────
 elif page == "AI Copilot":
-    page_header(
-        "AI-Powered Analysis",
-        "PraxisIQ Copilot",
-        "Ask natural language questions about the moderation queue, patient risk, review patterns, and T&S signals"
-    )
 
-    # ── GROQ CLIENT SETUP ─────────────────────────────────────────────────────
+    # ── UNIQUE COPILOT CSS ─────────────────────────────────────────────────────
+    st.markdown(f"""
+    <style>
+    /* Copilot page — distinct gradient background */
+    .copilot-hero {{
+        background: linear-gradient(135deg, #0d1117 0%, #0f1729 40%, #0d1a2e 100%);
+        border: 1px solid rgba(108,140,255,0.2);
+        border-radius: 20px;
+        padding: 36px 40px 32px 40px;
+        margin-bottom: 28px;
+        position: relative;
+        overflow: hidden;
+    }}
+    .copilot-hero::before {{
+        content: '';
+        position: absolute;
+        top: -60px; right: -60px;
+        width: 240px; height: 240px;
+        background: radial-gradient(circle, rgba(108,140,255,0.12) 0%, transparent 70%);
+        border-radius: 50%;
+    }}
+    .copilot-hero::after {{
+        content: '';
+        position: absolute;
+        bottom: -40px; left: -40px;
+        width: 180px; height: 180px;
+        background: radial-gradient(circle, rgba(61,217,214,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }}
+    .copilot-title {{
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        background: linear-gradient(135deg, #6C8CFF 0%, #3DD9D6 60%, #ffffff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 6px 0;
+        line-height: 1.2;
+    }}
+    .copilot-subtitle {{
+        color: {TEXT_MED};
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        margin: 0 0 20px 0;
+    }}
+    .copilot-badge-row {{
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }}
+    .copilot-badge {{
+        background: rgba(108,140,255,0.12);
+        border: 1px solid rgba(108,140,255,0.25);
+        color: {ACCENT};
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        padding: 4px 12px;
+        border-radius: 20px;
+    }}
+    .copilot-badge.green {{
+        background: rgba(61,217,140,0.1);
+        border-color: rgba(61,217,140,0.25);
+        color: {EMERALD};
+    }}
+    .copilot-badge.cyan {{
+        background: rgba(61,217,214,0.1);
+        border-color: rgba(61,217,214,0.25);
+        color: {CYAN};
+    }}
+    /* Suggested question pills */
+    .q-grid {{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 24px;
+    }}
+    .q-pill {{
+        background: rgba(18,22,36,0.9);
+        border: 1px solid rgba(108,140,255,0.18);
+        border-radius: 10px;
+        padding: 11px 14px;
+        color: {TEXT_MED};
+        font-size: 12px;
+        line-height: 1.5;
+        cursor: pointer;
+        transition: all 0.15s;
+    }}
+    .q-pill:hover {{
+        border-color: rgba(108,140,255,0.45);
+        color: {TEXT_HI};
+        background: rgba(108,140,255,0.06);
+    }}
+    .q-pill-icon {{
+        font-size: 14px;
+        margin-right: 6px;
+    }}
+    /* Chat messages */
+    .chat-wrap {{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin: 20px 0;
+        max-height: 520px;
+        overflow-y: auto;
+        padding-right: 4px;
+    }}
+    .msg-user {{
+        display: flex;
+        justify-content: flex-end;
+    }}
+    .msg-user .bubble {{
+        background: linear-gradient(135deg, rgba(108,140,255,0.25), rgba(108,140,255,0.15));
+        border: 1px solid rgba(108,140,255,0.3);
+        border-radius: 16px 16px 4px 16px;
+        padding: 12px 16px;
+        max-width: 75%;
+        color: {TEXT_HI};
+        font-size: 13.5px;
+        line-height: 1.6;
+    }}
+    .msg-ai {{
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        align-items: flex-start;
+    }}
+    .ai-avatar {{
+        width: 32px; height: 32px;
+        background: linear-gradient(135deg, {ACCENT}, {CYAN});
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }}
+    .msg-ai .bubble {{
+        background: rgba(15,23,42,0.95);
+        border: 1px solid rgba(108,140,255,0.15);
+        border-radius: 4px 16px 16px 16px;
+        padding: 14px 18px;
+        max-width: 80%;
+        color: {TEXT_HI};
+        font-size: 13.5px;
+        line-height: 1.7;
+    }}
+    .msg-meta {{
+        color: {TEXT_LOW};
+        font-size: 10px;
+        margin-top: 6px;
+        letter-spacing: 0.04em;
+    }}
+    /* Live data strip */
+    .live-strip {{
+        display: flex;
+        gap: 0;
+        background: rgba(10,14,26,0.8);
+        border: 1px solid rgba(108,140,255,0.12);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }}
+    .live-stat {{
+        flex: 1;
+        padding: 10px 16px;
+        border-right: 1px solid rgba(108,140,255,0.1);
+        text-align: center;
+    }}
+    .live-stat:last-child {{ border-right: none; }}
+    .live-stat-val {{
+        font-size: 18px;
+        font-weight: 700;
+        color: {TEXT_HI};
+        line-height: 1.2;
+    }}
+    .live-stat-lbl {{
+        font-size: 10px;
+        color: {TEXT_LOW};
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-top: 2px;
+    }}
+    .live-dot {{
+        display: inline-block;
+        width: 6px; height: 6px;
+        background: {EMERALD};
+        border-radius: 50%;
+        margin-right: 4px;
+        animation: pulse 2s infinite;
+    }}
+    @keyframes pulse {{
+        0%, 100% {{ opacity: 1; }}
+        50% {{ opacity: 0.3; }}
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+    # ── HERO HEADER ───────────────────────────────────────────────────────────
+    st.markdown(f"""
+    <div class='copilot-hero'>
+        <div class='copilot-title'>⬡ PraxisIQ AI Copilot</div>
+        <div class='copilot-subtitle'>
+            Dental intelligence assistant — ask anything about treatments, patient risk,
+            moderation signals, clinical patterns, or T&S operations
+        </div>
+        <div class='copilot-badge-row'>
+            <span class='copilot-badge'>◆ Llama 3.1 8B · Groq</span>
+            <span class='copilot-badge green'><span class='live-dot'></span>Live database</span>
+            <span class='copilot-badge cyan'>959 patients · 300 reviews</span>
+            <span class='copilot-badge'>Dental + T&S knowledge</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── GROQ SETUP ────────────────────────────────────────────────────────────
     try:
         from groq import Groq
         GROQ_KEY = os.environ.get("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
@@ -2396,255 +2606,239 @@ elif page == "AI Copilot":
         groq_available = True
     except ImportError:
         groq_available = False
-        st.warning("Groq package not installed. Run: pip install groq")
+        st.error("Groq package not installed. Run: `pip install groq`")
 
-    # ── LOAD LIVE CONTEXT FROM DATABASE ──────────────────────────────────────
+    # ── LIVE DATA CONTEXT ─────────────────────────────────────────────────────
     @st.cache_data(ttl=300)
     def build_copilot_context():
-        try:
-            patients   = load_db("SELECT * FROM Patients")
-            reviews    = load_db("SELECT * FROM Reviews")
-            visits     = load_db("SELECT * FROM Visits")
+        patients  = load_db("SELECT * FROM Patients")
+        reviews   = load_db("SELECT * FROM Reviews")
+        visits    = load_db("SELECT * FROM Visits")
 
-            total_patients  = len(patients)
-            returned        = len(patients[patients["Returned_Patient"] == "Yes"])
-            never_returned  = len(patients[patients["Returned_Patient"] == "No"])
-            retention_rate  = round(returned / total_patients * 100, 1)
-            total_visits    = len(visits)
-            avg_visits      = round(total_visits / total_patients, 2)
+        total_patients   = len(patients)
+        returned         = len(patients[patients["Returned_Patient"] == "Yes"])
+        never_returned   = len(patients[patients["Returned_Patient"] == "No"])
+        retention_rate   = round(returned / total_patients * 100, 1)
+        total_visits     = len(visits)
+        avg_visits       = round(total_visits / total_patients, 2)
+        avg_rating       = round(reviews["Rating"].mean(), 2)
+        high_risk_count  = len(reviews[reviews["Label"] == "Treatment"])
+        complaint_count  = len(reviews[reviews["Label"].isin(["Treatment","Communication","Waiting Time","Pricing","Staff"])])
 
-            label_counts    = reviews["Label"].value_counts().to_dict()
-            avg_rating      = round(reviews["Rating"].mean(), 2)
-            high_risk_count = len(reviews[reviews["Label"] == "Treatment"])
-            complaint_cats  = ["Treatment", "Communication", "Waiting Time", "Pricing", "Staff"]
-            complaint_count = len(reviews[reviews["Label"].isin(complaint_cats)])
+        treatment_dropout = (
+            patients[patients["Returned_Patient"] == "No"]
+            .groupby("Primary_Treatment").size()
+            .sort_values(ascending=False).head(5).to_dict()
+        )
+        treatment_volume = (
+            patients.groupby("Primary_Treatment").size()
+            .sort_values(ascending=False).head(8).to_dict()
+        )
+        label_dist = reviews["Label"].value_counts().to_dict()
+        rating_dist = reviews["Rating"].value_counts().sort_index().to_dict()
 
-            treatment_dropout = (
-                patients[patients["Returned_Patient"] == "No"]
-                .groupby("Primary_Treatment")
-                .size()
-                .sort_values(ascending=False)
-                .head(5)
-                .to_dict()
-            )
+        mq = load_csv("moderation_queue.csv")
+        p1 = len(mq[mq["Severity"] == "Critical"]) if not mq.empty and "Severity" in mq.columns else 34
+        p2 = len(mq[mq["Severity"] == "High"])     if not mq.empty and "Severity" in mq.columns else 111
 
-            risk_csv   = load_csv("followup_risk_queue.csv")
-            critical_count = len(risk_csv[risk_csv["Risk_Score"] >= 2]) if not risk_csv.empty else 0
+        burst = load_csv("review_burst_detection.csv")
+        burst_days = len(burst[burst.get("Burst_Status", pd.Series()) == "BURST DETECTED"]) if not burst.empty else 4
 
-            burst_csv  = load_csv("review_burst_detection.csv")
-            burst_days = 0
-            if not burst_csv.empty and "Burst_Detected" in burst_csv.columns:
-                burst_days = int(burst_csv["Burst_Detected"].sum())
+        return f"""You are PraxisIQ AI Copilot — an expert dental intelligence assistant with deep knowledge of:
+- Dental procedures, terminology, and clinical workflows
+- Patient behavior analytics and retention patterns
+- Trust & Safety operations and content moderation
+- Review analysis, fraud detection, and risk classification
+- Dental industry benchmarks and best practices
 
-            outliers_csv = load_csv("visit_outliers.csv")
-            outlier_count = len(outliers_csv) if not outliers_csv.empty else 31
+LIVE DATABASE CONTEXT (Geetha Dental Clinic — 6-year dataset):
+- Total patients: {total_patients} | Returning: {returned} ({retention_rate}%) | Never returned: {never_returned}
+- Total visits: {total_visits} | Avg visits per patient: {avg_visits}
+- Total reviews: {len(reviews)} | Avg rating: {avg_rating}★
+- High-risk Treatment complaints: {high_risk_count} (12% of reviews)
+- Total complaint reviews: {complaint_count} (58% of reviews)
+- Review label distribution: {label_dist}
+- Rating distribution: {rating_dist}
+- Top treatments by volume: {treatment_volume}
+- Top dropout treatments: {treatment_dropout}
+- Moderation queue: P1 Critical={p1}, P2 High={p2}
+- Burst events detected: {burst_days}
 
-            moderation_csv = load_csv("moderation_queue.csv")
-            p1_count = len(moderation_csv[moderation_csv["Priority"] == "P1 - Critical"]) if not moderation_csv.empty and "Priority" in moderation_csv.columns else 34
-            p2_count = len(moderation_csv[moderation_csv["Priority"] == "P2 - High"])    if not moderation_csv.empty and "Priority" in moderation_csv.columns else 111
+DENTAL KNOWLEDGE SCOPE:
+You can answer questions about:
+- Dental procedures: Root Canal, Implants, Scaling, Braces, Aligners, Crowns, Bridges, Dentures, Whitening, Extractions, Fillings, Pediatric Dental, Gum Treatment
+- Patient care: treatment duration, recovery, pain management, follow-up protocols, aftercare
+- Clinical risk: complications, contraindications, high-risk treatments, patient safety signals
+- Industry benchmarks: average retention rates (typically 70-80%), complaint rates, rating benchmarks
+- T&S operations: moderation workflows, escalation policies, fraud detection, review manipulation
+- Analytics: how to interpret the data, what signals matter, what to investigate next
 
-            context = f"""
-You are PraxisIQ Copilot, an AI analyst assistant for a Trust & Safety analytics platform.
-You have access to the following live data from the PraxisIQ database:
+RESPONSE STYLE:
+- Be direct, specific, and data-driven
+- Reference actual numbers from the live context when relevant
+- For clinical questions, give clear professional explanations
+- For analytics questions, connect findings to actionable recommendations
+- Keep responses focused and structured — use short paragraphs or bullet points
+- Never make up data — if something isn't in the context, say so clearly
+- Always be helpful, professional, and thorough"""
 
-DATASET OVERVIEW:
-- Total patients: {total_patients}
-- Total visits: {total_visits} (avg {avg_visits} per patient)
-- Total reviews: {len(reviews)} (hand-labeled, 7 categories)
-- Date range: 2021–2026 (6-year dataset)
+    if groq_available:
+        context = build_copilot_context()
 
-PATIENT RISK:
-- Retention rate: {retention_rate}% ({returned} returned, {never_returned} never returned)
-- Critical-risk patients: {critical_count} (single visit, high-complexity treatment, never returned)
-- Visit outliers (Z > 2σ): {outlier_count} patients
+        # ── LIVE STATS STRIP ──────────────────────────────────────────────────
+        patients_live = load_db("SELECT COUNT(*) as n FROM Patients")
+        reviews_live  = load_db("SELECT COUNT(*) as n, ROUND(AVG(Rating),1) as r FROM Reviews")
+        visits_live   = load_db("SELECT COUNT(*) as n FROM Visits")
+        mq_live       = load_csv("moderation_queue.csv")
+        p1_live       = len(mq_live[mq_live["Severity"] == "Critical"]) if not mq_live.empty and "Severity" in mq_live.columns else 34
 
-REVIEW SIGNALS:
-- Average rating: {avg_rating} / 5.0
-- High-risk Treatment reviews: {high_risk_count} (auto-escalated to P1)
-- Total complaint reviews: {complaint_count} ({round(complaint_count/len(reviews)*100,1)}% of total)
-- Label breakdown: {label_counts}
-
-MODERATION QUEUE:
-- P1 Critical (4h SLA): {p1_count} cases
-- P2 High (24h SLA): {p2_count} cases
-- Safe content: 126 reviews (42%)
-- Needs Review: 138 reviews (46%)
-- High Risk: 36 reviews (12%)
-
-ANOMALY SIGNALS:
-- Review burst events detected: {burst_days} days flagged
-- Largest burst: 2022-06-10 (17 reviews in one day, 4.6× daily average)
-- Suspicious reviewers flagged: 1 (Yashoda S, 2 reviews, avg 2.5★)
-- Duplicate reviews found: 0
-
-TOP DROPOUT TREATMENTS (never returned):
-{chr(10).join([f"- {k}: {v} patients" for k, v in list(treatment_dropout.items())[:5]])}
-
-ML MODEL PERFORMANCE:
-- TF-IDF + Logistic Regression: 82.22% accuracy
-- Qwen2.5 7B LLM (Prompt V2): 86.67% accuracy (+4.45% over ML)
-- Weakest categories: Staff (44% recall), Neutral (40% recall)
-- Strongest categories: Waiting Time (96% F1), Positive (92% F1)
-
-RISK CLASSIFICATION RULES:
-- High Risk: Treatment label + Rating ≤ 2 → P1 Critical (4h SLA)
-- Needs Review: Communication, Waiting Time, Pricing, Staff → P2/P3
-- Safe: Positive, Neutral → no action
-- Burst threshold: mean + 2σ = 3.91 reviews/day OR 2× rolling 7-day average
-
-Your role: Answer questions about this data clearly, analytically, and concisely.
-When relevant, connect findings to Trust & Safety operational implications.
-If asked about something not in the data, say so honestly.
-Keep responses focused and under 300 words unless asked for detail.
-Respond as a senior T&S analyst would — precise, data-grounded, actionable.
-"""
-            return context
-        except Exception as e:
-            return f"Context unavailable: {e}"
-
-    system_context = build_copilot_context()
-
-    # ── SUGGESTED QUESTIONS ───────────────────────────────────────────────────
-    st.markdown(f"""
-    <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.7;margin-bottom:20px;'>
-        Ask anything about the moderation queue, patient risk, review patterns, model performance,
-        or T&S signals. The Copilot has live access to all database metrics.
-    </div>
-    """, unsafe_allow_html=True)
-
-    section("Suggested Questions", "Click to use")
-
-    suggestions = [
-        "What treatment has the highest dropout risk?",
-        "Summarize the current moderation queue status.",
-        "Why did a burst occur on June 10, 2022?",
-        "Which review category is hardest for the LLM to classify?",
-        "What are the top 3 Trust & Safety risks in this dataset?",
-        "How many patients need urgent follow-up and why?",
-        "Compare ML vs LLM performance and recommend which to deploy.",
-        "What would change about this pipeline at YouTube scale?",
-    ]
-
-    sug_cols = st.columns(4)
-    for i, q in enumerate(suggestions):
-        with sug_cols[i % 4]:
-            if st.button(q, key=f"sug_{i}", use_container_width=True):
-                st.session_state["copilot_input"] = q
-
-    st.markdown("<hr/>", unsafe_allow_html=True)
-
-    # ── CHAT HISTORY ──────────────────────────────────────────────────────────
-    if "copilot_history" not in st.session_state:
-        st.session_state["copilot_history"] = []
-
-    if "copilot_input" not in st.session_state:
-        st.session_state["copilot_input"] = ""
-
-    # ── CHAT INPUT ────────────────────────────────────────────────────────────
-    user_input = st.chat_input(
-        "Ask about the moderation queue, patient risk, burst events, model performance...",
-    )
-
-    # Handle suggested question click
-    if st.session_state["copilot_input"] and not user_input:
-        user_input = st.session_state["copilot_input"]
-        st.session_state["copilot_input"] = ""
-
-    # ── PROCESS QUERY ─────────────────────────────────────────────────────────
-    if user_input and groq_available:
-        st.session_state["copilot_history"].append({
-            "role": "user",
-            "content": user_input
-        })
-
-        with st.spinner("Analysing..."):
-            try:
-                messages = [{"role": "system", "content": system_context}]
-                # Include last 6 turns for context
-                for turn in st.session_state["copilot_history"][-6:]:
-                    messages.append({"role": turn["role"], "content": turn["content"]})
-
-                response = groq_client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
-                    messages=messages,
-                    max_tokens=600,
-                    temperature=0.3,
-                )
-                answer = response.choices[0].message.content.strip()
-
-                st.session_state["copilot_history"].append({
-                    "role": "assistant",
-                    "content": answer
-                })
-            except Exception as e:
-                st.session_state["copilot_history"].append({
-                    "role": "assistant",
-                    "content": f"Error connecting to Groq: {e}"
-                })
-
-    # ── RENDER CHAT HISTORY ───────────────────────────────────────────────────
-    if st.session_state["copilot_history"]:
-        for turn in st.session_state["copilot_history"]:
-            if turn["role"] == "user":
-                st.markdown(f"""
-                <div style='display:flex;justify-content:flex-end;margin:8px 0;'>
-                    <div style='background:rgba(108,140,255,0.15);border:1px solid rgba(108,140,255,0.3);
-                                border-radius:12px 12px 2px 12px;padding:12px 16px;max-width:75%;
-                                color:{TEXT_HI};font-size:13px;line-height:1.5;'>
-                        {turn["content"]}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown(f"""
-                <div style='display:flex;justify-content:flex-start;margin:8px 0;'>
-                    <div style='margin-right:10px;margin-top:4px;'>
-                        <div style='width:28px;height:28px;border-radius:7px;
-                                    background:linear-gradient(135deg,{ACCENT},{CYAN});
-                                    display:flex;align-items:center;justify-content:center;
-                                    font-weight:800;color:#080A10;font-size:11px;'>P</div>
-                    </div>
-                    <div style='background:{SURFACE};border:1px solid {BORDER};
-                                border-radius:2px 12px 12px 12px;padding:12px 16px;max-width:80%;
-                                color:{TEXT_MED};font-size:13px;line-height:1.6;'>
-                        {turn["content"].replace(chr(10), "<br>")}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-        # Clear chat button
-        if st.button("Clear conversation", key="clear_chat"):
-            st.session_state["copilot_history"] = []
-            st.rerun()
-    else:
         st.markdown(f"""
-        <div style='text-align:center;padding:48px 24px;color:{TEXT_LOW};'>
-            <div style='font-size:32px;margin-bottom:12px;'>◆</div>
-            <div style='font-size:14px;font-weight:600;color:{TEXT_MED};margin-bottom:6px;'>
-                PraxisIQ Copilot is ready
+        <div class='live-strip'>
+            <div class='live-stat'>
+                <div class='live-stat-val'>{patients_live['n'].iloc[0]:,}</div>
+                <div class='live-stat-lbl'>Patients</div>
             </div>
-            <div style='font-size:12px;'>
-                Ask a question above or click a suggested prompt to get started.
+            <div class='live-stat'>
+                <div class='live-stat-val'>{visits_live['n'].iloc[0]:,}</div>
+                <div class='live-stat-lbl'>Visits</div>
+            </div>
+            <div class='live-stat'>
+                <div class='live-stat-val'>{reviews_live['n'].iloc[0]}</div>
+                <div class='live-stat-lbl'>Reviews</div>
+            </div>
+            <div class='live-stat'>
+                <div class='live-stat-val'>{reviews_live['r'].iloc[0]}★</div>
+                <div class='live-stat-lbl'>Avg Rating</div>
+            </div>
+            <div class='live-stat'>
+                <div class='live-stat-val' style='color:{ROSE}'>{p1_live}</div>
+                <div class='live-stat-lbl'>P1 Critical</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<hr/>", unsafe_allow_html=True)
+        # ── CHAT STATE ────────────────────────────────────────────────────────
+        if "copilot_messages" not in st.session_state:
+            st.session_state.copilot_messages = []
+        if "copilot_input" not in st.session_state:
+            st.session_state.copilot_input = ""
 
-    # ── WHAT THE COPILOT KNOWS ────────────────────────────────────────────────
-    section("What the Copilot Has Access To", "Live database context")
-    context_items = [
-        ("Patient Risk Metrics",      f"Retention rate, dropout counts, critical-risk queue, visit outliers", ACCENT),
-        ("Moderation Queue Status",   f"P1/P2/P3 case counts, risk tier breakdown, SLA status",              ROSE),
-        ("Review Signal Analysis",    f"Label distribution, avg ratings, burst events, suspicious reviewers", AMBER),
-        ("Model Performance Data",    f"ML vs LLM accuracy, per-class F1, confidence tier breakdown",         CYAN),
-        ("Treatment Risk Signals",    f"Dropout rates by treatment, high-complexity patient counts",           VIOLET),
-        ("Anomaly Detection Results", f"Burst days, outlier patients, duplicate findings",                     EMERALD),
-    ]
-    ctx_cols = st.columns(3)
-    for i, (title, desc, color) in enumerate(context_items):
-        with ctx_cols[i % 3]:
-            st.markdown(f"""<div class='finding-card'>
-                <div class='finding-title'><span style='color:{color}'>●</span>&nbsp; {title}</div>
-                <div class='finding-text'>{desc}</div>
-            </div>""", unsafe_allow_html=True)
+        # ── SUGGESTED QUESTIONS ───────────────────────────────────────────────
+        suggested = [
+            ("🦷", "What is a root canal and when is it needed?"),
+            ("📊", "Which treatment has the highest patient dropout rate?"),
+            ("⚠️", "What are the top 3 Trust & Safety risks in this dataset?"),
+            ("🔬", "Explain the difference between scaling and deep scaling."),
+            ("🚨", "Summarize the current moderation queue status."),
+            ("💡", "What causes Treatment complaints and how to reduce them?"),
+            ("📈", "Compare ML vs LLM performance — which should go to production?"),
+            ("🌐", "What would change about this pipeline at YouTube scale?"),
+            ("🦷", "What is the recovery process after a tooth extraction?"),
+            ("📋", "Which patients need urgent follow-up and why?"),
+            ("🔍", "Why did complaints increase? What are the signals?"),
+            ("💬", "What is the difference between Communication and Staff complaints?"),
+        ]
+
+        if not st.session_state.copilot_messages:
+            st.markdown("<div style='color:#6B7A99;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;'>✦ Suggested Questions</div>", unsafe_allow_html=True)
+
+            cols = st.columns(3)
+            for i, (icon, q) in enumerate(suggested[:9]):
+                with cols[i % 3]:
+                    if st.button(f"{icon} {q}", key=f"sq_{i}", use_container_width=True):
+                        st.session_state.copilot_input = q
+
+        # ── CHAT HISTORY ──────────────────────────────────────────────────────
+        if st.session_state.copilot_messages:
+            chat_html = "<div class='chat-wrap'>"
+            for msg in st.session_state.copilot_messages:
+                if msg["role"] == "user":
+                    chat_html += f"""
+                    <div class='msg-user'>
+                        <div>
+                            <div class='bubble'>{msg['content']}</div>
+                            <div class='msg-meta' style='text-align:right'>You</div>
+                        </div>
+                    </div>"""
+                else:
+                    content = msg['content'].replace('\n', '<br>')
+                    chat_html += f"""
+                    <div class='msg-ai'>
+                        <div class='ai-avatar'>⬡</div>
+                        <div>
+                            <div class='bubble'>{content}</div>
+                            <div class='msg-meta'>PraxisIQ Copilot · Llama 3.1 8B · Groq</div>
+                        </div>
+                    </div>"""
+            chat_html += "</div>"
+            st.markdown(chat_html, unsafe_allow_html=True)
+
+            if st.button("🗑️ Clear conversation", key="clear_chat"):
+                st.session_state.copilot_messages = []
+                st.session_state.copilot_input = ""
+                st.rerun()
+
+        # ── INPUT ─────────────────────────────────────────────────────────────
+        st.markdown("<hr style='border-color:rgba(108,140,255,0.1);margin:16px 0;'/>", unsafe_allow_html=True)
+
+        user_input = st.text_input(
+            "Ask PraxisIQ Copilot",
+            value=st.session_state.copilot_input,
+            placeholder="Ask about dental procedures, patient risk, moderation queue, T&S signals...",
+            label_visibility="collapsed",
+            key="copilot_text_input"
+        )
+
+        col_send, col_clear = st.columns([1, 4])
+        with col_send:
+            send = st.button("⬡ Ask Copilot", type="primary", use_container_width=True)
+
+        if (send or st.session_state.copilot_input) and user_input.strip():
+            question = user_input.strip()
+            st.session_state.copilot_input = ""
+            st.session_state.copilot_messages.append({"role": "user", "content": question})
+
+            with st.spinner("PraxisIQ Copilot is thinking..."):
+                try:
+                    messages = [{"role": "system", "content": context}]
+                    for m in st.session_state.copilot_messages[:-1][-6:]:
+                        messages.append({"role": m["role"], "content": m["content"]})
+                    messages.append({"role": "user", "content": question})
+
+                    response = groq_client.chat.completions.create(
+                        model="llama-3.1-8b-instant",
+                        messages=messages,
+                        max_tokens=1200,
+                        temperature=0.4,
+                    )
+                    answer = response.choices[0].message.content.strip()
+                except Exception as e:
+                    answer = f"Copilot error: {e}. Check your API key in Streamlit secrets."
+
+            st.session_state.copilot_messages.append({"role": "assistant", "content": answer})
+            st.rerun()
+
+        # ── CAPABILITIES FOOTER ───────────────────────────────────────────────
+        if not st.session_state.copilot_messages:
+            st.markdown("<hr style='border-color:rgba(108,140,255,0.08);margin:24px 0 16px;'/>", unsafe_allow_html=True)
+            st.markdown(f"<div style='color:{TEXT_LOW};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;'>What PraxisIQ Copilot knows</div>", unsafe_allow_html=True)
+
+            cap_cols = st.columns(4)
+            caps = [
+                ("🦷", "Dental Procedures", "Root Canal, Implants, Scaling, Braces, Crowns, Bridges, Whitening, Extractions"),
+                ("📊", "Patient Analytics", "Retention, dropout rates, visit patterns, high-risk identification"),
+                ("🛡️", "Trust & Safety", "Moderation queue, escalation tiers, fraud signals, review classification"),
+                ("🔬", "Clinical Intelligence", "Treatment complications, recovery, aftercare, benchmarks"),
+            ]
+            for col, (icon, title, desc) in zip(cap_cols, caps):
+                with col:
+                    st.markdown(f"""
+                    <div style='background:rgba(10,14,26,0.6);border:1px solid rgba(108,140,255,0.1);
+                         border-radius:10px;padding:14px;text-align:center;'>
+                        <div style='font-size:22px;margin-bottom:6px;'>{icon}</div>
+                        <div style='color:{TEXT_HI};font-size:12px;font-weight:600;margin-bottom:4px;'>{title}</div>
+                        <div style='color:{TEXT_LOW};font-size:11px;line-height:1.5;'>{desc}</div>
+                    </div>""", unsafe_allow_html=True)
+
+    else:
+        st.error("Groq package not installed. Run: `pip install groq` and add `groq>=0.4.0` to requirements.txt")
