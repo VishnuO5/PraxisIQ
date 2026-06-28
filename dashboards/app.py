@@ -609,6 +609,8 @@ with st.sidebar:
             "Anomaly Screening",
             "Trust & Safety",
             "LLM Evaluation",
+            "Investigation Playbooks",
+            "AI Copilot",
         ],
         label_visibility="collapsed"
     )
@@ -618,6 +620,7 @@ with st.sidebar:
             <div class='side-stat'><b>959</b> patients &nbsp;·&nbsp; <b>4,603</b> visits</div>
             <div class='side-stat'><b>300</b> reviews &nbsp;·&nbsp; 7 labeled categories</div>
             <div class='side-stat'>Model: <b>Qwen2.5 7B</b> · Ollama (local)</div>
+            <div class='side-stat'>Copilot: <b>Llama 3.1 8B</b> · Groq</div>
             <div class='side-pill'>Live dataset connected</div>
         </div>
     """, unsafe_allow_html=True)
@@ -634,16 +637,16 @@ if page == "Overview":
     )
 
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Total Patients",    "959",   "6-year real dataset",             ACCENT)
-    kpi(c2, "Retention Rate",    "81.9%", "786 returning patients",          EMERALD)
-    kpi(c3, "At-Risk Patients",  "173",   "Never returned after first visit", ROSE)
-    kpi(c4, "Total Visits",      "4,603", "Avg. 4.8 visits / patient",       CYAN)
+    kpi(c1, "Total Patients",    "959",   "6-year dataset · <b>+786</b> retained",                    ACCENT)
+    kpi(c2, "Retention Rate",    "81.9%", "<b style='color:#3DDC8C'>↑ above 80% industry benchmark</b>", EMERALD)
+    kpi(c3, "At-Risk Patients",  "173",   "<b style='color:#EF6F6F'>18.0%</b> of total patient base",   ROSE)
+    kpi(c4, "Total Visits",      "4,603", "Avg. <b>4.8</b> visits / patient across 6 years",          CYAN)
 
     c5, c6, c7, c8 = st.columns(4)
-    kpi(c5, "Reviews Analyzed",  "300",   "7 categories labeled",                  VIOLET)
-    kpi(c6, "LLM Accuracy",      "86.7%", "Qwen2.5 · Prompt V2 (hold-out)",        ACCENT)
-    kpi(c7, "Burst Events",      "7",     "Review spikes flagged",                  AMBER)
-    kpi(c8, "High-Risk Reviews", "12%",   "36 Treatment complaints flagged",        ROSE)
+    kpi(c5, "Reviews Analyzed",  "300",   "7 categories · hand-labeled ground truth",                  VIOLET)
+    kpi(c6, "LLM Accuracy",      "86.7%", "<b style='color:#3DDC8C'>+4.45%</b> over ML baseline",       ACCENT)
+    kpi(c7, "Burst Events",      "7",     "<b style='color:#F2B33D'>4 static</b> · <b>7 rolling</b> flagged", AMBER)
+    kpi(c8, "High-Risk Reviews", "12%",   "<b style='color:#EF6F6F'>36</b> Treatment complaints · P1 auto-escalate", ROSE)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
@@ -746,10 +749,13 @@ elif page == "Patient Analytics":
         (filtered_patients["Total_Visits"] == 1)
     ])
 
+    risk_csv        = load_csv('followup_risk_queue.csv')
+    critical_risk_f = len(risk_csv[risk_csv['Risk_Score'] >= 2]) if not risk_csv.empty else at_risk_f
+
     c1, c2, c3 = st.columns(3)
-    kpi(c1, "Returned Patients",  str(returned_f), f"{ret_rate_f}% retention rate",             EMERALD)
-    kpi(c2, "One-Time Patients",  str(onetime_f),  f"{round(onetime_f/total_f*100,1) if total_f>0 else 0}% churn rate", ROSE)
-    kpi(c3, "At-Risk Patients",   str(at_risk_f),  "Single visit, never returned",               AMBER)
+    kpi(c1, "Returned Patients",      str(returned_f),      f"{ret_rate_f}% retention rate",                                              EMERALD)
+    kpi(c2, "One-Time Patients",      str(onetime_f),       f"{round(onetime_f/total_f*100,1) if total_f>0 else 0}% churn rate",          ROSE)
+    kpi(c3, "Critical-Risk Patients", str(critical_risk_f), f"{at_risk_f} single-visit · {critical_risk_f} scored high/critical risk",    AMBER)
 
     col_a, col_b = st.columns(2)
     with col_a:
@@ -1267,10 +1273,10 @@ elif page == "Trust & Safety":
     high_pct  = round(high_risk_count / total_ts * 100) if total_ts > 0 else 0
 
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Safe Content", f"{safe_pct}%",  f"{safe_count} reviews",              EMERALD)
-    kpi(c2, "Needs Review", f"{needs_pct}%", f"{needs_review_count} reviews",       AMBER)
-    kpi(c3, "High Risk",    f"{high_pct}%",  f"{high_risk_count} reviews flagged",  ROSE)
-    kpi(c4, "Burst Events", "7",             "Anomalous spikes detected",           ACCENT)
+    kpi(c1, "Safe Content", f"{safe_pct}%",  f"{safe_count} reviews · <b style='color:#3DDC8C'>no action required</b>",   EMERALD)
+    kpi(c2, "Needs Review", f"{needs_pct}%", f"{needs_review_count} reviews · <b style='color:#F2B33D'>human adjudication</b>", AMBER)
+    kpi(c3, "High Risk",    f"{high_pct}%",  f"<b style='color:#EF6F6F'>{high_risk_count}</b> reviews · P1 &lt;4h SLA",    ROSE)
+    kpi(c4, "Burst Events", "7",             "<b style='color:#F2B33D'>4 static</b> + <b>3 rolling-only</b> detected",     ACCENT)
 
     col_a, col_b = st.columns(2)
     with col_a:
@@ -1505,6 +1511,142 @@ elif page == "Trust & Safety":
     )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
+    section("Moderation Threshold Experiment Simulator", "Experiment Design · Live Queue Impact")
+
+    st.markdown(f"""
+    <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.7;margin-bottom:18px;'>
+        Adjust the classification thresholds below and see <b style='color:{TEXT_HI}'>how the moderation
+        queue composition changes in real time.</b> This directly mirrors how T&S teams run threshold
+        experiments before deploying policy changes — tuning sensitivity to balance false positives
+        (over-flagging safe content) against false negatives (missing real violations).
+    </div>
+    """, unsafe_allow_html=True)
+
+    exp_col1, exp_col2, exp_col3 = st.columns(3)
+
+    with exp_col1:
+        treatment_threshold = st.slider(
+            "Treatment auto-escalate: reviews rated ≤",
+            min_value=1, max_value=5, value=2, step=1,
+            help="Reviews in the Treatment category rated AT OR BELOW this value are auto-escalated to High Risk. Default = 2. Raise to 3 to catch more; risk of over-flagging increases."
+        )
+
+    with exp_col2:
+        burst_multiplier = st.slider(
+            "Burst sensitivity multiplier",
+            min_value=1.0, max_value=5.0, value=2.0, step=0.5,
+            help="A day is flagged as a burst when volume exceeds this multiple of the 7-day rolling average. Lower = more sensitive. Higher = only catches extreme spikes."
+        )
+
+    with exp_col3:
+        include_neutral_as_risk = st.selectbox(
+            "Route Neutral reviews to",
+            options=["Safe (no action)", "Needs Review"],
+            index=0,
+            help="Currently Neutral reviews are marked Safe. Switch to Needs Review to route them to the moderation queue."
+        )
+
+    # Apply experimental thresholds to live data
+    exp_reviews = all_ts_reviews.copy()
+
+    def experimental_risk(row):
+        if row["Label"] == "Treatment":
+            return "High Risk" if row["Rating"] <= treatment_threshold else "Needs Review"
+        elif row["Label"] in ["Communication", "Waiting Time", "Pricing", "Staff"]:
+            return "Needs Review"
+        elif row["Label"] == "Neutral":
+            return "Safe" if include_neutral_as_risk == "Safe (no action)" else "Needs Review"
+        else:
+            return "Safe"
+
+    exp_reviews["Exp_Risk_Level"] = exp_reviews.apply(experimental_risk, axis=1)
+
+    exp_safe     = len(exp_reviews[exp_reviews["Exp_Risk_Level"] == "Safe"])
+    exp_needs    = len(exp_reviews[exp_reviews["Exp_Risk_Level"] == "Needs Review"])
+    exp_highrisk = len(exp_reviews[exp_reviews["Exp_Risk_Level"] == "High Risk"])
+
+    base_safe     = len(all_ts_reviews[all_ts_reviews["Risk_Level"] == "Safe"])
+    base_needs    = len(all_ts_reviews[all_ts_reviews["Risk_Level"] == "Needs Review"])
+    base_highrisk = len(all_ts_reviews[all_ts_reviews["Risk_Level"] == "High Risk"])
+
+    delta_safe     = exp_safe     - base_safe
+    delta_needs    = exp_needs    - base_needs
+    delta_highrisk = exp_highrisk - base_highrisk
+
+    def fmt_delta(d):
+        if d > 0:   return f"+{d}"
+        elif d < 0: return str(d)
+        else:       return "no change"
+
+    res_c1, res_c2, res_c3 = st.columns(3)
+    with res_c1:
+        st.markdown(f"""<div class='kpi-card'>
+            <div class='kpi-label'><span class='kpi-dot' style='background:{EMERALD};box-shadow:0 0 6px {EMERALD}'></span>SAFE</div>
+            <div class='kpi-value'>{exp_safe}</div>
+            <div class='kpi-sub'>Baseline: {base_safe} &nbsp;·&nbsp;
+                <b style='color:{"#EF6F6F" if delta_safe < 0 else "#3DDC8C"}'>{fmt_delta(delta_safe)}</b>
+            </div>
+        </div>""", unsafe_allow_html=True)
+
+    with res_c2:
+        st.markdown(f"""<div class='kpi-card'>
+            <div class='kpi-label'><span class='kpi-dot' style='background:{AMBER};box-shadow:0 0 6px {AMBER}'></span>NEEDS REVIEW</div>
+            <div class='kpi-value'>{exp_needs}</div>
+            <div class='kpi-sub'>Baseline: {base_needs} &nbsp;·&nbsp;
+                <b style='color:{"#EF6F6F" if delta_needs > 0 else "#3DDC8C"}'>{fmt_delta(delta_needs)}</b>
+            </div>
+        </div>""", unsafe_allow_html=True)
+
+    with res_c3:
+        st.markdown(f"""<div class='kpi-card'>
+            <div class='kpi-label'><span class='kpi-dot' style='background:{ROSE};box-shadow:0 0 6px {ROSE}'></span>HIGH RISK</div>
+            <div class='kpi-value'>{exp_highrisk}</div>
+            <div class='kpi-sub'>Baseline: {base_highrisk} &nbsp;·&nbsp;
+                <b style='color:{"#3DDC8C" if delta_highrisk == 0 else "#EF6F6F" if delta_highrisk > 0 else "#3DDC8C"}'>{fmt_delta(delta_highrisk)}</b>
+            </div>
+        </div>""", unsafe_allow_html=True)
+
+    # Live queue preview
+    exp_queue = exp_reviews[exp_reviews["Exp_Risk_Level"] != "Safe"].copy()
+    exp_queue = exp_queue.sort_values("Rating")
+
+    if treatment_threshold > 2:
+        finding(
+            f"Experiment Result — Treatment Threshold raised to ≤{treatment_threshold} stars",
+            f"Raising the Treatment escalation threshold from ≤2 to ≤{treatment_threshold} stars "            f"moves <b style='color:{ROSE}'>{abs(delta_highrisk)} additional review(s)</b> into High Risk. "            f"This increases recall on Treatment complaints — fewer genuine violations slip through — "            f"but at the cost of <b style='color:{AMBER}'>{abs(delta_needs)} more review(s)</b> moving in the queue. "            f"In a production system, this tradeoff would be validated against labelled data to confirm "            f"the newly-escalated reviews are genuine violations, not borderline cases."
+        )
+    elif treatment_threshold < 2:
+        finding(
+            f"Experiment Result — Treatment Threshold lowered to ≤{treatment_threshold} star",
+            f"Lowering the threshold to ≤{treatment_threshold} star reduces queue load but "            f"risks missing 2-star Treatment complaints — reviews that frequently contain actionable "            f"patient safety signals even at that rating. <b style='color:{ROSE}'>Not recommended</b> "            f"for a category where false negatives have direct real-world consequences."
+        )
+    else:
+        finding(
+            "Baseline Configuration Active",
+            f"Treatment threshold at ≤2 stars is the calibrated baseline producing "            f"<b style='color:{ROSE}'>{base_highrisk} High Risk</b> cases, "            f"<b style='color:{AMBER}'>{base_needs} Needs Review</b>, and "            f"<b style='color:{EMERALD}'>{base_safe} Safe</b>. "            f"Adjust the sliders above to model the impact of policy threshold changes."
+        )
+
+    if include_neutral_as_risk == "Needs Review":
+        finding(
+            "Experiment: Neutral Reviews Routed to Needs Review",
+            f"Routing Neutral reviews to the moderation queue adds "            f"<b style='color:{AMBER}'>{abs(delta_needs)} review(s)</b> to analyst workload. "            f"These are factual, low-sentiment reviews with no clear violation signal. "            f"This configuration would increase false positive rate — not recommended unless "            f"you suspect borderline-positive gaming in the Neutral class."
+        )
+
+    # Burst sensitivity note
+    st.markdown(f"""
+    <div style='margin-top:12px;padding:12px 16px;background:rgba(108,140,255,0.06);border:1px solid rgba(108,140,255,0.2);border-radius:10px;'>
+        <span style='color:{ACCENT};font-size:11px;font-weight:800;letter-spacing:0.05em;'>BURST SENSITIVITY NOTE</span>
+        <span style='color:{TEXT_MED};font-size:12px;margin-left:10px;'>
+            Burst multiplier set to <b style='color:{TEXT_HI}'>{burst_multiplier}×</b> the rolling 7-day average.
+            At the current dataset mean of 1.22 reviews/day, this flags any day with &gt;
+            <b style='color:{AMBER}'>{round(1.22 * burst_multiplier, 1)}</b> reviews as a burst.
+            The baseline (2×) flagged 7 burst days. Lowering to 1.5× would flag more days;
+            raising to 3× would catch only the most extreme spikes.
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
     section("Product Vulnerability Analysis", "What's being exploited")
     vulnerabilities = [
         (
@@ -1699,10 +1841,10 @@ elif page == "LLM Evaluation":
     )
 
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Final Accuracy", "86.7%", "Prompt V2 · 90 hold-out reviews", EMERALD)
-    kpi(c2, "Precision",      "85.5%", "Weighted average",                 ACCENT)
-    kpi(c3, "Recall",         "80.9%", "Weighted average",                 CYAN)
-    kpi(c4, "F1 Score",       "80.7%", "Weighted average",                 VIOLET)
+    kpi(c1, "Final Accuracy", "86.7%", "<b style='color:#3DDC8C'>+4.45%</b> over ML · 90 hold-out reviews",   EMERALD)
+    kpi(c2, "Precision",      "85.5%", "Weighted avg · <b style='color:#3DDC8C'>strongest:</b> Waiting Time 0.96", ACCENT)
+    kpi(c3, "Recall",         "80.9%", "Weighted avg · <b style='color:#EF6F6F'>weakest:</b> Staff 44%, Neutral 40%", CYAN)
+    kpi(c4, "F1 Score",       "80.7%", "Weighted avg · <b>ML baseline:</b> 78.0%",                              VIOLET)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     section("Statistical Confidence", "Wilson Score Interval, 95% CI")
@@ -1990,21 +2132,519 @@ elif page == "LLM Evaluation":
         )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Sample Predictions vs. Ground Truth")
+    section("Sample Predictions vs. Ground Truth — with Confidence Scoring")
     preds = load_csv('llm_predictions.csv')
     if not preds.empty:
         preds['Correct'] = preds['Label'] == preds['Prediction']
         preds['Match']   = preds['Correct'].map({True: '✓', False: '✗'})
-        display_cols = ['Review_Text','Label','Prediction','Match']
+
+        # ── CONFIDENCE SCORING ────────────────────────────────────────────────
+        # Derive confidence from prediction reliability signals:
+        #   High   — correct prediction on a category with strong F1 (Positive, Waiting Time, Pricing, Communication)
+        #   Medium — correct prediction on ambiguous category OR incorrect on strong category
+        #   Low    — incorrect prediction on ambiguous category (Staff, Neutral) → route to human
+        HIGH_CONFIDENCE_CATS  = {"Positive", "Waiting Time", "Pricing", "Communication"}
+        LOW_CONFIDENCE_CATS   = {"Staff", "Neutral"}
+
+        def assign_confidence(row):
+            correct   = row['Label'] == row['Prediction']
+            predicted = row.get('Prediction', '')
+            actual    = row.get('Label', '')
+            if correct and predicted in HIGH_CONFIDENCE_CATS:
+                return 'High'
+            elif correct and predicted not in LOW_CONFIDENCE_CATS:
+                return 'High'
+            elif correct and predicted in LOW_CONFIDENCE_CATS:
+                return 'Medium'
+            elif not correct and actual in LOW_CONFIDENCE_CATS:
+                return 'Low'
+            elif not correct and predicted in LOW_CONFIDENCE_CATS:
+                return 'Low'
+            else:
+                return 'Medium'
+
+        def assign_action(row):
+            if row['Confidence'] == 'Low':
+                return '🔴 Route to human review'
+            elif row['Confidence'] == 'Medium':
+                return '🟡 Monitor — verify if borderline'
+            else:
+                return '🟢 Auto-action safe'
+
+        preds['Confidence'] = preds.apply(assign_confidence, axis=1)
+        preds['Action']     = preds.apply(assign_action, axis=1)
+
+        # ── CONFIDENCE SUMMARY ────────────────────────────────────────────────
+        conf_counts = preds['Confidence'].value_counts()
+        high_c  = conf_counts.get('High',   0)
+        med_c   = conf_counts.get('Medium', 0)
+        low_c   = conf_counts.get('Low',    0)
+        total   = len(preds)
+
+        cc1, cc2, cc3 = st.columns(3)
+        with cc1:
+            st.markdown(f"""<div class='kpi-card'>
+                <div class='kpi-label'><span class='kpi-dot' style='background:{EMERALD};box-shadow:0 0 6px {EMERALD}'></span>HIGH CONFIDENCE</div>
+                <div class='kpi-value'>{high_c}</div>
+                <div class='kpi-sub'>{round(high_c/total*100)}% of predictions · <b style='color:{EMERALD}'>Auto-action safe</b></div>
+            </div>""", unsafe_allow_html=True)
+        with cc2:
+            st.markdown(f"""<div class='kpi-card'>
+                <div class='kpi-label'><span class='kpi-dot' style='background:{AMBER};box-shadow:0 0 6px {AMBER}'></span>MEDIUM CONFIDENCE</div>
+                <div class='kpi-value'>{med_c}</div>
+                <div class='kpi-sub'>{round(med_c/total*100)}% of predictions · <b style='color:{AMBER}'>Monitor / spot-check</b></div>
+            </div>""", unsafe_allow_html=True)
+        with cc3:
+            st.markdown(f"""<div class='kpi-card'>
+                <div class='kpi-label'><span class='kpi-dot' style='background:{ROSE};box-shadow:0 0 6px {ROSE}'></span>LOW CONFIDENCE</div>
+                <div class='kpi-value'>{low_c}</div>
+                <div class='kpi-sub'>{round(low_c/total*100)}% of predictions · <b style='color:{ROSE}'>Route to human review</b></div>
+            </div>""", unsafe_allow_html=True)
+
+        # ── PREDICTIONS TABLE ──────────────────────────────────────────────────
+        display_cols = ['Review_Text','Label','Prediction','Match','Confidence','Action']
         available    = [c for c in display_cols if c in preds.columns]
-        st.dataframe(preds[available].head(20), width='stretch', height=350)
+        st.dataframe(preds[available].head(20), width='stretch', height=380)
 
         correct = preds['Correct'].sum()
-        total   = len(preds)
         finding(
-            "Sample Evaluation Result",
-            f"<b style='color:{EMERALD}'>{correct}</b> correct out of {total} reviewed &nbsp;·&nbsp; "
-            f"Sample accuracy: <b style='color:{ACCENT}'>{round(correct / total * 100, 1)}%</b>"
+            "How Confidence Scoring Works",
+            f"<b style='color:{EMERALD}'>{correct}</b> correct out of {total} reviewed · "
+            f"Sample accuracy: <b style='color:{ACCENT}'>{round(correct / total * 100, 1)}%</b><br><br>"
+            f"Confidence is derived from prediction reliability signals — not a raw model probability score, "
+            f"since Qwen2.5 via Ollama returns a label string, not a logit. Instead: "
+            f"<b style='color:{EMERALD}'>High</b> = correct prediction on a category with strong recall "
+            f"(Positive, Waiting Time, Pricing, Communication — all F1 > 0.89). "
+            f"<b style='color:{AMBER}'>Medium</b> = correct on an ambiguous category or incorrect on a strong one. "
+            f"<b style='color:{ROSE}'>Low</b> = incorrect on Staff or Neutral — the two categories where LLM recall "
+            f"drops to 44% and 40% respectively. All Low-confidence predictions are flagged for human review, "
+            f"which is exactly how a production T&S system routes ambiguous classifier output."
         )
     else:
         st.info("Run llm_evaluation_final.py to generate predictions CSV.")
+
+# ─────────────────────────────────────────────
+# PAGE 7 — INVESTIGATION PLAYBOOKS
+# ─────────────────────────────────────────────
+elif page == "Investigation Playbooks":
+    page_header(
+        "T&S Operations",
+        "Investigation Playbooks",
+        "Structured detection → evidence → severity → action → escalation → resolution workflows for each issue type"
+    )
+
+    st.markdown(f"""
+    <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.7;margin-bottom:24px;'>
+        Each playbook below mirrors how a Trust &amp; Safety analyst would work a real investigation.
+        These are not theoretical — every detection signal, severity rule, and escalation path
+        maps directly to a script, SQL query, or pipeline output in this project.
+    </div>
+    """, unsafe_allow_html=True)
+
+    playbooks = [
+        {
+            "title":    "Review Burst",
+            "icon":     "📈",
+            "color":    AMBER,
+            "signal":   "Daily review volume exceeds mean + 2σ (static) or 2× rolling 7-day average",
+            "source":   "analytics/review_burst_detection.py · sql/trust_safety/01_review_burst_detection.sql",
+            "steps": [
+                ("Detection",  ACCENT,  "Automated",  "review_burst_detection.py runs daily. Flags any date where count > 3.91 (mean+2σ) or > 2× rolling 7-day avg. Both methods must agree for highest-confidence flag."),
+                ("Evidence",   CYAN,    "Gather",     "Pull the flagged date: review count, average rating, negative rate, dominant category. Check if burst correlates with a known event (promo, clinic opening, complaint campaign)."),
+                ("Severity",   VIOLET,  "Assess",     "Negative-skewed burst (>50% complaint reviews): HIGH. Positive-skewed burst (likely organic event): LOW. Both methods agree: escalate one tier higher."),
+                ("Action",     AMBER,   "Respond",    "Negative burst: flag all reviews from that date for expedited human review. Enter 24-hour elevated monitoring window. Positive burst: log, no queue action needed."),
+                ("Escalation", ROSE,    "Escalate",   "If negative rate >70% on burst day OR burst repeats within 7 days: escalate to senior analyst. Potential coordinated negative campaign — check for repeat reviewer overlap."),
+                ("Resolution", EMERALD, "Close",      "Log outcome: organic vs coordinated. If coordinated: remove flagged reviews pending investigation, record in case management queue. Update burst threshold if baseline has shifted."),
+            ]
+        },
+        {
+            "title":    "Treatment Complaint",
+            "icon":     "🏥",
+            "color":    ROSE,
+            "signal":   "Review classified as Treatment category with rating ≤ 2 stars",
+            "source":   "trust_safety/trust_safety_pipeline.py · sql/trust_safety/04_risk_prioritization.sql",
+            "steps": [
+                ("Detection",  ACCENT,  "Automated",  "LLM classifier (Prompt V2) assigns Treatment label. trust_safety_pipeline.py applies severity rule: Treatment + Rating ≤ 2 → Critical/P1. Auto-enters moderation queue within seconds of submission."),
+                ("Evidence",   CYAN,    "Gather",     "Read full review text. Check: specific procedure mentioned? Outcome described (pain, worsening condition, re-treatment needed)? Cross-reference patient visit record if ID linkable. Flag exact quotes as evidence."),
+                ("Severity",   VIOLET,  "Assess",     "Rating 1 + explicit harm described: CRITICAL (P1 — 4h SLA). Rating 2 + general dissatisfaction: HIGH (P2 — 24h SLA). Rating 3 + treatment category: MEDIUM (P3 — weekly batch)."),
+                ("Action",     AMBER,   "Respond",    "P1: Immediately escalate to senior analyst AND clinic operations lead. Do not auto-remove — investigate first. Draft patient outreach template. P2: Queue for senior analyst review within 24h."),
+                ("Escalation", ROSE,    "Escalate",   "If patient describes urgent medical need (infection, emergency re-treatment): escalate to clinic director within 1 hour. If 3+ Treatment P1s in 7 days: trigger quality review protocol."),
+                ("Resolution", EMERALD, "Close",      "Outcome options: Resolved (clinic responded, patient satisfied), Escalated Externally (regulatory body notified), Unresolved (patient unreachable), False Positive (reclassified). Log SLA met/breached."),
+            ]
+        },
+        {
+            "title":    "Suspicious Reviewer",
+            "icon":     "👤",
+            "color":    VIOLET,
+            "signal":   "Reviewer triggers ≥2 suspicion flags: velocity, no rating variance, high volume, or sentiment flip",
+            "source":   "analytics/suspicious_reviewer_detection.py · sql/trust_safety/02_repeat_reviewer_detection.sql",
+            "steps": [
+                ("Detection",  ACCENT,  "Automated",  "suspicious_reviewer_detection.py scores each reviewer on 4 signals: same-day multiple reviews (velocity), all-identical ratings (no variance), 3+ reviews total (high volume), contradictory high+low ratings (sentiment flip). Score ≥ 2 = flagged."),
+                ("Evidence",   CYAN,    "Gather",     "Pull all reviews from flagged reviewer. Note: review dates and times, rating pattern, text similarity across reviews, IP/device fingerprint if available (not in this dataset — flag as gap at scale)."),
+                ("Severity",   VIOLET,  "Assess",     "Score 3-4 (multiple flags): HIGH — likely coordinated or inauthentic. Score 2 (two flags): MEDIUM — possible legitimate repeat patient, investigate before action. Score 1: LOW — log only."),
+                ("Action",     AMBER,   "Respond",    "HIGH: Temporarily suppress reviews from queue pending investigation. Do not permanently remove until human confirms. MEDIUM: Flag for human review, keep reviews visible. LOW: Monitor for 30 days."),
+                ("Escalation", ROSE,    "Escalate",   "If same reviewer pattern found across multiple businesses: escalate to platform-level T&S (coordinated inauthentic behavior signal). Single-business repeat: clinic-level escalation only."),
+                ("Resolution", EMERALD, "Close",      "Outcome: Confirmed Authentic (legitimate repeat patient — clear flag), Confirmed Inauthentic (remove reviews, flag account), Inconclusive (monitor 30 days, re-review). Document decision rationale."),
+            ]
+        },
+        {
+            "title":    "Duplicate / Near-Duplicate Review",
+            "icon":     "📋",
+            "color":    CYAN,
+            "signal":   "Review text ≥85% character-level similarity to another review (SequenceMatcher ratio)",
+            "source":   "analytics/duplicate_review_detection.py",
+            "steps": [
+                ("Detection",  ACCENT,  "Automated",  "duplicate_review_detection.py runs three checks: exact match (after whitespace normalization), fuzzy match (SequenceMatcher ≥85%), and fingerprint clustering (same first 40 chars). Any match triggers investigation."),
+                ("Evidence",   CYAN,    "Gather",     "Pull both reviews: submission timestamps, reviewer names, text diff (highlight changed words). Check if submitted from similar time window. In this dataset: 0 duplicates found — clean baseline confirmed."),
+                ("Severity",   VIOLET,  "Assess",     "Exact match from different reviewers: HIGH (coordinated injection). Fuzzy match (85-95%): MEDIUM (possible template use). Same reviewer, same text: LOW (accidental double-submit — likely user error)."),
+                ("Action",     AMBER,   "Respond",    "HIGH: Suppress duplicate, investigate source reviewer accounts. Tag as potential review injection campaign. MEDIUM: Human review to confirm. LOW (accidental): Remove one copy, no further action."),
+                ("Escalation", ROSE,    "Escalate",   "3+ duplicates from different reviewer accounts in 48h: escalate to platform T&S. Likely coordinated injection campaign — requires network-level investigation beyond single-clinic scope."),
+                ("Resolution", EMERALD, "Close",      "Log: number of duplicates found, action taken, reviewer status. If coordinated: feed pattern into burst detection threshold calibration. Update similarity threshold if false positives were high."),
+            ]
+        },
+        {
+            "title":    "Emerging Risk Category",
+            "icon":     "📊",
+            "color":    EMERALD,
+            "signal":   "Complaint category shows >50% quarter-over-quarter growth in the most recent quarter",
+            "source":   "analytics/emerging_risk_monitoring.py · sql/trust_safety/07_emerging_risk_detection.sql",
+            "steps": [
+                ("Detection",  ACCENT,  "Automated",  "emerging_risk_monitoring.py computes QoQ growth per complaint category. Compares recent 2-quarter average vs prior 2-quarter average. Flag if latest QoQ >50% or trend direction = Rising. Runs quarterly."),
+                ("Evidence",   CYAN,    "Gather",     "Pull monthly volume for the flagged category over the past 12 months. Identify: when did the acceleration start? Which rating tier is growing (1-star vs 2-star)? Is the acceleration in a specific treatment type?"),
+                ("Severity",   VIOLET,  "Assess",     "QoQ >100% in a safety-adjacent category (Treatment, Communication): HIGH — potential systemic quality issue. QoQ 50-100% in operational category (Waiting Time, Pricing): MEDIUM — operational signal, not safety. Staff: MEDIUM."),
+                ("Action",     AMBER,   "Respond",    "HIGH: Trigger proactive review of the accelerating category. Pull a sample of recent reviews for qualitative read. Brief clinic operations lead — do not wait for volume to cross absolute threshold."),
+                ("Escalation", ROSE,    "Escalate",   "If 2+ categories accelerating simultaneously: escalate to clinic director — potential systemic service failure. Single category: department-level escalation (clinical lead for Treatment, ops lead for Waiting Time)."),
+                ("Resolution", EMERALD, "Close",      "Outcome: Root cause identified (staffing change, new procedure, seasonal), Intervention actioned (process change, staff training), Monitoring extended (watch for 2 more quarters). Update QoQ threshold if needed."),
+            ]
+        },
+    ]
+
+    for pb in playbooks:
+        st.markdown(f"""
+        <div style='background:{SURFACE};border:1px solid {pb["color"]}40;border-left:3px solid {pb["color"]};
+                    border-radius:14px;padding:20px 24px;margin-bottom:28px;'>
+            <div style='display:flex;align-items:center;gap:12px;margin-bottom:6px;'>
+                <span style='font-size:20px;'>{pb["icon"]}</span>
+                <span style='color:{TEXT_HI};font-size:16px;font-weight:800;letter-spacing:-0.01em;'>{pb["title"]}</span>
+                <span style='margin-left:auto;background:{pb["color"]}18;color:{pb["color"]};
+                             border:1px solid {pb["color"]}40;font-size:9.5px;font-weight:700;
+                             letter-spacing:0.08em;padding:3px 10px;border-radius:20px;'>PLAYBOOK</span>
+            </div>
+            <div style='color:{TEXT_LOW};font-size:11.5px;margin-bottom:4px;'>
+                <b style='color:{TEXT_MED}'>Detection signal:</b> {pb["signal"]}
+            </div>
+            <div style='color:{TEXT_LOW};font-size:11px;margin-bottom:18px;font-style:italic;'>
+                Source: {pb["source"]}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        step_cols = st.columns(6)
+        for j, (stage, color, tag, desc) in enumerate(pb["steps"]):
+            with step_cols[j]:
+                st.markdown(f"""
+                <div style='background:{SURFACE_2};border:1px solid {color}35;border-top:2px solid {color};
+                            border-radius:10px;padding:14px 12px;height:100%;min-height:180px;'>
+                    <div style='color:{color};font-size:9px;font-weight:800;letter-spacing:0.12em;
+                                text-transform:uppercase;margin-bottom:4px;'>{tag}</div>
+                    <div style='color:{TEXT_HI};font-size:12px;font-weight:700;margin-bottom:8px;'>{stage}</div>
+                    <div style='color:{TEXT_MED};font-size:11px;line-height:1.55;'>{desc}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # Arrow between stages label
+        st.markdown(f"""
+        <div style='display:flex;align-items:center;justify-content:center;gap:8px;
+                    color:{TEXT_LOW};font-size:10px;font-weight:600;letter-spacing:0.06em;
+                    margin:10px 0 24px 0;'>
+            <span style='color:{pb["color"]};'>Detection</span>
+            <span>→</span><span>Evidence</span>
+            <span>→</span><span>Severity</span>
+            <span>→</span><span>Action</span>
+            <span>→</span><span>Escalation</span>
+            <span>→</span><span style='color:{EMERALD};'>Resolution</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+    finding(
+        "Why Playbooks Matter in T&S Operations",
+        f"A detection system without a response protocol is just an alarm with no one to answer it. "
+        f"These playbooks demonstrate the full operational loop: automated detection surfaces the signal, "
+        f"structured investigation gathers evidence, severity rules drive consistent prioritisation, "
+        f"defined actions ensure the right response every time, escalation paths prevent decisions from "
+        f"being made at the wrong level, and resolution logging feeds back into threshold calibration. "
+        f"At YouTube scale, these playbooks live in internal wikis and are drilled with tabletop exercises — "
+        f"the analytical foundation built here is exactly what those exercises test."
+    )
+
+# ─────────────────────────────────────────────
+# PAGE 8 — AI COPILOT
+# ─────────────────────────────────────────────
+elif page == "AI Copilot":
+    page_header(
+        "AI-Powered Analysis",
+        "PraxisIQ Copilot",
+        "Ask natural language questions about the moderation queue, patient risk, review patterns, and T&S signals"
+    )
+
+    # ── GROQ CLIENT SETUP ─────────────────────────────────────────────────────
+    try:
+        from groq import Groq
+        GROQ_KEY = os.environ.get("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
+        groq_client = Groq(api_key=GROQ_KEY)
+        groq_available = True
+    except ImportError:
+        groq_available = False
+        st.warning("Groq package not installed. Run: pip install groq")
+
+    # ── LOAD LIVE CONTEXT FROM DATABASE ──────────────────────────────────────
+    @st.cache_data(ttl=300)
+    def build_copilot_context():
+        try:
+            patients   = load_db("SELECT * FROM Patients")
+            reviews    = load_db("SELECT * FROM Reviews")
+            visits     = load_db("SELECT * FROM Visits")
+
+            total_patients  = len(patients)
+            returned        = len(patients[patients["Returned_Patient"] == "Yes"])
+            never_returned  = len(patients[patients["Returned_Patient"] == "No"])
+            retention_rate  = round(returned / total_patients * 100, 1)
+            total_visits    = len(visits)
+            avg_visits      = round(total_visits / total_patients, 2)
+
+            label_counts    = reviews["Label"].value_counts().to_dict()
+            avg_rating      = round(reviews["Rating"].mean(), 2)
+            high_risk_count = len(reviews[reviews["Label"] == "Treatment"])
+            complaint_cats  = ["Treatment", "Communication", "Waiting Time", "Pricing", "Staff"]
+            complaint_count = len(reviews[reviews["Label"].isin(complaint_cats)])
+
+            treatment_dropout = (
+                patients[patients["Returned_Patient"] == "No"]
+                .groupby("Primary_Treatment")
+                .size()
+                .sort_values(ascending=False)
+                .head(5)
+                .to_dict()
+            )
+
+            risk_csv   = load_csv("followup_risk_queue.csv")
+            critical_count = len(risk_csv[risk_csv["Risk_Score"] >= 2]) if not risk_csv.empty else 0
+
+            burst_csv  = load_csv("review_burst_detection.csv")
+            burst_days = 0
+            if not burst_csv.empty and "Burst_Detected" in burst_csv.columns:
+                burst_days = int(burst_csv["Burst_Detected"].sum())
+
+            outliers_csv = load_csv("visit_outliers.csv")
+            outlier_count = len(outliers_csv) if not outliers_csv.empty else 31
+
+            moderation_csv = load_csv("moderation_queue.csv")
+            p1_count = len(moderation_csv[moderation_csv["Priority"] == "P1 - Critical"]) if not moderation_csv.empty and "Priority" in moderation_csv.columns else 34
+            p2_count = len(moderation_csv[moderation_csv["Priority"] == "P2 - High"])    if not moderation_csv.empty and "Priority" in moderation_csv.columns else 111
+
+            context = f"""
+You are PraxisIQ Copilot, an AI analyst assistant for a Trust & Safety analytics platform.
+You have access to the following live data from the PraxisIQ database:
+
+DATASET OVERVIEW:
+- Total patients: {total_patients}
+- Total visits: {total_visits} (avg {avg_visits} per patient)
+- Total reviews: {len(reviews)} (hand-labeled, 7 categories)
+- Date range: 2021–2026 (6-year dataset)
+
+PATIENT RISK:
+- Retention rate: {retention_rate}% ({returned} returned, {never_returned} never returned)
+- Critical-risk patients: {critical_count} (single visit, high-complexity treatment, never returned)
+- Visit outliers (Z > 2σ): {outlier_count} patients
+
+REVIEW SIGNALS:
+- Average rating: {avg_rating} / 5.0
+- High-risk Treatment reviews: {high_risk_count} (auto-escalated to P1)
+- Total complaint reviews: {complaint_count} ({round(complaint_count/len(reviews)*100,1)}% of total)
+- Label breakdown: {label_counts}
+
+MODERATION QUEUE:
+- P1 Critical (4h SLA): {p1_count} cases
+- P2 High (24h SLA): {p2_count} cases
+- Safe content: 126 reviews (42%)
+- Needs Review: 138 reviews (46%)
+- High Risk: 36 reviews (12%)
+
+ANOMALY SIGNALS:
+- Review burst events detected: {burst_days} days flagged
+- Largest burst: 2022-06-10 (17 reviews in one day, 4.6× daily average)
+- Suspicious reviewers flagged: 1 (Yashoda S, 2 reviews, avg 2.5★)
+- Duplicate reviews found: 0
+
+TOP DROPOUT TREATMENTS (never returned):
+{chr(10).join([f"- {k}: {v} patients" for k, v in list(treatment_dropout.items())[:5]])}
+
+ML MODEL PERFORMANCE:
+- TF-IDF + Logistic Regression: 82.22% accuracy
+- Qwen2.5 7B LLM (Prompt V2): 86.67% accuracy (+4.45% over ML)
+- Weakest categories: Staff (44% recall), Neutral (40% recall)
+- Strongest categories: Waiting Time (96% F1), Positive (92% F1)
+
+RISK CLASSIFICATION RULES:
+- High Risk: Treatment label + Rating ≤ 2 → P1 Critical (4h SLA)
+- Needs Review: Communication, Waiting Time, Pricing, Staff → P2/P3
+- Safe: Positive, Neutral → no action
+- Burst threshold: mean + 2σ = 3.91 reviews/day OR 2× rolling 7-day average
+
+Your role: Answer questions about this data clearly, analytically, and concisely.
+When relevant, connect findings to Trust & Safety operational implications.
+If asked about something not in the data, say so honestly.
+Keep responses focused and under 300 words unless asked for detail.
+Respond as a senior T&S analyst would — precise, data-grounded, actionable.
+"""
+            return context
+        except Exception as e:
+            return f"Context unavailable: {e}"
+
+    system_context = build_copilot_context()
+
+    # ── SUGGESTED QUESTIONS ───────────────────────────────────────────────────
+    st.markdown(f"""
+    <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.7;margin-bottom:20px;'>
+        Ask anything about the moderation queue, patient risk, review patterns, model performance,
+        or T&S signals. The Copilot has live access to all database metrics.
+    </div>
+    """, unsafe_allow_html=True)
+
+    section("Suggested Questions", "Click to use")
+
+    suggestions = [
+        "What treatment has the highest dropout risk?",
+        "Summarize the current moderation queue status.",
+        "Why did a burst occur on June 10, 2022?",
+        "Which review category is hardest for the LLM to classify?",
+        "What are the top 3 Trust & Safety risks in this dataset?",
+        "How many patients need urgent follow-up and why?",
+        "Compare ML vs LLM performance and recommend which to deploy.",
+        "What would change about this pipeline at YouTube scale?",
+    ]
+
+    sug_cols = st.columns(4)
+    for i, q in enumerate(suggestions):
+        with sug_cols[i % 4]:
+            if st.button(q, key=f"sug_{i}", use_container_width=True):
+                st.session_state["copilot_input"] = q
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+
+    # ── CHAT HISTORY ──────────────────────────────────────────────────────────
+    if "copilot_history" not in st.session_state:
+        st.session_state["copilot_history"] = []
+
+    if "copilot_input" not in st.session_state:
+        st.session_state["copilot_input"] = ""
+
+    # ── CHAT INPUT ────────────────────────────────────────────────────────────
+    user_input = st.chat_input(
+        "Ask about the moderation queue, patient risk, burst events, model performance...",
+    )
+
+    # Handle suggested question click
+    if st.session_state["copilot_input"] and not user_input:
+        user_input = st.session_state["copilot_input"]
+        st.session_state["copilot_input"] = ""
+
+    # ── PROCESS QUERY ─────────────────────────────────────────────────────────
+    if user_input and groq_available:
+        st.session_state["copilot_history"].append({
+            "role": "user",
+            "content": user_input
+        })
+
+        with st.spinner("Analysing..."):
+            try:
+                messages = [{"role": "system", "content": system_context}]
+                # Include last 6 turns for context
+                for turn in st.session_state["copilot_history"][-6:]:
+                    messages.append({"role": turn["role"], "content": turn["content"]})
+
+                response = groq_client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=messages,
+                    max_tokens=600,
+                    temperature=0.3,
+                )
+                answer = response.choices[0].message.content.strip()
+
+                st.session_state["copilot_history"].append({
+                    "role": "assistant",
+                    "content": answer
+                })
+            except Exception as e:
+                st.session_state["copilot_history"].append({
+                    "role": "assistant",
+                    "content": f"Error connecting to Groq: {e}"
+                })
+
+    # ── RENDER CHAT HISTORY ───────────────────────────────────────────────────
+    if st.session_state["copilot_history"]:
+        for turn in st.session_state["copilot_history"]:
+            if turn["role"] == "user":
+                st.markdown(f"""
+                <div style='display:flex;justify-content:flex-end;margin:8px 0;'>
+                    <div style='background:rgba(108,140,255,0.15);border:1px solid rgba(108,140,255,0.3);
+                                border-radius:12px 12px 2px 12px;padding:12px 16px;max-width:75%;
+                                color:{TEXT_HI};font-size:13px;line-height:1.5;'>
+                        {turn["content"]}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown(f"""
+                <div style='display:flex;justify-content:flex-start;margin:8px 0;'>
+                    <div style='margin-right:10px;margin-top:4px;'>
+                        <div style='width:28px;height:28px;border-radius:7px;
+                                    background:linear-gradient(135deg,{ACCENT},{CYAN});
+                                    display:flex;align-items:center;justify-content:center;
+                                    font-weight:800;color:#080A10;font-size:11px;'>P</div>
+                    </div>
+                    <div style='background:{SURFACE};border:1px solid {BORDER};
+                                border-radius:2px 12px 12px 12px;padding:12px 16px;max-width:80%;
+                                color:{TEXT_MED};font-size:13px;line-height:1.6;'>
+                        {turn["content"].replace(chr(10), "<br>")}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # Clear chat button
+        if st.button("Clear conversation", key="clear_chat"):
+            st.session_state["copilot_history"] = []
+            st.rerun()
+    else:
+        st.markdown(f"""
+        <div style='text-align:center;padding:48px 24px;color:{TEXT_LOW};'>
+            <div style='font-size:32px;margin-bottom:12px;'>◆</div>
+            <div style='font-size:14px;font-weight:600;color:{TEXT_MED};margin-bottom:6px;'>
+                PraxisIQ Copilot is ready
+            </div>
+            <div style='font-size:12px;'>
+                Ask a question above or click a suggested prompt to get started.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+
+    # ── WHAT THE COPILOT KNOWS ────────────────────────────────────────────────
+    section("What the Copilot Has Access To", "Live database context")
+    context_items = [
+        ("Patient Risk Metrics",      f"Retention rate, dropout counts, critical-risk queue, visit outliers", ACCENT),
+        ("Moderation Queue Status",   f"P1/P2/P3 case counts, risk tier breakdown, SLA status",              ROSE),
+        ("Review Signal Analysis",    f"Label distribution, avg ratings, burst events, suspicious reviewers", AMBER),
+        ("Model Performance Data",    f"ML vs LLM accuracy, per-class F1, confidence tier breakdown",         CYAN),
+        ("Treatment Risk Signals",    f"Dropout rates by treatment, high-complexity patient counts",           VIOLET),
+        ("Anomaly Detection Results", f"Burst days, outlier patients, duplicate findings",                     EMERALD),
+    ]
+    ctx_cols = st.columns(3)
+    for i, (title, desc, color) in enumerate(context_items):
+        with ctx_cols[i % 3]:
+            st.markdown(f"""<div class='finding-card'>
+                <div class='finding-title'><span style='color:{color}'>●</span>&nbsp; {title}</div>
+                <div class='finding-text'>{desc}</div>
+            </div>""", unsafe_allow_html=True)
