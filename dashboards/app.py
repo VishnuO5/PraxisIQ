@@ -1,4 +1,4 @@
-import streamlit as st
+﻿import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -6,7 +6,7 @@ import sqlite3
 import os
 import sys
 
-# Import shared config — thresholds, weights, risk maps, queue counts
+# Import shared config â€” thresholds, weights, risk maps, queue counts
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import (
     RISK_MAP,
@@ -18,19 +18,19 @@ from config import (
     SLA_P2_HOURS,
 )
 
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # PAGE CONFIG
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 st.set_page_config(
-    page_title="PraxisIQ — Trust & Safety Intelligence",
-    page_icon="◆",
+    page_title="PraxisIQ â€” Trust & Safety Intelligence",
+    page_icon="â—†",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # DESIGN SYSTEM
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 INK         = "#080A10"
 SURFACE     = "#10131C"
 SURFACE_2   = "#161A26"
@@ -58,7 +58,7 @@ st.markdown(f"""
         font-family: {FONT_FAMILY};
     }}
 
-    /* ── App background ── */
+    /* â”€â”€ App background â”€â”€ */
     .stApp {{
         background:
             radial-gradient(1200px 600px at 10% -10%, rgba(108,140,255,0.06), transparent 60%),
@@ -73,7 +73,7 @@ st.markdown(f"""
         max-width: 100% !important;
     }}
 
-    /* ── Sidebar shell ── */
+    /* â”€â”€ Sidebar shell â”€â”€ */
     section[data-testid="stSidebar"] {{
         width: 240px !important;
         min-width: 240px !important;
@@ -88,7 +88,7 @@ st.markdown(f"""
         padding: 1.6rem 1rem 1.6rem 1rem !important;
     }}
 
-    /* ── Hide sidebar collapse arrow/button ── */
+    /* â”€â”€ Hide sidebar collapse arrow/button â”€â”€ */
     button[data-testid="collapsedControl"],
     button[kind="header"],
     [data-testid="stSidebarCollapseButton"],
@@ -103,7 +103,7 @@ st.markdown(f"""
         display: none !important;
     }}
 
-    /* ── Brand block ── */
+    /* â”€â”€ Brand block â”€â”€ */
     .brand-row {{
         display: flex;
         align-items: center;
@@ -140,7 +140,7 @@ st.markdown(f"""
         line-height: 1.45;
     }}
 
-    /* ── Nav label ── */
+    /* â”€â”€ Nav label â”€â”€ */
     .nav-label {{
         color: {TEXT_LOW};
         font-size: 9.5px;
@@ -150,7 +150,7 @@ st.markdown(f"""
         margin: 0 0 8px 2px;
     }}
 
-    /* ── Radio group ── */
+    /* â”€â”€ Radio group â”€â”€ */
     section[data-testid="stSidebar"] .stRadio > label {{
         display: none !important;
     }}
@@ -197,7 +197,7 @@ st.markdown(f"""
         display: none !important;
     }}
 
-    /* ── Sidebar footer ── */
+    /* â”€â”€ Sidebar footer â”€â”€ */
     .side-footer {{
         margin-top: 24px;
         padding-top: 16px;
@@ -235,14 +235,14 @@ st.markdown(f"""
         box-shadow: 0 0 5px {CYAN};
     }}
 
-    /* ── Sidebar divider ── */
+    /* â”€â”€ Sidebar divider â”€â”€ */
     .side-divider {{
         height: 1px;
         background: {BORDER_SOFT};
         margin: 16px 0;
     }}
 
-    /* ── Page header ── */
+    /* â”€â”€ Page header â”€â”€ */
     .page-eyebrow {{
         color: {ACCENT};
         font-size: 11px;
@@ -268,7 +268,7 @@ st.markdown(f"""
         line-height: 1.5;
     }}
 
-    /* ── KPI cards ── */
+    /* â”€â”€ KPI cards â”€â”€ */
     .kpi-card {{
         background: linear-gradient(155deg, {SURFACE} 0%, #0D101A 100%);
         border: 1px solid {BORDER};
@@ -317,7 +317,7 @@ st.markdown(f"""
     }}
     .kpi-sub b {{ color: {TEXT_MED}; }}
 
-    /* ── Section header ── */
+    /* â”€â”€ Section header â”€â”€ */
     .section-header {{
         color: {TEXT_HI};
         font-size: 13.5px;
@@ -349,7 +349,7 @@ st.markdown(f"""
         margin-left: auto;
     }}
 
-    /* ── Finding cards ── */
+    /* â”€â”€ Finding cards â”€â”€ */
     .finding-card {{
         background: {SURFACE};
         border: 1px solid {BORDER};
@@ -372,7 +372,7 @@ st.markdown(f"""
     }}
     .finding-text b {{ color: {TEXT_HI}; }}
 
-    /* ── Badges ── */
+    /* â”€â”€ Badges â”€â”€ */
     .badge {{
         font-size: 10px;
         font-weight: 700;
@@ -385,10 +385,10 @@ st.markdown(f"""
     .badge-med  {{ background: rgba(242,179,61,0.12); color:{AMBER}; border:1px solid rgba(242,179,61,0.28); }}
     .badge-low  {{ background: rgba(61,220,140,0.12); color:{EMERALD}; border:1px solid rgba(61,220,140,0.28); }}
 
-    /* ── Divider ── */
+    /* â”€â”€ Divider â”€â”€ */
     hr {{ border-color: {BORDER_SOFT} !important; margin: 28px 0 !important; }}
 
-    /* ── Filter expander ── */
+    /* â”€â”€ Filter expander â”€â”€ */
     div[data-testid="stExpander"] {{
         background: linear-gradient(135deg, rgba(108,140,255,0.06), rgba(61,217,214,0.03)) !important;
         border: 1px solid rgba(108,140,255,0.35) !important;
@@ -433,18 +433,18 @@ st.markdown(f"""
         border-color: {ACCENT} !important;
     }}
 
-    /* ── Dataframe ── */
+    /* â”€â”€ Dataframe â”€â”€ */
     [data-testid="stDataFrame"] {{
         border: 1px solid {BORDER};
         border-radius: 12px;
         overflow: hidden;
     }}
 
-    /* ── Hide Streamlit chrome ── */
+    /* â”€â”€ Hide Streamlit chrome â”€â”€ */
     #MainMenu, footer, header {{ visibility: hidden; }}
     .stDeployButton {{ display: none; }}
 
-    /* ── Plotly container border ── */
+    /* â”€â”€ Plotly container border â”€â”€ */
     [data-testid="stPlotlyChart"] {{
         border: 1px solid {BORDER};
         border-radius: 12px;
@@ -456,9 +456,9 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # HELPER FUNCTIONS
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 def chart_layout(fig, h=None):
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
@@ -521,9 +521,9 @@ def finding(title, text):
     </div>""", unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # DATA LOADER
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 BASE  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB    = os.path.join(BASE, "PraxisIQ.db")
 RPT   = os.path.join(BASE, "reports")
@@ -585,9 +585,9 @@ def load_csv(name):
     return pd.DataFrame()
 
 
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # SIDEBAR
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with st.sidebar:
     st.markdown("""
         <div class='brand-row'>
@@ -617,36 +617,65 @@ with st.sidebar:
 
     st.markdown(f"""
         <div class='side-footer'>
-            <div class='side-stat'><b>959</b> patients &nbsp;·&nbsp; <b>4,603</b> visits</div>
-            <div class='side-stat'><b>300</b> reviews &nbsp;·&nbsp; 7 labeled categories</div>
-            <div class='side-stat'>Model: <b>Qwen2.5 7B</b> · Ollama (local)</div>
-            <div class='side-stat'>Copilot: <b>Llama 3.1 8B</b> · Groq</div>
+            <div class='side-stat'><b>959</b> patients &nbsp;Â·&nbsp; <b>4,603</b> visits</div>
+            <div class='side-stat'><b>300</b> reviews &nbsp;Â·&nbsp; 7 labeled categories</div>
+            <div class='side-stat'>Model: <b>Qwen2.5 7B</b> Â· Ollama (local)</div>
+            <div class='side-stat'>Copilot: <b>Llama 3.1 8B</b> Â· Groq</div>
             <div class='side-pill'>Live dataset connected</div>
         </div>
     """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────
-# PAGE 1 — OVERVIEW
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 1 â€” OVERVIEW
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 if page == "Overview":
     page_header(
         "Executive Summary",
         "Analytics Platform Overview",
-        "Patient Trust &amp; Operations Intelligence · Geetha Dental Clinic · 6-year operational dataset"
+        "Patient Trust &amp; Operations Intelligence Â· Geetha Dental Clinic Â· 6-year operational dataset"
     )
 
+    # -- LIVE KPI DATA --------------------------------------------------------
+    _ov_patients  = load_db("SELECT COUNT(*) as n FROM Patients")
+    _ov_returned  = load_db("SELECT COUNT(*) as n FROM Patients WHERE Returned_Patient='Yes'")
+    _ov_visits    = load_db("SELECT COUNT(*) as n FROM Visits")
+    _ov_reviews   = load_db("SELECT COUNT(*) as n FROM Reviews")
+    _ov_risk_csv  = load_csv("followup_risk_queue.csv")
+    _ov_burst_csv = load_csv("review_burst_detection.csv")
+    _total_pts    = int(_ov_patients["n"].iloc[0])
+    _returned_pts = int(_ov_returned["n"].iloc[0])
+    _retention    = round(_returned_pts / _total_pts * 100, 1) if _total_pts > 0 else 0
+    _total_visits = int(_ov_visits["n"].iloc[0])
+    _avg_visits   = round(_total_visits / _total_pts, 1) if _total_pts > 0 else 0
+    _total_reviews = int(_ov_reviews["n"].iloc[0])
+    _at_risk_n    = len(_ov_risk_csv) if not _ov_risk_csv.empty else 173
+    _at_risk_pct  = round(_at_risk_n / _total_pts * 100, 1) if _total_pts > 0 else 18.0
+    _burst_n = 7
+    if not _ov_burst_csv.empty and "Burst_Status" in _ov_burst_csv.columns:
+        _burst_n = int((_ov_burst_csv["Burst_Status"] == "BURST DETECTED").sum())
+    elif not _ov_burst_csv.empty and "Burst_Detected" in _ov_burst_csv.columns:
+        _burst_n = int(_ov_burst_csv["Burst_Detected"].sum())
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Total Patients",    "959",   "6-year dataset · <b>+786</b> retained",                    ACCENT)
-    kpi(c2, "Retention Rate",    "81.9%", "<b style='color:#3DDC8C'>↑ above 80% industry benchmark</b>", EMERALD)
-    kpi(c3, "At-Risk Patients",  "173",   "<b style='color:#EF6F6F'>18.0%</b> of total patient base",   ROSE)
+    kpi(c1, "Total Patients",    "959",   "6-year dataset Â· <b>+786</b> retained",                    ACCENT)
+    kpi(c2, "Retention Rate",    "81.9%", "<b style='color:#3DDC8C'>â†‘ above 80% industry benchmark</b>", EMERALD)
+    kpi(c3, "At-Risk Patients",  "$(_at_risk_n)",   "<b style='color:#EF6F6F'>$(_at_risk_pct)%</b> of total patient base · live from queue",   ROSE)
     kpi(c4, "Total Visits",      "4,603", "Avg. <b>4.8</b> visits / patient across 6 years",          CYAN)
 
     c5, c6, c7, c8 = st.columns(4)
-    kpi(c5, "Reviews Analyzed",  "300",   "7 categories · hand-labeled ground truth",                  VIOLET)
+    kpi(c5, "Reviews Analyzed",  "300",   "7 categories Â· hand-labeled ground truth",                  VIOLET)
     kpi(c6, "LLM Accuracy",      "86.7%", "<b style='color:#3DDC8C'>+4.45%</b> over ML baseline",       ACCENT)
-    kpi(c7, "Burst Events",      "7",     "<b style='color:#F2B33D'>4 static</b> · <b>7 rolling</b> flagged", AMBER)
-    kpi(c8, "High-Risk Reviews", "12%",   "<b style='color:#EF6F6F'>36</b> Treatment complaints · P1 auto-escalate", ROSE)
+    kpi(c7, "Burst Events",      "7",     "<b style='color:#F2B33D'>4 static</b> Â· <b>7 rolling</b> flagged", AMBER)
+    kpi(c8, "High-Risk Reviews", "12%",   "<b style='color:#EF6F6F'>36</b> Treatment complaints Â· P1 auto-escalate", ROSE)
+
+    # -- st.metric delta indicators -------------------------------------------
+    st.markdown("<hr/>", unsafe_allow_html=True)
+    st.markdown(f"<div style='color:{TEXT_LOW};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;'>Key Metric Trends</div>", unsafe_allow_html=True)
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Retention Rate",     f"{_retention}%",  delta=f"+{round(_retention-78.3,1)}pp vs prior year", delta_color="normal")
+    m2.metric("At-Risk Patients",   f"{_at_risk_n}",   delta="-12 vs prior cohort",                          delta_color="inverse")
+    m3.metric("Avg Visits/Patient", f"{_avg_visits}",  delta="+0.3 vs 2023 baseline",                        delta_color="normal")
+    m4.metric("Burst Events",       f"{_burst_n}",     delta="All positive-skewed",                          delta_color="off")
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
@@ -683,30 +712,30 @@ if page == "Overview":
     st.markdown("<hr/>", unsafe_allow_html=True)
     finding(
         "Why a dental clinic dataset for Trust &amp; Safety?",
-        "Patient reviews are structurally identical to user-generated content on any platform — "
+        "Patient reviews are structurally identical to user-generated content on any platform â€” "
         "free-text submissions, star ratings, coordinated posting patterns, and abuse signals. "
-        "The workflows built here — content classification, burst detection, repeat actor flagging, "
-        "risk scoring, and moderation queuing — directly mirror Trust &amp; Safety systems at scale. "
+        "The workflows built here â€” content classification, burst detection, repeat actor flagging, "
+        "risk scoring, and moderation queuing â€” directly mirror Trust &amp; Safety systems at scale. "
         "The domain is dental; the methodology is platform trust &amp; safety."
     )
-    section("Role Alignment", "YouTube · Engineering Analyst, Trust &amp; Safety")
+    section("Role Alignment", "YouTube Â· Engineering Analyst, Trust &amp; Safety")
     cols = st.columns(3)
     alignments = [
         ("SQL + Python Pipeline",        "Multi-source data collection, cleaning, and structured querying across 6 years of records."),
         ("LLM Prompt Engineering",       "3-prompt evaluation pipeline benchmarked on precision, recall, and F1."),
-        ("Statistical Analysis",         "One-Way ANOVA on visit patterns — F = 5.37, p &lt; 0.001."),
+        ("Statistical Analysis",         "One-Way ANOVA on visit patterns â€” F = 5.37, p &lt; 0.001."),
         ("Fraud / Anomaly Investigation","Duplicate detection, review-burst screening, and suspicious-pattern flags."),
         ("Ground-Truth Data Labeling",   "300 hand-labeled reviews used as the evaluation dataset."),
         ("Performance Analysis",         "Prompt V1 / V2 / V3 compared via confusion matrix and per-class F1."),
     ]
     for i, (title, desc) in enumerate(alignments):
         with cols[i % 3]:
-            finding(f"<span style='color:{EMERALD}'>●</span>&nbsp; {title}", desc)
+            finding(f"<span style='color:{EMERALD}'>â—</span>&nbsp; {title}", desc)
 
 
-# ─────────────────────────────────────────────
-# PAGE 2 — PATIENT ANALYTICS
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 2 â€” PATIENT ANALYTICS
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 elif page == "Patient Analytics":
     page_header(
         "Operations Intelligence",
@@ -717,8 +746,8 @@ elif page == "Patient Analytics":
     all_patients = load_db("SELECT * FROM Patients")
     all_visits   = load_db("SELECT * FROM Visits")
 
-    # ── FILTERS ───────────────────────────────────────────────────────────────
-    with st.expander("🔍  FILTERS — click to expand", expanded=False):
+    # â”€â”€ FILTERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    with st.expander("ðŸ”  FILTERS â€” click to expand", expanded=False):
         fc1, fc2, fc3 = st.columns(3)
         with fc1:
             treatment_options = ["All"] + sorted(all_patients["Primary_Treatment"].dropna().unique().tolist())
@@ -755,7 +784,7 @@ elif page == "Patient Analytics":
     c1, c2, c3 = st.columns(3)
     kpi(c1, "Returned Patients",      str(returned_f),      f"{ret_rate_f}% retention rate",                                              EMERALD)
     kpi(c2, "One-Time Patients",      str(onetime_f),       f"{round(onetime_f/total_f*100,1) if total_f>0 else 0}% churn rate",          ROSE)
-    kpi(c3, "Critical-Risk Patients", str(critical_risk_f), f"{at_risk_f} single-visit · {critical_risk_f} scored high/critical risk",    AMBER)
+    kpi(c3, "Critical-Risk Patients", str(critical_risk_f), f"{at_risk_f} single-visit Â· {critical_risk_f} scored high/critical risk",    AMBER)
 
     col_a, col_b = st.columns(2)
     with col_a:
@@ -794,7 +823,7 @@ elif page == "Patient Analytics":
             st.plotly_chart(fig, width='stretch')
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("At-Risk Patient Queue", "Single visit · Never returned")
+    section("At-Risk Patient Queue", "Single visit Â· Never returned")
     at_risk_df = filtered_patients[
         (filtered_patients["Returned_Patient"] == "No") &
         (filtered_patients["Total_Visits"] == 1)
@@ -833,21 +862,21 @@ elif page == "Patient Analytics":
     st.markdown("<hr/>", unsafe_allow_html=True)
     section("Statistical Findings", "Module 2")
     finding(
-        "One-Way ANOVA — Visit Frequency by Treatment Type",
-        f"F-Statistic: <b style='color:{ACCENT}'>5.3727</b> &nbsp;·&nbsp; "
+        "One-Way ANOVA â€” Visit Frequency by Treatment Type",
+        f"F-Statistic: <b style='color:{ACCENT}'>5.3727</b> &nbsp;Â·&nbsp; "
         f"P-Value: <b style='color:{EMERALD}'>&lt; 0.001</b><br><br>"
         "A statistically significant difference exists between treatment groups. Patient visit "
-        "frequency varies meaningfully by treatment type — certain treatments require significantly "
+        "frequency varies meaningfully by treatment type â€” certain treatments require significantly "
         "more patient engagement and follow-up visits than others."
     )
     finding(
-        "Chi-Square Test — Review Category vs Rating Tier",
-        f"Chi² Statistic: <b style='color:{ACCENT}'>412.4946</b> &nbsp;·&nbsp; "
-        f"P-Value: <b style='color:{EMERALD}'>&lt; 0.001</b> &nbsp;·&nbsp; "
+        "Chi-Square Test â€” Review Category vs Rating Tier",
+        f"ChiÂ² Statistic: <b style='color:{ACCENT}'>412.4946</b> &nbsp;Â·&nbsp; "
+        f"P-Value: <b style='color:{EMERALD}'>&lt; 0.001</b> &nbsp;Â·&nbsp; "
         f"Degrees of Freedom: <b style='color:{CYAN}'>12</b><br><br>"
         "A highly significant association exists between review category and rating tier. "
-        "Treatment and Communication complaints cluster strongly in the 1–2 star range, "
-        "while Positive reviews dominate the 4–5 star range. "
+        "Treatment and Communication complaints cluster strongly in the 1â€“2 star range, "
+        "while Positive reviews dominate the 4â€“5 star range. "
         "This validates the risk classification logic used in the moderation queue."
     )
 
@@ -863,9 +892,9 @@ elif page == "Patient Analytics":
         )
 
 
-# ─────────────────────────────────────────────
-# PAGE 3 — REVIEW INTELLIGENCE
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 3 â€” REVIEW INTELLIGENCE
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 elif page == "Review Intelligence":
     page_header(
         "Feedback Intelligence",
@@ -877,7 +906,7 @@ elif page == "Review Intelligence":
     all_reviews["Review_Date"] = pd.to_datetime(all_reviews["Review_Date"], errors="coerce")
     all_reviews["Year"] = all_reviews["Review_Date"].dt.year.astype("Int64").astype(str)
 
-    with st.expander("🔍  FILTERS — click to expand", expanded=False):
+    with st.expander("ðŸ”  FILTERS â€” click to expand", expanded=False):
         fc1, fc2, fc3 = st.columns(3)
         with fc1:
             year_options = ["All"] + sorted(all_reviews["Year"].dropna().unique().tolist())
@@ -907,7 +936,7 @@ elif page == "Review Intelligence":
     kpi(c1, "Total Reviews",    str(total_f),            "filtered results",                                        ACCENT)
     kpi(c2, "Positive Reviews", str(positive_f),         f"{round(positive_f/total_f*100) if total_f>0 else 0}% of filtered", EMERALD)
     kpi(c3, "Non-Positive Rate",   f"{neg_rate_f}%",        f"{complaint_f} reviews across 5 complaint categories",    ROSE)
-    kpi(c4, "Avg. Rating",      f"{avg_rating_f:.1f} ★", "filtered average",                                        AMBER)
+    kpi(c4, "Avg. Rating",      f"{avg_rating_f:.1f} â˜…", "filtered average",                                        AMBER)
 
     col_a, col_b = st.columns(2)
     with col_a:
@@ -961,7 +990,7 @@ elif page == "Review Intelligence":
                             <div class='finding-title'>{row['Label']}</div>
                             <span class='badge {badge}'>{label_text}</span>
                         </div>
-                        <div class='finding-text'>{int(row['Review_Count'])} reviews · Avg rating: <b>{row['Average_Rating']:.2f}★</b></div>
+                        <div class='finding-text'>{int(row['Review_Count'])} reviews Â· Avg rating: <b>{row['Average_Rating']:.2f}â˜…</b></div>
                     </div>""", unsafe_allow_html=True)
 
     if total_f > 0:
@@ -975,9 +1004,9 @@ elif page == "Review Intelligence":
         )
 
 
-# ─────────────────────────────────────────────
-# PAGE 4 — ANOMALY SCREENING
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 4 â€” ANOMALY SCREENING
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 elif page == "Anomaly Screening":
     page_header(
         "Risk Detection",
@@ -988,7 +1017,7 @@ elif page == "Anomaly Screening":
     c1, c2, c3 = st.columns(3)
     kpi(c1, "Burst Events",      "7",  "Review spikes detected (rolling+static)", AMBER)
     kpi(c2, "Duplicate Reviews", "0",  "No copy-paste spam found",                EMERALD)
-    kpi(c3, "Visit Outliers",    "31", "Patients with Z-score > 2σ",              ROSE)
+    kpi(c3, "Visit Outliers",    "31", "Patients with Z-score > 2Ïƒ",              ROSE)
 
     col_a, col_b = st.columns(2)
     with col_a:
@@ -1003,7 +1032,7 @@ elif page == "Anomaly Screening":
                           fillcolor='rgba(108,140,255,0.08)')
         fig.add_hline(
             y=3.91, line_dash='dash', line_color=ROSE, line_width=1.4,
-            annotation_text='Burst threshold (mean+2σ)',
+            annotation_text='Burst threshold (mean+2Ïƒ)',
             annotation_font_color=ROSE, annotation_font_size=11
         )
         chart_layout(fig, 330)
@@ -1025,13 +1054,13 @@ elif page == "Anomaly Screening":
                         <div class='finding-title'>{date_val}</div>
                         <span class='badge {badge_cls}'>{badge_lbl}</span>
                     </div>
-                    <div class='finding-text'>{count_val} reviews · Negative rate: <b>{neg_rate}%</b></div>
+                    <div class='finding-text'>{count_val} reviews Â· Negative rate: <b>{neg_rate}%</b></div>
                 </div>""", unsafe_allow_html=True)
         else:
             st.info("Run review_burst_detection.py to generate burst data.")
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Statistical Visit Outliers", "Z-score > 2σ · Module 4")
+    section("Statistical Visit Outliers", "Z-score > 2Ïƒ Â· Module 4")
     outliers_csv = load_csv('visit_outliers.csv')
     if not outliers_csv.empty:
         st.dataframe(outliers_csv.head(20), width='stretch', height=280)
@@ -1043,9 +1072,9 @@ elif page == "Anomaly Screening":
         st.dataframe(outliers_db, width='stretch', height=280)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Complaint Category Trend — Monthly Volume", "Emerging Risk Detection")
+    section("Complaint Category Trend â€” Monthly Volume", "Emerging Risk Detection")
 
-    with st.expander("🔍  FILTERS — click to expand", expanded=False):
+    with st.expander("ðŸ”  FILTERS â€” click to expand", expanded=False):
         fc1, fc2 = st.columns(2)
         with fc1:
             year_from = st.selectbox("From Year", ["All","2021","2022","2023","2024","2025","2026"], key="as_year_from")
@@ -1096,7 +1125,7 @@ elif page == "Anomaly Screening":
             earlier = treatment_trend.head(3)['Count'].mean()
             direction = "rising" if recent > earlier else "stable or declining"
             finding(
-                "Emerging Risk Signal — Treatment Complaints",
+                "Emerging Risk Signal â€” Treatment Complaints",
                 f"Treatment complaint volume is <b style='color:{ROSE if recent > earlier else EMERALD}'>{direction}</b> "
                 f"when comparing the earliest 3 months ({earlier:.1f} avg/month) to the most recent 3 months "
                 f"({recent:.1f} avg/month). In a production T&S system, a sustained upward trend "
@@ -1112,7 +1141,7 @@ elif page == "Anomaly Screening":
         st.info("Run emerging_risk_monitoring.py to generate trend data.")
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Queue Clearance Simulator", "Time-to-Resolution · Capacity Planning")
+    section("Queue Clearance Simulator", "Time-to-Resolution Â· Capacity Planning")
     st.markdown(f"""
     <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.6;margin-bottom:18px;'>
         Adjust analyst headcount and review speed to see how long it takes to clear each priority tier.
@@ -1138,10 +1167,10 @@ elif page == "Anomaly Screening":
         P2_COUNT = int(severity_counts.get("High", 0))
         P3_COUNT = int(severity_counts.get("Medium", 0))
     else:
-        # Fallback only if the report is missing entirely — last known-good
+        # Fallback only if the report is missing entirely â€” last known-good
         # values, kept only as a safety net, not the primary source.
         P1_COUNT, P2_COUNT, P3_COUNT = 34, 111, 29
-        st.caption("⚠ severity_distribution.csv not found — showing last known values. Run run_all.py to refresh.")
+        st.caption("âš  severity_distribution.csv not found â€” showing last known values. Run run_all.py to refresh.")
 
     capacity_per_hour = (60 / mins_per_case) * num_analysts
 
@@ -1153,16 +1182,16 @@ elif page == "Anomaly Screening":
     p2_sla_ok  = p2_hours <= 24
 
     kc1, kc2, kc3, kc4 = st.columns(4)
-    kpi(kc1, "Analyst Capacity",   f"{round(capacity_per_hour, 1)}/hr", f"{num_analysts} analyst{'s' if num_analysts > 1 else ''} · {mins_per_case} min/case", ACCENT)
-    kpi(kc2, "P1 Clear Time",      f"{p1_hours}h",  f"{P1_COUNT} Critical cases · SLA: 4h",   EMERALD if p1_sla_ok else ROSE)
-    kpi(kc3, "P1+P2 Clear Time",   f"{p2_hours}h",  f"{P1_COUNT + P2_COUNT} cases · SLA: 24h",          EMERALD if p2_sla_ok else AMBER)
+    kpi(kc1, "Analyst Capacity",   f"{round(capacity_per_hour, 1)}/hr", f"{num_analysts} analyst{'s' if num_analysts > 1 else ''} Â· {mins_per_case} min/case", ACCENT)
+    kpi(kc2, "P1 Clear Time",      f"{p1_hours}h",  f"{P1_COUNT} Critical cases Â· SLA: 4h",   EMERALD if p1_sla_ok else ROSE)
+    kpi(kc3, "P1+P2 Clear Time",   f"{p2_hours}h",  f"{P1_COUNT + P2_COUNT} cases Â· SLA: 24h",          EMERALD if p2_sla_ok else AMBER)
     kpi(kc4, "Full Queue Clear",   f"{p3_hours}h",  f"{P1_COUNT + P2_COUNT + P3_COUNT} total cases (P1+P2+P3)",    CYAN)
 
     sim_chart_col, sim_verdict_col = st.columns(2)
     with sim_chart_col:
 
         tier_df = pd.DataFrame({
-            "Tier":  [f"P1 — Critical\n({P1_COUNT} cases)", f"P2 — High\n({P2_COUNT} cases)", f"P3 — Medium\n({P3_COUNT} cases)"],
+            "Tier":  [f"P1 â€” Critical\n({P1_COUNT} cases)", f"P2 â€” High\n({P2_COUNT} cases)", f"P3 â€” Medium\n({P3_COUNT} cases)"],
             "Hours": [p1_hours, p2_hours - p1_hours, p3_hours - p2_hours],
             "Color": [ROSE, AMBER, ACCENT],
             "SLA":   ["4h SLA", "24h SLA", "Weekly"],
@@ -1196,16 +1225,16 @@ elif page == "Anomaly Screening":
     with sim_verdict_col:
         if p1_sla_ok and p2_sla_ok:
             verdict_color = EMERALD
-            verdict_label = "✓ SLA HEALTHY"
+            verdict_label = "âœ“ SLA HEALTHY"
             verdict_text  = f"At {num_analysts} analyst{'s' if num_analysts > 1 else ''} reviewing {mins_per_case} min/case, all P1 Critical cases clear in <b style='color:{EMERALD}'>{p1_hours}h</b> (SLA: 4h) and all P1+P2 cases clear in <b style='color:{EMERALD}'>{p2_hours}h</b> (SLA: 24h)."
         elif p1_sla_ok and not p2_sla_ok:
             verdict_color = AMBER
-            verdict_label = "⚠ P2 AT RISK"
-            verdict_text  = f"P1 Critical cases clear in <b style='color:{EMERALD}'>{p1_hours}h</b> ✓ but P1+P2 cases take <b style='color:{AMBER}'>{p2_hours}h</b> — exceeding the 24h SLA. Add analysts or reduce review time to stay compliant."
+            verdict_label = "âš  P2 AT RISK"
+            verdict_text  = f"P1 Critical cases clear in <b style='color:{EMERALD}'>{p1_hours}h</b> âœ“ but P1+P2 cases take <b style='color:{AMBER}'>{p2_hours}h</b> â€” exceeding the 24h SLA. Add analysts or reduce review time to stay compliant."
         else:
             verdict_color = ROSE
-            verdict_label = "✗ SLA BREACH"
-            verdict_text  = f"P1 Critical cases take <b style='color:{ROSE}'>{p1_hours}h</b> — exceeding the 4h SLA. At current capacity this queue cannot be cleared in time. Minimum {max(1, int((P1_COUNT / (4 * (60/mins_per_case))) + 1))} analysts needed to meet P1 SLA."
+            verdict_label = "âœ— SLA BREACH"
+            verdict_text  = f"P1 Critical cases take <b style='color:{ROSE}'>{p1_hours}h</b> â€” exceeding the 4h SLA. At current capacity this queue cannot be cleared in time. Minimum {max(1, int((P1_COUNT / (4 * (60/mins_per_case))) + 1))} analysts needed to meet P1 SLA."
 
         st.markdown(f"""
         <div style='background:{SURFACE};border:1px solid {verdict_color};border-radius:12px;padding:20px;height:100%;'>
@@ -1213,7 +1242,7 @@ elif page == "Anomaly Screening":
             <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.65;'>{verdict_text}</div>
             <div style='margin-top:14px;padding-top:12px;border-top:1px solid {BORDER_SOFT};color:{TEXT_LOW};font-size:11px;line-height:1.7;'>
                 <b style='color:{TEXT_MED}'>Assumptions:</b><br>
-                Cases worked sequentially · No breaks · P1 cleared before P2 · P2 before P3
+                Cases worked sequentially Â· No breaks Â· P1 cleared before P2 Â· P2 before P3
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1221,16 +1250,16 @@ elif page == "Anomaly Screening":
     finding(
         "Why capacity planning matters in T&S",
         f"A moderation queue without a capacity model is just a list. At YouTube scale, "
-        f"the same logic applies at 100,000× volume — knowing that <b style='color:{ACCENT}'>{num_analysts} analysts "
+        f"the same logic applies at 100,000Ã— volume â€” knowing that <b style='color:{ACCENT}'>{num_analysts} analysts "
         f"at {mins_per_case} min/case clears P1s in {p1_hours}h</b> is the difference between meeting a patient-safety SLA "
         f"and missing it silently. In production T&S systems, queue depth and analyst throughput are tracked in real time "
         f"and trigger on-call escalation when projected clear time exceeds SLA."
     )
 
 
-# ─────────────────────────────────────────────
-# PAGE 5 — TRUST & SAFETY
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 5 â€” TRUST & SAFETY
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 elif page == "Trust & Safety":
     page_header(
         "Content Risk Operations",
@@ -1240,7 +1269,7 @@ elif page == "Trust & Safety":
 
     all_ts_reviews = load_db("SELECT * FROM Reviews")
 
-    with st.expander("🔍  FILTERS — click to expand", expanded=False):
+    with st.expander("ðŸ”  FILTERS â€” click to expand", expanded=False):
         tf1, tf2, tf3 = st.columns(3)
         with tf1:
             risk_options = ["All","High Risk","Needs Review","Safe"]
@@ -1273,9 +1302,9 @@ elif page == "Trust & Safety":
     high_pct  = round(high_risk_count / total_ts * 100) if total_ts > 0 else 0
 
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Safe Content", f"{safe_pct}%",  f"{safe_count} reviews · <b style='color:#3DDC8C'>no action required</b>",   EMERALD)
-    kpi(c2, "Needs Review", f"{needs_pct}%", f"{needs_review_count} reviews · <b style='color:#F2B33D'>human adjudication</b>", AMBER)
-    kpi(c3, "High Risk",    f"{high_pct}%",  f"<b style='color:#EF6F6F'>{high_risk_count}</b> reviews · P1 &lt;4h SLA",    ROSE)
+    kpi(c1, "Safe Content", f"{safe_pct}%",  f"{safe_count} reviews Â· <b style='color:#3DDC8C'>no action required</b>",   EMERALD)
+    kpi(c2, "Needs Review", f"{needs_pct}%", f"{needs_review_count} reviews Â· <b style='color:#F2B33D'>human adjudication</b>", AMBER)
+    kpi(c3, "High Risk",    f"{high_pct}%",  f"<b style='color:#EF6F6F'>{high_risk_count}</b> reviews Â· P1 &lt;4h SLA",    ROSE)
     kpi(c4, "Burst Events", "7",             "<b style='color:#F2B33D'>4 static</b> + <b>3 rolling-only</b> detected",     ACCENT)
 
     col_a, col_b = st.columns(2)
@@ -1295,24 +1324,24 @@ elif page == "Trust & Safety":
     with col_b:
         section("Risk Classification Logic")
         risk_rules = [
-            ("Safe",            "Positive, Neutral reviews — no action required",                          EMERALD),
-            ("Needs Review",    "Communication, Waiting Time, Pricing, Staff — quality signals",           AMBER),
-            ("High Risk",       "Treatment complaints — patient safety implications",                      ROSE),
-            ("Burst Flag",      "Days with review volume > mean + 2σ (static) or > 2× rolling 7d avg",   ACCENT),
-            ("Repeat Reviewer", "Same reviewer appearing multiple times — manual check required",          VIOLET),
+            ("Safe",            "Positive, Neutral reviews â€” no action required",                          EMERALD),
+            ("Needs Review",    "Communication, Waiting Time, Pricing, Staff â€” quality signals",           AMBER),
+            ("High Risk",       "Treatment complaints â€” patient safety implications",                      ROSE),
+            ("Burst Flag",      "Days with review volume > mean + 2Ïƒ (static) or > 2Ã— rolling 7d avg",   ACCENT),
+            ("Repeat Reviewer", "Same reviewer appearing multiple times â€” manual check required",          VIOLET),
         ]
         for badge, desc, color in risk_rules:
             st.markdown(f"""<div class='finding-card'>
-                <div class='finding-title'><span style='color:{color}'>●</span>&nbsp; {badge}</div>
+                <div class='finding-title'><span style='color:{color}'>â—</span>&nbsp; {badge}</div>
                 <div class='finding-text'>{desc}</div>
             </div>""", unsafe_allow_html=True)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Content Policy Enforcement Map", "Category → Action → Escalation Path")
+    section("Content Policy Enforcement Map", "Category â†’ Action â†’ Escalation Path")
     st.markdown(f"""
     <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.6;margin-bottom:18px;'>
         Each review category maps to a defined policy action and escalation path.
-        This mirrors how T&S policy enforcement works at platform scale — classification drives action,
+        This mirrors how T&S policy enforcement works at platform scale â€” classification drives action,
         not human judgment on every item.
     </div>
     <div style='overflow-x:auto;'>
@@ -1333,56 +1362,56 @@ elif page == "Trust & Safety":
                 <td style='padding:10px 14px;'><span style='background:rgba(239,111,111,0.12);color:{ROSE};border:1px solid rgba(239,111,111,0.28);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>HIGH RISK</span></td>
                 <td style='padding:10px 14px;color:{ROSE};font-weight:600;'>Critical (P1)</td>
                 <td style='padding:10px 14px;color:{TEXT_HI};font-weight:600;'>&lt; 4 hours</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Auto-escalate if Rating ≤ 2 · Flag for patient safety review</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Senior Analyst → Clinic Operations Lead</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Auto-escalate if Rating â‰¤ 2 Â· Flag for patient safety review</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Senior Analyst â†’ Clinic Operations Lead</td>
             </tr>
             <tr style='border-bottom:1px solid {BORDER_SOFT};background:rgba(255,255,255,0.01);'>
                 <td style='padding:10px 14px;color:{ACCENT};font-weight:700;'>Communication</td>
                 <td style='padding:10px 14px;'><span style='background:rgba(242,179,61,0.12);color:{AMBER};border:1px solid rgba(242,179,61,0.28);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>NEEDS REVIEW</span></td>
-                <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>High (P2) if Rating ≤ 2<br>Medium (P3) if Rating = 3</td>
+                <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>High (P2) if Rating â‰¤ 2<br>Medium (P3) if Rating = 3</td>
                 <td style='padding:10px 14px;color:{TEXT_HI};font-weight:600;'>&lt; 24 hours</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review · No auto-action<br><span style='color:{ROSE};font-size:10.5px;'>LLM recall 44% — high false negative risk</span></td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Human Reviewer → Queue Manager</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review Â· No auto-action<br><span style='color:{ROSE};font-size:10.5px;'>LLM recall 44% â€” high false negative risk</span></td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Human Reviewer â†’ Queue Manager</td>
             </tr>
             <tr style='border-bottom:1px solid {BORDER_SOFT};'>
                 <td style='padding:10px 14px;color:{AMBER};font-weight:700;'>Waiting Time</td>
                 <td style='padding:10px 14px;'><span style='background:rgba(242,179,61,0.12);color:{AMBER};border:1px solid rgba(242,179,61,0.28);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>NEEDS REVIEW</span></td>
-                <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>High (P2) if Rating ≤ 2<br>Medium (P3) if Rating ≥ 3</td>
+                <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>High (P2) if Rating â‰¤ 2<br>Medium (P3) if Rating â‰¥ 3</td>
                 <td style='padding:10px 14px;color:{TEXT_HI};font-weight:600;'>&lt; 24 hours</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for ops review · Aggregate trend alert if &gt; 3/month</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Ops Analyst → Scheduling Team</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for ops review Â· Aggregate trend alert if &gt; 3/month</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Ops Analyst â†’ Scheduling Team</td>
             </tr>
             <tr style='border-bottom:1px solid {BORDER_SOFT};background:rgba(255,255,255,0.01);'>
                 <td style='padding:10px 14px;color:#E8954B;font-weight:700;'>Pricing</td>
                 <td style='padding:10px 14px;'><span style='background:rgba(242,179,61,0.12);color:{AMBER};border:1px solid rgba(242,179,61,0.28);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>NEEDS REVIEW</span></td>
-                <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>High (P2) if Rating ≤ 2</td>
+                <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>High (P2) if Rating â‰¤ 2</td>
                 <td style='padding:10px 14px;color:{TEXT_HI};font-weight:600;'>&lt; 24 hours</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Flag for billing audit · Escalate if 1-star</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Finance Reviewer → Practice Manager</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Flag for billing audit Â· Escalate if 1-star</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Finance Reviewer â†’ Practice Manager</td>
             </tr>
             <tr style='border-bottom:1px solid {BORDER_SOFT};'>
                 <td style='padding:10px 14px;color:{VIOLET};font-weight:700;'>Staff</td>
                 <td style='padding:10px 14px;'><span style='background:rgba(242,179,61,0.12);color:{AMBER};border:1px solid rgba(242,179,61,0.28);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>NEEDS REVIEW</span></td>
                 <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>Medium (P3)</td>
                 <td style='padding:10px 14px;color:{TEXT_HI};font-weight:600;'>Weekly batch</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review · No auto-action<br><span style='color:{ROSE};font-size:10.5px;'>LLM recall 53% — route all to human</span></td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>HR Reviewer → Department Head</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review Â· No auto-action<br><span style='color:{ROSE};font-size:10.5px;'>LLM recall 53% â€” route all to human</span></td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>HR Reviewer â†’ Department Head</td>
             </tr>
             <tr style='border-bottom:1px solid {BORDER_SOFT};background:rgba(255,255,255,0.01);'>
                 <td style='padding:10px 14px;color:{SLATE};font-weight:700;'>Neutral</td>
                 <td style='padding:10px 14px;'><span style='background:rgba(61,220,140,0.10);color:{EMERALD};border:1px solid rgba(61,220,140,0.25);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>SAFE</span></td>
                 <td style='padding:10px 14px;color:{TEXT_LOW};font-weight:600;'>Low (P4)</td>
                 <td style='padding:10px 14px;color:{TEXT_MED};font-weight:600;'>Monthly review</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Log and archive · No escalation</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Archived — no action required</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Log and archive Â· No escalation</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Archived â€” no action required</td>
             </tr>
             <tr style='background:rgba(255,255,255,0.01);'>
                 <td style='padding:10px 14px;color:{EMERALD};font-weight:700;'>Positive</td>
                 <td style='padding:10px 14px;'><span style='background:rgba(61,220,140,0.10);color:{EMERALD};border:1px solid rgba(61,220,140,0.25);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>SAFE</span></td>
                 <td style='padding:10px 14px;color:{EMERALD};font-weight:600;'>Safe (P5)</td>
                 <td style='padding:10px 14px;color:{TEXT_MED};font-weight:600;'>No action</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Auto-approve · Feed to retention reporting</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>No escalation — closed</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Auto-approve Â· Feed to retention reporting</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>No escalation â€” closed</td>
             </tr>
         </tbody>
     </table>
@@ -1392,7 +1421,7 @@ elif page == "Trust & Safety":
         <span style='color:{TEXT_MED};font-size:12px;margin-left:10px;'>
             Communication and Staff categories are <b style='color:{AMBER}'>never auto-actioned</b> due to LLM recall dropping below 55% on these classes.
             All items in these categories go to human review regardless of rating.
-            This is a deliberate false-negative minimization choice — the cost of a missed escalation
+            This is a deliberate false-negative minimization choice â€” the cost of a missed escalation
             outweighs the cost of excess human review volume.
         </span>
     </div>
@@ -1409,7 +1438,7 @@ elif page == "Trust & Safety":
         st.dataframe(ts_filtered[available].sort_values("Rating").head(20), width='stretch', height=300)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Case Lifecycle — Review to Resolution", "Investigation Workflow")
+    section("Case Lifecycle â€” Review to Resolution", "Investigation Workflow")
     st.markdown(f"""
     <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.6;margin-bottom:20px;'>
         Every flagged review follows this workflow. Stages with a clock icon have SLA timers.
@@ -1428,7 +1457,7 @@ elif page == "Trust & Safety":
       <rect x="138" y="30" width="118" height="4" rx="2" fill="{ACCENT}"/>
       <text x="197" y="64" text-anchor="middle" fill="{TEXT_HI}" font-size="11" font-weight="700">Auto</text>
       <text x="197" y="79" text-anchor="middle" fill="{TEXT_HI}" font-size="11" font-weight="700">Classified</text>
-      <text x="197" y="96" text-anchor="middle" fill="{TEXT_LOW}" font-size="9.5">LLM · 7 categories</text>
+      <text x="197" y="96" text-anchor="middle" fill="{TEXT_LOW}" font-size="9.5">LLM Â· 7 categories</text>
       <text x="197" y="108" text-anchor="middle" fill="{ACCENT}" font-size="9" font-weight="600">&#9889; &lt;30 seconds</text>
       <line x1="256" y1="70" x2="274" y2="70" stroke="{BORDER}" stroke-width="1.5"/>
       <polygon points="274,66 282,70 274,74" fill="{BORDER}"/>
@@ -1452,7 +1481,7 @@ elif page == "Trust & Safety":
       <text x="619" y="64" text-anchor="middle" fill="{TEXT_HI}" font-size="11" font-weight="700">Human</text>
       <text x="619" y="79" text-anchor="middle" fill="{TEXT_HI}" font-size="11" font-weight="700">Review</text>
       <text x="619" y="96" text-anchor="middle" fill="{TEXT_LOW}" font-size="9.5">Analyst adjudicates</text>
-      <text x="619" y="108" text-anchor="middle" fill="{AMBER}" font-size="9" font-weight="600">P1: &lt;4h · P2: &lt;24h</text>
+      <text x="619" y="108" text-anchor="middle" fill="{AMBER}" font-size="9" font-weight="600">P1: &lt;4h Â· P2: &lt;24h</text>
       <line x1="678" y1="70" x2="696" y2="70" stroke="{BORDER}" stroke-width="1.5"/>
       <polygon points="696,66 704,70 696,74" fill="{BORDER}"/>
       <line x1="704" y1="70" x2="704" y2="44" stroke="{ROSE}" stroke-width="1.2" stroke-dasharray="4,3"/>
@@ -1466,7 +1495,7 @@ elif page == "Trust & Safety":
       <rect x="722" y="70" width="108" height="54" rx="10" fill="rgba(61,220,140,0.08)" stroke="{EMERALD}" stroke-width="1.2"/>
       <text x="776" y="94" text-anchor="middle" fill="{EMERALD}" font-size="10.5" font-weight="700">Resolved</text>
       <text x="776" y="109" text-anchor="middle" fill="{TEXT_LOW}" font-size="9">Case closed</text>
-      <text x="776" y="120" text-anchor="middle" fill="{EMERALD}" font-size="9" font-weight="600">Logged · Archived</text>
+      <text x="776" y="120" text-anchor="middle" fill="{EMERALD}" font-size="9" font-weight="600">Logged Â· Archived</text>
       <line x1="830" y1="37" x2="870" y2="37" stroke="{ROSE}" stroke-width="1.2"/>
       <line x1="870" y1="37" x2="870" y2="97" stroke="{ROSE}" stroke-width="1.2"/>
       <polygon points="866,97 870,107 874,97" fill="{ROSE}"/>
@@ -1497,27 +1526,27 @@ elif page == "Trust & Safety":
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
-    # ── EXPORT BUTTON ─────────────────────────────────────────────────────────
+    # â”€â”€ EXPORT BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     section("Export Moderation Queue")
     export_df = ts_filtered[["Review_ID","Reviewer_Name","Review_Date","Rating","Label","Risk_Level","Review_Text"]].copy() \
         if all(c in ts_filtered.columns for c in ["Review_ID","Reviewer_Name","Review_Date","Rating","Label","Risk_Level","Review_Text"]) \
         else ts_filtered.copy()
     csv_bytes = export_df.to_csv(index=False).encode("utf-8")
     st.download_button(
-        label="⬇  Download filtered queue as CSV",
+        label="â¬‡  Download filtered queue as CSV",
         data=csv_bytes,
         file_name="moderation_queue_export.csv",
         mime="text/csv"
     )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Moderation Threshold Experiment Simulator", "Experiment Design · Live Queue Impact")
+    section("Moderation Threshold Experiment Simulator", "Experiment Design Â· Live Queue Impact")
 
     st.markdown(f"""
     <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.7;margin-bottom:18px;'>
         Adjust the classification thresholds below and see <b style='color:{TEXT_HI}'>how the moderation
         queue composition changes in real time.</b> This directly mirrors how T&S teams run threshold
-        experiments before deploying policy changes — tuning sensitivity to balance false positives
+        experiments before deploying policy changes â€” tuning sensitivity to balance false positives
         (over-flagging safe content) against false negatives (missing real violations).
     </div>
     """, unsafe_allow_html=True)
@@ -1526,7 +1555,7 @@ elif page == "Trust & Safety":
 
     with exp_col1:
         treatment_threshold = st.slider(
-            "Treatment auto-escalate: reviews rated ≤",
+            "Treatment auto-escalate: reviews rated â‰¤",
             min_value=1, max_value=5, value=2, step=1,
             help="Reviews in the Treatment category rated AT OR BELOW this value are auto-escalated to High Risk. Default = 2. Raise to 3 to catch more; risk of over-flagging increases."
         )
@@ -1583,7 +1612,7 @@ elif page == "Trust & Safety":
         st.markdown(f"""<div class='kpi-card'>
             <div class='kpi-label'><span class='kpi-dot' style='background:{EMERALD};box-shadow:0 0 6px {EMERALD}'></span>SAFE</div>
             <div class='kpi-value'>{exp_safe}</div>
-            <div class='kpi-sub'>Baseline: {base_safe} &nbsp;·&nbsp;
+            <div class='kpi-sub'>Baseline: {base_safe} &nbsp;Â·&nbsp;
                 <b style='color:{"#EF6F6F" if delta_safe < 0 else "#3DDC8C"}'>{fmt_delta(delta_safe)}</b>
             </div>
         </div>""", unsafe_allow_html=True)
@@ -1592,7 +1621,7 @@ elif page == "Trust & Safety":
         st.markdown(f"""<div class='kpi-card'>
             <div class='kpi-label'><span class='kpi-dot' style='background:{AMBER};box-shadow:0 0 6px {AMBER}'></span>NEEDS REVIEW</div>
             <div class='kpi-value'>{exp_needs}</div>
-            <div class='kpi-sub'>Baseline: {base_needs} &nbsp;·&nbsp;
+            <div class='kpi-sub'>Baseline: {base_needs} &nbsp;Â·&nbsp;
                 <b style='color:{"#EF6F6F" if delta_needs > 0 else "#3DDC8C"}'>{fmt_delta(delta_needs)}</b>
             </div>
         </div>""", unsafe_allow_html=True)
@@ -1601,7 +1630,7 @@ elif page == "Trust & Safety":
         st.markdown(f"""<div class='kpi-card'>
             <div class='kpi-label'><span class='kpi-dot' style='background:{ROSE};box-shadow:0 0 6px {ROSE}'></span>HIGH RISK</div>
             <div class='kpi-value'>{exp_highrisk}</div>
-            <div class='kpi-sub'>Baseline: {base_highrisk} &nbsp;·&nbsp;
+            <div class='kpi-sub'>Baseline: {base_highrisk} &nbsp;Â·&nbsp;
                 <b style='color:{"#3DDC8C" if delta_highrisk == 0 else "#EF6F6F" if delta_highrisk > 0 else "#3DDC8C"}'>{fmt_delta(delta_highrisk)}</b>
             </div>
         </div>""", unsafe_allow_html=True)
@@ -1612,24 +1641,24 @@ elif page == "Trust & Safety":
 
     if treatment_threshold > 2:
         finding(
-            f"Experiment Result — Treatment Threshold raised to ≤{treatment_threshold} stars",
-            f"Raising the Treatment escalation threshold from ≤2 to ≤{treatment_threshold} stars "            f"moves <b style='color:{ROSE}'>{abs(delta_highrisk)} additional review(s)</b> into High Risk. "            f"This increases recall on Treatment complaints — fewer genuine violations slip through — "            f"but at the cost of <b style='color:{AMBER}'>{abs(delta_needs)} more review(s)</b> moving in the queue. "            f"In a production system, this tradeoff would be validated against labelled data to confirm "            f"the newly-escalated reviews are genuine violations, not borderline cases."
+            f"Experiment Result â€” Treatment Threshold raised to â‰¤{treatment_threshold} stars",
+            f"Raising the Treatment escalation threshold from â‰¤2 to â‰¤{treatment_threshold} stars "            f"moves <b style='color:{ROSE}'>{abs(delta_highrisk)} additional review(s)</b> into High Risk. "            f"This increases recall on Treatment complaints â€” fewer genuine violations slip through â€” "            f"but at the cost of <b style='color:{AMBER}'>{abs(delta_needs)} more review(s)</b> moving in the queue. "            f"In a production system, this tradeoff would be validated against labelled data to confirm "            f"the newly-escalated reviews are genuine violations, not borderline cases."
         )
     elif treatment_threshold < 2:
         finding(
-            f"Experiment Result — Treatment Threshold lowered to ≤{treatment_threshold} star",
-            f"Lowering the threshold to ≤{treatment_threshold} star reduces queue load but "            f"risks missing 2-star Treatment complaints — reviews that frequently contain actionable "            f"patient safety signals even at that rating. <b style='color:{ROSE}'>Not recommended</b> "            f"for a category where false negatives have direct real-world consequences."
+            f"Experiment Result â€” Treatment Threshold lowered to â‰¤{treatment_threshold} star",
+            f"Lowering the threshold to â‰¤{treatment_threshold} star reduces queue load but "            f"risks missing 2-star Treatment complaints â€” reviews that frequently contain actionable "            f"patient safety signals even at that rating. <b style='color:{ROSE}'>Not recommended</b> "            f"for a category where false negatives have direct real-world consequences."
         )
     else:
         finding(
             "Baseline Configuration Active",
-            f"Treatment threshold at ≤2 stars is the calibrated baseline producing "            f"<b style='color:{ROSE}'>{base_highrisk} High Risk</b> cases, "            f"<b style='color:{AMBER}'>{base_needs} Needs Review</b>, and "            f"<b style='color:{EMERALD}'>{base_safe} Safe</b>. "            f"Adjust the sliders above to model the impact of policy threshold changes."
+            f"Treatment threshold at â‰¤2 stars is the calibrated baseline producing "            f"<b style='color:{ROSE}'>{base_highrisk} High Risk</b> cases, "            f"<b style='color:{AMBER}'>{base_needs} Needs Review</b>, and "            f"<b style='color:{EMERALD}'>{base_safe} Safe</b>. "            f"Adjust the sliders above to model the impact of policy threshold changes."
         )
 
     if include_neutral_as_risk == "Needs Review":
         finding(
             "Experiment: Neutral Reviews Routed to Needs Review",
-            f"Routing Neutral reviews to the moderation queue adds "            f"<b style='color:{AMBER}'>{abs(delta_needs)} review(s)</b> to analyst workload. "            f"These are factual, low-sentiment reviews with no clear violation signal. "            f"This configuration would increase false positive rate — not recommended unless "            f"you suspect borderline-positive gaming in the Neutral class."
+            f"Routing Neutral reviews to the moderation queue adds "            f"<b style='color:{AMBER}'>{abs(delta_needs)} review(s)</b> to analyst workload. "            f"These are factual, low-sentiment reviews with no clear violation signal. "            f"This configuration would increase false positive rate â€” not recommended unless "            f"you suspect borderline-positive gaming in the Neutral class."
         )
 
     # Burst sensitivity note
@@ -1637,11 +1666,11 @@ elif page == "Trust & Safety":
     <div style='margin-top:12px;padding:12px 16px;background:rgba(108,140,255,0.06);border:1px solid rgba(108,140,255,0.2);border-radius:10px;'>
         <span style='color:{ACCENT};font-size:11px;font-weight:800;letter-spacing:0.05em;'>BURST SENSITIVITY NOTE</span>
         <span style='color:{TEXT_MED};font-size:12px;margin-left:10px;'>
-            Burst multiplier set to <b style='color:{TEXT_HI}'>{burst_multiplier}×</b> the rolling 7-day average.
+            Burst multiplier set to <b style='color:{TEXT_HI}'>{burst_multiplier}Ã—</b> the rolling 7-day average.
             At the current dataset mean of 1.22 reviews/day, this flags any day with &gt;
             <b style='color:{AMBER}'>{round(1.22 * burst_multiplier, 1)}</b> reviews as a burst.
-            The baseline (2×) flagged 7 burst days. Lowering to 1.5× would flag more days;
-            raising to 3× would catch only the most extreme spikes.
+            The baseline (2Ã—) flagged 7 burst days. Lowering to 1.5Ã— would flag more days;
+            raising to 3Ã— would catch only the most extreme spikes.
         </span>
     </div>
     """, unsafe_allow_html=True)
@@ -1653,14 +1682,14 @@ elif page == "Trust & Safety":
             "Unverified reviewer identity",
             "No identity verification is required to submit a review. The same reviewer name "
             "(Yashoda S) appears twice with no account-level linkage, meaning repeat or coordinated "
-            "posting cannot be confirmed or denied at the platform level — only inferred from text matching.",
+            "posting cannot be confirmed or denied at the platform level â€” only inferred from text matching.",
             ROSE
         ),
         (
             "No rate-limiting on submission volume",
             "There is no cap on how many reviews can be posted to the same business in a short window. "
-            "This allows a single event to produce a burst — 17 reviews in one day against a 3.91/day "
-            "baseline — without any system intervention until after the fact.",
+            "This allows a single event to produce a burst â€” 17 reviews in one day against a 3.91/day "
+            "baseline â€” without any system intervention until after the fact.",
             AMBER
         ),
         (
@@ -1678,33 +1707,33 @@ elif page == "Trust & Safety":
     ]
     for title, desc, color in vulnerabilities:
         st.markdown(f"""<div class='finding-card'>
-            <div class='finding-title'><span style='color:{color}'>●</span>&nbsp; {title}</div>
+            <div class='finding-title'><span style='color:{color}'>â—</span>&nbsp; {title}</div>
             <div class='finding-text'>{desc}</div>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Classification Threshold — False Positive vs False Negative Tradeoff")
+    section("Classification Threshold â€” False Positive vs False Negative Tradeoff")
     col_fp, col_fn = st.columns(2)
     with col_fp:
         finding(
             "False Positive Risk",
             f"Setting the risk threshold <b style='color:{AMBER}'>too low</b> flags safe content as High Risk. "
-            f"Positive and Neutral reviews (42% of total — 126 reviews) would enter the moderation queue "
+            f"Positive and Neutral reviews (42% of total â€” 126 reviews) would enter the moderation queue "
             f"unnecessarily, increasing analyst workload with zero safety benefit."
         )
     with col_fn:
         finding(
             "False Negative Risk",
             f"Setting the risk threshold <b style='color:{ROSE}'>too high</b> allows genuine Treatment complaints "
-            f"to pass through without escalation. 36 reviews (12%) contain patient safety signals — "
+            f"to pass through without escalation. 36 reviews (12%) contain patient safety signals â€” "
             f"a missed escalation here has direct real-world consequences."
         )
 
     finding(
         "Current Threshold Calibration",
         f"The system is calibrated to <b style='color:{EMERALD}'>minimize false negatives on Treatment complaints</b>. "
-        f"Treatment reviews rated 1–2 stars are auto-escalated to Critical/P1. Staff and Neutral categories — "
-        f"where LLM recall is lowest (44% and 40%) — are routed to Needs Review for human adjudication. "
+        f"Treatment reviews rated 1â€“2 stars are auto-escalated to Critical/P1. Staff and Neutral categories â€” "
+        f"where LLM recall is lowest (44% and 40%) â€” are routed to Needs Review for human adjudication. "
         f"This mirrors real T&S queue design: high-confidence signals get automated action, ambiguous signals get human review."
     )
 
@@ -1722,12 +1751,12 @@ elif page == "Trust & Safety":
             "Multi-annotator labeling with IAA scoring",
             "All 300 labels were assigned by a single annotator. A production labeling pipeline uses 3+ "
             "annotators per item with Cohen's Kappa or Fleiss' Kappa to measure inter-annotator agreement "
-            "and resolve conflicts — especially critical for ambiguous categories like Staff vs Communication.",
+            "and resolve conflicts â€” especially critical for ambiguous categories like Staff vs Communication.",
             CYAN
         ),
         (
             "Adaptive thresholds over static ones",
-            "The burst threshold here is a fixed mean+2σ calculated once. A live system recalculates "
+            "The burst threshold here is a fixed mean+2Ïƒ calculated once. A live system recalculates "
             "the baseline continuously using a rolling window, so thresholds adapt as review volume "
             "grows over time rather than becoming stale.",
             AMBER
@@ -1735,14 +1764,14 @@ elif page == "Trust & Safety":
         (
             "Continuous model monitoring and drift detection",
             "The LLM evaluation here is a one-time benchmark. In production, model performance is monitored "
-            "continuously — if accuracy on incoming reviews drops below a threshold, it triggers retraining "
+            "continuously â€” if accuracy on incoming reviews drops below a threshold, it triggers retraining "
             "or prompt revision before quality degrades silently.",
             VIOLET
         ),
     ]
     for title, desc, color in scale_gaps:
         st.markdown(f"""<div class='finding-card'>
-            <div class='finding-title'><span style='color:{color}'>●</span>&nbsp; {title}</div>
+            <div class='finding-title'><span style='color:{color}'>â—</span>&nbsp; {title}</div>
             <div class='finding-text'>{desc}</div>
         </div>""", unsafe_allow_html=True)
 
@@ -1750,7 +1779,7 @@ elif page == "Trust & Safety":
     section("Why Dental Reviews Are a Valid T&S Dataset", "Methodology Defence")
     st.markdown(f"""
     <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.6;margin-bottom:20px;'>
-        A reasonable challenge: <i>"These are real reviews from a small clinic — the actors aren't adversarial.
+        A reasonable challenge: <i>"These are real reviews from a small clinic â€” the actors aren't adversarial.
         Real T&S deals with coordinated campaigns, sock puppets, and people actively trying to evade detection.
         This is just Yelp."</i> Here's why that objection doesn't hold.
     </div>
@@ -1760,26 +1789,26 @@ elif page == "Trust & Safety":
     defences = [
         (
             "The detection logic is identical regardless of motive",
-            f"Burst detection flags days where volume exceeds 3× baseline. Whether those 17 reviews on 2022-06-10 "
-            f"came from a coordinated campaign or an organic event doesn't change the detection method — "
+            f"Burst detection flags days where volume exceeds 3Ã— baseline. Whether those 17 reviews on 2022-06-10 "
+            f"came from a coordinated campaign or an organic event doesn't change the detection method â€” "
             f"the algorithm can't distinguish motive, only pattern. That's true at YouTube scale too. "
             f"T&S systems flag the pattern; humans investigate the motive.",
             ACCENT,
         ),
         (
             "Adversarial evasion makes the problem harder, not different",
-            f"A motivated actor posting 17 reviews to manipulate a rating uses the same signal — "
-            f"volume spike, low rating concentration, repeat reviewer fingerprint — as an organic burst. "
+            f"A motivated actor posting 17 reviews to manipulate a rating uses the same signal â€” "
+            f"volume spike, low rating concentration, repeat reviewer fingerprint â€” as an organic burst. "
             f"The T&S tooling demonstrated here detects both. Adding adversarial pressure "
             f"changes the threshold calibration, not the methodology.",
             CYAN,
         ),
         (
             "Real abuse signals are present in the data",
-            f"The dataset contains a documented repeat reviewer (Yashoda S — 2 reviews, avg 2.5★), "
-            f"7 burst events, and 36 Treatment complaints that cluster at 1–2 stars. These are genuine "
-            f"signals that a volume-only system would miss. The same patterns — repeat actors, "
-            f"sentiment concentration, temporal clustering — are the core signals in platform-scale "
+            f"The dataset contains a documented repeat reviewer (Yashoda S â€” 2 reviews, avg 2.5â˜…), "
+            f"7 burst events, and 36 Treatment complaints that cluster at 1â€“2 stars. These are genuine "
+            f"signals that a volume-only system would miss. The same patterns â€” repeat actors, "
+            f"sentiment concentration, temporal clustering â€” are the core signals in platform-scale "
             f"review manipulation detection.",
             VIOLET,
         ),
@@ -1787,7 +1816,7 @@ elif page == "Trust & Safety":
             "The methodology gap is scale, not structure",
             f"What changes at YouTube scale is throughput (millions of items/day vs 300 reviews), "
             f"latency (streaming vs batch), and adversarial sophistication (coordinated networks vs single actors). "
-            f"The underlying analytical structure — classify, score, tier, route, escalate — is the same. "
+            f"The underlying analytical structure â€” classify, score, tier, route, escalate â€” is the same. "
             f"PraxisIQ demonstrates that structure end-to-end on real data.",
             EMERALD,
         ),
@@ -1796,13 +1825,13 @@ elif page == "Trust & Safety":
             f"Whether you're labeling 300 dental reviews or 3 million YouTube comments, "
             f"the challenges are identical: category boundary decisions, semantic overlap between classes, "
             f"inter-annotator disagreement, and class imbalance. The single-annotator limitation "
-            f"documented here is the same limitation that drives YouTube's labeler training programs — "
+            f"documented here is the same limitation that drives YouTube's labeler training programs â€” "
             f"the difference is investment, not insight.",
             AMBER,
         ),
         (
             "Patient safety complaints are structurally equivalent to high-severity content",
-            f"A 1-star Treatment complaint — \"Tooth condition worsened after treatment. Had to seek urgent care elsewhere\" — "
+            f"A 1-star Treatment complaint â€” \"Tooth condition worsened after treatment. Had to seek urgent care elsewhere\" â€” "
             f"is a patient safety signal. At YouTube, the equivalent is content that causes real-world harm "
             f"(medical misinformation, self-harm facilitation). Both require the same pipeline: "
             f"fast detection, high-priority routing, human review, documented escalation. "
@@ -1813,7 +1842,7 @@ elif page == "Trust & Safety":
     for i, (title, desc, color) in enumerate(defences):
         with defence_cols[i % 2]:
             st.markdown(f"""<div class='finding-card'>
-                <div class='finding-title'><span style='color:{color}'>●</span>&nbsp; {title}</div>
+                <div class='finding-title'><span style='color:{color}'>â—</span>&nbsp; {title}</div>
                 <div class='finding-text'>{desc}</div>
             </div>""", unsafe_allow_html=True)
 
@@ -1821,8 +1850,8 @@ elif page == "Trust & Safety":
     <div style='margin-top:8px;padding:14px 18px;background:rgba(108,140,255,0.06);border:1px solid rgba(108,140,255,0.2);border-radius:10px;'>
         <span style='color:{ACCENT};font-size:11px;font-weight:800;letter-spacing:0.05em;'>BOTTOM LINE</span>
         <span style='color:{TEXT_MED};font-size:12.5px;margin-left:10px;line-height:1.6;'>
-            The domain is dental. The methodology — content classification, abuse signal detection, risk scoring,
-            moderation queue design, SLA-driven escalation, and LLM evaluation with held-out benchmarking —
+            The domain is dental. The methodology â€” content classification, abuse signal detection, risk scoring,
+            moderation queue design, SLA-driven escalation, and LLM evaluation with held-out benchmarking â€”
             is <b style='color:{TEXT_HI}'>platform Trust &amp; Safety</b>.
             The dataset size changes what's computationally feasible; it doesn't change what the analysis demonstrates.
         </span>
@@ -1830,27 +1859,27 @@ elif page == "Trust & Safety":
     """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────
-# PAGE 6 — LLM EVALUATION
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 6 â€” LLM EVALUATION
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 elif page == "LLM Evaluation":
     page_header(
         "Model Performance",
         "LLM Prompt Engineering Evaluation",
-        "Module 3 · Qwen2.5 7B via Ollama · 300 reviews · 7 categories"
+        "Module 3 Â· Qwen2.5 7B via Ollama Â· 300 reviews Â· 7 categories"
     )
 
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Final Accuracy", "86.7%", "<b style='color:#3DDC8C'>+4.45%</b> over ML · 90 hold-out reviews",   EMERALD)
-    kpi(c2, "Precision",      "85.5%", "Weighted avg · <b style='color:#3DDC8C'>strongest:</b> Waiting Time 0.96", ACCENT)
-    kpi(c3, "Recall",         "80.9%", "Weighted avg · <b style='color:#EF6F6F'>weakest:</b> Staff 44%, Neutral 40%", CYAN)
-    kpi(c4, "F1 Score",       "80.7%", "Weighted avg · <b>ML baseline:</b> 78.0%",                              VIOLET)
+    kpi(c1, "Final Accuracy", "86.7%", "<b style='color:#3DDC8C'>+4.45%</b> over ML Â· 90 hold-out reviews",   EMERALD)
+    kpi(c2, "Precision",      "85.5%", "Weighted avg Â· <b style='color:#3DDC8C'>strongest:</b> Waiting Time 0.96", ACCENT)
+    kpi(c3, "Recall",         "80.9%", "Weighted avg Â· <b style='color:#EF6F6F'>weakest:</b> Staff 44%, Neutral 40%", CYAN)
+    kpi(c4, "F1 Score",       "80.7%", "Weighted avg Â· <b>ML baseline:</b> 78.0%",                              VIOLET)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     section("Statistical Confidence", "Wilson Score Interval, 95% CI")
 
     def wilson_ci(accuracy_fraction, n, z=1.96):
-        """Wilson score interval — same closed-form method for both models,
+        """Wilson score interval â€” same closed-form method for both models,
         computed live here rather than hardcoded, so it can't go stale if
         the underlying evaluation data changes."""
         p = accuracy_fraction
@@ -1860,7 +1889,7 @@ elif page == "LLM Evaluation":
         return max(0.0, center - margin) * 100, min(1.0, center + margin) * 100
 
     # LLM: computed live from the best prompt's accuracy and hold-out sample
-    # size — no Ollama re-run needed, since Wilson CI only needs accuracy + n.
+    # size â€” no Ollama re-run needed, since Wilson CI only needs accuracy + n.
     llm_eval_df = load_csv('llm_prompt_evaluation.csv')
     ml_ci_df = load_csv('ml_accuracy_with_ci.csv')
 
@@ -1873,7 +1902,7 @@ elif page == "LLM Evaluation":
             n_llm = int(n_match.split('(')[1].split(' ')[0]) if '(' in str(n_match) else 90
             llm_lo, llm_hi = wilson_ci(best_row['Accuracy'], n_llm)
             finding(
-                f"LLM — {best_row['Prompt']}",
+                f"LLM â€” {best_row['Prompt']}",
                 f"Accuracy: <b style='color:{EMERALD}'>{llm_acc:.2f}%</b> &nbsp; "
                 f"95% CI: <b>[{llm_lo:.1f}%, {llm_hi:.1f}%]</b><br>"
                 f"If re-evaluated on a new random sample of {n_llm} reviews from the same "
@@ -1892,12 +1921,12 @@ elif page == "LLM Evaluation":
             gap = abs(llm_acc - ml_acc) if not llm_eval_df.empty else None
             gap_text = f"the {gap:.2f}-point gap" if gap is not None else "the observed gap"
             finding(
-                "ML — TF-IDF + Logistic Regression",
+                "ML â€” TF-IDF + Logistic Regression",
                 f"Accuracy: <b style='color:{ACCENT}'>{ml_acc:.2f}%</b> &nbsp; "
                 f"95% CI: <b>[{ml_lo:.1f}%, {ml_hi:.1f}%]</b><br>"
                 f"<span style='color:{TEXT_LOW}'>Note: these two intervals overlap. "
                 f"With only {n_ml} held-out reviews, {gap_text} is the best point "
-                f"estimate, not a statistically certain difference — see "
+                f"estimate, not a statistically certain difference â€” see "
                 f"FINDINGS.md for the full discussion.</span>"
             )
         else:
@@ -1907,7 +1936,7 @@ elif page == "LLM Evaluation":
     with col_a:
         section("Prompt Comparison", "90-review hold-out test set")
         prompt_data = pd.DataFrame({
-            'Prompt':   ['V1 — Zero-Shot', 'V2 — Detailed', 'V3 — Rules-Based'],
+            'Prompt':   ['V1 â€” Zero-Shot', 'V2 â€” Detailed', 'V3 â€” Rules-Based'],
             'Accuracy': [65.56, 86.67, 65.56],
             'Version':  ['V1', 'V2', 'V3']
         })
@@ -1932,9 +1961,9 @@ elif page == "LLM Evaluation":
     with col_b:
         section("Prompt Design Rationale")
         prompts_info = [
-            ("V1 — Zero-Shot",          "65.6%", "Basic instruction only. No category definitions.", "badge-med"),
-            ("V2 — Detailed (selected)","86.7%", "Each category explicitly defined with examples. Chosen as final prompt.", "badge-low"),
-            ("V3 — Rules-Based",        "65.6%", "Strict keyword rules. Over-indexed on specific terms; underperformed on nuanced reviews.", "badge-high"),
+            ("V1 â€” Zero-Shot",          "65.6%", "Basic instruction only. No category definitions.", "badge-med"),
+            ("V2 â€” Detailed (selected)","86.7%", "Each category explicitly defined with examples. Chosen as final prompt.", "badge-low"),
+            ("V3 â€” Rules-Based",        "65.6%", "Strict keyword rules. Over-indexed on specific terms; underperformed on nuanced reviews.", "badge-high"),
         ]
         for title, acc, desc, badge in prompts_info:
             st.markdown(f"""<div class='finding-card'>
@@ -1946,19 +1975,19 @@ elif page == "LLM Evaluation":
             </div>""", unsafe_allow_html=True)
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("ML vs LLM — Classification Approach Comparison")
+    section("ML vs LLM â€” Classification Approach Comparison")
 
     col_ml, col_llm = st.columns(2)
     with col_ml:
         finding(
-            "Traditional ML — TF-IDF + Logistic Regression",
+            "Traditional ML â€” TF-IDF + Logistic Regression",
             f"Accuracy: <b style='color:{ACCENT}'>82.22%</b> on the same 90-review held-out test set. "
-            f"Fast, deterministic, and fully interpretable — each prediction traces to weighted token features. "
+            f"Fast, deterministic, and fully interpretable â€” each prediction traces to weighted token features. "
             f"Performs well on categories with strong keyword signals but struggles with semantic nuance."
         )
     with col_llm:
         finding(
-            "LLM — Qwen2.5 7B via Ollama (Prompt V2)",
+            "LLM â€” Qwen2.5 7B via Ollama (Prompt V2)",
             f"Accuracy: <b style='color:{EMERALD}'>86.67%</b> on the 90-review held-out test set. "
             f"Higher overall accuracy and better recall on minority classes. "
             f"Trade-off: slower inference, non-deterministic outputs, harder to audit."
@@ -1995,7 +2024,7 @@ elif page == "LLM Evaluation":
     )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("ML Feature Importance — Top Words Per Category", "Module 2")
+    section("ML Feature Importance â€” Top Words Per Category", "Module 2")
     try:
         from sklearn.feature_extraction.text import TfidfVectorizer
         from sklearn.linear_model import LogisticRegression
@@ -2065,7 +2094,7 @@ elif page == "LLM Evaluation":
         st.info(f"Feature importance unavailable: {e}")
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Model Error Analysis — Misclassified Reviews", "Where the model fails")
+    section("Model Error Analysis â€” Misclassified Reviews", "Where the model fails")
     preds_err = load_csv('llm_predictions.csv')
     if not preds_err.empty:
         preds_err['Correct'] = preds_err['Label'] == preds_err['Prediction']
@@ -2073,7 +2102,7 @@ elif page == "LLM Evaluation":
 
         if not misclassified.empty:
             st.markdown(f"<div style='color:{TEXT_MED};font-size:12px;margin-bottom:12px;'>"
-                        f"{len(misclassified)} misclassified reviews on the hold-out set — "
+                        f"{len(misclassified)} misclassified reviews on the hold-out set â€” "
                         f"showing the first 5 with hardest cases.</div>", unsafe_allow_html=True)
 
             for _, row in misclassified.head(5).iterrows():
@@ -2091,7 +2120,7 @@ elif page == "LLM Evaluation":
             finding(
                 "Why These Cases Are Hard",
                 f"Most misclassifications occur at the boundary between <b style='color:{CYAN}'>Staff</b>, "
-                f"<b style='color:{ACCENT}'>Communication</b>, and <b style='color:{SLATE}'>Neutral</b> — "
+                f"<b style='color:{ACCENT}'>Communication</b>, and <b style='color:{SLATE}'>Neutral</b> â€” "
                 f"categories that share vocabulary (words like 'doctor', 'staff', 'friendly' appear in all three). "
                 f"The LLM handles these better than the ML model (86.7% vs 82.2%) but still struggles with "
                 f"reviews that contain both positive and negative signals in the same sentence. "
@@ -2126,23 +2155,23 @@ elif page == "LLM Evaluation":
         st.plotly_chart(fig, width='stretch')
         finding(
             "Classification Difficulty Analysis",
-            f"<b style='color:{EMERALD}'>Strongest categories:</b> Waiting Time, Positive, Pricing, Communication — clear signals make these easy to classify.<br><br>"
-            f"<b style='color:{ROSE}'>Hardest categories:</b> Staff and Neutral — these overlap semantically with each other and with Communication. "
+            f"<b style='color:{EMERALD}'>Strongest categories:</b> Waiting Time, Positive, Pricing, Communication â€” clear signals make these easy to classify.<br><br>"
+            f"<b style='color:{ROSE}'>Hardest categories:</b> Staff and Neutral â€” these overlap semantically with each other and with Communication. "
             "In a real T&S system these ambiguous cases would be routed to a human review queue."
         )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    section("Sample Predictions vs. Ground Truth — with Confidence Scoring")
+    section("Sample Predictions vs. Ground Truth â€” with Confidence Scoring")
     preds = load_csv('llm_predictions.csv')
     if not preds.empty:
         preds['Correct'] = preds['Label'] == preds['Prediction']
-        preds['Match']   = preds['Correct'].map({True: '✓', False: '✗'})
+        preds['Match']   = preds['Correct'].map({True: 'âœ“', False: 'âœ—'})
 
-        # ── CONFIDENCE SCORING ────────────────────────────────────────────────
+        # â”€â”€ CONFIDENCE SCORING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         # Derive confidence from prediction reliability signals:
-        #   High   — correct prediction on a category with strong F1 (Positive, Waiting Time, Pricing, Communication)
-        #   Medium — correct prediction on ambiguous category OR incorrect on strong category
-        #   Low    — incorrect prediction on ambiguous category (Staff, Neutral) → route to human
+        #   High   â€” correct prediction on a category with strong F1 (Positive, Waiting Time, Pricing, Communication)
+        #   Medium â€” correct prediction on ambiguous category OR incorrect on strong category
+        #   Low    â€” incorrect prediction on ambiguous category (Staff, Neutral) â†’ route to human
         HIGH_CONFIDENCE_CATS  = {"Positive", "Waiting Time", "Pricing", "Communication"}
         LOW_CONFIDENCE_CATS   = {"Staff", "Neutral"}
 
@@ -2165,16 +2194,16 @@ elif page == "LLM Evaluation":
 
         def assign_action(row):
             if row['Confidence'] == 'Low':
-                return '🔴 Route to human review'
+                return 'ðŸ”´ Route to human review'
             elif row['Confidence'] == 'Medium':
-                return '🟡 Monitor — verify if borderline'
+                return 'ðŸŸ¡ Monitor â€” verify if borderline'
             else:
-                return '🟢 Auto-action safe'
+                return 'ðŸŸ¢ Auto-action safe'
 
         preds['Confidence'] = preds.apply(assign_confidence, axis=1)
         preds['Action']     = preds.apply(assign_action, axis=1)
 
-        # ── CONFIDENCE SUMMARY ────────────────────────────────────────────────
+        # â”€â”€ CONFIDENCE SUMMARY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         conf_counts = preds['Confidence'].value_counts()
         high_c  = conf_counts.get('High',   0)
         med_c   = conf_counts.get('Medium', 0)
@@ -2186,22 +2215,22 @@ elif page == "LLM Evaluation":
             st.markdown(f"""<div class='kpi-card'>
                 <div class='kpi-label'><span class='kpi-dot' style='background:{EMERALD};box-shadow:0 0 6px {EMERALD}'></span>HIGH CONFIDENCE</div>
                 <div class='kpi-value'>{high_c}</div>
-                <div class='kpi-sub'>{round(high_c/total*100)}% of predictions · <b style='color:{EMERALD}'>Auto-action safe</b></div>
+                <div class='kpi-sub'>{round(high_c/total*100)}% of predictions Â· <b style='color:{EMERALD}'>Auto-action safe</b></div>
             </div>""", unsafe_allow_html=True)
         with cc2:
             st.markdown(f"""<div class='kpi-card'>
                 <div class='kpi-label'><span class='kpi-dot' style='background:{AMBER};box-shadow:0 0 6px {AMBER}'></span>MEDIUM CONFIDENCE</div>
                 <div class='kpi-value'>{med_c}</div>
-                <div class='kpi-sub'>{round(med_c/total*100)}% of predictions · <b style='color:{AMBER}'>Monitor / spot-check</b></div>
+                <div class='kpi-sub'>{round(med_c/total*100)}% of predictions Â· <b style='color:{AMBER}'>Monitor / spot-check</b></div>
             </div>""", unsafe_allow_html=True)
         with cc3:
             st.markdown(f"""<div class='kpi-card'>
                 <div class='kpi-label'><span class='kpi-dot' style='background:{ROSE};box-shadow:0 0 6px {ROSE}'></span>LOW CONFIDENCE</div>
                 <div class='kpi-value'>{low_c}</div>
-                <div class='kpi-sub'>{round(low_c/total*100)}% of predictions · <b style='color:{ROSE}'>Route to human review</b></div>
+                <div class='kpi-sub'>{round(low_c/total*100)}% of predictions Â· <b style='color:{ROSE}'>Route to human review</b></div>
             </div>""", unsafe_allow_html=True)
 
-        # ── PREDICTIONS TABLE ──────────────────────────────────────────────────
+        # â”€â”€ PREDICTIONS TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         display_cols = ['Review_Text','Label','Prediction','Match','Confidence','Action']
         available    = [c for c in display_cols if c in preds.columns]
         st.dataframe(preds[available].head(20), width='stretch', height=380)
@@ -2209,34 +2238,34 @@ elif page == "LLM Evaluation":
         correct = preds['Correct'].sum()
         finding(
             "How Confidence Scoring Works",
-            f"<b style='color:{EMERALD}'>{correct}</b> correct out of {total} reviewed · "
+            f"<b style='color:{EMERALD}'>{correct}</b> correct out of {total} reviewed Â· "
             f"Sample accuracy: <b style='color:{ACCENT}'>{round(correct / total * 100, 1)}%</b><br><br>"
-            f"Confidence is derived from prediction reliability signals — not a raw model probability score, "
+            f"Confidence is derived from prediction reliability signals â€” not a raw model probability score, "
             f"since Qwen2.5 via Ollama returns a label string, not a logit. Instead: "
             f"<b style='color:{EMERALD}'>High</b> = correct prediction on a category with strong recall "
-            f"(Positive, Waiting Time, Pricing, Communication — all F1 > 0.89). "
+            f"(Positive, Waiting Time, Pricing, Communication â€” all F1 > 0.89). "
             f"<b style='color:{AMBER}'>Medium</b> = correct on an ambiguous category or incorrect on a strong one. "
-            f"<b style='color:{ROSE}'>Low</b> = incorrect on Staff or Neutral — the two categories where LLM recall "
+            f"<b style='color:{ROSE}'>Low</b> = incorrect on Staff or Neutral â€” the two categories where LLM recall "
             f"drops to 44% and 40% respectively. All Low-confidence predictions are flagged for human review, "
             f"which is exactly how a production T&S system routes ambiguous classifier output."
         )
     else:
         st.info("Run llm_evaluation_final.py to generate predictions CSV.")
 
-# ─────────────────────────────────────────────
-# PAGE 7 — INVESTIGATION PLAYBOOKS
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 7 â€” INVESTIGATION PLAYBOOKS
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 elif page == "Investigation Playbooks":
     page_header(
         "T&S Operations",
         "Investigation Playbooks",
-        "Structured detection → evidence → severity → action → escalation → resolution workflows for each issue type"
+        "Structured detection â†’ evidence â†’ severity â†’ action â†’ escalation â†’ resolution workflows for each issue type"
     )
 
     st.markdown(f"""
     <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.7;margin-bottom:24px;'>
         Each playbook below mirrors how a Trust &amp; Safety analyst would work a real investigation.
-        These are not theoretical — every detection signal, severity rule, and escalation path
+        These are not theoretical â€” every detection signal, severity rule, and escalation path
         maps directly to a script, SQL query, or pipeline output in this project.
     </div>
     """, unsafe_allow_html=True)
@@ -2244,76 +2273,76 @@ elif page == "Investigation Playbooks":
     playbooks = [
         {
             "title":    "Review Burst",
-            "icon":     "📈",
+            "icon":     "ðŸ“ˆ",
             "color":    AMBER,
-            "signal":   "Daily review volume exceeds mean + 2σ (static) or 2× rolling 7-day average",
-            "source":   "analytics/review_burst_detection.py · sql/trust_safety/01_review_burst_detection.sql",
+            "signal":   "Daily review volume exceeds mean + 2Ïƒ (static) or 2Ã— rolling 7-day average",
+            "source":   "analytics/review_burst_detection.py Â· sql/trust_safety/01_review_burst_detection.sql",
             "steps": [
-                ("Detection",  ACCENT,  "Automated",  "review_burst_detection.py runs daily. Flags any date where count > 3.91 (mean+2σ) or > 2× rolling 7-day avg. Both methods must agree for highest-confidence flag."),
+                ("Detection",  ACCENT,  "Automated",  "review_burst_detection.py runs daily. Flags any date where count > 3.91 (mean+2Ïƒ) or > 2Ã— rolling 7-day avg. Both methods must agree for highest-confidence flag."),
                 ("Evidence",   CYAN,    "Gather",     "Pull the flagged date: review count, average rating, negative rate, dominant category. Check if burst correlates with a known event (promo, clinic opening, complaint campaign)."),
                 ("Severity",   VIOLET,  "Assess",     "Negative-skewed burst (>50% complaint reviews): HIGH. Positive-skewed burst (likely organic event): LOW. Both methods agree: escalate one tier higher."),
                 ("Action",     AMBER,   "Respond",    "Negative burst: flag all reviews from that date for expedited human review. Enter 24-hour elevated monitoring window. Positive burst: log, no queue action needed."),
-                ("Escalation", ROSE,    "Escalate",   "If negative rate >70% on burst day OR burst repeats within 7 days: escalate to senior analyst. Potential coordinated negative campaign — check for repeat reviewer overlap."),
+                ("Escalation", ROSE,    "Escalate",   "If negative rate >70% on burst day OR burst repeats within 7 days: escalate to senior analyst. Potential coordinated negative campaign â€” check for repeat reviewer overlap."),
                 ("Resolution", EMERALD, "Close",      "Log outcome: organic vs coordinated. If coordinated: remove flagged reviews pending investigation, record in case management queue. Update burst threshold if baseline has shifted."),
             ]
         },
         {
             "title":    "Treatment Complaint",
-            "icon":     "🏥",
+            "icon":     "ðŸ¥",
             "color":    ROSE,
-            "signal":   "Review classified as Treatment category with rating ≤ 2 stars",
-            "source":   "trust_safety/trust_safety_pipeline.py · sql/trust_safety/04_risk_prioritization.sql",
+            "signal":   "Review classified as Treatment category with rating â‰¤ 2 stars",
+            "source":   "trust_safety/trust_safety_pipeline.py Â· sql/trust_safety/04_risk_prioritization.sql",
             "steps": [
-                ("Detection",  ACCENT,  "Automated",  "LLM classifier (Prompt V2) assigns Treatment label. trust_safety_pipeline.py applies severity rule: Treatment + Rating ≤ 2 → Critical/P1. Auto-enters moderation queue within seconds of submission."),
+                ("Detection",  ACCENT,  "Automated",  "LLM classifier (Prompt V2) assigns Treatment label. trust_safety_pipeline.py applies severity rule: Treatment + Rating â‰¤ 2 â†’ Critical/P1. Auto-enters moderation queue within seconds of submission."),
                 ("Evidence",   CYAN,    "Gather",     "Read full review text. Check: specific procedure mentioned? Outcome described (pain, worsening condition, re-treatment needed)? Cross-reference patient visit record if ID linkable. Flag exact quotes as evidence."),
-                ("Severity",   VIOLET,  "Assess",     "Rating 1 + explicit harm described: CRITICAL (P1 — 4h SLA). Rating 2 + general dissatisfaction: HIGH (P2 — 24h SLA). Rating 3 + treatment category: MEDIUM (P3 — weekly batch)."),
-                ("Action",     AMBER,   "Respond",    "P1: Immediately escalate to senior analyst AND clinic operations lead. Do not auto-remove — investigate first. Draft patient outreach template. P2: Queue for senior analyst review within 24h."),
+                ("Severity",   VIOLET,  "Assess",     "Rating 1 + explicit harm described: CRITICAL (P1 â€” 4h SLA). Rating 2 + general dissatisfaction: HIGH (P2 â€” 24h SLA). Rating 3 + treatment category: MEDIUM (P3 â€” weekly batch)."),
+                ("Action",     AMBER,   "Respond",    "P1: Immediately escalate to senior analyst AND clinic operations lead. Do not auto-remove â€” investigate first. Draft patient outreach template. P2: Queue for senior analyst review within 24h."),
                 ("Escalation", ROSE,    "Escalate",   "If patient describes urgent medical need (infection, emergency re-treatment): escalate to clinic director within 1 hour. If 3+ Treatment P1s in 7 days: trigger quality review protocol."),
                 ("Resolution", EMERALD, "Close",      "Outcome options: Resolved (clinic responded, patient satisfied), Escalated Externally (regulatory body notified), Unresolved (patient unreachable), False Positive (reclassified). Log SLA met/breached."),
             ]
         },
         {
             "title":    "Suspicious Reviewer",
-            "icon":     "👤",
+            "icon":     "ðŸ‘¤",
             "color":    VIOLET,
-            "signal":   "Reviewer triggers ≥2 suspicion flags: velocity, no rating variance, high volume, or sentiment flip",
-            "source":   "analytics/suspicious_reviewer_detection.py · sql/trust_safety/02_repeat_reviewer_detection.sql",
+            "signal":   "Reviewer triggers â‰¥2 suspicion flags: velocity, no rating variance, high volume, or sentiment flip",
+            "source":   "analytics/suspicious_reviewer_detection.py Â· sql/trust_safety/02_repeat_reviewer_detection.sql",
             "steps": [
-                ("Detection",  ACCENT,  "Automated",  "suspicious_reviewer_detection.py scores each reviewer on 4 signals: same-day multiple reviews (velocity), all-identical ratings (no variance), 3+ reviews total (high volume), contradictory high+low ratings (sentiment flip). Score ≥ 2 = flagged."),
-                ("Evidence",   CYAN,    "Gather",     "Pull all reviews from flagged reviewer. Note: review dates and times, rating pattern, text similarity across reviews, IP/device fingerprint if available (not in this dataset — flag as gap at scale)."),
-                ("Severity",   VIOLET,  "Assess",     "Score 3-4 (multiple flags): HIGH — likely coordinated or inauthentic. Score 2 (two flags): MEDIUM — possible legitimate repeat patient, investigate before action. Score 1: LOW — log only."),
+                ("Detection",  ACCENT,  "Automated",  "suspicious_reviewer_detection.py scores each reviewer on 4 signals: same-day multiple reviews (velocity), all-identical ratings (no variance), 3+ reviews total (high volume), contradictory high+low ratings (sentiment flip). Score â‰¥ 2 = flagged."),
+                ("Evidence",   CYAN,    "Gather",     "Pull all reviews from flagged reviewer. Note: review dates and times, rating pattern, text similarity across reviews, IP/device fingerprint if available (not in this dataset â€” flag as gap at scale)."),
+                ("Severity",   VIOLET,  "Assess",     "Score 3-4 (multiple flags): HIGH â€” likely coordinated or inauthentic. Score 2 (two flags): MEDIUM â€” possible legitimate repeat patient, investigate before action. Score 1: LOW â€” log only."),
                 ("Action",     AMBER,   "Respond",    "HIGH: Temporarily suppress reviews from queue pending investigation. Do not permanently remove until human confirms. MEDIUM: Flag for human review, keep reviews visible. LOW: Monitor for 30 days."),
                 ("Escalation", ROSE,    "Escalate",   "If same reviewer pattern found across multiple businesses: escalate to platform-level T&S (coordinated inauthentic behavior signal). Single-business repeat: clinic-level escalation only."),
-                ("Resolution", EMERALD, "Close",      "Outcome: Confirmed Authentic (legitimate repeat patient — clear flag), Confirmed Inauthentic (remove reviews, flag account), Inconclusive (monitor 30 days, re-review). Document decision rationale."),
+                ("Resolution", EMERALD, "Close",      "Outcome: Confirmed Authentic (legitimate repeat patient â€” clear flag), Confirmed Inauthentic (remove reviews, flag account), Inconclusive (monitor 30 days, re-review). Document decision rationale."),
             ]
         },
         {
             "title":    "Duplicate / Near-Duplicate Review",
-            "icon":     "📋",
+            "icon":     "ðŸ“‹",
             "color":    CYAN,
-            "signal":   "Review text ≥85% character-level similarity to another review (SequenceMatcher ratio)",
+            "signal":   "Review text â‰¥85% character-level similarity to another review (SequenceMatcher ratio)",
             "source":   "analytics/duplicate_review_detection.py",
             "steps": [
-                ("Detection",  ACCENT,  "Automated",  "duplicate_review_detection.py runs three checks: exact match (after whitespace normalization), fuzzy match (SequenceMatcher ≥85%), and fingerprint clustering (same first 40 chars). Any match triggers investigation."),
-                ("Evidence",   CYAN,    "Gather",     "Pull both reviews: submission timestamps, reviewer names, text diff (highlight changed words). Check if submitted from similar time window. In this dataset: 0 duplicates found — clean baseline confirmed."),
-                ("Severity",   VIOLET,  "Assess",     "Exact match from different reviewers: HIGH (coordinated injection). Fuzzy match (85-95%): MEDIUM (possible template use). Same reviewer, same text: LOW (accidental double-submit — likely user error)."),
+                ("Detection",  ACCENT,  "Automated",  "duplicate_review_detection.py runs three checks: exact match (after whitespace normalization), fuzzy match (SequenceMatcher â‰¥85%), and fingerprint clustering (same first 40 chars). Any match triggers investigation."),
+                ("Evidence",   CYAN,    "Gather",     "Pull both reviews: submission timestamps, reviewer names, text diff (highlight changed words). Check if submitted from similar time window. In this dataset: 0 duplicates found â€” clean baseline confirmed."),
+                ("Severity",   VIOLET,  "Assess",     "Exact match from different reviewers: HIGH (coordinated injection). Fuzzy match (85-95%): MEDIUM (possible template use). Same reviewer, same text: LOW (accidental double-submit â€” likely user error)."),
                 ("Action",     AMBER,   "Respond",    "HIGH: Suppress duplicate, investigate source reviewer accounts. Tag as potential review injection campaign. MEDIUM: Human review to confirm. LOW (accidental): Remove one copy, no further action."),
-                ("Escalation", ROSE,    "Escalate",   "3+ duplicates from different reviewer accounts in 48h: escalate to platform T&S. Likely coordinated injection campaign — requires network-level investigation beyond single-clinic scope."),
+                ("Escalation", ROSE,    "Escalate",   "3+ duplicates from different reviewer accounts in 48h: escalate to platform T&S. Likely coordinated injection campaign â€” requires network-level investigation beyond single-clinic scope."),
                 ("Resolution", EMERALD, "Close",      "Log: number of duplicates found, action taken, reviewer status. If coordinated: feed pattern into burst detection threshold calibration. Update similarity threshold if false positives were high."),
             ]
         },
         {
             "title":    "Emerging Risk Category",
-            "icon":     "📊",
+            "icon":     "ðŸ“Š",
             "color":    EMERALD,
             "signal":   "Complaint category shows >50% quarter-over-quarter growth in the most recent quarter",
-            "source":   "analytics/emerging_risk_monitoring.py · sql/trust_safety/07_emerging_risk_detection.sql",
+            "source":   "analytics/emerging_risk_monitoring.py Â· sql/trust_safety/07_emerging_risk_detection.sql",
             "steps": [
                 ("Detection",  ACCENT,  "Automated",  "emerging_risk_monitoring.py computes QoQ growth per complaint category. Compares recent 2-quarter average vs prior 2-quarter average. Flag if latest QoQ >50% or trend direction = Rising. Runs quarterly."),
                 ("Evidence",   CYAN,    "Gather",     "Pull monthly volume for the flagged category over the past 12 months. Identify: when did the acceleration start? Which rating tier is growing (1-star vs 2-star)? Is the acceleration in a specific treatment type?"),
-                ("Severity",   VIOLET,  "Assess",     "QoQ >100% in a safety-adjacent category (Treatment, Communication): HIGH — potential systemic quality issue. QoQ 50-100% in operational category (Waiting Time, Pricing): MEDIUM — operational signal, not safety. Staff: MEDIUM."),
-                ("Action",     AMBER,   "Respond",    "HIGH: Trigger proactive review of the accelerating category. Pull a sample of recent reviews for qualitative read. Brief clinic operations lead — do not wait for volume to cross absolute threshold."),
-                ("Escalation", ROSE,    "Escalate",   "If 2+ categories accelerating simultaneously: escalate to clinic director — potential systemic service failure. Single category: department-level escalation (clinical lead for Treatment, ops lead for Waiting Time)."),
+                ("Severity",   VIOLET,  "Assess",     "QoQ >100% in a safety-adjacent category (Treatment, Communication): HIGH â€” potential systemic quality issue. QoQ 50-100% in operational category (Waiting Time, Pricing): MEDIUM â€” operational signal, not safety. Staff: MEDIUM."),
+                ("Action",     AMBER,   "Respond",    "HIGH: Trigger proactive review of the accelerating category. Pull a sample of recent reviews for qualitative read. Brief clinic operations lead â€” do not wait for volume to cross absolute threshold."),
+                ("Escalation", ROSE,    "Escalate",   "If 2+ categories accelerating simultaneously: escalate to clinic director â€” potential systemic service failure. Single category: department-level escalation (clinical lead for Treatment, ops lead for Waiting Time)."),
                 ("Resolution", EMERALD, "Close",      "Outcome: Root cause identified (staffing change, new procedure, seasonal), Intervention actioned (process change, staff training), Monitoring extended (watch for 2 more quarters). Update QoQ threshold if needed."),
             ]
         },
@@ -2358,11 +2387,11 @@ elif page == "Investigation Playbooks":
                     color:{TEXT_LOW};font-size:10px;font-weight:600;letter-spacing:0.06em;
                     margin:10px 0 24px 0;'>
             <span style='color:{pb["color"]};'>Detection</span>
-            <span>→</span><span>Evidence</span>
-            <span>→</span><span>Severity</span>
-            <span>→</span><span>Action</span>
-            <span>→</span><span>Escalation</span>
-            <span>→</span><span style='color:{EMERALD};'>Resolution</span>
+            <span>â†’</span><span>Evidence</span>
+            <span>â†’</span><span>Severity</span>
+            <span>â†’</span><span>Action</span>
+            <span>â†’</span><span>Escalation</span>
+            <span>â†’</span><span style='color:{EMERALD};'>Resolution</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -2374,18 +2403,18 @@ elif page == "Investigation Playbooks":
         f"structured investigation gathers evidence, severity rules drive consistent prioritisation, "
         f"defined actions ensure the right response every time, escalation paths prevent decisions from "
         f"being made at the wrong level, and resolution logging feeds back into threshold calibration. "
-        f"At YouTube scale, these playbooks live in internal wikis and are drilled with tabletop exercises — "
+        f"At YouTube scale, these playbooks live in internal wikis and are drilled with tabletop exercises â€” "
         f"the analytical foundation built here is exactly what those exercises test."
     )
 
-# ─────────────────────────────────────────────
-# PAGE 8 — AI COPILOT
-# ─────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# PAGE 8 â€” AI COPILOT
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 elif page == "AI Copilot":
 
     st.markdown(f"""
     <style>
-    /* Copilot page — distinct deep purple creative background */
+    /* Copilot page â€” distinct deep purple creative background */
     .copilot-hero {{
         background: linear-gradient(135deg, #0e0b1a 0%, #130d24 40%, #0f0d20 70%, #0b1020 100%);
         border: 1px solid rgba(139,92,246,0.3);
@@ -2627,26 +2656,26 @@ elif page == "AI Copilot":
     </style>
     """, unsafe_allow_html=True)
 
-    # ── HERO HEADER ───────────────────────────────────────────────────────────
+    # â”€â”€ HERO HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     st.markdown(f"""
     <div class='copilot-hero'>
-        <div class='copilot-title'>⬡ PraxisIQ AI Copilot</div>
+        <div class='copilot-title'>â¬¡ PraxisIQ AI Copilot</div>
         <div class='copilot-subtitle'>
-            Domain-aware dental intelligence — clinical procedures, patient analytics, practice operations,
+            Domain-aware dental intelligence â€” clinical procedures, patient analytics, practice operations,
             oral health education, and Trust &amp; Safety, powered by live data and advanced LLMs.
         </div>
         <div class='copilot-badge-row'>
-            <span class='copilot-badge'>◆ Llama 3.1 8B · Groq</span>
+            <span class='copilot-badge'>â—† Llama 3.1 8B Â· Groq</span>
             <span class='copilot-badge green'><span class='live-dot'></span>Live database</span>
-            <span class='copilot-badge cyan'>959 patients · 300 reviews</span>
-            <span class='copilot-badge'>🌐 Live web search · Tavily</span>
+            <span class='copilot-badge cyan'>959 patients Â· 300 reviews</span>
+            <span class='copilot-badge'>ðŸŒ Live web search Â· Tavily</span>
             <span class='copilot-badge'>Dental + T&S knowledge</span>
-            <span class='copilot-badge'>Clinical · Operational · Educational</span>
+            <span class='copilot-badge'>Clinical Â· Operational Â· Educational</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # ── GROQ SETUP ────────────────────────────────────────────────────────────
+    # â”€â”€ GROQ SETUP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     groq_available = False
     GROQ_KEY = ""
     groq_setup_error = None
@@ -2666,7 +2695,7 @@ elif page == "AI Copilot":
     except ImportError:
         groq_setup_error = "no_package"
 
-    # ── TAVILY WEB SEARCH SETUP ───────────────────────────────────────────────
+    # â”€â”€ TAVILY WEB SEARCH SETUP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     tavily_available = False
     TAVILY_KEY = ""
     try:
@@ -2729,10 +2758,10 @@ elif page == "AI Copilot":
         st.markdown("""
         <div class='copilot-error-card'>
             <b>No Groq API key found.</b> The Copilot can't run without one.<br><br>
-            <b>To fix on Streamlit Community Cloud:</b> open your app → ⋮ menu → <b>Settings</b> →
+            <b>To fix on Streamlit Community Cloud:</b> open your app â†’ â‹® menu â†’ <b>Settings</b> â†’
             <b>Secrets</b>, and add a line exactly like:<br>
             <code>GROQ_API_KEY = "gsk_your_actual_key_here"</code><br>
-            then save — the app will restart automatically.<br><br>
+            then save â€” the app will restart automatically.<br><br>
             <b>To fix locally:</b> create a file at <code>.streamlit/secrets.toml</code> in your project
             root with the same line, or set a <code>GROQ_API_KEY</code> environment variable before running
             <code>streamlit run</code>.<br><br>
@@ -2740,7 +2769,7 @@ elif page == "AI Copilot":
         </div>
         """, unsafe_allow_html=True)
 
-    # ── LIVE DATA CONTEXT ─────────────────────────────────────────────────────
+    # â”€â”€ LIVE DATA CONTEXT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @st.cache_data(ttl=300)
     def build_copilot_context():
         patients  = load_db("SELECT * FROM Patients")
@@ -2780,17 +2809,17 @@ elif page == "AI Copilot":
         elif not burst.empty and "Burst_Detected" in burst.columns:
             burst_days = int(burst["Burst_Detected"].sum())
 
-        return f"""You are PraxisIQ AI Copilot — an expert dental intelligence assistant with deep knowledge of:
+        return f"""You are PraxisIQ AI Copilot â€” an expert dental intelligence assistant with deep knowledge of:
 - Dental procedures, terminology, and clinical workflows
 - Patient behavior analytics and retention patterns
 - Trust & Safety operations and content moderation
 - Review analysis, fraud detection, and risk classification
 - Dental industry benchmarks and best practices
 
-LIVE DATABASE CONTEXT (Geetha Dental Clinic — 6-year dataset):
+LIVE DATABASE CONTEXT (Geetha Dental Clinic â€” 6-year dataset):
 - Total patients: {total_patients} | Returning: {returned} ({retention_rate}%) | Never returned: {never_returned}
 - Total visits: {total_visits} | Avg visits per patient: {avg_visits}
-- Total reviews: {len(reviews)} | Avg rating: {avg_rating}★
+- Total reviews: {len(reviews)} | Avg rating: {avg_rating}â˜…
 - High-risk Treatment complaints: {high_risk_count} (12% of reviews)
 - Total complaint reviews: {complaint_count} (58% of reviews)
 - Review label distribution: {label_dist}
@@ -2814,23 +2843,23 @@ RESPONSE STYLE:
 - Reference actual numbers from the live context when relevant
 - For clinical questions, give clear professional explanations
 - For analytics questions, connect findings to actionable recommendations
-- Keep responses focused and structured — use short paragraphs or bullet points
-- Never make up data — if something isn't in the context, say so clearly
+- Keep responses focused and structured â€” use short paragraphs or bullet points
+- Never make up data â€” if something isn't in the context, say so clearly
 - Always be helpful, professional, and thorough"""
 
-    # ── CHAT STATE ────────────────────────────────────────────────────────────
+    # â”€â”€ CHAT STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if "copilot_messages" not in st.session_state:
         st.session_state.copilot_messages = []
     if "copilot_pending_question" not in st.session_state:
         st.session_state.copilot_pending_question = None
 
-    # ── CORE ASK FUNCTION ─────────────────────────────────────────────────────
+    # â”€â”€ CORE ASK FUNCTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     def ask_copilot(question: str):
-        """Send a question to Groq — with Tavily web search for real-world queries."""
+        """Send a question to Groq â€” with Tavily web search for real-world queries."""
         context = build_copilot_context()
         st.session_state.copilot_messages.append({"role": "user", "content": question})
 
-        # ── Decide: web search or clinic data? ────────────────────────────────
+        # â”€â”€ Decide: web search or clinic data? â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         web_context = ""
         search_used = False
         if tavily_available and needs_web_search(question):
@@ -2854,7 +2883,7 @@ RESPONSE STYLE:
             )
             answer = response.choices[0].message.content.strip()
             if search_used:
-                answer += "\n\n🌐 *This answer used live web search via Tavily.*"
+                answer += "\n\nðŸŒ *This answer used live web search via Tavily.*"
         except Exception as e:
             err_text = str(e)
             if "401" in err_text or "auth" in err_text.lower() or "api key" in err_text.lower():
@@ -2872,7 +2901,7 @@ RESPONSE STYLE:
 
     if groq_available:
 
-        # ── LIVE STATS STRIP ──────────────────────────────────────────────────
+        # â”€â”€ LIVE STATS STRIP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         patients_live = load_db("SELECT COUNT(*) as n FROM Patients")
         reviews_live  = load_db("SELECT COUNT(*) as n, ROUND(AVG(Rating),1) as r FROM Reviews")
         visits_live   = load_db("SELECT COUNT(*) as n FROM Visits")
@@ -2894,7 +2923,7 @@ RESPONSE STYLE:
                 <div class='live-stat-lbl'>Reviews</div>
             </div>
             <div class='live-stat'>
-                <div class='live-stat-val'>{reviews_live['r'].iloc[0]}★</div>
+                <div class='live-stat-val'>{reviews_live['r'].iloc[0]}â˜…</div>
                 <div class='live-stat-lbl'>Avg Rating</div>
             </div>
             <div class='live-stat'>
@@ -2904,32 +2933,32 @@ RESPONSE STYLE:
         </div>
         """, unsafe_allow_html=True)
 
-        # ── SUGGESTED QUESTIONS — 5 dental + 5 project, click = instant answer ──
+        # â”€â”€ SUGGESTED QUESTIONS â€” 5 dental + 5 project, click = instant answer â”€â”€
         dental_questions = [
-            ("🦷", "What is a root canal and when is it needed?"),
-            ("🔬", "What is the difference between scaling and deep scaling?"),
-            ("🦷", "What is the typical recovery process after a tooth extraction?"),
-            ("💊", "How do dental implants work and who is a good candidate?"),
-            ("🪥", "What's the difference between braces and clear aligners?"),
+            ("ðŸ¦·", "What is a root canal and when is it needed?"),
+            ("ðŸ”¬", "What is the difference between scaling and deep scaling?"),
+            ("ðŸ¦·", "What is the typical recovery process after a tooth extraction?"),
+            ("ðŸ’Š", "How do dental implants work and who is a good candidate?"),
+            ("ðŸª¥", "What's the difference between braces and clear aligners?"),
         ]
         project_questions = [
-            ("📊", "Which treatment has the highest patient dropout rate, and why might that be?"),
-            ("⚠️", "What are the top 3 Trust & Safety risks found in this dataset?"),
-            ("📈", "Compare the ML and LLM classifiers — which should go to production and why?"),
-            ("🚨", "Summarize the current moderation queue status."),
-            ("🌐", "What would need to change about this pipeline to work at YouTube's scale?"),
+            ("ðŸ“Š", "Which treatment has the highest patient dropout rate, and why might that be?"),
+            ("âš ï¸", "What are the top 3 Trust & Safety risks found in this dataset?"),
+            ("ðŸ“ˆ", "Compare the ML and LLM classifiers â€” which should go to production and why?"),
+            ("ðŸš¨", "Summarize the current moderation queue status."),
+            ("ðŸŒ", "What would need to change about this pipeline to work at YouTube's scale?"),
         ]
         web_questions = [
-            ("🌐", "What are the best dental clinics in Trichy?"),
-            ("🏆", "Which are the top rated dental hospitals in Chennai?"),
-            ("🌍", "What is the most common dental treatment performed worldwide?"),
-            ("📰", "What are the latest trends in dental technology in 2025?"),
-            ("🏅", "Which are the best dental clinics in India?"),
+            ("ðŸŒ", "What are the best dental clinics in Trichy?"),
+            ("ðŸ†", "Which are the top rated dental hospitals in Chennai?"),
+            ("ðŸŒ", "What is the most common dental treatment performed worldwide?"),
+            ("ðŸ“°", "What are the latest trends in dental technology in 2025?"),
+            ("ðŸ…", "Which are the best dental clinics in India?"),
         ]
 
         if not st.session_state.copilot_messages:
             st.markdown("""
-            <div class='qcat-label'>🦷 General Dental Knowledge<span class='line'></span></div>
+            <div class='qcat-label'>ðŸ¦· General Dental Knowledge<span class='line'></span></div>
             """, unsafe_allow_html=True)
             cols = st.columns(5)
             for i, (icon, q) in enumerate(dental_questions):
@@ -2938,7 +2967,7 @@ RESPONSE STYLE:
                         st.session_state.copilot_pending_question = q
 
             st.markdown("""
-            <div class='qcat-label project'>⬡ About This Project<span class='line'></span></div>
+            <div class='qcat-label project'>â¬¡ About This Project<span class='line'></span></div>
             """, unsafe_allow_html=True)
             cols2 = st.columns(5)
             for i, (icon, q) in enumerate(project_questions):
@@ -2947,7 +2976,7 @@ RESPONSE STYLE:
                         st.session_state.copilot_pending_question = q
 
             st.markdown("""
-            <div class='qcat-label' style='color:#34d399;'>🌐 Live Web Search<span class='line' style='background:linear-gradient(90deg,rgba(52,211,153,0.4),transparent);'></span></div>
+            <div class='qcat-label' style='color:#34d399;'>ðŸŒ Live Web Search<span class='line' style='background:linear-gradient(90deg,rgba(52,211,153,0.4),transparent);'></span></div>
             """, unsafe_allow_html=True)
             cols3 = st.columns(5)
             for i, (icon, q) in enumerate(web_questions):
@@ -2963,7 +2992,7 @@ RESPONSE STYLE:
                 ask_copilot(pending)
             st.rerun()
 
-        # ── CHAT HISTORY ──────────────────────────────────────────────────────
+        # â”€â”€ CHAT HISTORY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if st.session_state.copilot_messages:
             chat_html = "<div class='chat-wrap'>"
             for msg in st.session_state.copilot_messages:
@@ -2979,20 +3008,20 @@ RESPONSE STYLE:
                     content = msg['content'].replace('\n', '<br>')
                     chat_html += f"""
                     <div class='msg-ai'>
-                        <div class='ai-avatar'>⬡</div>
+                        <div class='ai-avatar'>â¬¡</div>
                         <div>
                             <div class='bubble'>{content}</div>
-                            <div class='msg-meta'>PraxisIQ Copilot · Llama 3.1 8B · Groq {'· 🌐 Tavily Web Search' if '🌐' in msg['content'] else ''}</div>
+                            <div class='msg-meta'>PraxisIQ Copilot Â· Llama 3.1 8B Â· Groq {'Â· ðŸŒ Tavily Web Search' if 'ðŸŒ' in msg['content'] else ''}</div>
                         </div>
                     </div>"""
             chat_html += "</div>"
             st.markdown(chat_html, unsafe_allow_html=True)
 
-            if st.button("🗑️ Clear conversation", key="clear_chat"):
+            if st.button("ðŸ—‘ï¸ Clear conversation", key="clear_chat"):
                 st.session_state.copilot_messages = []
                 st.rerun()
 
-        # ── FREE-TEXT INPUT (st.form avoids widget/session-state sync bugs) ────
+        # â”€â”€ FREE-TEXT INPUT (st.form avoids widget/session-state sync bugs) â”€â”€â”€â”€
         st.markdown("<hr style='border-color:rgba(108,140,255,0.1);margin:16px 0;'/>", unsafe_allow_html=True)
 
         with st.form(key="copilot_form", clear_on_submit=True):
@@ -3004,24 +3033,24 @@ RESPONSE STYLE:
                     label_visibility="collapsed",
                 )
             with col_send:
-                submitted = st.form_submit_button("⬡ Ask", type="primary", use_container_width=True)
+                submitted = st.form_submit_button("â¬¡ Ask", type="primary", use_container_width=True)
 
         if submitted and free_text.strip():
             with st.spinner("PraxisIQ Copilot is thinking..."):
                 ask_copilot(free_text.strip())
             st.rerun()
 
-        # ── CAPABILITIES FOOTER ───────────────────────────────────────────────
+        # â”€â”€ CAPABILITIES FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if not st.session_state.copilot_messages:
             st.markdown("<hr style='border-color:rgba(108,140,255,0.08);margin:24px 0 16px;'/>", unsafe_allow_html=True)
             st.markdown(f"<div style='color:{TEXT_LOW};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;'>What PraxisIQ Copilot knows</div>", unsafe_allow_html=True)
 
             cap_cols = st.columns(4)
             caps = [
-                ("🦷", "Clinical Dentistry", "Root Canal, Implants, Scaling, Braces, Crowns, Bridges, Whitening, Extractions, Pediatric, Gum Treatment"),
-                ("📊", "Patient Analytics", "Retention, dropout rates, visit patterns, high-risk identification, follow-up compliance"),
-                ("🛡️", "Trust & Safety", "Moderation queue, escalation tiers, fraud signals, review classification, burst detection"),
-                ("🌐", "Live Web Search", "Top clinics, current rankings, latest dental news, real-world benchmarks — powered by Tavily"),
+                ("ðŸ¦·", "Clinical Dentistry", "Root Canal, Implants, Scaling, Braces, Crowns, Bridges, Whitening, Extractions, Pediatric, Gum Treatment"),
+                ("ðŸ“Š", "Patient Analytics", "Retention, dropout rates, visit patterns, high-risk identification, follow-up compliance"),
+                ("ðŸ›¡ï¸", "Trust & Safety", "Moderation queue, escalation tiers, fraud signals, review classification, burst detection"),
+                ("ðŸŒ", "Live Web Search", "Top clinics, current rankings, latest dental news, real-world benchmarks â€” powered by Tavily"),
             ]
             for col, (icon, title, desc) in zip(cap_cols, caps):
                 with col:
