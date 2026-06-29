@@ -33,6 +33,7 @@ of 959 patients, 4,603 visits, and 300 labeled reviews.
 | Review classification accuracy (ML — TF-IDF + Logistic Regression V2) | 82.22% |
 | Review classification accuracy (LLM — Prompt V2, hold-out test set) | 86.67% |
 | Prompt engineering iterations | 3 prompts evaluated (V1 Zero-Shot: 65.56%, V2 Detailed: 86.67%, V3 Rules-Based: 65.56%) |
+| Precision/Recall Simulator | Live confusion matrix — TP/FP/FN/TN updates as threshold slider moves |
 | Review burst events detected | 7 anomalous spikes flagged |
 | High-risk patient cases identified | 173 (never returned after single visit) |
 | Statistical visit outliers flagged | 31 (Z-score > 2σ) |
@@ -41,6 +42,8 @@ of 959 patients, 4,603 visits, and 300 labeled reviews.
 | ANOVA result | F = 5.37, p < 0.001 |
 | Critical cases (P1 — Immediate) | 34 |
 | High priority cases (P2 — Same Day) | 111 |
+| Data Quality Score | Computed live — missing values, duplicates, validation checks |
+| AI Copilot | Groq Llama 3.1 8B + Tavily web search + live DB context |
 
 ---
 
@@ -48,7 +51,7 @@ of 959 patients, 4,603 visits, and 300 labeled reviews.
 
 ```mermaid
 flowchart TD
-    A[Patient_Data.xlsx\n959 Patients · 4603 Visits · 300 Reviews] --> B[create_database.py]
+    A[sample_data_synthetic.xlsx\n959 Patients · 4603 Visits · 300 Reviews] --> B[create_database.py]
     B --> C[(PraxisIQ.db\nSQLite Database)]
 
     C --> D[analytics/\nStatistical Analysis\nANOVA · Chi-Square · Outliers]
@@ -63,15 +66,17 @@ flowchart TD
     G --> I
     H --> I
 
-    I --> J[dashboards/app.py\nStreamlit Dashboard\n7 Views · Dark Theme · Plotly Charts]
+    I --> J[dashboards/app.py\nStreamlit Dashboard\n9 Views · Dark Theme · Plotly Charts]
 
     J --> K[Review Intelligence]
-    J --> L[Trust & Safety]
+    J --> L[Trust & Safety + Precision/Recall Simulator]
     J --> M[LLM Evaluation]
     J --> N[Anomaly Detection]
     J --> O[Patient Analytics]
     J --> P[Investigation Playbooks]
-    J --> Q[Overview]
+    J --> Q[Overview + Executive PDF Report]
+    J --> R[Data Quality]
+    J --> S[AI Copilot · Groq + Tavily]
 ```
 
 ---
@@ -117,6 +122,33 @@ erDiagram
 
 ---
 
+## Data Dictionary
+
+| Dataset | Description | Key Fields | Rows |
+|---|---|---|---|
+| Patients | Patient demographics and visit summary | Patient_ID, Age, Gender, Primary_Treatment, Returned_Patient, Total_Visits | 959 |
+| Visits | Individual clinical visit records | Visit_ID, Patient_ID, Visit_Date, Treatment_Type, Treatment_Status, Visit_Number | 4,603 |
+| Reviews | Patient-submitted text reviews with ground-truth labels | Review_ID, Reviewer_Name, Rating (1–5), Review_Text, Label, Review_Date | 300 |
+| llm_predictions.csv | LLM hold-out test set predictions | Review_Text, Label (ground truth), Prediction, Correct, Split | 90 |
+| moderation_queue.csv | Reviews classified by risk tier | Review_ID, Risk_Level, Priority, Label, Rating | 300 |
+| followup_risk_queue.csv | At-risk patients flagged for follow-up | Patient_ID, Primary_Treatment, Risk_Category, Total_Visits | 173 |
+| review_burst_detection.csv | Days flagged as anomalous review volume | Review_Date, Daily_Count, Rolling_Avg, Burst_Status | 7 burst days |
+| trust_safety_metrics.csv | Aggregated T&S pipeline metrics | Category, Risk_Level, Priority, Count | Per category |
+
+**Label definitions (Reviews.Label):**
+
+| Label | Definition |
+|---|---|
+| Positive | Overall satisfaction or general praise |
+| Treatment | Complaints about clinical procedure quality or outcomes |
+| Communication | Feedback about how staff explained procedures or responded |
+| Waiting Time | Feedback about appointment delays or queue management |
+| Pricing | Feedback about cost, billing, or value for money |
+| Staff | Feedback about non-clinical staff behavior |
+| Neutral | Factual statements with no clear positive or negative sentiment |
+
+---
+
 ## Key Findings and Recommendations
 
 These findings are written as analyst recommendations, directly mapping to Trust & Safety operational decisions.
@@ -142,18 +174,6 @@ On the held-out test set, Staff recall dropped to 44% and Neutral to 40% — wel
 
 300 Google Maps reviews were hand-labeled across 7 categories to serve as the ground-truth evaluation dataset for LLM prompt benchmarking.
 
-**Category definitions used during labeling:**
-
-| Category | Definition | Example signal |
-|---|---|---|
-| Positive | Overall satisfaction, general praise | "Excellent doctor, highly recommended" |
-| Treatment | Complaints or feedback about clinical procedure quality | "Filling fell off after two weeks" |
-| Communication | Feedback about how staff explained procedures or responded to concerns | "Doctor did not explain the side effects" |
-| Waiting Time | Feedback about appointment delays or queue management | "Waited 45 minutes past appointment time" |
-| Pricing | Feedback about cost, billing, or value for money | "Charged more than the quoted amount" |
-| Staff | Feedback about non-clinical staff behavior | "Receptionist was rude and unhelpful" |
-| Neutral | Factual statements with no clear positive or negative sentiment | "Visited for a routine checkup" |
-
 **Labeling rules applied:**
 - Reviews mentioning multiple signals were assigned to the primary complaint category
 - Ambiguous reviews defaulted to Neutral rather than Positive to avoid inflating the positive class
@@ -169,11 +189,12 @@ This project simulates the core analytical workflows in a T&S engineering role:
 - **Content classification** — Designed and evaluated 3 LLM prompt versions using Qwen2.5 7B to classify user-generated reviews into 7 categories, with full precision, recall, and F1 analysis
 - **Abuse detection** — Review burst analysis (dual-method: static + rolling), exact duplicate screening, and repeat reviewer flagging using the same detection logic as spam and coordinated inauthentic behavior systems
 - **Risk prioritization** — A moderation queue with Critical / High / Medium / Low severity tiers, directly mirroring real-world content escalation pipelines
-- **Experiment design** — Live threshold simulator: adjust the Treatment escalation threshold and burst sensitivity multiplier to see real-time queue composition changes — directly demonstrating policy experiment thinking
+- **Experiment design** — Live precision/recall simulator: adjust the Treatment escalation threshold and see real TP/FP/FN/TN update from ground-truth data — directly demonstrating policy experiment thinking
 - **Investigation playbooks** — Structured Detection → Evidence → Severity → Action → Escalation → Resolution workflows for 5 issue types, mirroring T&S operational runbooks
 - **Statistical modeling** — One-Way ANOVA (F = 5.37, p < 0.001) and Chi-Square (χ² = 412.49, p < 0.001) to identify significant behavioral differences across segments
+- **AI-assisted analytics** — Groq-powered AI Copilot with live database context answers analyst questions: "What treatment has the highest risk?", "Summarize the moderation queue", "Why did complaints increase?"
 - **Data labeling** — 300 reviews hand-labeled across 7 categories to serve as the ground-truth evaluation dataset
-- **Dashboard and reporting** — Interactive Streamlit dashboard across 7 analytical views for stakeholder communication
+- **Executive reporting** — One-click PDF report generation with live KPI snapshot, top findings, moderation queue status, and model performance summary
 
 > **Domain note:** Patient reviews are structurally identical to user-generated content on any platform — free-text submissions, star ratings, coordinated posting patterns, and abuse signals. The workflows here directly mirror Trust & Safety systems at scale. The domain is dental; the methodology is platform trust and safety.
 
@@ -216,6 +237,8 @@ V2 improvements: bigrams captured multi-word clinical phrases ("waiting time", "
 | Scikit-Learn | ML classification, TF-IDF, metrics |
 | SciPy | Statistical testing (ANOVA, Chi-Square) |
 | Qwen2.5 7B (Ollama) | Local LLM for prompt evaluation |
+| Groq (Llama 3.1 8B) | AI Copilot — live analyst Q&A |
+| Tavily Search API | Web search integration in AI Copilot |
 | Streamlit | Interactive dashboard |
 | Plotly | Data visualizations |
 
@@ -311,15 +334,17 @@ Risk tiers applied across 300 reviews:
 Severity breakdown: 34 Critical (P1), 111 High (P2), 29 Medium (P3), 18 Low (P4), 108 Safe (P5)
 
 ### Module 6 — Dashboard
-Interactive Streamlit dashboard with **7 views** — live at [https://praxisiq.streamlit.app](https://praxisiq.streamlit.app):
+Interactive Streamlit dashboard with **9 views** — live at [https://praxisiq.streamlit.app](https://praxisiq.streamlit.app):
 
-- **Overview** — Executive KPIs with trend context and role alignment
+- **Overview** — Executive KPIs with trend context, delta indicators, and one-click Executive PDF Report
 - **Patient Analytics** — Retention, churn, dropout risk queue, treatment dropout rates, ANOVA results
 - **Review Intelligence** — Sentiment distribution, rating analysis, service quality by category
 - **Anomaly Screening** — Burst events (dual-method), visit outliers, emerging risk category trends
-- **Trust & Safety** — Risk tiers, moderation queue, threshold experiment simulator, queue clearance simulator, product vulnerability analysis, YouTube-scale limitations
+- **Trust & Safety** — Risk tiers, moderation queue, threshold experiment simulator, live precision/recall simulator with confusion matrix, product vulnerability analysis
 - **LLM Evaluation** — Prompt comparison, ML vs LLM, feature importance, confidence scoring, model error analysis, confusion matrix
 - **Investigation Playbooks** — 5 structured playbooks (Review Burst, Treatment Complaint, Suspicious Reviewer, Duplicate Review, Emerging Risk) each with Detection → Evidence → Severity → Action → Escalation → Resolution workflow
+- **Data Quality** — Missing value rates, duplicate detection, treatment standardization, overall data quality score
+- **AI Copilot** — Groq Llama 3.1 8B with live DB context + Tavily web search. Ask: "What treatment has the highest risk?", "Summarize the moderation queue", "Best dental clinics in Trichy?"
 
 ---
 
@@ -350,6 +375,15 @@ python llm/llm_evaluation_final.py
 streamlit run dashboards/app.py
 ```
 
+**AI Copilot setup** (required for the Copilot page):
+1. Get a free Groq API key at [console.groq.com/keys](https://console.groq.com/keys)
+2. Get a free Tavily API key at [app.tavily.com](https://app.tavily.com)
+3. Create `.streamlit/secrets.toml` in the project root:
+```toml
+GROQ_API_KEY = "gsk_your_key_here"
+TAVILY_API_KEY = "tvly_your_key_here"
+```
+
 ---
 
 ## Repository Structure
@@ -359,45 +393,25 @@ PraxisIQ/
 ├── create_database.py              # Database builder from Excel source
 ├── run_all.py                      # Single entry point — runs full pipeline
 ├── config.py                       # Central config: thresholds, paths, logging
-├── requirements.txt                # Project dependencies (UTF-8, no BOM)
+├── requirements.txt                # Project dependencies
 ├── README.md
 ├── FINDINGS.md                     # Analyst findings document
 ├── METHODOLOGY.md                  # Decision rationale for every technique
 ├── SETUP.md                        # Local setup guide
-├── Patient_Data.xlsx               # Source data (959 patients, 4603 visits, 300 reviews)
+├── CHANGELOG.md                    # Version history
+├── LICENSE                         # MIT License
+├── sample_data_synthetic.xlsx      # Synthetic source data (959 patients, 4603 visits, 300 reviews)
 ├── assets/                         # Dashboard screenshots
-│   ├── screenshot_anomaly_screening.png
-│   ├── screenshot_trust_safety.png
-│   ├── screenshot_llm_evaluation.png
-│   ├── screenshot_confusion_matrix.png
-│   ├── screenshot_ml_feature_importance.png
-│   └── screenshot_model_error_analysis.png
 ├── sql/                            # SQL analytics queries
 │   ├── 01_common_treatments.sql
-│   ├── 02_completion_rates.sql     # CTE + ROW_NUMBER() + NTILE()
-│   ├── ...
 │   └── trust_safety/               # 7 T&S specific SQL workflows
-│       ├── 01_review_burst_detection.sql
-│       └── ...
 ├── analytics/                      # Python analytics scripts
-│   ├── statistical_analysis.py
-│   ├── treatment_risk_analysis.py
-│   ├── visit_outlier_detection.py
-│   ├── suspicious_reviewer_detection.py
-│   ├── review_burst_detection.py
-│   ├── emerging_risk_monitoring.py
-│   ├── followup_risk_analysis.py
-│   └── duplicate_review_detection.py
 ├── llm/                            # LLM prompt engineering and evaluation
-│   ├── llm_evaluation_final.py
-│   ├── prompt_v1.txt
-│   ├── prompt_v2.txt
-│   └── prompt_v3.txt
 ├── ml/                             # ML classifier (TF-IDF + Logistic Regression)
-│   └── review_classifier_v2.py
 ├── trust_safety/                   # Unified T&S pipeline
-│   └── trust_safety_pipeline.py
+├── tests/                          # Unit tests (pytest)
+│   └── test_pipeline.py            # 10 test cases covering core pipeline logic
 ├── dashboards/                     # Streamlit dashboard
-│   └── app.py                      # 7 pages · 2,377 lines
+│   └── app.py                      # 9 pages · 3500+ lines
 └── reports/                        # Generated CSV outputs (gitignored)
 ```
