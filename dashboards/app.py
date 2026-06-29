@@ -1453,7 +1453,7 @@ elif page == "Trust & Safety":
                 <td style='padding:10px 14px;'><span style='background:rgba(242,179,61,0.12);color:{AMBER};border:1px solid rgba(242,179,61,0.28);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>NEEDS REVIEW</span></td>
                 <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>High (P2) if Rating ≤ 2<br>Medium (P3) if Rating = 3</td>
                 <td style='padding:10px 14px;color:{TEXT_HI};font-weight:600;'>&lt; 24 hours</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review · No auto-action<br><span style='color:{ROSE};font-size:10.5px;'>LLM recall 44% — high false negative risk</span></td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review · No auto-action<br><span style='color:{EMERALD};font-size:10.5px;'>LLM recall 100% on this class — review queue is precautionary, not a model gap</span></td>
                 <td style='padding:10px 14px;color:{TEXT_MED};'>Human Reviewer ↑ Queue Manager</td>
             </tr>
             <tr style='border-bottom:1px solid {BORDER_SOFT};'>
@@ -1477,7 +1477,7 @@ elif page == "Trust & Safety":
                 <td style='padding:10px 14px;'><span style='background:rgba(242,179,61,0.12);color:{AMBER};border:1px solid rgba(242,179,61,0.28);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>NEEDS REVIEW</span></td>
                 <td style='padding:10px 14px;color:{AMBER};font-weight:600;'>Medium (P3)</td>
                 <td style='padding:10px 14px;color:{TEXT_HI};font-weight:600;'>Weekly batch</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review · No auto-action<br><span style='color:{ROSE};font-size:10.5px;'>LLM recall 53% — route all to human</span></td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Queue for human review · No auto-action<br><span style='color:{ROSE};font-size:10.5px;'>LLM recall 44% — route all to human</span></td>
                 <td style='padding:10px 14px;color:{TEXT_MED};'>HR Reviewer ↑ Department Head</td>
             </tr>
             <tr style='border-bottom:1px solid {BORDER_SOFT};background:rgba(255,255,255,0.01);'>
@@ -1485,7 +1485,7 @@ elif page == "Trust & Safety":
                 <td style='padding:10px 14px;'><span style='background:rgba(61,220,140,0.10);color:{EMERALD};border:1px solid rgba(61,220,140,0.25);padding:2px 8px;border-radius:12px;font-weight:700;font-size:10.5px;'>SAFE</span></td>
                 <td style='padding:10px 14px;color:{TEXT_LOW};font-weight:600;'>Low (P4)</td>
                 <td style='padding:10px 14px;color:{TEXT_MED};font-weight:600;'>Monthly review</td>
-                <td style='padding:10px 14px;color:{TEXT_MED};'>Log and archive · No escalation</td>
+                <td style='padding:10px 14px;color:{TEXT_MED};'>Log and archive · No escalation<br><span style='color:{AMBER};font-size:10.5px;'>LLM recall 40% — lowest of any class, but low-stakes by design</span></td>
                 <td style='padding:10px 14px;color:{TEXT_MED};'>Archived — no action required</td>
             </tr>
             <tr style='background:rgba(255,255,255,0.01);'>
@@ -1502,11 +1502,13 @@ elif page == "Trust & Safety":
     <div style='margin-top:14px;padding:12px 16px;background:rgba(108,140,255,0.06);border:1px solid rgba(108,140,255,0.2);border-radius:10px;'>
         <span style='color:{ACCENT};font-size:11px;font-weight:700;letter-spacing:0.05em;'>POLICY NOTE</span>
         <span style='color:{TEXT_MED};font-size:12px;margin-left:10px;'>
-            Communication and Staff categories are <b style='color:{AMBER}'>never auto-actioned</b> due to LLM recall dropping below 55% on these classes.
-            All items in these categories go to human review regardless of rating.
-            This is a deliberate false-negative minimization choice — the cost of a missed escalation
-            outweighs the cost of excess human review volume.
-        </span>
+            Staff is <b style='color:{AMBER}'>never auto-actioned</b> — its 44% LLM recall is too low to trust without
+            human review, and a missed Staff complaint can hide a genuine HR or conduct issue.
+            Neutral has an even lower recall (40%) but stays in the auto-archived Safe tier: a misclassified Neutral
+            review resolves at worst to another low-severity category, so the cost of a residual error there is
+            acceptable, unlike Staff where a false negative is a real operational risk.
+            This asymmetry — same recall problem, different action — is a deliberate cost-of-error tradeoff,
+            not an oversight.</span>
     </div>
     """, unsafe_allow_html=True)
 
