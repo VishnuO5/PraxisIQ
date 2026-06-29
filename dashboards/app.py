@@ -1,4 +1,4 @@
-import streamlit as st
+﻿import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -527,7 +527,7 @@ def finding(title, text):
 BASE  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB    = os.path.join(BASE, "PraxisIQ.db")
 RPT   = os.path.join(BASE, "reports")
-EXCEL = os.path.join(BASE, "Patient_Data.xlsx")
+EXCEL = os.path.join(BASE, "sample_data_synthetic.xlsx")
 
 
 def _build_database_if_missing():
@@ -621,7 +621,7 @@ with st.sidebar:
             <div class='side-stat'><b>959</b> patients &nbsp;·&nbsp; <b>4,603</b> visits</div>
             <div class='side-stat'><b>300</b> reviews &nbsp;·&nbsp; 7 labeled categories</div>
             <div class='side-stat'>Model: <b>Qwen2.5 7B</b> · Ollama (local)</div>
-            <div class='side-stat'>Copilot: <b>Llama 3.1 8B</b> · Groq</div>
+            <div class='side-stat'>Copilot: <b>GPT-OSS 20B</b> · Groq</div>
             <div class='side-pill'>Live dataset connected</div>
         </div>
     """, unsafe_allow_html=True)
@@ -3153,36 +3153,6 @@ elif page == "AI Copilot":
         border-color: rgba(6,182,212,0.25);
         color: #22d3ee;
     }}
-    /* Live stats strip */
-    .live-strip {{
-        display: flex;
-        gap: 0;
-        background: rgba(14,11,26,0.9);
-        border: 1px solid rgba(139,92,246,0.15);
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 22px;
-    }}
-    .live-stat {{
-        flex: 1;
-        padding: 12px 16px;
-        border-right: 1px solid rgba(139,92,246,0.1);
-        text-align: center;
-    }}
-    .live-stat:last-child {{ border-right: none; }}
-    .live-stat-val {{
-        font-size: 20px;
-        font-weight: 700;
-        color: #e2e8f0;
-        line-height: 1.2;
-    }}
-    .live-stat-lbl {{
-        font-size: 10px;
-        color: #64748b;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        margin-top: 3px;
-    }}
     .live-dot {{
         display: inline-block;
         width: 6px; height: 6px;
@@ -3214,82 +3184,155 @@ elif page == "AI Copilot":
     }}
     .qcat-label.project {{ color: #22d3ee; }}
     .qcat-label.project .line {{ background: linear-gradient(90deg, rgba(34,211,238,0.4), transparent); }}
-    /* Suggested question buttons */
-    .stButton > button {{
-        background: rgba(14,11,26,0.8) !important;
-        border: 1px solid rgba(139,92,246,0.2) !important;
+    /* Suggested question buttons — multiple selectors for cross-version Streamlit compatibility */
+    .stButton > button,
+    .stButton > button[kind="secondary"],
+    div[data-testid="stButton"] > button,
+    button[data-testid="baseButton-secondary"],
+    button[kind="secondary"] {{
+        background: rgba(20,16,34,0.92) !important;
+        border: 1px solid rgba(139,92,246,0.28) !important;
         border-radius: 10px !important;
-        color: #94a3b8 !important;
+        color: #c4b5fd !important;
         font-size: 12px !important;
+        font-weight: 500 !important;
         line-height: 1.5 !important;
         text-align: left !important;
-        padding: 10px 14px !important;
+        padding: 11px 14px !important;
         height: auto !important;
-        min-height: 52px !important;
+        min-height: 54px !important;
         white-space: normal !important;
-        transition: all 0.15s !important;
+        box-shadow: none !important;
+        transition: all 0.15s ease !important;
     }}
-    .stButton > button:hover {{
-        border-color: rgba(139,92,246,0.5) !important;
-        color: #e2e8f0 !important;
-        background: rgba(139,92,246,0.08) !important;
-        box-shadow: 0 0 16px rgba(139,92,246,0.1) !important;
+    .stButton > button:hover,
+    .stButton > button[kind="secondary"]:hover,
+    div[data-testid="stButton"] > button:hover,
+    button[data-testid="baseButton-secondary"]:hover,
+    button[kind="secondary"]:hover {{
+        border-color: rgba(139,92,246,0.6) !important;
+        color: #f1f3f8 !important;
+        background: rgba(139,92,246,0.14) !important;
+        box-shadow: 0 0 18px rgba(139,92,246,0.15) !important;
+        transform: translateY(-1px);
     }}
-    /* Chat bubbles */
+    .stButton > button:active,
+    button[kind="secondary"]:active {{
+        transform: translateY(0);
+    }}
+    /* Primary "Send" button stays visually distinct from suggestion pills */
+    .stButton > button[kind="primary"],
+    button[data-testid="baseButton-primary"],
+    button[kind="primary"] {{
+        background: linear-gradient(135deg, #7c3aed, #ec4899) !important;
+        border: none !important;
+        border-radius: 10px !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        box-shadow: 0 0 16px rgba(139,92,246,0.25) !important;
+    }}
+    .stButton > button[kind="primary"]:hover,
+    button[kind="primary"]:hover {{
+        box-shadow: 0 0 24px rgba(139,92,246,0.4) !important;
+        transform: translateY(-1px);
+    }}
+
+    /* Chat bubbles - Professional Design */
     .chat-wrap {{
+
         display: flex;
         flex-direction: column;
-        gap: 18px;
-        margin: 20px 0;
-        max-height: 540px;
+        gap: 16px;
+        margin: 24px 0;
+        max-height: 650px;
         overflow-y: auto;
-        padding-right: 4px;
+        padding: 8px 4px;
+        border-radius: 12px;
+        background: rgba(14, 11, 26, 0.4);
+        padding: 16px;
+        border: 1px solid rgba(108, 140, 255, 0.1);
     }}
     .msg-user {{
         display: flex;
         justify-content: flex-end;
+        margin-bottom: 8px;
+    }}
+    .msg-user > div {{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        max-width: 85%;
     }}
     .msg-user .bubble {{
-        background: linear-gradient(135deg, rgba(139,92,246,0.22), rgba(236,72,153,0.12));
-        border: 1px solid rgba(139,92,246,0.3);
-        border-radius: 16px 16px 4px 16px;
-        padding: 12px 16px;
-        max-width: 72%;
-        color: #e2e8f0;
-        font-size: 13.5px;
+        background: linear-gradient(135deg, rgba(108, 140, 255, 0.2), rgba(61, 217, 214, 0.1));
+        border: 1px solid rgba(108, 140, 255, 0.3);
+        border-radius: 18px;
+        padding: 14px 18px;
+        color: #f1f3f8;
+        font-size: 14px;
         line-height: 1.6;
+        word-wrap: break-word;
+        box-shadow: 0 2px 8px rgba(108, 140, 255, 0.08);
     }}
     .msg-ai {{
         display: flex;
         justify-content: flex-start;
-        gap: 10px;
+        gap: 12px;
         align-items: flex-start;
+        margin-bottom: 8px;
     }}
     .ai-avatar {{
-        width: 34px; height: 34px;
-        background: linear-gradient(135deg, #7c3aed, #ec4899);
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #6c8cff, #3dd9d6);
         border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
         flex-shrink: 0;
-        margin-top: 2px;
-        box-shadow: 0 0 16px rgba(139,92,246,0.3);
+        box-shadow: 0 4px 12px rgba(108, 140, 255, 0.3);
+    }}
+    .msg-ai > div {{
+        display: flex;
+        flex-direction: column;
+        max-width: 85%;
     }}
     .msg-ai .bubble {{
-        background: rgba(14,11,26,0.95);
-        border: 1px solid rgba(139,92,246,0.15);
-        border-radius: 4px 16px 16px 16px;
-        padding: 14px 18px;
-        max-width: 78%;
-        color: #e2e8f0;
-        font-size: 13.5px;
-        line-height: 1.75;
+        background: rgba(22, 26, 38, 0.8);
+        border: 1px solid rgba(108, 140, 255, 0.15);
+        border-radius: 16px;
+        padding: 16px 20px;
+        color: #f1f3f8;
+        font-size: 14px;
+        line-height: 1.7;
+        word-wrap: break-word;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }}
+    .msg-ai .bubble a {{
+        color: #6c8cff;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(108, 140, 255, 0.3);
+    }}
+    .msg-ai .bubble a:hover {{
+        border-bottom-color: #6c8cff;
+    }}
+    .msg-ai .bubble strong {{
+        color: #3dd9d6;
+    }}
+    .msg-ai .bubble ul, .msg-ai .bubble ol {{
+        margin: 8px 0;
+        padding-left: 20px;
+    }}
+    .msg-ai .bubble li {{
+        margin: 4px 0;
     }}
     .msg-meta {{
-        color: #475569;
+        color: #64748b;
         font-size: 10px;
-        margin-top: 5px;
-        letter-spacing: 0.04em;
+        margin-top: 6px;
+        letter-spacing: 0.03em;
+        font-weight: 500;
     }}
     /* Capability cards */
     .cap-card {{
@@ -3333,7 +3376,7 @@ elif page == "AI Copilot":
             oral health education, and Trust &amp; Safety, powered by live data and advanced LLMs.
         </div>
         <div class='copilot-badge-row'>
-            <span class='copilot-badge'>◆ Llama 3.1 8B · Groq</span>
+            <span class='copilot-badge'>◆ GPT-OSS 20B · Groq</span>
             <span class='copilot-badge green'><span class='live-dot'></span>Live database</span>
             <span class='copilot-badge cyan'>959 patients · 300 reviews</span>
             <span class='copilot-badge'>🌐 Live web search · Tavily</span>
@@ -3348,18 +3391,25 @@ elif page == "AI Copilot":
     GROQ_KEY = ""
     groq_setup_error = None
 
+    # Resolve Groq key: env var -> Streamlit secrets
+    GROQ_KEY = os.environ.get("GROQ_API_KEY", "")
+    if not GROQ_KEY:
+        try:
+            GROQ_KEY = st.secrets.get("GROQ_API_KEY", "")
+        except Exception:
+            pass
+
     try:
         from groq import Groq
         try:
-            GROQ_KEY = os.environ.get("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
-        except Exception:
-            GROQ_KEY = os.environ.get("GROQ_API_KEY", "")
-
-        if not GROQ_KEY:
-            groq_setup_error = "no_key"
-        else:
             groq_client = Groq(api_key=GROQ_KEY)
             groq_available = True
+        except Exception as groq_init_err:
+            err_text = str(groq_init_err).lower()
+            if "auth" in err_text or "401" in err_text or "api key" in err_text:
+                groq_setup_error = "invalid_key"
+            else:
+                groq_setup_error = f"init_error: {str(groq_init_err)[:100]}"
     except ImportError:
         groq_setup_error = "no_package"
 
@@ -3434,6 +3484,30 @@ elif page == "AI Copilot":
             root with the same line, or set a <code>GROQ_API_KEY</code> environment variable before running
             <code>streamlit run</code>.<br><br>
             Get a free key at <code>console.groq.com/keys</code> if you don't have one yet.
+        </div>
+        """, unsafe_allow_html=True)
+    elif groq_setup_error == "invalid_key":
+        st.markdown(f"""
+        <div class='copilot-error-card'>
+            <b>Groq API key rejected.</b> The Groq API is rejecting your key.<br><br>
+            <b>Troubleshooting steps:</b><br>
+            1. Go to <code>console.groq.com/keys</code> and verify your key is still active<br>
+            2. If revoked, create a new API key<br>
+            3. Copy the key carefully (no extra spaces before/after)<br>
+            4. Update <code>.streamlit/secrets.toml</code> (locally) or Settings → Secrets (on Community Cloud)<br>
+            5. Restart Streamlit with Ctrl+C then <code>streamlit run dashboards/app.py</code><br><br>
+            <b>Current key (first 20 chars):</b> <code>{GROQ_KEY[:20] if GROQ_KEY else 'not found'}...</code>
+        </div>
+        """, unsafe_allow_html=True)
+    elif groq_setup_error and "error" in groq_setup_error:
+        st.markdown(f"""
+        <div class='copilot-error-card'>
+            <b>Groq connection error.</b> {groq_setup_error.split(': ')[1] if ': ' in groq_setup_error else ''}<br><br>
+            The API key exists but Groq couldn't process your request. This could be:<br>
+            • Groq's servers are temporarily down<br>
+            • Network connectivity issue<br>
+            • Rate limiting<br><br>
+            Try again in a few seconds, or check <code>console.groq.com/status</code>.
         </div>
         """, unsafe_allow_html=True)
 
@@ -3511,9 +3585,15 @@ RESPONSE STYLE:
 - Reference actual numbers from the live context when relevant
 - For clinical questions, give clear professional explanations
 - For analytics questions, connect findings to actionable recommendations
-- Keep responses focused and structured — use short paragraphs or bullet points
+- Keep responses focused and structured — use short paragraphs or line breaks between points
 - Never make up data — if something isn't in the context, say so clearly
-- Always be helpful, professional, and thorough"""
+- Always be helpful, professional, and thorough
+
+FORMATTING — IMPORTANT, your output is rendered directly as plain text in a chat UI, not as markdown:
+- Never use **asterisks** for bold or *asterisks* for italics — they will show up as literal asterisk characters
+- Never use markdown headers (#, ##) or markdown bullet dashes (- item) — use a line break instead, or a relevant emoji (e.g. "🦷 Root Canal:") to start a point
+- Numbered lists are fine written plainly, e.g. "1. ..." on its own line
+- Use plain, clean sentences and short paragraphs instead of markdown syntax"""
 
     # ── CHAT STATE ────────────────────────────────────────────────────────────
     if "copilot_messages" not in st.session_state:
@@ -3542,117 +3622,177 @@ RESPONSE STYLE:
         messages.extend({"role": m["role"], "content": m["content"]} for m in history)
         messages.append({"role": "user", "content": question})
 
-        try:
-            response = groq_client.chat.completions.create(
-                model="llama-3.1-8b-instant",
+        PRIMARY_MODEL = "openai/gpt-oss-20b"
+        FALLBACK_MODEL = "llama-3.3-70b-versatile"
+
+        def _call_groq(model_name):
+            resp = groq_client.chat.completions.create(
+                model=model_name,
                 messages=messages,
                 max_tokens=1500,
                 temperature=0.4,
             )
-            answer = response.choices[0].message.content.strip()
-            if search_used:
-                answer += "\n\n🌐 *This answer used live web search via Tavily.*"
+            return resp.choices[0].message.content.strip()
+
+        answer = None
+        error_detail = None
+        try:
+            answer = _call_groq(PRIMARY_MODEL)
         except Exception as e:
             err_text = str(e)
-            if "401" in err_text or "auth" in err_text.lower() or "api key" in err_text.lower():
-                answer = ("**Authentication failed.** The Groq API key is set but was rejected. "
-                           "Double-check it was copied correctly into Streamlit secrets, with no "
-                           "extra spaces or quotes issues, and that it hasn't been revoked at "
-                           "console.groq.com/keys.")
-            elif "429" in err_text or "rate" in err_text.lower():
-                answer = ("**Rate limit reached.** Groq's free tier has a request-per-minute cap. "
-                           "Wait a few seconds and try again.")
+            # If Groq has decommissioned/deprecated the primary model, retry
+            # once with a known-stable fallback rather than failing outright —
+            # this is the one case worth auto-recovering from, since it's a
+            # vendor-side change unrelated to the question itself.
+            if "decommission" in err_text.lower() or "deprecat" in err_text.lower():
+                try:
+                    answer = _call_groq(FALLBACK_MODEL)
+                except Exception as e2:
+                    error_detail = str(e2)
             else:
-                answer = f"**Copilot error:** {err_text}"
+                error_detail = err_text
+
+        if answer is not None and search_used:
+            answer += "\n\n🌐 *This answer used live web search via Tavily.*"
+
+        if answer is None:
+            # Show what actually went wrong instead of a fabricated canned
+            # answer — a fake "I can't connect" message that then proceeds
+            # to confidently answer anyway is worse than an honest error.
+            err_lower = (error_detail or "").lower()
+            if "rate" in err_lower or "429" in err_lower:
+                answer = (
+                    "⚠️ The Copilot hit Groq's rate limit for this API key. "
+                    "This usually clears within a minute — try again shortly."
+                )
+            elif "auth" in err_lower or "401" in err_lower or "api key" in err_lower:
+                answer = (
+                    "⚠️ Groq rejected the API key for this request. "
+                    "If you're the project owner, check that GROQ_API_KEY in "
+                    "Settings → Secrets is current and hasn't been revoked."
+                )
+            elif "decommission" in err_lower or "deprecat" in err_lower:
+                answer = (
+                    "⚠️ Both the primary and fallback Groq models are unavailable "
+                    "right now (Groq may have changed its model lineup again). "
+                    f"Raw error: {error_detail[:200] if error_detail else 'unknown'}"
+                )
+            else:
+                answer = (
+                    "⚠️ The Copilot couldn't reach Groq for this request. "
+                    f"Raw error: {error_detail[:200] if error_detail else 'unknown error'}\n\n"
+                    "This is shown directly rather than a generic message so it's "
+                    "actually debuggable — try again, or check console.groq.com/status."
+                )
 
         st.session_state.copilot_messages.append({"role": "assistant", "content": answer})
 
-    if groq_available:
 
-        # ── LIVE STATS STRIP ──────────────────────────────────────────────────
-        patients_live = load_db("SELECT COUNT(*) as n FROM Patients")
-        reviews_live  = load_db("SELECT COUNT(*) as n, ROUND(AVG(Rating),1) as r FROM Reviews")
-        visits_live   = load_db("SELECT COUNT(*) as n FROM Visits")
-        mq_live       = load_csv("moderation_queue.csv")
-        p1_live       = len(mq_live[mq_live["Severity"] == "Critical"]) if not mq_live.empty and "Severity" in mq_live.columns else 34
+    if not groq_setup_error:
+        groq_available = True
 
-        st.markdown(f"""
-        <div class='live-strip'>
-            <div class='live-stat'>
-                <div class='live-stat-val'>{patients_live['n'].iloc[0]:,}</div>
-                <div class='live-stat-lbl'>Patients</div>
-            </div>
-            <div class='live-stat'>
-                <div class='live-stat-val'>{visits_live['n'].iloc[0]:,}</div>
-                <div class='live-stat-lbl'>Visits</div>
-            </div>
-            <div class='live-stat'>
-                <div class='live-stat-val'>{reviews_live['n'].iloc[0]}</div>
-                <div class='live-stat-lbl'>Reviews</div>
-            </div>
-            <div class='live-stat'>
-                <div class='live-stat-val'>{reviews_live['r'].iloc[0]}★</div>
-                <div class='live-stat-lbl'>Avg Rating</div>
-            </div>
-            <div class='live-stat'>
-                <div class='live-stat-val' style='color:{ROSE}'>{p1_live}</div>
-                <div class='live-stat-lbl'>P1 Critical</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # ── SUGGESTED QUESTIONS — 5 dental + 5 project, click = instant answer ──
-        dental_questions = [
-            ("🦷", "What is a root canal and when is it needed?"),
-            ("🔬", "What is the difference between scaling and deep scaling?"),
-            ("🦷", "What is the typical recovery process after a tooth extraction?"),
-            ("💊", "How do dental implants work and who is a good candidate?"),
-            ("🪥", "What's the difference between braces and clear aligners?"),
-        ]
-        project_questions = [
-            ("📊", "Which treatment has the highest patient dropout rate, and why might that be?"),
-            ("⚠️", "What are the top 3 Trust & Safety risks found in this dataset?"),
-            ("📈", "Compare the ML and LLM classifiers — which should go to production and why?"),
-            ("🚨", "Summarize the current moderation queue status."),
-            ("🌐", "What would need to change about this pipeline to work at YouTube's scale?"),
-        ]
-        web_questions = [
-            ("🌐", "What are the best dental clinics in Trichy?"),
-            ("🏆", "Which are the top rated dental hospitals in Chennai?"),
-            ("🌍", "What is the most common dental treatment performed worldwide?"),
-            ("📰", "What are the latest trends in dental technology in 2025?"),
-            ("🏅", "Which are the best dental clinics in India?"),
-        ]
-
-        if not st.session_state.copilot_messages:
+        # ═══════════════════════════════════════════════════════════════════════
+        # SECTION 1: QUICK QUESTIONS — always visible, never disappears
+        # ═══════════════════════════════════════════════════════════════════════
+        with st.container():
             st.markdown("""
-            <div class='qcat-label'>🦷 General Dental Knowledge<span class='line'></span></div>
+            <div class='quick-q-marker' style='margin-bottom:1.2rem;'>
+                <div style='color:#a8b6e8;font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;'>⚡ Quick Questions</div>
+            </div>
             """, unsafe_allow_html=True)
-            cols = st.columns(5)
-            for i, (icon, q) in enumerate(dental_questions):
-                with cols[i]:
-                    if st.button(f"{icon}  {q}", key=f"dq_{i}", use_container_width=True):
+
+            quick_questions = [
+                ("🦷", "Root canal basics"),
+                ("🔬", "Scaling vs deep cleaning"),
+                ("😣", "Recovery after extraction"),
+                ("📊", "Dropout rates"),
+                ("⚠️", "Top risks"),
+                ("📈", "ML vs LLM"),
+            ]
+
+            quick_cols = st.columns(6, gap="small")
+            for idx, (icon, q) in enumerate(quick_questions):
+                with quick_cols[idx]:
+                    if st.button(f"{icon}\n{q}", key=f"quick_q_{idx}", use_container_width=True):
                         st.session_state.copilot_pending_question = q
 
+        # ═══════════════════════════════════════════════════════════════════════
+        # SECTION 2: MORE QUESTIONS — moved above the chat box, always visible
+        # ═══════════════════════════════════════════════════════════════════════
+        st.markdown("<div style='color:#64748b;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin:24px 0 4px 0;'>More Questions</div>", unsafe_allow_html=True)
+
+        # GENERAL DENTAL KNOWLEDGE
+        with st.container():
             st.markdown("""
-            <div class='qcat-label project'>⬡ About This Project<span class='line'></span></div>
+            <div style='display:flex;align-items:center;gap:10px;margin:16px 0 12px 0;'>
+                <span style='font-size:14px;'>🦷</span>
+                <span style='color:#a78bfa;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;'>General Dental Knowledge</span>
+                <div style='flex:1;height:1px;background:linear-gradient(90deg,rgba(167,139,250,0.4),transparent);'></div>
+            </div>
             """, unsafe_allow_html=True)
-            cols2 = st.columns(5)
-            for i, (icon, q) in enumerate(project_questions):
-                with cols2[i]:
-                    if st.button(f"{icon}  {q}", key=f"pq_{i}", use_container_width=True):
+
+            dental_full = [
+                ("🦷", "What is a root canal and when is it needed?"),
+                ("🔬", "What is the difference between scaling and deep scaling?"),
+                ("🦷", "What is the typical recovery process after a tooth extraction?"),
+                ("💊", "How do dental implants work and who is a good candidate?"),
+                ("🪥", "What's the difference between braces and clear aligners?"),
+            ]
+            cols_dental = st.columns(5, gap="small")
+            for col_idx, (icon, q) in enumerate(dental_full):
+                with cols_dental[col_idx]:
+                    if st.button(f"{icon}\n{q}", key=f"dental_q_{col_idx}", use_container_width=True, help=q):
                         st.session_state.copilot_pending_question = q
 
+        # ABOUT THIS PROJECT
+        with st.container():
             st.markdown("""
-            <div class='qcat-label' style='color:#34d399;'>🌐 Live Web Search<span class='line' style='background:linear-gradient(90deg,rgba(52,211,153,0.4),transparent);'></span></div>
+            <div style='display:flex;align-items:center;gap:10px;margin:20px 0 12px 0;'>
+                <span style='font-size:14px;'>⬡</span>
+                <span style='color:#22d3ee;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;'>About This Project</span>
+                <div style='flex:1;height:1px;background:linear-gradient(90deg,rgba(34,211,238,0.4),transparent);'></div>
+            </div>
             """, unsafe_allow_html=True)
-            cols3 = st.columns(5)
-            for i, (icon, q) in enumerate(web_questions):
-                with cols3[i]:
-                    if st.button(f"{icon}  {q}", key=f"wq_{i}", use_container_width=True):
+
+            project_full = [
+                ("📊", "Which treatment has the highest patient dropout rate, and why might that be?"),
+                ("⚠️", "What are the top 3 Trust & Safety risks found in this dataset?"),
+                ("📈", "Compare the ML and LLM classifiers — which should go to production and why?"),
+                ("🚨", "Summarize the current moderation queue status."),
+                ("🌐", "What would need to change about this pipeline to work at YouTube's scale?"),
+            ]
+            cols_project = st.columns(5, gap="small")
+            for col_idx, (icon, q) in enumerate(project_full):
+                with cols_project[col_idx]:
+                    if st.button(f"{icon}\n{q}", key=f"project_q_{col_idx}", use_container_width=True, help=q):
                         st.session_state.copilot_pending_question = q
 
-        # Process a click from either question grid immediately
+        # LIVE WEB SEARCH
+        with st.container():
+            st.markdown("""
+            <div style='display:flex;align-items:center;gap:10px;margin:20px 0 12px 0;'>
+                <span style='font-size:14px;'>🌐</span>
+                <span style='color:#34d399;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;'>Live Web Search</span>
+                <div style='flex:1;height:1px;background:linear-gradient(90deg,rgba(52,211,153,0.4),transparent);'></div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            web_full = [
+                ("🌐", "What are the best dental clinics in Trichy?"),
+                ("🏆", "Which are the top rated dental hospitals in Chennai?"),
+                ("🌍", "What is the most common dental treatment performed worldwide?"),
+                ("📰", "What are the latest trends in dental technology in 2025?"),
+                ("🏅", "Which are the best dental clinics in India?"),
+            ]
+            cols_web = st.columns(5, gap="small")
+            for col_idx, (icon, q) in enumerate(web_full):
+                with cols_web[col_idx]:
+                    if st.button(f"{icon}\n{q}", key=f"web_q_{col_idx}", use_container_width=True, help=q):
+                        st.session_state.copilot_pending_question = q
+
+        # Process a click from ANY question grid above — runs once, then chat re-renders.
+        # The question grids themselves are never removed or hidden after this, since
+        # nothing above this point is gated on st.session_state.copilot_messages.
         if st.session_state.copilot_pending_question:
             pending = st.session_state.copilot_pending_question
             st.session_state.copilot_pending_question = None
@@ -3660,44 +3800,105 @@ RESPONSE STYLE:
                 ask_copilot(pending)
             st.rerun()
 
-        # ── CHAT HISTORY ──────────────────────────────────────────────────────
+        # ═══════════════════════════════════════════════════════════════════════
+        # SECTION 3: CHAT — real chat-app styling, scrollable history
+        # ═══════════════════════════════════════════════════════════════════════
+        import re as _re
+
+        def _clean_for_chat(text: str) -> str:
+            """Convert any markdown the model produced into safe inline HTML,
+            despite the system prompt asking it not to use markdown — LLMs
+            don't always perfectly follow style instructions, so this is a
+            safety net rather than the primary fix."""
+            t = text
+            # Escape raw angle brackets first so user/model text can't break the
+            # surrounding HTML structure or inject anything unintended.
+            t = t.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            # **bold** -> <b>bold</b>
+            t = _re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', t)
+            # *italic* -> <i>italic</i> (single asterisks not part of **)
+            t = _re.sub(r'(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)', r'<i>\1</i>', t)
+            # markdown headers "### Heading" -> bold line
+            t = _re.sub(r'^#{1,4}\s+(.+)$', r'<b>\1</b>', t, flags=_re.MULTILINE)
+            # markdown bullet "- item" or "* item" at line start -> "• item"
+            t = _re.sub(r'^[\-\*]\s+', '• ', t, flags=_re.MULTILINE)
+            # line breaks for the chat bubble
+            t = t.replace('\n', '<br>')
+            return t
+
+        st.markdown(f"""
+        <div style='margin:2rem 0 1.2rem 0;border-top:1px solid rgba(139,92,246,0.12);padding-top:1.6rem;'>
+            <div style='color:#64748b;font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;'>
+                Chat
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
         if st.session_state.copilot_messages:
             chat_html = "<div class='chat-wrap'>"
             for msg in st.session_state.copilot_messages:
                 if msg["role"] == "user":
+                    safe_user_content = _clean_for_chat(msg['content'])
                     chat_html += f"""
                     <div class='msg-user'>
                         <div>
-                            <div class='bubble'>{msg['content']}</div>
+                            <div class='bubble'>{safe_user_content}</div>
                             <div class='msg-meta' style='text-align:right'>You</div>
                         </div>
                     </div>"""
                 else:
-                    content = msg['content'].replace('\n', '<br>')
+                    content = _clean_for_chat(msg['content'])
                     chat_html += f"""
                     <div class='msg-ai'>
                         <div class='ai-avatar'>⬡</div>
                         <div>
                             <div class='bubble'>{content}</div>
-                            <div class='msg-meta'>PraxisIQ Copilot · Llama 3.1 8B · Groq {'· 🌐 Tavily Web Search' if '🌐' in msg['content'] else ''}</div>
+                            <div class='msg-meta'>PraxisIQ Copilot · GPT-OSS 20B · Groq</div>
                         </div>
                     </div>"""
             chat_html += "</div>"
             st.markdown(chat_html, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div style='text-align:center;padding:2.4rem 1rem;color:#64748b;border:1px dashed rgba(139,92,246,0.18);border-radius:14px;margin:0.5rem 0;'>
+                <div style='font-size:14px;margin-bottom:6px;color:#94a3b8;'>Ask a question to get started</div>
+                <div style='font-size:12px;'>Click a question above, or type your own below</div>
+            </div>
+            """, unsafe_allow_html=True)
 
-            if st.button("🗑️ Clear conversation", key="clear_chat"):
-                st.session_state.copilot_messages = []
-                st.rerun()
+        # ═══════════════════════════════════════════════════════════════════════
+        # SECTION 4: TEXT INPUT — premium dark styling
+        # ═══════════════════════════════════════════════════════════════════════
+        st.markdown("""
+        <style>
+        .stTextInput > div > div > input {
+            background-color: rgba(20,16,34,0.92) !important;
+            border: 1px solid rgba(139,92,246,0.28) !important;
+            color: #e2e8f0 !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            font-size: 14px !important;
+            transition: all 0.2s !important;
+        }
+        .stTextInput > div > div > input:focus {
+            background-color: rgba(20,16,34,1) !important;
+            border-color: rgba(139,92,246,0.55) !important;
+            box-shadow: 0 0 14px rgba(139,92,246,0.18) !important;
+        }
+        .stTextInput > div > div > input::placeholder {
+            color: #5f6779 !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
-        # ── FREE-TEXT INPUT (st.form avoids widget/session-state sync bugs) ────
-        st.markdown("<hr style='border-color:rgba(108,140,255,0.1);margin:16px 0;'/>", unsafe_allow_html=True)
+        st.markdown("<div style='margin:1.4rem 0 1rem 0;'></div>", unsafe_allow_html=True)
 
         with st.form(key="copilot_form", clear_on_submit=True):
-            col_input, col_send = st.columns([5, 1])
+            col_input, col_send = st.columns([5, 1], gap="small")
             with col_input:
                 free_text = st.text_input(
-                    "Ask PraxisIQ Copilot",
-                    placeholder="Ask about dental procedures, patient risk, moderation queue, T&S signals...",
+                    "Message",
+                    placeholder="Ask about dental procedures, patient analytics, treatment outcomes...",
                     label_visibility="collapsed",
                 )
             with col_send:
@@ -3708,23 +3909,34 @@ RESPONSE STYLE:
                 ask_copilot(free_text.strip())
             st.rerun()
 
-        # ── CAPABILITIES FOOTER ───────────────────────────────────────────────
-        if not st.session_state.copilot_messages:
-            st.markdown("<hr style='border-color:rgba(108,140,255,0.08);margin:24px 0 16px;'/>", unsafe_allow_html=True)
-            st.markdown(f"<div style='color:{TEXT_LOW};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;'>What PraxisIQ Copilot knows</div>", unsafe_allow_html=True)
+        if st.session_state.copilot_messages:
+            if st.button("🗑️ Clear conversation", key="clear_chat_btn"):
+                st.session_state.copilot_messages = []
+                st.rerun()
 
-            cap_cols = st.columns(4)
-            caps = [
-                ("🦷", "Clinical Dentistry", "Root Canal, Implants, Scaling, Braces, Crowns, Bridges, Whitening, Extractions, Pediatric, Gum Treatment"),
-                ("📊", "Patient Analytics", "Retention, dropout rates, visit patterns, high-risk identification, follow-up compliance"),
-                ("🛡️", "Trust & Safety", "Moderation queue, escalation tiers, fraud signals, review classification, burst detection"),
-                ("🌐", "Live Web Search", "Top clinics, current rankings, latest dental news, real-world benchmarks — powered by Tavily"),
-            ]
-            for col, (icon, title, desc) in zip(cap_cols, caps):
-                with col:
-                    st.markdown(f"""
-                    <div class='cap-card'>
-                        <div style='font-size:24px;margin-bottom:8px;'>{icon}</div>
-                        <div style='color:#e2e8f0;font-size:12px;font-weight:600;margin-bottom:5px;'>{title}</div>
-                        <div style='color:#64748b;font-size:11px;line-height:1.5;'>{desc}</div>
-                    </div>""", unsafe_allow_html=True)
+        # ═══════════════════════════════════════════════════════════════════════
+        # SECTION 5: WHAT COPILOT KNOWS — single block, no duplicate
+        # ═══════════════════════════════════════════════════════════════════════
+        st.markdown("""
+        <div style='margin:2.6rem 0 1.2rem 0;border-top:1px solid rgba(139,92,246,0.1);padding-top:1.6rem;'>
+            <div style='color:#f1f3f8;font-size:14px;font-weight:700;'>
+                🧠 What PraxisIQ Copilot Knows
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        cap_cols = st.columns(4)
+        caps = [
+            ("🦷", "Clinical Dentistry", "Root Canal, Implants, Scaling, Braces, Crowns, Bridges, Whitening, Extractions, Pediatric, Gum Treatment"),
+            ("📊", "Patient Analytics", "Retention, dropout rates, visit patterns, high-risk identification, follow-up compliance"),
+            ("🛡️", "Trust & Safety", "Moderation queue, escalation tiers, fraud signals, review classification, burst detection"),
+            ("🌐", "Live Web Search", "Top clinics, current rankings, latest dental news, real-world benchmarks — powered by Tavily"),
+        ]
+        for col, (icon, title, desc) in zip(cap_cols, caps):
+            with col:
+                st.markdown(f"""
+                <div class='cap-card'>
+                    <div style='font-size:26px;margin-bottom:10px;'>{icon}</div>
+                    <div style='color:#f1f3f8;font-size:13px;font-weight:700;margin-bottom:7px;'>{title}</div>
+                    <div style='color:#9aa3b5;font-size:11px;line-height:1.6;'>{desc}</div>
+                </div>""", unsafe_allow_html=True)
