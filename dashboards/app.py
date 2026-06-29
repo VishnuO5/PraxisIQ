@@ -699,15 +699,16 @@ if page == "Overview":
     _cohort = _compute_cohort_deltas()
 
     c1, c2, c3, c4 = st.columns(4)
-    kpi(c1, "Total Patients",    "959",   "6-year dataset · <b>+786</b> retained",                    ACCENT)
-    kpi(c2, "Retention Rate",    "81.9%", "<b style='color:#3DDC8C'>↑ above 80% industry benchmark</b>", EMERALD)
+    _never_returned = _total_pts - _returned_pts
+    kpi(c1, "Total Patients",    f"{_total_pts:,}",   f"6-year dataset · <b>+{_returned_pts}</b> retained",                    ACCENT)
+    kpi(c2, "Retention Rate",    f"{_retention}%", "<b style='color:#3DDC8C'>↑ above 80% industry benchmark</b>", EMERALD)
     kpi(c3, "At-Risk Patients",  f"{_at_risk_n}",   f"<b style='color:#EF6F6F'>{_at_risk_pct}%</b> of total patient base · live from queue",   ROSE)
-    kpi(c4, "Total Visits",      "4,603", "Avg. <b>4.8</b> visits / patient across 6 years",          CYAN)
+    kpi(c4, "Total Visits",      f"{_total_visits:,}", f"Avg. <b>{_avg_visits}</b> visits / patient across 6 years",          CYAN)
 
     c5, c6, c7, c8 = st.columns(4)
-    kpi(c5, "Reviews Analyzed",  "300",   "7 categories · hand-labeled ground truth",                  VIOLET)
+    kpi(c5, "Reviews Analyzed",  f"{_total_reviews}",   "7 categories · hand-labeled ground truth",                  VIOLET)
     kpi(c6, "LLM Accuracy",      "86.7%", "<b style='color:#3DDC8C'>+4.45%</b> over ML baseline",       ACCENT)
-    kpi(c7, "Burst Events",      "7",     "<b style='color:#F2B33D'>4 static</b> · <b>7 rolling</b> flagged", AMBER)
+    kpi(c7, "Burst Events",      f"{_burst_n}",     "<b style='color:#F2B33D'>Rolling window</b> burst detection", AMBER)
     kpi(c8, "High-Risk Reviews", "12%",   "<b style='color:#EF6F6F'>36</b> Treatment complaints · P1 auto-escalate", ROSE)
 
     # -- Styled delta KPI row ---------------------------------------------------
