@@ -3376,7 +3376,7 @@ elif page == "AI Copilot":
             oral health education, and Trust &amp; Safety, powered by live data and advanced LLMs.
         </div>
         <div class='copilot-badge-row'>
-            <span class='copilot-badge'>◆ GPT-OSS 20B · Groq</span>
+            <span class='copilot-badge'>◆ Llama 3.3 70B · Groq</span>
             <span class='copilot-badge green'><span class='live-dot'></span>Live database</span>
             <span class='copilot-badge cyan'>959 patients · 300 reviews</span>
             <span class='copilot-badge'>🌐 Live web search · Tavily</span>
@@ -3622,8 +3622,8 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         messages.extend({"role": m["role"], "content": m["content"]} for m in history)
         messages.append({"role": "user", "content": question})
 
-        PRIMARY_MODEL = "openai/gpt-oss-20b"
-        FALLBACK_MODEL = "llama-3.3-70b-versatile"
+        PRIMARY_MODEL = "llama-3.3-70b-versatile"
+        FALLBACK_MODEL = "llama3-8b-8192"
 
         def _call_groq(model_name):
             resp = groq_client.chat.completions.create(
@@ -3639,18 +3639,16 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         try:
             answer = _call_groq(PRIMARY_MODEL)
         except Exception as e:
-            err_text = str(e)
-            # If Groq has decommissioned/deprecated the primary model, retry
-            # once with a known-stable fallback rather than failing outright —
-            # this is the one case worth auto-recovering from, since it's a
-            # vendor-side change unrelated to the question itself.
-            if "decommission" in err_text.lower() or "deprecat" in err_text.lower():
+            err_text = str(e).lower()
+            # Do NOT retry on auth/rate-limit errors — retrying won't fix those
+            if "auth" in err_text or "401" in err_text or "429" in err_text or "rate" in err_text:
+                error_detail = str(e)
+            else:
+                # Any other error (model unavailable, timeout, etc) — try fallback
                 try:
                     answer = _call_groq(FALLBACK_MODEL)
                 except Exception as e2:
                     error_detail = str(e2)
-            else:
-                error_detail = err_text
 
         if answer is not None and search_used:
             answer += "\n\n🌐 *This answer used live web search via Tavily.*"
@@ -3853,7 +3851,7 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
                         <div class='ai-avatar'>⬡</div>
                         <div>
                             <div class='bubble'>{content}</div>
-                            <div class='msg-meta'>PraxisIQ Copilot · GPT-OSS 20B · Groq</div>
+                            <div class='msg-meta'>PraxisIQ Copilot · Llama 3.3 70B · Groq</div>
                         </div>
                     </div>"""
             chat_html += "</div>"
