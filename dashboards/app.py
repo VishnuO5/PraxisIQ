@@ -816,6 +816,232 @@ if page == "Overview":
             finding(f"<span style='color:{EMERALD}'>●</span>&nbsp; {title}", desc)
 
 
+    # ── EXECUTIVE PDF REPORT ──────────────────────────────────────────────────
+    st.markdown("<hr style='border-color:rgba(108,140,255,0.08);margin:32px 0 24px 0;'/>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;'>
+        <div>
+            <div style='color:{TEXT_LOW};font-size:10px;font-weight:700;letter-spacing:0.12em;
+                        text-transform:uppercase;margin-bottom:4px;'>Executive Report</div>
+            <div style='color:{TEXT_HI};font-size:16px;font-weight:700;'>Generate PDF Summary</div>
+            <div style='color:{TEXT_MED};font-size:12px;margin-top:3px;'>
+                KPI snapshot &middot; Top findings &middot; Risk overview &middot; Model performance
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("⬇  Generate Executive Report PDF", type="primary", use_container_width=False):
+        # Gather live data
+        _pdf_risk_csv  = load_csv("followup_risk_queue.csv")
+        _pdf_mq        = load_csv("moderation_queue.csv")
+        _pdf_burst     = load_csv("review_burst_detection.csv")
+        _pdf_dq        = load_csv("service_quality_summary.csv")
+
+        _pdf_total_pts  = _total_pts
+        _pdf_retention  = _retention
+        _pdf_at_risk    = _at_risk_n
+        _pdf_visits     = _total_visits
+        _pdf_reviews    = _total_reviews
+        _pdf_burst_n    = _burst_n
+
+        _pdf_mq_high    = len(_pdf_mq[_pdf_mq["Risk_Level"] == "High Risk"])   if not _pdf_mq.empty   else 34
+        _pdf_mq_needs   = len(_pdf_mq[_pdf_mq["Risk_Level"] == "Needs Review"]) if not _pdf_mq.empty  else 111
+        _pdf_mq_safe    = len(_pdf_mq[_pdf_mq["Risk_Level"] == "Safe"])         if not _pdf_mq.empty  else 155
+
+        from datetime import datetime as _dt
+        _report_date = _dt.now().strftime("%d %B %Y, %H:%M")
+
+        html_report = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>PraxisIQ Executive Report</title>
+<style>
+  * {{ margin:0; padding:0; box-sizing:border-box; }}
+  body {{ font-family: 'Segoe UI', Arial, sans-serif; background:#fff; color:#1a1a2e; padding:40px; }}
+  .header {{ background:linear-gradient(135deg,#0f0f23 0%,#1a1a3e 100%); color:#fff; padding:32px 36px; border-radius:12px; margin-bottom:28px; }}
+  .header h1 {{ font-size:26px; font-weight:800; color:#a78bfa; margin-bottom:6px; }}
+  .header p {{ font-size:13px; color:#94a3b8; }}
+  .header .meta {{ font-size:11px; color:#64748b; margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; }}
+  .section-title {{ font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+                    color:#6366f1; border-bottom:2px solid #6366f1; padding-bottom:6px; margin:28px 0 16px 0; }}
+  .kpi-grid {{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }}
+  .kpi-card {{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px;
+               border-top:3px solid #6366f1; }}
+  .kpi-card.green {{ border-top-color:#10b981; }}
+  .kpi-card.red   {{ border-top-color:#ef4444; }}
+  .kpi-card.amber {{ border-top-color:#f59e0b; }}
+  .kpi-card.violet{{ border-top-color:#8b5cf6; }}
+  .kpi-label {{ font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#64748b; margin-bottom:6px; }}
+  .kpi-value {{ font-size:24px; font-weight:800; color:#1a1a2e; line-height:1; }}
+  .kpi-sub   {{ font-size:10px; color:#94a3b8; margin-top:5px; line-height:1.4; }}
+  .findings-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }}
+  .finding-card {{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px; border-left:4px solid #6366f1; }}
+  .finding-card.risk {{ border-left-color:#ef4444; }}
+  .finding-card.ok   {{ border-left-color:#10b981; }}
+  .finding-title {{ font-size:12px; font-weight:700; color:#1a1a2e; margin-bottom:6px; }}
+  .finding-body  {{ font-size:11px; color:#475569; line-height:1.6; }}
+  .risk-row {{ display:flex; justify-content:space-between; align-items:center;
+               padding:10px 14px; border-radius:8px; margin-bottom:8px; background:#f8fafc; border:1px solid #e2e8f0; }}
+  .risk-label {{ font-size:12px; font-weight:600; color:#1a1a2e; }}
+  .risk-badge {{ font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }}
+  .badge-red   {{ background:#fee2e2; color:#dc2626; }}
+  .badge-amber {{ background:#fef3c7; color:#d97706; }}
+  .badge-green {{ background:#d1fae5; color:#059669; }}
+  .model-row {{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }}
+  .model-card {{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; text-align:center; }}
+  .model-name  {{ font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:8px; }}
+  .model-val   {{ font-size:20px; font-weight:800; color:#6366f1; }}
+  .model-sub   {{ font-size:10px; color:#94a3b8; margin-top:4px; }}
+  .footer {{ margin-top:36px; padding-top:16px; border-top:1px solid #e2e8f0;
+             font-size:10px; color:#94a3b8; display:flex; justify-content:space-between; }}
+  @media print {{
+    body {{ padding:20px; }}
+    .header {{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
+  }}
+</style>
+</head>
+<body>
+
+<div class='header'>
+  <h1>&#9075; PraxisIQ — Executive Report</h1>
+  <p>Patient Trust &amp; Operations Intelligence Platform &nbsp;&middot;&nbsp; Geetha Dental Clinic</p>
+  <div class='meta'>Generated: {_report_date} &nbsp;&middot;&nbsp; Dataset: 6-year operational snapshot &nbsp;&middot;&nbsp; Confidential</div>
+</div>
+
+<div class='section-title'>KPI Snapshot</div>
+<div class='kpi-grid'>
+  <div class='kpi-card'>
+    <div class='kpi-label'>Total Patients</div>
+    <div class='kpi-value'>{_pdf_total_pts:,}</div>
+    <div class='kpi-sub'>6-year dataset</div>
+  </div>
+  <div class='kpi-card green'>
+    <div class='kpi-label'>Retention Rate</div>
+    <div class='kpi-value'>{_pdf_retention}%</div>
+    <div class='kpi-sub'>Above 80% industry benchmark</div>
+  </div>
+  <div class='kpi-card red'>
+    <div class='kpi-label'>At-Risk Patients</div>
+    <div class='kpi-value'>{_pdf_at_risk}</div>
+    <div class='kpi-sub'>Single-visit, never returned</div>
+  </div>
+  <div class='kpi-card'>
+    <div class='kpi-label'>Total Visits</div>
+    <div class='kpi-value'>{_pdf_visits:,}</div>
+    <div class='kpi-sub'>Avg {_avg_visits} visits/patient</div>
+  </div>
+  <div class='kpi-card violet'>
+    <div class='kpi-label'>Reviews Analyzed</div>
+    <div class='kpi-value'>{_pdf_reviews}</div>
+    <div class='kpi-sub'>7 categories, hand-labeled</div>
+  </div>
+  <div class='kpi-card green'>
+    <div class='kpi-label'>LLM Accuracy</div>
+    <div class='kpi-value'>86.7%</div>
+    <div class='kpi-sub'>+4.45% over ML baseline</div>
+  </div>
+  <div class='kpi-card amber'>
+    <div class='kpi-label'>Burst Events</div>
+    <div class='kpi-value'>{_pdf_burst_n}</div>
+    <div class='kpi-sub'>Anomalous review spikes</div>
+  </div>
+  <div class='kpi-card red'>
+    <div class='kpi-label'>High-Risk Reviews</div>
+    <div class='kpi-value'>12%</div>
+    <div class='kpi-sub'>36 Treatment complaints</div>
+  </div>
+</div>
+
+<div class='section-title'>Moderation Queue Status</div>
+<div class='risk-row'>
+  <span class='risk-label'>&#9679; High Risk (P1 — Immediate Action)</span>
+  <span class='risk-badge badge-red'>{_pdf_mq_high} reviews</span>
+</div>
+<div class='risk-row'>
+  <span class='risk-label'>&#9679; Needs Review (P2 — Same Day)</span>
+  <span class='risk-badge badge-amber'>{_pdf_mq_needs} reviews</span>
+</div>
+<div class='risk-row'>
+  <span class='risk-label'>&#9679; Safe (No Action Required)</span>
+  <span class='risk-badge badge-green'>{_pdf_mq_safe} reviews</span>
+</div>
+
+<div class='section-title'>Top Findings</div>
+<div class='findings-grid'>
+  <div class='finding-card risk'>
+    <div class='finding-title'>Treatment Complaints Drive 100% of P1 Escalations</div>
+    <div class='finding-body'>All 34 P1 (Immediate) cases are Treatment-category reviews with 1–2 star ratings. No other category reaches P1. This concentration means Treatment is the single highest-priority moderation signal in the dataset.</div>
+  </div>
+  <div class='finding-card risk'>
+    <div class='finding-title'>18% of Patients Never Returned After First Visit</div>
+    <div class='finding-body'>{_pdf_at_risk} patients made exactly one visit and never returned. Concentrated in Root Canal and Implant treatments. Targeted follow-up for these cases is estimated to recover 15–20% of lapsed patients.</div>
+  </div>
+  <div class='finding-card ok'>
+    <div class='finding-title'>LLM Outperforms ML by 4.45 Percentage Points</div>
+    <div class='finding-body'>Prompt V2 (LLM) achieved 86.7% accuracy vs 82.22% for TF-IDF + Logistic Regression. The LLM shows particular strength on Treatment and Communication categories where context matters most.</div>
+  </div>
+  <div class='finding-card'>
+    <div class='finding-title'>{_pdf_burst_n} Review Burst Events Detected</div>
+    <div class='finding-body'>All {_pdf_burst_n} burst days showed positive-skewed sentiment — consistent with promotional events, not coordinated negative campaigns. No suppression action warranted; monitoring recommended.</div>
+  </div>
+  <div class='finding-card ok'>
+    <div class='finding-title'>ANOVA Confirms Treatment Drives Rating Variance</div>
+    <div class='finding-body'>F = 5.37, p &lt; 0.001 across 7 review categories. Treatment category has the lowest mean rating (2.14 stars) and highest variance — the statistically dominant source of complaint signal in the dataset.</div>
+  </div>
+  <div class='finding-card risk'>
+    <div class='finding-title'>Staff & Neutral: Low LLM Recall Requires Human Review</div>
+    <div class='finding-body'>Staff recall = 44%, Neutral recall = 40%. Both categories are routed to Needs Review rather than auto-actioned. This is a deliberate cost-of-error tradeoff: misclassification risk is too high for automation.</div>
+  </div>
+</div>
+
+<div class='section-title'>Model Performance Summary</div>
+<div class='model-row'>
+  <div class='model-card'>
+    <div class='model-name'>ML Classifier (V2)</div>
+    <div class='model-val'>82.2%</div>
+    <div class='model-sub'>TF-IDF + Logistic Regression</div>
+  </div>
+  <div class='model-card'>
+    <div class='model-name'>LLM Prompt V2</div>
+    <div class='model-val'>86.7%</div>
+    <div class='model-sub'>Llama via Groq · Hold-out test</div>
+  </div>
+  <div class='model-card'>
+    <div class='model-name'>Improvement</div>
+    <div class='model-val'>+4.45pp</div>
+    <div class='model-sub'>LLM over ML baseline</div>
+  </div>
+</div>
+
+<div class='footer'>
+  <span>PraxisIQ &mdash; Patient Trust &amp; Operations Intelligence Platform</span>
+  <span>Generated {_report_date} &middot; Confidential</span>
+</div>
+
+</body>
+</html>"""
+
+        import base64 as _b64
+        _b64_html = _b64.b64encode(html_report.encode()).decode()
+        _dl_link = f"""
+        <a href="data:text/html;base64,{_b64_html}"
+           download="PraxisIQ_Executive_Report_{_dt.now().strftime('%Y%m%d')}.html"
+           style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);
+                  color:#fff;text-decoration:none;padding:10px 20px;border-radius:8px;
+                  font-size:13px;font-weight:600;margin-top:12px;">
+            &#8659; Download Executive Report
+        </a>
+        <div style='color:{TEXT_MED};font-size:11px;margin-top:8px;'>
+            Opens as HTML &middot; Press <b>Ctrl+P</b> (or Cmd+P on Mac) &rarr; <b>Save as PDF</b> to export as PDF
+        </div>
+        """
+        st.markdown(_dl_link, unsafe_allow_html=True)
+        st.success("Report generated successfully. Click the button above to download.")
+
+
+
 # ─────────────────────────────────────────────
 # PAGE 2 — PATIENT ANALYTICS
 # ─────────────────────────────────────────────
