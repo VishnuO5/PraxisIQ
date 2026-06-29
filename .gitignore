@@ -38,3 +38,5 @@ build/
 
 # Assets â€” screenshots (add manually)
 # assets/
+# Generated reports — run pipeline to regenerate
+reports/
