@@ -610,6 +610,7 @@ with st.sidebar:
             "Trust & Safety",
             "LLM Evaluation",
             "Investigation Playbooks",
+            "Data Quality",
             "AI Copilot",
         ],
         label_visibility="collapsed"
@@ -2491,6 +2492,256 @@ elif page == "Investigation Playbooks":
 
 # ─────────────────────────────────────────────
 # PAGE 8 — AI COPILOT
+# ─────────────────────────────────────────────
+elif page == "Data Quality":
+    page_header(
+        "Data Integrity & Validation",
+        "Data Quality Dashboard",
+        "Missing values, duplicates, standardization checks, validation rules, and overall data quality score"
+    )
+
+    @st.cache_data(ttl=300)
+    def run_data_quality_checks():
+        import numpy as np
+        patients = load_db("SELECT * FROM Patients")
+        visits   = load_db("SELECT * FROM Visits")
+        reviews  = load_db("SELECT * FROM Reviews")
+
+        results = {}
+
+        # ── PATIENTS ──────────────────────────────────────────────────────────
+        p_total = len(patients)
+        p_missing = patients.isnull().sum()
+        p_missing_pct = (p_missing / p_total * 100).round(1)
+        p_duplicates = patients.duplicated().sum()
+
+        # Treatment standardization
+        known_treatments = {
+            'Root Canal','Implant','Scaling','Filling','Crown/Cap',
+            'Tooth Extraction','Teeth Whitening','Metal Braces Treatment',
+            'Aligner','Fixed Bridge','Partial Denture','Complete Denture',
+            'Deep Scaling and Root Planing','Gum Treatment','Consultation',
+            'Teeth Cleaning','Scaling and Polishing','Pediatric Dental'
+        }
+        unknown_treatments = patients[~patients['Primary_Treatment'].isin(known_treatments)]['Primary_Treatment'].value_counts()
+
+        # Age validation
+        invalid_age = len(patients[(patients['Age'] < 1) | (patients['Age'] > 120)])
+
+        results['patients'] = {
+            'total': p_total,
+            'missing': p_missing.to_dict(),
+            'missing_pct': p_missing_pct.to_dict(),
+            'duplicates': int(p_duplicates),
+            'unknown_treatments': len(unknown_treatments),
+            'invalid_age': invalid_age,
+        }
+
+        # ── VISITS ────────────────────────────────────────────────────────────
+        v_total = len(visits)
+        v_missing = visits.isnull().sum()
+        v_missing_pct = (v_missing / v_total * 100).round(1)
+        v_duplicates = visits.duplicated().sum()
+
+        results['visits'] = {
+            'total': v_total,
+            'missing': v_missing.to_dict(),
+            'missing_pct': v_missing_pct.to_dict(),
+            'duplicates': int(v_duplicates),
+        }
+
+        # ── REVIEWS ───────────────────────────────────────────────────────────
+        r_total = len(reviews)
+        r_missing = reviews.isnull().sum()
+        r_missing_pct = (r_missing / r_total * 100).round(1)
+        r_duplicates = reviews.duplicated().sum()
+
+        # Rating range validation
+        invalid_ratings = len(reviews[(reviews['Rating'] < 1) | (reviews['Rating'] > 5)])
+
+        # Label validation
+        valid_labels = {'Positive','Treatment','Communication','Waiting Time','Pricing','Staff','Neutral'}
+        invalid_labels = len(reviews[~reviews['Label'].isin(valid_labels)])
+
+        # Review text length check
+        reviews['text_len'] = reviews['Review_Text'].fillna('').str.len()
+        very_short = len(reviews[reviews['text_len'] < 10])
+
+        results['reviews'] = {
+            'total': r_total,
+            'missing': r_missing.to_dict(),
+            'missing_pct': r_missing_pct.to_dict(),
+            'duplicates': int(r_duplicates),
+            'invalid_ratings': invalid_ratings,
+            'invalid_labels': invalid_labels,
+            'very_short_reviews': very_short,
+        }
+
+        # ── OVERALL QUALITY SCORE ─────────────────────────────────────────────
+        # Score = 100 - penalty for each issue found
+        score = 100.0
+        total_rows = p_total + v_total + r_total
+
+        # Missing value penalty
+        all_missing = p_missing.sum() + v_missing.sum() + r_missing.sum()
+        missing_rate = all_missing / (total_rows * 5)  # approx 5 cols avg
+        score -= min(20, missing_rate * 100)
+
+        # Duplicate penalty
+        total_dupes = p_duplicates + int(v_duplicates) + r_duplicates
+        score -= min(15, total_dupes * 2)
+
+        # Validation penalty
+        score -= min(10, invalid_ratings * 5)
+        score -= min(10, invalid_labels * 5)
+        score -= min(5, invalid_age * 2)
+        score -= min(5, very_short * 0.5)
+
+        results['score'] = max(0, round(score, 1))
+        return results
+
+    dq = run_data_quality_checks()
+    score = dq['score']
+
+    # ── OVERALL SCORE ──────────────────────────────────────────────────────────
+    score_color = EMERALD if score >= 90 else AMBER if score >= 75 else ROSE
+    score_label = "EXCELLENT" if score >= 90 else "GOOD" if score >= 75 else "NEEDS ATTENTION"
+
+    st.markdown(f"""
+    <div style='background:linear-gradient(135deg,rgba(10,14,26,0.9),rgba(15,20,40,0.9));
+         border:1px solid {score_color}40;border-radius:16px;padding:28px 36px;
+         margin-bottom:24px;display:flex;align-items:center;gap:32px;'>
+        <div style='text-align:center;min-width:120px;'>
+            <div style='font-size:52px;font-weight:800;color:{score_color};line-height:1;'>{score}</div>
+            <div style='font-size:11px;color:{score_color};font-weight:700;
+                        letter-spacing:0.1em;margin-top:4px;'>{score_label}</div>
+            <div style='font-size:10px;color:{TEXT_LOW};margin-top:2px;'>Quality Score / 100</div>
+        </div>
+        <div style='flex:1;border-left:1px solid {BORDER_SOFT};padding-left:28px;'>
+            <div style='color:{TEXT_HI};font-size:15px;font-weight:600;margin-bottom:6px;'>
+                Data Quality Assessment — Geetha Dental Clinic Dataset
+            </div>
+            <div style='color:{TEXT_MED};font-size:12.5px;line-height:1.7;'>
+                Validated across {dq['patients']['total']:,} patient records,
+                {dq['visits']['total']:,} visit records, and {dq['reviews']['total']} review records.
+                Score penalises missing values, duplicates, out-of-range values,
+                invalid category labels, and malformed text entries.
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── TABLE SUMMARIES ────────────────────────────────────────────────────────
+    col_a, col_b, col_c = st.columns(3)
+
+    def dq_card(col, title, data, color):
+        issues = sum(1 for v in data['missing'].values() if v > 0)
+        with col:
+            st.markdown(f"""
+            <div style='background:{SURFACE_2};border:1px solid {color}30;
+                 border-radius:12px;padding:18px;'>
+                <div style='color:{color};font-size:11px;font-weight:700;
+                            letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;'>
+                    {title}
+                </div>
+                <div style='color:{TEXT_HI};font-size:24px;font-weight:700;'>{data['total']:,}</div>
+                <div style='color:{TEXT_LOW};font-size:11px;margin-bottom:12px;'>Total records</div>
+                <div style='color:{"#EF6F6F" if data["duplicates"]>0 else EMERALD};font-size:12px;margin-bottom:4px;'>
+                    {"⚠ " if data["duplicates"]>0 else "✓ "}{data["duplicates"]} duplicates
+                </div>
+                <div style='color:{"#F2B33D" if issues>0 else EMERALD};font-size:12px;'>
+                    {"⚠ " if issues>0 else "✓ "}{issues} columns with missing values
+                </div>
+            </div>""", unsafe_allow_html=True)
+
+    dq_card(col_a, "Patients Table", dq['patients'], ACCENT)
+    dq_card(col_b, "Visits Table",   dq['visits'],   VIOLET)
+    dq_card(col_c, "Reviews Table",  dq['reviews'],  CYAN)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+
+    # ── MISSING VALUES DETAIL ──────────────────────────────────────────────────
+    section("Missing Values by Column")
+    col_d, col_e = st.columns(2)
+
+    with col_d:
+        st.markdown(f"<div style='color:{TEXT_MED};font-size:12px;font-weight:600;margin-bottom:8px;'>PATIENTS</div>", unsafe_allow_html=True)
+        p_miss = {k: v for k, v in dq['patients']['missing'].items() if v > 0}
+        if p_miss:
+            import pandas as pd
+            p_df = pd.DataFrame({'Column': list(p_miss.keys()), 'Missing': list(p_miss.values())})
+            p_df['%'] = (p_df['Missing'] / dq['patients']['total'] * 100).round(1)
+            st.dataframe(p_df, use_container_width=True, hide_index=True)
+        else:
+            st.markdown(f"<div style='color:{EMERALD};font-size:13px;'>✓ No missing values in Patients table</div>", unsafe_allow_html=True)
+
+    with col_e:
+        st.markdown(f"<div style='color:{TEXT_MED};font-size:12px;font-weight:600;margin-bottom:8px;'>REVIEWS</div>", unsafe_allow_html=True)
+        r_miss = {k: v for k, v in dq['reviews']['missing'].items() if v > 0}
+        if r_miss:
+            import pandas as pd
+            r_df = pd.DataFrame({'Column': list(r_miss.keys()), 'Missing': list(r_miss.values())})
+            r_df['%'] = (r_df['Missing'] / dq['reviews']['total'] * 100).round(1)
+            st.dataframe(r_df, use_container_width=True, hide_index=True)
+        else:
+            st.markdown(f"<div style='color:{EMERALD};font-size:13px;'>✓ No missing values in Reviews table</div>", unsafe_allow_html=True)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+
+    # ── VALIDATION RULES ──────────────────────────────────────────────────────
+    section("Validation Rule Results")
+
+    rules = [
+        ("Patient age between 1–120",    dq['patients']['invalid_age'] == 0,    dq['patients']['invalid_age'],    "patients"),
+        ("Review ratings between 1–5",   dq['reviews']['invalid_ratings'] == 0, dq['reviews']['invalid_ratings'], "reviews"),
+        ("All review labels valid",       dq['reviews']['invalid_labels'] == 0,  dq['reviews']['invalid_labels'],  "reviews"),
+        ("No very short review text",     dq['reviews']['very_short_reviews'] == 0, dq['reviews']['very_short_reviews'], "reviews"),
+        ("No duplicate patient records",  dq['patients']['duplicates'] == 0,     dq['patients']['duplicates'],     "records"),
+        ("No duplicate review records",   dq['reviews']['duplicates'] == 0,      dq['reviews']['duplicates'],      "records"),
+        ("Known treatment names only",    dq['patients']['unknown_treatments'] == 0, dq['patients']['unknown_treatments'], "unknown"),
+    ]
+
+    for rule_name, passed, count, unit in rules:
+        icon  = "✓" if passed else "⚠"
+        color = EMERALD if passed else AMBER
+        note  = "Passed" if passed else f"{count} {unit} flagged"
+        st.markdown(f"""
+        <div style='display:flex;align-items:center;gap:12px;padding:8px 0;
+             border-bottom:1px solid {BORDER_SOFT};'>
+            <span style='color:{color};font-size:14px;width:20px;'>{icon}</span>
+            <span style='color:{TEXT_HI};font-size:12.5px;flex:1;'>{rule_name}</span>
+            <span style='color:{color};font-size:11px;font-weight:600;'>{note}</span>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+    section("Data Quality Recommendations")
+    st.markdown(f"""
+    <div class='finding-card'>
+        <div class='finding-title'>Treatment Name Standardization</div>
+        <div class='finding-text'>
+            {dq['patients']['unknown_treatments']} non-standard treatment names were detected during ingestion.
+            These were normalized in <code>create_database.py</code> using a treatment mapping dictionary.
+            In production, enforce a controlled vocabulary at data entry time to prevent drift.
+        </div>
+    </div>
+    <div class='finding-card'>
+        <div class='finding-title'>Single-Annotator Review Labels</div>
+        <div class='finding-text'>
+            All 300 review labels were assigned by one annotator. Production labeling requires
+            2-3 annotators per item with Cohen's kappa ≥ 0.7. Ambiguous categories
+            (Communication, Staff, Neutral) are routed to human review as a mitigation.
+        </div>
+    </div>
+    <div class='finding-card'>
+        <div class='finding-title'>No Real-Time Validation</div>
+        <div class='finding-text'>
+            This dataset is a static 6-year snapshot loaded from Excel. Production systems
+            require row-level validation at ingestion time — schema enforcement, range checks,
+            referential integrity, and anomaly alerts on ingest.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 # ─────────────────────────────────────────────
 elif page == "AI Copilot":
 
