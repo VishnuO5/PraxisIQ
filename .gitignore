@@ -36,8 +36,5 @@ Thumbs.db
 dist/
 build/
 
-# Reports (generated outputs)
-reports/
-
 # Assets — screenshots (add manually)
 # assets/
