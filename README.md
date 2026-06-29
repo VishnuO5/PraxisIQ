@@ -2,6 +2,8 @@
 
 🔗 **Live Demo:** [https://praxisiq.streamlit.app](https://praxisiq.streamlit.app)
 
+[![PraxisIQ CI](https://github.com/VishnuO5/PraxisIQ/actions/workflows/test.yml/badge.svg)](https://github.com/VishnuO5/PraxisIQ/actions/workflows/test.yml)
+
 An end-to-end data analytics and LLM evaluation platform built to demonstrate
 Trust & Safety engineering workflows, applied to a 6-year dental clinic dataset
 of 959 patients, 4,603 visits, and 300 labeled reviews.
@@ -124,28 +126,92 @@ erDiagram
 
 ## Data Dictionary
 
-| Dataset | Description | Key Fields | Rows |
+### Source Tables (SQLite — `PraxisIQ.db`)
+
+**Patients** — 959 rows — One row per patient. Primary unit of analysis for retention and risk analytics.
+
+| Column | Type | Description |
+|---|---|---|
+| Patient_Id | INTEGER | Unique patient identifier |
+| Age | INTEGER | Patient age at time of registration |
+| Gender | TEXT | Patient gender (Male / Female) |
+| Primary_Treatment | TEXT | Main treatment received. 18 standardized values — see `create_database.py` for mapping |
+| Returned_Patient | TEXT | `Yes` if patient made more than one visit. `No` if single visit only — primary dropout signal |
+| Total_Visits | INTEGER | Total number of visits across the full 6-year dataset period |
+| First_Visit_Date | TEXT | Date of first visit (YYYY-MM-DD) |
+| Last_Visit_Date | TEXT | Date of most recent visit (YYYY-MM-DD) |
+
+**Visits** — 4,603 rows — One row per clinical visit. Used for visit frequency analysis and treatment trend tracking.
+
+| Column | Type | Description |
+|---|---|---|
+| Visit_ID | INTEGER | Unique visit identifier |
+| Patient_ID | INTEGER | Foreign key → Patients.Patient_Id |
+| Visit_Date | TEXT | Date of visit (YYYY-MM-DD) |
+| Treatment_Type | TEXT | Treatment performed during this specific visit |
+| Visit_Number | INTEGER | Sequential visit number for this patient (1 = first visit) |
+| Treatment_Status | TEXT | Completion status of the treatment (Completed / Incomplete / Follow-Up Required) |
+
+**Reviews** — 300 rows — One row per patient review. Core dataset for all Trust & Safety analysis. Hand-labeled by a single annotator across 7 categories.
+
+| Column | Type | Description |
+|---|---|---|
+| Review_ID | INTEGER | Unique review identifier |
+| Reviewer_Name | TEXT | Name as submitted — not verified. Anonymized in real deployment |
+| Rating | INTEGER | Star rating 1–5 (1 = worst, 5 = best). Validated: no out-of-range values |
+| Review_Date | TEXT | Date review was submitted (YYYY-MM-DD) |
+| Review_Text | TEXT | Free-text review content as submitted by reviewer |
+| Label | TEXT | Ground-truth category. Valid values: `Positive`, `Treatment`, `Communication`, `Waiting Time`, `Pricing`, `Staff`, `Neutral` |
+| Sentiment | TEXT | Coarse sentiment derived from Label: `Positive` / `Negative` / `Neutral` |
+
+**Label definitions:**
+
+| Label | T&S Risk | Definition | Example signal |
 |---|---|---|---|
-| Patients | Patient demographics and visit summary | Patient_ID, Age, Gender, Primary_Treatment, Returned_Patient, Total_Visits | 959 |
-| Visits | Individual clinical visit records | Visit_ID, Patient_ID, Visit_Date, Treatment_Type, Treatment_Status, Visit_Number | 4,603 |
-| Reviews | Patient-submitted text reviews with ground-truth labels | Review_ID, Reviewer_Name, Rating (1–5), Review_Text, Label, Review_Date | 300 |
-| llm_predictions.csv | LLM hold-out test set predictions | Review_Text, Label (ground truth), Prediction, Correct, Split | 90 |
-| moderation_queue.csv | Reviews classified by risk tier | Review_ID, Risk_Level, Priority, Label, Rating | 300 |
-| followup_risk_queue.csv | At-risk patients flagged for follow-up | Patient_ID, Primary_Treatment, Risk_Category, Total_Visits | 173 |
-| review_burst_detection.csv | Days flagged as anomalous review volume | Review_Date, Daily_Count, Rolling_Avg, Burst_Status | 7 burst days |
-| trust_safety_metrics.csv | Aggregated T&S pipeline metrics | Category, Risk_Level, Priority, Count | Per category |
+| Positive | None | Overall satisfaction or general praise | "Excellent doctor, highly recommended" |
+| Treatment | 🔴 High | Complaints about clinical procedure quality or outcomes | "Filling fell off after two weeks" |
+| Communication | 🟠 Medium | Feedback about how staff explained procedures or responded | "Doctor did not explain side effects" |
+| Waiting Time | 🟡 Low-Medium | Feedback about appointment delays or queue management | "Waited 45 minutes past appointment" |
+| Pricing | 🟡 Low-Medium | Feedback about cost, billing, or value for money | "Charged more than quoted amount" |
+| Staff | 🟠 Medium | Feedback about non-clinical staff behavior | "Receptionist was rude and unhelpful" |
+| Neutral | None | Factual statements with no clear sentiment | "Visited for a routine checkup" |
 
-**Label definitions (Reviews.Label):**
+---
 
-| Label | Definition |
-|---|---|
-| Positive | Overall satisfaction or general praise |
-| Treatment | Complaints about clinical procedure quality or outcomes |
-| Communication | Feedback about how staff explained procedures or responded |
-| Waiting Time | Feedback about appointment delays or queue management |
-| Pricing | Feedback about cost, billing, or value for money |
-| Staff | Feedback about non-clinical staff behavior |
-| Neutral | Factual statements with no clear positive or negative sentiment |
+### Generated Report Files (`reports/`)
+
+> These files are generated by running `python run_all.py`. They are not committed to git — regenerate locally.
+
+| File | Rows | Key Columns | Description |
+|---|---|---|---|
+| `moderation_queue.csv` | 300 | Case_ID, Queue_Position, Severity, Priority, Risk_Score, Label, Rating, Review_Text | All reviews ranked by composite Risk_Score with full moderation metadata |
+| `case_management_queue.csv` | ~145 | Same as above | Critical and High severity only (P1 + P2) |
+| `trust_safety_metrics.csv` | 9 | Metric, Value | Summary: total reviews, risk level counts, percentages, critical case count |
+| `trust_safety_risk_summary.csv` | 7 | Label, Risk_Level, Count, Avg_Rating | Per-category risk level distribution |
+| `severity_distribution.csv` | 5 | Severity, Count | Count at each severity level (Critical, High, Medium, Low, Safe) |
+| `llm_predictions.csv` | 90 | Review_Text, Label, Prediction, Correct, Split | Hold-out test set predictions from Prompt V2 |
+| `llm_prompt_evaluation.csv` | 3 | Prompt, Accuracy, Precision, Recall, F1_Score | Per-prompt metrics on the 90-review hold-out set |
+| `low_confidence_human_review_queue.csv` | varies | Review_Text, Prediction, Routing, Reason | LLM predictions in ambiguous categories routed to human review |
+| `ml_accuracy_with_ci.csv` | 5 | Metric, Value | Accuracy 82.22% with Wilson 95% CI bounds and sample size |
+| `review_burst_detection.csv` | varies | Review_Date, Daily_Count, Rolling_Avg, Burst_Ratio, Burst_Status | Days flagged as anomalous by static or rolling-window method |
+| `duplicate_review_detection.csv` | varies | Review_ID, Detection_Method, Similarity_Score | Reviews flagged by exact match, fuzzy (≥85%), or same-reviewer-same-day |
+| `suspicious_reviewer_detection.csv` | varies | Reviewer_Name, Suspicion_Score, Flag_Reason | Reviewers flagged by 4-signal composite score |
+| `service_quality_analysis.csv` | 7 | Label, Avg_Rating, Trend_Direction, Quality_Risk_Score | Per-category quality score with QoQ trend direction |
+| `treatment_risk_analysis.csv` | 18 | Primary_Treatment, Dropout_Rate, Risk_Tier | Per-treatment dropout rate, risk tier, Chi-Square result |
+| `statistical_analysis.csv` | varies | Test, Statistic, P_Value, Conclusion | ANOVA and Chi-Square results |
+| `followup_risk_queue.csv` | 173 | Patient_Id, Primary_Treatment, Total_Visits, Risk_Tier | Patients who never returned — prioritized for outreach |
+
+---
+
+### Key Computed Fields
+
+| Field | Formula | Purpose |
+|---|---|---|
+| Risk_Score | `Category_Weight × (6 - Rating) × Recency_Multiplier × (1 + Repeat_Low_Rater_Bonus)` | Composite per-review risk signal for moderation queue ranking |
+| Category_Weight | Treatment=5, Communication=4, Staff=3, Waiting Time=2, Pricing=2, Neutral=1, Positive=0 | Reflects patient safety importance of each category |
+| Recency_Multiplier | 1.5× if review within last 90 days, else 1.0× | Prioritizes recent signals over historical ones |
+| Repeat_Low_Rater_Bonus | +20% if reviewer has >1 review AND avg rating <3 | Flags potential coordinated inauthentic behavior |
+| Quality_Risk_Score | `(5 - Avg_Rating) × log(Review_Count + 1) × (1 + One_Star_Pct)` | Composite category-level quality risk for service quality ranking |
 
 ---
 
