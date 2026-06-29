@@ -1,0 +1,8 @@
+Label,Review_Count,Avg_Rating,One_Star_Pct,Trend_Direction,Rating_Direction,Quality_Risk_Score
+Treatment,36,1.39,75.0,RISING (UP),Worsening,22.81
+Waiting Time,36,2.11,5.6,STABLE,Worsening,11.02
+Pricing,34,2.03,0.0,STABLE,Stable,10.56
+Communication,39,2.56,0.0,RISING (UP),Stable,9.0
+Staff,29,2.38,0.0,STABLE,Stable,8.91
+Neutral,18,3.0,0.0,RISING (UP),Stable,5.89
+Positive,108,4.78,0.0,RISING (UP),Worsening,1.03

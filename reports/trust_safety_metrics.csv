@@ -1,0 +1,10 @@
+Metric,Value
+Total Reviews,300.0
+Safe Reviews,126.0
+Needs Review,138.0
+High Risk Reviews,36.0
+Safe %,42.0
+Needs Review %,46.0
+High Risk %,12.0
+Critical Cases,34.0
+Avg Risk Score (non-safe),12.84

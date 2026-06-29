@@ -1,0 +1,42 @@
+Module 3 - LLM Prompt Evaluation Findings
+
+Dataset Size:
+300 labeled reviews
+
+Model:
+Qwen 2.5 7B via Ollama
+
+Prompt Comparison (20 Review Test)
+
+Prompt V1 Accuracy: 70%
+Prompt V2 Accuracy: 75%
+Prompt V3 Accuracy: 65%
+
+Best Prompt:
+Prompt V2
+
+Final Evaluation (300 Reviews)
+
+Accuracy: 84.33%
+Precision: 84.37%
+Recall: 78.56%
+F1 Score: 79.54%
+
+Key Findings:
+
+1. Prompt V2 achieved the highest performance among the tested prompts and was selected as the final prompt.
+
+2. The final review classification system achieved 84.33% accuracy on 300 labeled reviews.
+
+3. Strongest categories:
+   - Positive
+   - Pricing
+   - Treatment
+   - Waiting Time
+
+4. Most challenging categories:
+   - Communication
+   - Staff
+   - Neutral
+
+5. Prompt V3 over-focused on issue-specific keywords, reducing classification performance compared to Prompt V2.

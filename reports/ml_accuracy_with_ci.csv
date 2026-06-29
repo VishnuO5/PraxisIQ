@@ -1,0 +1,6 @@
+Metric,Value
+Accuracy,82.22
+CI_Lower_95,73.1
+CI_Upper_95,88.8
+Sample_Size,90
+CI_Method,Wilson Score Interval

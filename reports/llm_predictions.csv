@@ -1,0 +1,91 @@
+Review_Text,Label,Prediction,Correct,Split
+Scaling was done too aggressively. Gums bled for several days after the procedure.,Treatment,Treatment,True,hold_out_test
+Dental assistant was extremely gentle during the procedure. Very professional approach.,Staff,Staff,True,hold_out_test
+Filling procedure was painful throughout despite assurance it would be pain free.,Treatment,Treatment,True,hold_out_test
+No call or message before my appointment. System needs to be more organised.,Communication,Communication,True,hold_out_test
+Denture fitting was poor. Had to go elsewhere to get it properly adjusted.,Treatment,Treatment,True,hold_out_test
+No follow up call after my surgery. Had complications and did not know who to contact.,Communication,Communication,True,hold_out_test
+Waiting room was overcrowded with patients spilling outside. Capacity is insufficient.,Waiting Time,Waiting Time,True,hold_out_test
+Cost of treatment is too high for people on a limited income. No concession given.,Pricing,Pricing,True,hold_out_test
+No follow up call after my surgery. Had concerns and could not reach anyone.,Communication,Communication,True,hold_out_test
+Price was not discussed beforehand. Felt like I was overcharged for a simple procedure.,Pricing,Pricing,True,hold_out_test
+Good dental clinic. Professional service.,Positive,Positive,True,hold_out_test
+Doctor is excellent but please address the long waiting time immediately.,Waiting Time,Waiting Time,True,hold_out_test
+Appointment was at 11am. Was seen at 12:30pm. No apology or explanation given.,Waiting Time,Waiting Time,True,hold_out_test
+Post extraction care instructions were not given clearly. Had swelling and had to call back for guidance.,Communication,Communication,True,hold_out_test
+Staff were not properly sanitising equipment between patients that I could observe.,Staff,Pricing,False,hold_out_test
+Average communication. Room for significant improvement in follow up process.,Communication,Communication,True,hold_out_test
+Normal visit with no specific complaints. Standard dental clinic experience.,Neutral,Neutral,True,hold_out_test
+The treatment and service were satisfactory.,Neutral,Positive,False,hold_out_test
+Procedure was rushed. Doctor spent very little time and treatment outcome was poor.,Treatment,Treatment,True,hold_out_test
+Best treatment and good advice with nominal charges. She is so patient in listening to our problems.,Positive,Positive,True,hold_out_test
+Basic consultation done. Doctor was professional. Clinic is clean.,Neutral,Staff,False,hold_out_test
+Very supportive staff. Made my anxious child feel at ease before treatment.,Staff,Staff,True,hold_out_test
+Sensitivity increased after filling procedure and has not resolved even after one month.,Treatment,Treatment,True,hold_out_test
+Excellent dental care and friendly staff. The doctor explained the treatment clearly and made the whole experience comfortable. Clean clinic with good service. Highly satisfied.,Positive,Positive,True,hold_out_test
+Implant procedure was excellent. Doctor monitored progress at every stage carefully.,Treatment,Positive,False,hold_out_test
+Staff were very helpful and made the whole dental experience very comfortable.,Staff,Staff,True,hold_out_test
+Pleasant environment. Doctor was so friendly.,Positive,Positive,True,hold_out_test
+No post treatment message or call to check on recovery. Very poor follow up culture.,Communication,Communication,True,hold_out_test
+Waiting area has only a few seats and patients were standing for long periods.,Waiting Time,Waiting Time,True,hold_out_test
+Very satisfied with the results of my treatment. Will definitely return here.,Positive,Positive,True,hold_out_test
+Treating patients kindly and very good treatment.,Positive,Positive,True,hold_out_test
+Very kind. Listening to the problem and treating accordingly.,Positive,Positive,True,hold_out_test
+Best dental clinic. Highly satisfied with the treatment.,Positive,Positive,True,hold_out_test
+Doctor was friendly but clinic is too expensive compared to similar clinics nearby.,Pricing,Pricing,True,hold_out_test
+Best dentist I have consulted in Trichy. Honest and very skilled doctor.,Positive,Positive,True,hold_out_test
+Came for a second opinion. Doctor was helpful and gave clear information.,Neutral,Communication,False,hold_out_test
+I had a very good experience at the dental hospital. The doctor explained everything clearly and treated me very well with care and patience. I really appreciate the doctor's kindness and professionalism. Thank you so much for the excellent service.,Positive,Positive,True,hold_out_test
+Final bill was almost double the initial estimate. Very poor pricing transparency.,Pricing,Pricing,True,hold_out_test
+Receptionist was dismissive when I asked about treatment cost before starting. Very unprofessional.,Staff,Pricing,False,hold_out_test
+"I went there for root canal treatment. Doctor was kind, clearly explained the process, cost effective and highly recommendable.",Positive,Positive,True,hold_out_test
+Procedure took much longer than estimated and outcome was only average quality.,Treatment,Treatment,True,hold_out_test
+Tooth pain persisted after filling for more than two months. Treatment was ineffective.,Treatment,Treatment,True,hold_out_test
+Very long waiting time every single visit. Appointment system seems to be completely ignored here.,Waiting Time,Waiting Time,True,hold_out_test
+The facilities were good and the dentist answered all the questions patiently. Highly Recommended!,Positive,Positive,True,hold_out_test
+Excellent treatment and caring approach from the doctor.,Positive,Positive,True,hold_out_test
+Same treatment costs nearly double here compared to another clinic I checked in Trichy.,Pricing,Pricing,True,hold_out_test
+Excellent experience. Doctor is very thorough.,Positive,Positive,True,hold_out_test
+Caring is awesome and treatment is excellent. And mainly fees were low comparing to other clinics.,Positive,Positive,True,hold_out_test
+Cost of implant here is very high. No EMI or flexible payment option available.,Pricing,Pricing,True,hold_out_test
+Very satisfied with treatment. Will recommend.,Positive,Positive,True,hold_out_test
+Reception staff did not know basic details about treatment options. Needs better training.,Staff,Communication,False,hold_out_test
+I did my root canal with Dr. Geetha mam. She is very kind and soft handling person. Very economy charges also. If you ask any doubt about tooth she explains very well. Highly recommend.,Positive,Positive,True,hold_out_test
+The fees were not communicated before starting treatment. Got a shock when the final bill came.,Pricing,Pricing,True,hold_out_test
+"I visited Dr. Geetha Dental Clinic for crown treatment. I received excellent care, and the procedure was completely painless.",Positive,Treatment,False,hold_out_test
+Crown fell off after two weeks. Very poor workmanship. Will not return.,Treatment,Treatment,True,hold_out_test
+Good treatment and caring staff.,Positive,Positive,True,hold_out_test
+Instructions after extraction were not explained clearly. Had to call back multiple times.,Communication,Communication,True,hold_out_test
+Treatment was done well and the clinic is clean and hygienic throughout.,Positive,Treatment,False,hold_out_test
+Doctor communicated the treatment plan clearly and answered all my questions patiently.,Communication,Communication,True,hold_out_test
+Good treatment but clinic needs a token or queue management system urgently.,Waiting Time,Waiting Time,True,hold_out_test
+Expensive clinic for patients from lower income backgrounds. No discount offered.,Pricing,Pricing,True,hold_out_test
+Had to wait 90 minutes for a scheduled appointment. No one gave any updates about the delay.,Waiting Time,Waiting Time,True,hold_out_test
+Had a great experience at the clinic. The doctor is highly professional and staff were really helpful at the front.,Positive,Positive,True,hold_out_test
+"Excellent treatment and warm hospitality, felt really cared. I cleaned my teeth. She is really kind.",Positive,Positive,True,hold_out_test
+Very good clinic. Best for Dental care.,Positive,Positive,True,hold_out_test
+Denture was poorly fitted and caused sores. Had to get it redone at another clinic.,Treatment,Treatment,True,hold_out_test
+Fees are on the higher side. Wish there were more affordable options for basic treatments.,Pricing,Pricing,True,hold_out_test
+Liked that doctor discussed all alternatives and explained costs before recommending treatment.,Communication,Communication,True,hold_out_test
+Good and super treatment.,Positive,Positive,True,hold_out_test
+Good service. Friendly doctor. Worth for money and teeth care.,Positive,Positive,True,hold_out_test
+Had to call three times for a simple query. Phone handling needs improvement.,Communication,Communication,True,hold_out_test
+Best service.,Positive,Positive,True,hold_out_test
+No follow up communication after my implant surgery. Had concerns with no one to call.,Communication,Communication,True,hold_out_test
+Professional and caring approach. Made me feel comfortable throughout.,Positive,Staff,False,hold_out_test
+Arrived on time but was made to wait without any explanation or update from staff.,Waiting Time,Waiting Time,True,hold_out_test
+Fine experience overall. Nothing special but service was adequate.,Neutral,Neutral,True,hold_out_test
+Dr. Geetha is truly one of the best dentists in Trichy. Very highly recommended.,Positive,Positive,True,hold_out_test
+Good treatment and professional doctor.,Positive,Positive,True,hold_out_test
+Waited too long again for a scheduled appointment. This is a recurring issue.,Waiting Time,Waiting Time,True,hold_out_test
+Implant site did not heal properly. Complications arose that required further treatment.,Treatment,Treatment,True,hold_out_test
+Excellent doctor and very affordable treatment.,Positive,Positive,True,hold_out_test
+Satisfactory treatment. Could improve waiting time.,Waiting Time,Waiting Time,True,hold_out_test
+Staff seemed disinterested and unhelpful during my visit. Poor customer service.,Staff,Staff,True,hold_out_test
+Was not offered basic information about wait time or queue position by any staff.,Staff,Waiting Time,False,hold_out_test
+No answer when I called to ask about post treatment care. Very poor accessibility.,Communication,Communication,True,hold_out_test
+Great experience. Doctor is very skilled.,Positive,Positive,True,hold_out_test
+Cost was significantly higher than what was initially quoted. Very misleading pricing.,Pricing,Pricing,True,hold_out_test
+Receptionist was on the phone when I arrived and did not acknowledge me for minutes.,Staff,Communication,False,hold_out_test
+Very crowded waiting area. Patients standing outside. Needs better capacity management.,Waiting Time,Waiting Time,True,hold_out_test
+Excellent dental treatment done very well. Highly satisfied.,Positive,Positive,True,hold_out_test

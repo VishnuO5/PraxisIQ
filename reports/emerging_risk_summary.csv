@@ -1,0 +1,6 @@
+Category,Total_Complaints,Recent_Avg_Qtr,Earlier_Avg_Qtr,Trend_Pct,Latest_QoQ_Growth,Trend_Direction,Emerging_Risk
+Communication,39,4.0,5.0,-20.0,-100.0,Stable →,False
+Treatment,36,3.5,4.5,-22.2,-100.0,Declining ▼,False
+Waiting Time,36,3.5,4.5,-22.2,-60.0,Declining ▼,False
+Pricing,34,1.0,3.0,-66.7,-100.0,Declining ▼,False
+Staff,29,1.0,3.5,-71.4,-100.0,Declining ▼,False
