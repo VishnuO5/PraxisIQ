@@ -1,4 +1,4 @@
-﻿import streamlit as st
+import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -1759,6 +1759,113 @@ elif page == "Trust & Safety":
         </span>
     </div>
     """, unsafe_allow_html=True)
+
+
+    # ── PRECISION / RECALL SIMULATOR ─────────────────────────────────────────
+    st.markdown("<hr style='border-color:rgba(108,140,255,0.08);margin:24px 0;'/>", unsafe_allow_html=True)
+    section("Precision / Recall Experiment", "Ground-truth model performance at each threshold")
+    st.markdown(f"""
+    <div style='color:{TEXT_MED};font-size:13px;line-height:1.7;margin-bottom:18px;'>
+        The queue simulator above shows <em>volume impact</em> — how many reviews move between tiers.
+        This section shows <em>accuracy impact</em> — using the 90-review hold-out ground-truth labels
+        from <code>llm_predictions.csv</code>, it computes real Precision, Recall, False Positives,
+        and False Negatives as the Treatment threshold slider moves. This is the tradeoff a policy
+        team actually evaluates before changing an escalation rule.
+    </div>
+    """, unsafe_allow_html=True)
+
+    _preds_raw = load_csv("llm_predictions.csv")
+    _preds = _preds_raw[_preds_raw["Split"] == "hold_out_test"].copy() if not _preds_raw.empty else pd.DataFrame()
+
+    if not _preds.empty:
+        _rev_ratings = load_db("SELECT Review_Text, Rating, Label FROM Reviews")
+        _preds_m = _preds.merge(_rev_ratings, on="Review_Text", how="left", suffixes=("_gt", "_db"))
+        _preds_m["is_violation"] = _preds_m["Label_gt"] == "Treatment"
+        _preds_m["escalated"] = (
+            (_preds_m["Label_db"] == "Treatment") &
+            (_preds_m["Rating"].fillna(3) <= treatment_threshold)
+        )
+
+        _TP = int(( _preds_m["is_violation"] &  _preds_m["escalated"]).sum())
+        _FP = int((~_preds_m["is_violation"] &  _preds_m["escalated"]).sum())
+        _FN = int(( _preds_m["is_violation"] & ~_preds_m["escalated"]).sum())
+        _TN = int((~_preds_m["is_violation"] & ~_preds_m["escalated"]).sum())
+
+        _precision = round(_TP / (_TP + _FP), 2) if (_TP + _FP) > 0 else 0.0
+        _recall    = round(_TP / (_TP + _FN), 2) if (_TP + _FN) > 0 else 0.0
+        _f1        = round(2 * _precision * _recall / (_precision + _recall), 2) if (_precision + _recall) > 0 else 0.0
+        _fpr       = round(_FP / (_FP + _TN), 2) if (_FP + _TN) > 0 else 0.0
+
+        _pc  = EMERALD if _precision >= 0.80 else AMBER if _precision >= 0.60 else ROSE
+        _rc  = EMERALD if _recall    >= 0.80 else AMBER if _recall    >= 0.60 else ROSE
+        _f1c = EMERALD if _f1        >= 0.80 else AMBER if _f1        >= 0.60 else ROSE
+
+        pr_c1, pr_c2, pr_c3, pr_c4 = st.columns(4)
+        pr_c1.markdown(f"""<div class='kpi-card'>
+            <div class='kpi-label'><span class='kpi-dot' style='background:{_pc};box-shadow:0 0 6px {_pc}'></span>PRECISION</div>
+            <div class='kpi-value' style='color:{_pc};'>{_precision:.0%}</div>
+            <div class='kpi-sub'>Of escalated reviews, {_TP} real violations &middot; {_FP} false positives</div>
+        </div>""", unsafe_allow_html=True)
+
+        pr_c2.markdown(f"""<div class='kpi-card'>
+            <div class='kpi-label'><span class='kpi-dot' style='background:{_rc};box-shadow:0 0 6px {_rc}'></span>RECALL</div>
+            <div class='kpi-value' style='color:{_rc};'>{_recall:.0%}</div>
+            <div class='kpi-sub'>Of all real violations, {_TP} caught &middot; {_FN} missed</div>
+        </div>""", unsafe_allow_html=True)
+
+        pr_c3.markdown(f"""<div class='kpi-card'>
+            <div class='kpi-label'><span class='kpi-dot' style='background:{_f1c};box-shadow:0 0 6px {_f1c}'></span>F1 SCORE</div>
+            <div class='kpi-value' style='color:{_f1c};'>{_f1:.0%}</div>
+            <div class='kpi-sub'>Harmonic mean of Precision &amp; Recall</div>
+        </div>""", unsafe_allow_html=True)
+
+        pr_c4.markdown(f"""<div class='kpi-card'>
+            <div class='kpi-label'><span class='kpi-dot' style='background:{VIOLET};box-shadow:0 0 6px {VIOLET}'></span>FALSE POSITIVE RATE</div>
+            <div class='kpi-value' style='color:{VIOLET};'>{_fpr:.0%}</div>
+            <div class='kpi-sub'>{_FP} non-violations incorrectly escalated</div>
+        </div>""", unsafe_allow_html=True)
+
+        st.markdown(f"""
+        <div style='margin-top:18px;padding:16px 20px;background:rgba(108,140,255,0.04);
+                    border:1px solid rgba(108,140,255,0.15);border-radius:12px;'>
+            <div style='color:{TEXT_LOW};font-size:10px;font-weight:700;letter-spacing:0.1em;
+                        text-transform:uppercase;margin-bottom:14px;'>Confusion Matrix &mdash; Hold-Out Test Set (90 reviews)</div>
+            <table style='width:100%;border-collapse:collapse;font-size:12px;'>
+                <tr>
+                    <td style='padding:8px 12px;color:{TEXT_LOW};'></td>
+                    <td style='padding:8px 12px;color:{EMERALD};font-weight:700;text-align:center;'>Predicted: Escalate</td>
+                    <td style='padding:8px 12px;color:{EMERALD};font-weight:700;text-align:center;'>Predicted: Safe</td>
+                </tr>
+                <tr style='border-top:1px solid rgba(255,255,255,0.06);'>
+                    <td style='padding:8px 12px;color:{ROSE};font-weight:700;'>Actual: Violation</td>
+                    <td style='padding:8px 12px;color:{EMERALD};font-weight:800;font-size:16px;text-align:center;background:rgba(61,220,140,0.06);border-radius:8px;'>TP = {_TP}</td>
+                    <td style='padding:8px 12px;color:{ROSE};font-weight:800;font-size:16px;text-align:center;background:rgba(239,111,111,0.06);border-radius:8px;'>FN = {_FN}</td>
+                </tr>
+                <tr style='border-top:1px solid rgba(255,255,255,0.06);'>
+                    <td style='padding:8px 12px;color:{TEXT_MED};font-weight:700;'>Actual: Non-Violation</td>
+                    <td style='padding:8px 12px;color:{ROSE};font-weight:800;font-size:16px;text-align:center;background:rgba(239,111,111,0.06);border-radius:8px;'>FP = {_FP}</td>
+                    <td style='padding:8px 12px;color:{EMERALD};font-weight:800;font-size:16px;text-align:center;background:rgba(61,220,140,0.06);border-radius:8px;'>TN = {_TN}</td>
+                </tr>
+            </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if treatment_threshold == 2:
+            _interp = (f"Baseline threshold (≤2 stars): Precision {_precision:.0%}, Recall {_recall:.0%}, F1 {_f1:.0%}. "
+                       f"This is the calibrated default. {_FP} false positive(s) and {_FN} missed violation(s).")
+        elif treatment_threshold > 2:
+            _interp = (f"Raising threshold to ≤{treatment_threshold} stars increases recall (catches more violations) "
+                       f"but reduces precision ({_precision:.0%}) — more false positives enter the queue. "
+                       f"Validate that the {_FP} newly-escalated review(s) are genuine violations, not borderline cases.")
+        else:
+            _interp = (f"Lowering threshold to ≤{treatment_threshold} star maximises precision ({_precision:.0%}) "
+                       f"but recall drops to {_recall:.0%} — {_FN} real violation(s) missed. "
+                       f"Not recommended for patient-safety complaints where false negatives carry real-world risk.")
+
+        finding(f"Policy Interpretation — Threshold ≤{treatment_threshold} Stars", _interp)
+
+    else:
+        st.info("llm_predictions.csv not found in reports/ — run the LLM evaluation pipeline first.")
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     section("Product Vulnerability Analysis", "What's being exploited")
