@@ -3749,13 +3749,15 @@ elif page == "AI Copilot":
         except Exception:
             return {"sufficient": True, "gap_queries": []}
 
-    def agentic_research(question: str, groq_client_ref, max_rounds: int = 2) -> dict:
+    def agentic_research(question: str, groq_client_ref, max_rounds: int = 1) -> dict:
         """Multi-step research loop: plan -> search -> evaluate -> refine if
-        genuinely needed. Capped at 2 rounds by default — Groq's free tier
-        allows 30 requests/minute on the 70B model, and each round here adds
-        1 planning/evaluation call plus N Tavily searches, so keeping this
-        tight avoids 429 rate-limit errors on compound questions while still
-        meaningfully out-researching a single-shot search."""
+        genuinely needed. Capped at 1 round by default — Groq's free tier has a
+        tight tokens-per-minute ceiling specifically on the 70B model used for
+        the final answer, and each extra round here adds a full Groq call
+        (sufficiency check) on top of that. Compound questions are still
+        handled well because plan_subqueries already returns up to 4 parallel
+        queries in a single round — a second round only helps for genuinely
+        ambiguous single-topic questions, which are the minority case."""
         all_evidence = []
         all_queries_run = []
 
@@ -3957,7 +3959,8 @@ elif page == "AI Copilot":
 - Review analysis, fraud detection, and risk classification
 - Dental industry benchmarks and best practices
 
-LIVE DATABASE CONTEXT (Geetha Dental Clinic — 6-year dataset):
+LIVE DATABASE CONTEXT (Geetha Dental Clinic — Thiruvanaikovil, Trichy — 6-year dataset):
+- This clinic's own location: Thiruvanaikovil, Tiruchirappalli (Trichy), Tamil Nadu, India
 - Total patients: {total_patients} | Returning: {returned} ({retention_rate}%) | Never returned: {never_returned}
 - Total visits: {total_visits} | Avg visits per patient: {avg_visits}
 - Total reviews: {len(reviews)} | Avg rating: {avg_rating}★
@@ -3988,6 +3991,10 @@ RESPONSE STYLE:
 - For general knowledge, web search results, or questions about other clinics/places: answer using
   ONLY that information, with no clinic-data disclaimer or filler about Geetha Dental Clinic unless
   the user specifically asked about it
+- EXCEPTION: if the user asks about dental clinics in or near Thiruvanaikovil, Trichy, or
+  Tiruchirappalli specifically, this clinic (Geetha Dental Clinic, located in Thiruvanaikovil) IS
+  genuinely relevant and should be mentioned naturally alongside any web search results — it would be
+  a real omission not to, since it's an actual local option the user is implicitly asking about
 - For clinical/dental knowledge questions, give clear professional explanations
 - For analytics questions about THIS clinic, connect findings to actionable recommendations
 - Keep responses focused — short paragraphs or line breaks between points
@@ -4076,7 +4083,7 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
 
         if needs_web_search(question):
             if tavily_available:
-                research = agentic_research(question, groq_client, max_rounds=2)
+                research = agentic_research(question, groq_client, max_rounds=1)
                 web_results = research["evidence"]
 
                 if web_results:
@@ -4149,7 +4156,7 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             resp = groq_client.chat.completions.create(
                 model=model_name,
                 messages=messages,
-                max_tokens=2500 if search_used else 1500,
+                max_tokens=1900 if search_used else 1500,
                 temperature=0.3,
             )
             return resp.choices[0].message.content.strip()
@@ -4172,7 +4179,7 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         answer = None
         error_detail = None
         try:
-            answer = _call_groq_with_backoff(PRIMARY_MODEL, retries=2)
+            answer = _call_groq_with_backoff(PRIMARY_MODEL, retries=1)
         except Exception as e:
             err_text = str(e)
             err_lower = err_text.lower()
