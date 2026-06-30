@@ -3648,7 +3648,7 @@ elif page == "AI Copilot":
                 parts.append(f"Tavily Summary: {data['answer']}")
             for r in data.get("results", [])[:max_results]:
                 title   = r.get("title", "")
-                content = r.get("content", "")[:700]
+                content = r.get("content", "")[:400]
                 url     = r.get("url", "")
                 score   = r.get("score", 0)
                 parts.append(f"### {title} (relevance: {score:.2f})\n{content}\nSource URL: {url}")
@@ -3774,7 +3774,7 @@ elif page == "AI Copilot":
             for q in queries_to_run:
                 if q in all_queries_run:
                     continue
-                result = tavily_search(q, max_results=6)
+                result = tavily_search(q, max_results=4)
                 if result and "unavailable" not in result.lower():
                     all_evidence.append(f"== Search Round {round_num} | Query: '{q}' ==\n{result}")
                 all_queries_run.append(q)
@@ -4008,7 +4008,35 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
 - Use plain, clean sentences and short paragraphs instead of markdown syntax"""
 
     def _escaped_html(text: str) -> str:
-        return html.escape(text).replace("\n", "<br/>")
+        """Escape HTML for safety, then defensively clean up markdown the model
+        may still emit despite the system prompt instructing against it (LLMs,
+        especially smaller ones, don't follow formatting instructions 100% of
+        the time). This guarantees clean output regardless of model compliance,
+        rather than relying solely on prompting."""
+        escaped = html.escape(text)
+
+        # **bold** -> <b>bold</b> (handle before stripping stray single asterisks)
+        escaped = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', escaped)
+        # *italic* -> <i>italic</i> (single asterisks not already consumed above)
+        escaped = re.sub(r'(?<!\*)\*([^*\n]+?)\*(?!\*)', r'<i>\1</i>', escaped)
+
+        # Convert markdown-style bullet lines ("* item" or "- item" at line start)
+        # into a clean bullet character instead of a literal asterisk/dash.
+        lines = escaped.split("\n")
+        cleaned_lines = []
+        for line in lines:
+            stripped = line.lstrip()
+            if stripped.startswith("* ") or stripped.startswith("- "):
+                cleaned_lines.append("• " + stripped[2:])
+            else:
+                cleaned_lines.append(line)
+        escaped = "\n".join(cleaned_lines)
+
+        # Strip any remaining stray asterisks that weren't part of a clean
+        # **bold**/*italic* pair (e.g. unmatched markdown from a cut-off response).
+        escaped = escaped.replace("*", "")
+
+        return escaped.replace("\n", "<br/>")
 
     def render_chat_history() -> None:
         if not st.session_state.copilot_messages:
@@ -4085,6 +4113,12 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             if tavily_available:
                 research = agentic_research(question, groq_client, max_rounds=1)
                 web_results = research["evidence"]
+                # Hard cap on evidence length regardless of how many queries ran —
+                # this is the actual lever on prompt token count (and therefore
+                # Groq's tokens-per-minute limit), since per-query truncation alone
+                # doesn't bound the total when multiple sub-queries are combined.
+                if len(web_results) > 6000:
+                    web_results = web_results[:6000] + "\n\n[...evidence truncated to stay within model token limits...]"
 
                 if web_results:
                     queries_summary = "; ".join(f"'{q}'" for q in research["queries_run"])
@@ -4132,7 +4166,7 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
 
         full_context = context + ("\n\n" + web_context if web_context else "")
 
-        history = st.session_state.copilot_messages[:-1][-6:]
+        history = st.session_state.copilot_messages[:-1][-4:]
         messages = [{"role": "system", "content": full_context}]
         messages.extend({"role": m["role"], "content": m["content"]} for m in history)
         messages.append({"role": "user", "content": user_message})
@@ -4149,8 +4183,13 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             )
         })
 
-        PRIMARY_MODEL = "llama-3.3-70b-versatile"
-        FALLBACK_MODEL = "llama-3.1-8b-instant"
+        # 8B is primary: Groq's free tier gives it a much higher requests/tokens-
+        # per-minute ceiling than 70B, so leading with it dramatically cuts how
+        # often real usage hits a 429. 70B is the fallback for genuinely complex
+        # questions where 8B's answer would benefit from deeper reasoning, but
+        # in practice 8B already handles most clinic/dental/T&S questions well.
+        PRIMARY_MODEL = "llama-3.1-8b-instant"
+        FALLBACK_MODEL = "llama-3.3-70b-versatile"
 
         def _call_groq(model_name):
             resp = groq_client.chat.completions.create(
@@ -4185,10 +4224,10 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             err_lower = err_text.lower()
             # Two distinct vendor-side situations worth auto-recovering from:
             # (1) the primary model was decommissioned/deprecated, or
-            # (2) the 70B model's tighter free-tier rate limit (30 RPM / ~6K TPM)
-            # was hit even after backoff retries — the 8B model has a much
-            # higher free-tier ceiling and can usually still answer the
-            # question, just with slightly less reasoning depth than 70B.
+            # (2) 8B's rate limit was hit even after backoff retries (rare,
+            # since 8B has a much higher free-tier ceiling than 70B) — try
+            # 70B as a second attempt, since a different model's quota is
+            # independent of the first one's.
             if "decommission" in err_lower or "deprecat" in err_lower or "429" in err_lower or "rate" in err_lower:
                 try:
                     answer = _call_groq_with_backoff(FALLBACK_MODEL, retries=1)
