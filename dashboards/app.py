@@ -1,10 +1,12 @@
 ﻿import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import sqlite3
 import os
 import sys
+import html
 
 # Import shared config — thresholds, weights, risk maps, queue counts
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -3245,7 +3247,9 @@ elif page == "AI Copilot":
         gap: 16px;
         margin: 24px 0;
         max-height: 650px;
+        min-height: 200px;
         overflow-y: auto;
+        scroll-behavior: smooth;
         padding: 8px 4px;
         border-radius: 12px;
         background: rgba(14, 11, 26, 0.4);
@@ -3376,7 +3380,7 @@ elif page == "AI Copilot":
             oral health education, and Trust &amp; Safety, powered by live data and advanced LLMs.
         </div>
         <div class='copilot-badge-row'>
-            <span class='copilot-badge'>◆ Llama 3.3 70B · Groq</span>
+            <span class='copilot-badge'>◆ GPT-OSS 20B · Groq</span>
             <span class='copilot-badge green'><span class='live-dot'></span>Live database</span>
             <span class='copilot-badge cyan'>959 patients · 300 reviews</span>
             <span class='copilot-badge'>🌐 Live web search · Tavily</span>
@@ -3447,23 +3451,50 @@ elif page == "AI Copilot":
                 content = r.get("content", "")[:300]
                 url     = r.get("url", "")
                 parts.append(f"- {title}: {content} (Source: {url})")
-            return "\n".join(parts) if parts else "No results found."
+            return "\n".join(parts) if parts else ""
         except Exception as e:
             return f"Web search unavailable: {str(e)}"
 
     def needs_web_search(question: str) -> bool:
-        """Decide if the question needs real-world web data vs clinic/dental knowledge."""
-        web_keywords = [
-            "best clinic", "top clinic", "highest rated", "best hospital",
-            "which clinic", "recommend a clinic", "dentist in ", "clinic in ",
-            "hospital in ", "near me", "trichy", "chennai", "bangalore",
-            "mumbai", "delhi", "hyderabad", "india", "world", "global",
-            "current", "latest", "recent", "2024", "2025", "2026",
-            "news", "trend", "ranking", "top 10", "famous", "popular clinic",
-            "best dentist", "find a dentist", "locate", "address", "contact",
+        """
+        Decide if the question likely needs current/external web data rather
+        than the clinic's own database or general dental knowledge.
+
+        Broader than a narrow keyword list on purpose: this should behave
+        like ChatGPT/Gemini/Claude's web-search trigger — anything that
+        implies "current", "external", "real-world", "location-specific",
+        or "recent" content gets a search. Internal clinic-data questions
+        (retention rate, complaint counts, risk scores, etc.) do NOT need
+        a search since that data already lives in build_copilot_context().
+        """
+        q_lower = question.lower().strip()
+
+        # Internal data questions never need web search — the model already
+        # has this in build_copilot_context(). Checking this first avoids
+        # wasting a Tavily call on "what is our retention rate" type asks.
+        internal_signals = [
+            "our ", "this clinic", "this dataset", "this database", "geetha dental",
+            "our patients", "our reviews", "our retention", "our churn",
+            "the database", "the dataset", "patient_id", "review_id",
         ]
-        q_lower = question.lower()
-        return any(kw in q_lower for kw in web_keywords)
+        if any(sig in q_lower for sig in internal_signals):
+            return False
+
+        # Broad external/current/local signal — covers far more phrasing
+        # than the old fixed keyword list, including "latest trends in X",
+        # "what's new in Y", "current state of Z", any city/place name, etc.
+        external_signals = [
+            "best ", "top ", "recommend", "compare", "vs ", "versus",
+            "near me", "in trichy", "in chennai", "in bangalore", "in mumbai",
+            "in delhi", "in hyderabad", "in india", "address", "contact",
+            "phone number", "location", "where is", "where can",
+            "latest", "recent", "current", "trend", "trending", "new in",
+            "news", "today", "this year", "this month", "2024", "2025", "2026",
+            "what's new", "whats new", "update on", "ranking", "rated",
+            "famous", "popular", "search for", "search the web", "look up",
+            "find a ", "find the ", "who is", "what is the current",
+        ]
+        return any(sig in q_lower for sig in external_signals)
 
     if groq_setup_error == "no_package":
         st.markdown("""
@@ -3551,12 +3582,26 @@ elif page == "AI Copilot":
         elif not burst.empty and "Burst_Detected" in burst.columns:
             burst_days = int(burst["Burst_Detected"].sum())
 
-        return f"""You are PraxisIQ AI Copilot — an expert dental intelligence assistant with deep knowledge of:
+        return f"""You are PraxisIQ AI Copilot — a genuinely capable general-purpose AI assistant,
+similar in ability and conversational style to ChatGPT, Gemini, or Claude. You are NOT limited
+to a narrow set of topics. You can hold a normal conversation, answer general knowledge questions,
+do reasoning, writing, math, explanations — anything a competent AI assistant can do.
+
+You ALSO have specialized expertise in:
 - Dental procedures, terminology, and clinical workflows
 - Patient behavior analytics and retention patterns
 - Trust & Safety operations and content moderation
 - Review analysis, fraud detection, and risk classification
 - Dental industry benchmarks and best practices
+
+IMPORTANT — never refuse or apologize for a question being "outside scope". If a question is
+general (not about this specific clinic's data), simply answer it using your own knowledge and/or
+the live web search results if provided for THIS question. Only mention clinic data when it's
+actually relevant to what's being asked. Treat every new question as independent — do not assume
+it relates to a previous question's topic or any previously injected web search results.
+
+You should also understand casual phrasing, typos, regional spelling, and imperfect grammar the
+way a real AI assistant does — interpret intent rather than requiring exact wording.
 
 LIVE DATABASE CONTEXT (Geetha Dental Clinic — 6-year dataset):
 - Total patients: {total_patients} | Returning: {returned} ({retention_rate}%) | Never returned: {never_returned}
@@ -3595,6 +3640,54 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
 - Numbered lists are fine written plainly, e.g. "1. ..." on its own line
 - Use plain, clean sentences and short paragraphs instead of markdown syntax"""
 
+    def _escaped_html(text: str) -> str:
+        return html.escape(text).replace("\n", "<br/>")
+
+    def render_chat_history() -> None:
+        if not st.session_state.copilot_messages:
+            return
+
+        chat_html = "<div class='chat-wrap' id='copilot-chat'>"
+        for message in st.session_state.copilot_messages:
+            content = _escaped_html(message["content"])
+            if message["role"] == "user":
+                chat_html += f"""
+                <div class='msg-user'>
+                    <div>
+                        <div class='bubble'>{content}</div>
+                    </div>
+                </div>"""
+            else:
+                chat_html += f"""
+                <div class='msg-ai'>
+                    <div class='ai-avatar'>AI</div>
+                    <div>
+                        <div class='bubble'>{content}</div>
+                    </div>
+                </div>"""
+        chat_html += "</div>"
+
+        st.markdown(chat_html, unsafe_allow_html=True)
+        components.html(
+            """
+            <script>
+            function scrollToAnswer() {
+                const chat = window.parent.document.getElementById('copilot-chat');
+                if (chat) {
+                    // Scroll the chat container itself to its bottom
+                    chat.scrollTop = chat.scrollHeight;
+                    // Also scroll the whole page to bring the chat into view,
+                    // so the user never has to manually scroll to see the answer
+                    chat.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            }
+            setTimeout(scrollToAnswer, 150);
+            setTimeout(scrollToAnswer, 400);
+            </script>
+            """,
+            height=1,
+        )
+
     # ── CHAT STATE ────────────────────────────────────────────────────────────
     if "copilot_messages" not in st.session_state:
         st.session_state.copilot_messages = []
@@ -3610,20 +3703,70 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         # ── Decide: web search or clinic data? ────────────────────────────────
         web_context = ""
         search_used = False
-        if tavily_available and needs_web_search(question):
-            web_results = tavily_search(question)
-            web_context = f"\n\nLIVE WEB SEARCH RESULTS (retrieved now for this question):\n{web_results}\n\nUse these web results to answer the question accurately. Cite sources where relevant."
-            search_used = True
+        user_message = question
 
-        full_context = context + web_context
+        if needs_web_search(question):
+            if tavily_available:
+                web_results = tavily_search(question)
+                if web_results and "unavailable" not in web_results.lower():
+                    web_context = (
+                        f"This query received live web search results from Tavily for '{question}'. "
+                        "Use them together with any live database context to answer the user."
+                    )
+                    user_message = (
+                        f"LIVE WEB SEARCH RESULTS for '{question}':\n"
+                        f"{web_results}\n\n"
+                        "Use ONLY the live web search results above and the available live database context to answer this question. "
+                        "Do NOT suggest that the user search online — the search has already been done. "
+                        "If the results above do not answer the question, answer based on the available data and say that no specific live web details were found."
+                    )
+                    search_used = True
+                else:
+                    web_context = (
+                        f"Live web search was attempted for '{question}', but no live results were available. "
+                        "Do NOT ask the user to search online. Answer based on existing knowledge and live database context, "
+                        "and be honest if no specific live web information is available."
+                    )
+                    user_message = (
+                        f"The user asked: '{question}'. Live web search was attempted but returned no results. "
+                        "Answer based on existing knowledge and the available live database context."
+                    )
+            else:
+                web_context = (
+                    f"The user requested live web search for '{question}', but Tavily is not configured. "
+                    "Answer using existing knowledge and the available live database context only."
+                )
+                user_message = (
+                    f"The user asked: '{question}'. Tavily is not configured, so answer using existing knowledge and live database context only."
+                )
+
+        full_context = context + ("\n\n" + web_context if web_context else "")
 
         history = st.session_state.copilot_messages[:-1][-6:]
         messages = [{"role": "system", "content": full_context}]
         messages.extend({"role": m["role"], "content": m["content"]} for m in history)
-        messages.append({"role": "user", "content": question})
+        messages.append({"role": "user", "content": user_message})
+
+        # Force the model to treat the request as plain chat text and avoid tool invocation.
+        # This is important for Groq when the model may otherwise attempt browser.run or similar tools.
+        messages.insert(0, {
+            "role": "system",
+            "content": (
+                "You are PraxisIQ Copilot — a knowledgeable, capable assistant similar in ability to "
+                "ChatGPT, Gemini, or Claude. You can answer general dental questions, general knowledge "
+                "questions, and questions about this specific clinic's live data. "
+                "You understand casual phrasing, typos, and informal language the way a real AI assistant does — "
+                "interpret the user's intent even if spelling or grammar is imperfect. "
+                "Each question is independent: web search results (if any) belong ONLY to the CURRENT question "
+                "being asked right now, never to a previous turn. If no web results are present for this specific "
+                "question, do not reference results from an earlier question in this conversation. "
+                "Do not call external tool APIs or browser tools, do not produce function-call syntax. "
+                "Answer directly and naturally, like a real conversation."
+            )
+        })
 
         PRIMARY_MODEL = "llama-3.3-70b-versatile"
-        FALLBACK_MODEL = "llama3-8b-8192"
+        FALLBACK_MODEL = "llama-3.3-70b-versatile"
 
         def _call_groq(model_name):
             resp = groq_client.chat.completions.create(
@@ -3639,16 +3782,18 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         try:
             answer = _call_groq(PRIMARY_MODEL)
         except Exception as e:
-            err_text = str(e).lower()
-            # Do NOT retry on auth/rate-limit errors — retrying won't fix those
-            if "auth" in err_text or "401" in err_text or "429" in err_text or "rate" in err_text:
-                error_detail = str(e)
-            else:
-                # Any other error (model unavailable, timeout, etc) — try fallback
+            err_text = str(e)
+            # If Groq has decommissioned/deprecated the primary model, retry
+            # once with a known-stable fallback rather than failing outright —
+            # this is the one case worth auto-recovering from, since it's a
+            # vendor-side change unrelated to the question itself.
+            if "decommission" in err_text.lower() or "deprecat" in err_text.lower():
                 try:
                     answer = _call_groq(FALLBACK_MODEL)
                 except Exception as e2:
                     error_detail = str(e2)
+            else:
+                error_detail = err_text
 
         if answer is not None and search_used:
             answer += "\n\n🌐 *This answer used live web search via Tavily.*"
@@ -3689,6 +3834,16 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
     if not groq_setup_error:
         groq_available = True
 
+        if not tavily_available:
+            st.markdown("""
+            <div class='copilot-error-card'>
+                <b>Tavily web search is not configured.</b><br>
+                Add <code>TAVILY_API_KEY = "tvly_your_key_here"</code> to
+                <code>.streamlit/secrets.toml</code> or set the environment variable,
+                then restart the app.
+            </div>
+            """, unsafe_allow_html=True)
+
         # ═══════════════════════════════════════════════════════════════════════
         # SECTION 1: QUICK QUESTIONS — always visible, never disappears
         # ═══════════════════════════════════════════════════════════════════════
@@ -3715,8 +3870,62 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
                         st.session_state.copilot_pending_question = q
 
         # ═══════════════════════════════════════════════════════════════════════
-        # SECTION 2: MORE QUESTIONS — moved above the chat box, always visible
+        # SECTION 4: TEXT INPUT — premium dark styling
         # ═══════════════════════════════════════════════════════════════════════
+        st.markdown("""
+        <style>
+        .stTextInput > div > div > input {
+            background-color: rgba(20,16,34,0.92) !important;
+            border: 1px solid rgba(139,92,246,0.28) !important;
+            color: #e2e8f0 !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            font-size: 14px !important;
+            transition: all 0.2s !important;
+        }
+        .stTextInput > div > div > input:focus {
+            background-color: rgba(20,16,34,1) !important;
+            border-color: rgba(139,92,246,0.55) !important;
+            box-shadow: 0 0 14px rgba(139,92,246,0.18) !important;
+        }
+        .stTextInput > div > div > input::placeholder {
+            color: #5f6779 !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<div style='margin:1.4rem 0 1rem 0;'></div>", unsafe_allow_html=True)
+
+        with st.form(key="copilot_form", clear_on_submit=True):
+            col_input, col_send = st.columns([5, 1], gap="small")
+            with col_input:
+                free_text = st.text_input(
+                    "Message",
+                    placeholder="Ask about dental procedures, patient analytics, treatment outcomes...",
+                    label_visibility="collapsed",
+                )
+            with col_send:
+                submitted = st.form_submit_button("⬡ Ask", type="primary", use_container_width=True)
+
+        if submitted and free_text.strip():
+            with st.spinner("PraxisIQ Copilot is thinking..."):
+                ask_copilot(free_text.strip())
+            st.rerun()
+
+        if st.session_state.copilot_pending_question:
+            with st.spinner("PraxisIQ Copilot is thinking..."):
+                ask_copilot(st.session_state.copilot_pending_question)
+            st.session_state.copilot_pending_question = None
+            st.rerun()
+
+        if st.session_state.copilot_messages:
+            if st.button("🗑️ Clear conversation", key="clear_chat_btn"):
+                st.session_state.copilot_messages = []
+                st.rerun()
+
+            render_chat_history()
+
+        # SECTION 2: MORE QUESTIONS — moved below the chat box, and above What Copilot Knows
         st.markdown("<div style='color:#64748b;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin:24px 0 4px 0;'>More Questions</div>", unsafe_allow_html=True)
 
         # GENERAL DENTAL KNOWLEDGE
@@ -3788,133 +3997,9 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
                     if st.button(f"{icon}\n{q}", key=f"web_q_{col_idx}", use_container_width=True, help=q):
                         st.session_state.copilot_pending_question = q
 
-        # Process a click from ANY question grid above — runs once, then chat re-renders.
-        # The question grids themselves are never removed or hidden after this, since
-        # nothing above this point is gated on st.session_state.copilot_messages.
-        if st.session_state.copilot_pending_question:
-            pending = st.session_state.copilot_pending_question
-            st.session_state.copilot_pending_question = None
-            with st.spinner("PraxisIQ Copilot is thinking..."):
-                ask_copilot(pending)
-            st.rerun()
-
-        # ═══════════════════════════════════════════════════════════════════════
-        # SECTION 3: CHAT — real chat-app styling, scrollable history
-        # ═══════════════════════════════════════════════════════════════════════
-        import re as _re
-
-        def _clean_for_chat(text: str) -> str:
-            """Convert any markdown the model produced into safe inline HTML,
-            despite the system prompt asking it not to use markdown — LLMs
-            don't always perfectly follow style instructions, so this is a
-            safety net rather than the primary fix."""
-            t = text
-            # Escape raw angle brackets first so user/model text can't break the
-            # surrounding HTML structure or inject anything unintended.
-            t = t.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-            # **bold** -> <b>bold</b>
-            t = _re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', t)
-            # *italic* -> <i>italic</i> (single asterisks not part of **)
-            t = _re.sub(r'(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)', r'<i>\1</i>', t)
-            # markdown headers "### Heading" -> bold line
-            t = _re.sub(r'^#{1,4}\s+(.+)$', r'<b>\1</b>', t, flags=_re.MULTILINE)
-            # markdown bullet "- item" or "* item" at line start -> "• item"
-            t = _re.sub(r'^[\-\*]\s+', '• ', t, flags=_re.MULTILINE)
-            # line breaks for the chat bubble
-            t = t.replace('\n', '<br>')
-            return t
-
-        st.markdown(f"""
-        <div style='margin:2rem 0 1.2rem 0;border-top:1px solid rgba(139,92,246,0.12);padding-top:1.6rem;'>
-            <div style='color:#64748b;font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;'>
-                Chat
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.session_state.copilot_messages:
-            chat_html = "<div class='chat-wrap'>"
-            for msg in st.session_state.copilot_messages:
-                if msg["role"] == "user":
-                    safe_user_content = _clean_for_chat(msg['content'])
-                    chat_html += f"""
-                    <div class='msg-user'>
-                        <div>
-                            <div class='bubble'>{safe_user_content}</div>
-                            <div class='msg-meta' style='text-align:right'>You</div>
-                        </div>
-                    </div>"""
-                else:
-                    content = _clean_for_chat(msg['content'])
-                    chat_html += f"""
-                    <div class='msg-ai'>
-                        <div class='ai-avatar'>⬡</div>
-                        <div>
-                            <div class='bubble'>{content}</div>
-                            <div class='msg-meta'>PraxisIQ Copilot · Llama 3.3 70B · Groq</div>
-                        </div>
-                    </div>"""
-            chat_html += "</div>"
-            st.markdown(chat_html, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div style='text-align:center;padding:2.4rem 1rem;color:#64748b;border:1px dashed rgba(139,92,246,0.18);border-radius:14px;margin:0.5rem 0;'>
-                <div style='font-size:14px;margin-bottom:6px;color:#94a3b8;'>Ask a question to get started</div>
-                <div style='font-size:12px;'>Click a question above, or type your own below</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        # ═══════════════════════════════════════════════════════════════════════
-        # SECTION 4: TEXT INPUT — premium dark styling
-        # ═══════════════════════════════════════════════════════════════════════
-        st.markdown("""
-        <style>
-        .stTextInput > div > div > input {
-            background-color: rgba(20,16,34,0.92) !important;
-            border: 1px solid rgba(139,92,246,0.28) !important;
-            color: #e2e8f0 !important;
-            border-radius: 10px !important;
-            padding: 12px 16px !important;
-            font-size: 14px !important;
-            transition: all 0.2s !important;
-        }
-        .stTextInput > div > div > input:focus {
-            background-color: rgba(20,16,34,1) !important;
-            border-color: rgba(139,92,246,0.55) !important;
-            box-shadow: 0 0 14px rgba(139,92,246,0.18) !important;
-        }
-        .stTextInput > div > div > input::placeholder {
-            color: #5f6779 !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
-        st.markdown("<div style='margin:1.4rem 0 1rem 0;'></div>", unsafe_allow_html=True)
-
-        with st.form(key="copilot_form", clear_on_submit=True):
-            col_input, col_send = st.columns([5, 1], gap="small")
-            with col_input:
-                free_text = st.text_input(
-                    "Message",
-                    placeholder="Ask about dental procedures, patient analytics, treatment outcomes...",
-                    label_visibility="collapsed",
-                )
-            with col_send:
-                submitted = st.form_submit_button("⬡ Ask", type="primary", use_container_width=True)
-
-        if submitted and free_text.strip():
-            with st.spinner("PraxisIQ Copilot is thinking..."):
-                ask_copilot(free_text.strip())
-            st.rerun()
-
-        if st.session_state.copilot_messages:
-            if st.button("🗑️ Clear conversation", key="clear_chat_btn"):
-                st.session_state.copilot_messages = []
-                st.rerun()
-
         # ═══════════════════════════════════════════════════════════════════════
         # SECTION 5: WHAT COPILOT KNOWS — single block, no duplicate
-        # ═══════════════════════════════════════════════════════════════════════
+        # ═══════════════════════════════════════════════════════════════
         st.markdown("""
         <div style='margin:2.6rem 0 1.2rem 0;border-top:1px solid rgba(139,92,246,0.1);padding-top:1.6rem;'>
             <div style='color:#f1f3f8;font-size:14px;font-weight:700;'>
