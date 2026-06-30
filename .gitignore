@@ -38,3 +38,6 @@ build/
 
 # Assets — screenshots (add manually)
 # assets/
+# Dev scratch scripts - not part of deliverable
+patch_pr.py
+pdf_patch.py

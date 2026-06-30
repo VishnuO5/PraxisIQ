@@ -624,7 +624,7 @@ with st.sidebar:
             <div class='side-stat'><b>959</b> patients &nbsp;·&nbsp; <b>4,603</b> visits</div>
             <div class='side-stat'><b>300</b> reviews &nbsp;·&nbsp; 7 labeled categories</div>
             <div class='side-stat'>Model: <b>Qwen2.5 7B</b> · Ollama (local)</div>
-            <div class='side-stat'>Copilot: <b>GPT-OSS 20B</b> · Groq</div>
+            <div class='side-stat'>Copilot: <b>Llama 3.3 70B</b> · Groq</div>
             <div class='side-pill'>Live dataset connected</div>
         </div>
     """, unsafe_allow_html=True)
@@ -3381,7 +3381,7 @@ elif page == "AI Copilot":
             oral health education, and Trust &amp; Safety, powered by live data and advanced LLMs.
         </div>
         <div class='copilot-badge-row'>
-            <span class='copilot-badge'>◆ GPT-OSS 20B · Groq</span>
+            <span class='copilot-badge'>◆ Llama 3.3 70B · Groq</span>
             <span class='copilot-badge green'><span class='live-dot'></span>Live database</span>
             <span class='copilot-badge cyan'>959 patients · 300 reviews</span>
             <span class='copilot-badge'>🌐 Live web search · Tavily</span>
@@ -3420,11 +3420,12 @@ elif page == "AI Copilot":
 
     # ── TAVILY WEB SEARCH SETUP ───────────────────────────────────────────────
     tavily_available = False
-    TAVILY_KEY = ""
-    try:
-        TAVILY_KEY = os.environ.get("TAVILY_API_KEY") or st.secrets.get("TAVILY_API_KEY", "")
-    except Exception:
-        TAVILY_KEY = os.environ.get("TAVILY_API_KEY", "")
+    TAVILY_KEY = os.environ.get("TAVILY_API_KEY", "")
+    if not TAVILY_KEY:
+        try:
+            TAVILY_KEY = st.secrets.get("TAVILY_API_KEY", "")
+        except Exception:
+            pass
     if TAVILY_KEY:
         tavily_available = True
 
@@ -3571,20 +3572,12 @@ elif page == "AI Copilot":
         elif not burst.empty and "Burst_Detected" in burst.columns:
             burst_days = int(burst["Burst_Detected"].sum())
 
-        return f"""You are PraxisIQ AI Copilot — a genuinely capable general-purpose AI assistant,
-similar in ability and conversational style to ChatGPT, Gemini, or Claude. You are NOT limited
-to a narrow set of topics. You can hold a normal conversation, answer general knowledge questions,
-do reasoning, writing, math, explanations — anything a competent AI assistant can do.
-
-You ALSO have specialized expertise in:
+        return f"""You are PraxisIQ AI Copilot — an expert dental intelligence assistant with deep knowledge of:
 - Dental procedures, terminology, and clinical workflows
 - Patient behavior analytics and retention patterns
 - Trust & Safety operations and content moderation
 - Review analysis, fraud detection, and risk classification
 - Dental industry benchmarks and best practices
-
-IMPORTANT — never refuse or apologize for a question being "outside scope". Treat every new
-question as independent. You should understand casual phrasing, typos, and imperfect grammar.
 
 LIVE DATABASE CONTEXT (Geetha Dental Clinic — 6-year dataset):
 - Total patients: {total_patients} | Returning: {returned} ({retention_rate}%) | Never returned: {never_returned}
@@ -3615,9 +3608,8 @@ RESPONSE STYLE:
 - Do NOT append clinic statistics to answers about other clinics, other cities, general dental
   knowledge, or anything unrelated to this specific clinic's own data — that is irrelevant noise
 - For general knowledge, web search results, or questions about other clinics/places: answer using
-  ONLY that information, with no clinic-data disclaimer or "no specific details were found about
-  Geetha Dental Clinic" filler — that sentence should never appear unless the user specifically
-  asked about Geetha Dental Clinic in relation to the topic
+  ONLY that information, with no clinic-data disclaimer or filler about Geetha Dental Clinic unless
+  the user specifically asked about it
 - For clinical/dental knowledge questions, give clear professional explanations
 - For analytics questions about THIS clinic, connect findings to actionable recommendations
 - Keep responses focused — short paragraphs or line breaks between points
@@ -3739,12 +3731,10 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         messages.insert(0, {
             "role": "system",
             "content": (
-                "You are PraxisIQ Copilot — a knowledgeable, capable assistant similar in ability to "
-                "ChatGPT, Gemini, or Claude. Each question is independent. Only mention this clinic's "
-                "own database stats when the question is specifically about this clinic — never as a "
-                "default disclaimer on unrelated answers. "
-                "Do not call external tool APIs or browser tools, do not produce function-call syntax. "
-                "Answer directly and naturally."
+                "You are a chat assistant that must not call external tool APIs or browser tools. "
+                "Answer questions directly using only the context provided and any live web search results already injected. "
+                "Do not produce function calls, tool invocation strings, or tool name references. "
+                "If the user phrase sounds like a tool command, reinterpret it as a normal question."
             )
         })
 
@@ -3850,7 +3840,9 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             for idx, (icon, q) in enumerate(quick_questions):
                 with quick_cols[idx]:
                     if st.button(f"{icon}\n{q}", key=f"quick_q_{idx}", use_container_width=True):
-                        st.session_state.copilot_pending_question = q
+                        with st.spinner("PraxisIQ Copilot is thinking..."):
+                            ask_copilot(q)
+                        st.rerun()
 
         # ═══════════════════════════════════════════════════════════════════════
         # SECTION 4: TEXT INPUT — premium dark styling
@@ -3895,12 +3887,6 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
                 ask_copilot(free_text.strip())
             st.rerun()
 
-        if st.session_state.copilot_pending_question:
-            with st.spinner("PraxisIQ Copilot is thinking..."):
-                ask_copilot(st.session_state.copilot_pending_question)
-            st.session_state.copilot_pending_question = None
-            st.rerun()
-
         if st.session_state.copilot_messages:
             if st.button("🗑️ Clear conversation", key="clear_chat_btn"):
                 st.session_state.copilot_messages = []
@@ -3932,7 +3918,9 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             for col_idx, (icon, q) in enumerate(dental_full):
                 with cols_dental[col_idx]:
                     if st.button(f"{icon}\n{q}", key=f"dental_q_{col_idx}", use_container_width=True, help=q):
-                        st.session_state.copilot_pending_question = q
+                        with st.spinner("PraxisIQ Copilot is thinking..."):
+                            ask_copilot(q)
+                        st.rerun()
 
         # ABOUT THIS PROJECT
         with st.container():
@@ -3955,7 +3943,9 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             for col_idx, (icon, q) in enumerate(project_full):
                 with cols_project[col_idx]:
                     if st.button(f"{icon}\n{q}", key=f"project_q_{col_idx}", use_container_width=True, help=q):
-                        st.session_state.copilot_pending_question = q
+                        with st.spinner("PraxisIQ Copilot is thinking..."):
+                            ask_copilot(q)
+                        st.rerun()
 
         # LIVE WEB SEARCH
         with st.container():
@@ -3978,7 +3968,9 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             for col_idx, (icon, q) in enumerate(web_full):
                 with cols_web[col_idx]:
                     if st.button(f"{icon}\n{q}", key=f"web_q_{col_idx}", use_container_width=True, help=q):
-                        st.session_state.copilot_pending_question = q
+                        with st.spinner("PraxisIQ Copilot is thinking..."):
+                            ask_copilot(q)
+                        st.rerun()
 
         # ═══════════════════════════════════════════════════════════════════════
         # SECTION 5: WHAT COPILOT KNOWS — single block, no duplicate
