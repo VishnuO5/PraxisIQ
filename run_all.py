@@ -7,7 +7,7 @@ Usage:
     python run_all.py
 
 Steps:
-    1. Build database from Patient_Data.xlsx
+    1. Build database from sample_data_synthetic.xlsx
     2. Run SQL analytics
     3. Run all analytics scripts
     4. Run Trust & Safety pipeline
@@ -82,10 +82,10 @@ total_start = time.time()
 results = {}
 
 # ── STEP 1: DATABASE ──────────────────────────────────────────────────────────
-step(1, "Building database from Patient_Data.xlsx")
+step(1, "Building database from sample_data_synthetic.xlsx")
 
-if not os.path.exists("Patient_Data.xlsx"):
-    failure("Patient_Data.xlsx not found — cannot continue")
+if not os.path.exists("sample_data_synthetic.xlsx"):
+    failure("sample_data_synthetic.xlsx not found — cannot continue")
     sys.exit(1)
 
 results["create_database"] = run_script(
@@ -151,7 +151,9 @@ expected_outputs = [
     "reports/case_management_queue.csv",
     "reports/trust_safety_risk_summary.csv",
     "reports/severity_distribution.csv",
-    "reports/llm_prompt_evaluation.csv",
+    # llm_prompt_evaluation.csv is intentionally excluded — it is only generated
+    # by llm/llm_evaluation_final.py, which requires a local Ollama instance and
+    # is not run as part of this automated pipeline. See README for manual steps.
 ]
 
 all_outputs_exist = True
