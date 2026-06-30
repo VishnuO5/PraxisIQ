@@ -3663,6 +3663,32 @@ elif page == "AI Copilot":
     # search again. Up to 3 rounds. This is the single biggest lever for
     # matching frontier-model research depth on top of an open model.
 
+    def _groq_call_with_retry(groq_client_ref, model_name, msgs, max_tokens, temperature, retries=2):
+        """Call Groq with exponential backoff on 429 rate-limit errors.
+        The free tier (30 RPM / ~6K TPM on the 70B model) means a multi-step
+        research loop can legitimately hit a transient rate limit even when
+        well under the daily cap — a short wait-and-retry is the correct fix,
+        not reducing research depth."""
+        import time as _time
+        last_err = None
+        for attempt in range(retries + 1):
+            try:
+                resp = groq_client_ref.chat.completions.create(
+                    model=model_name,
+                    messages=msgs,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                )
+                return resp.choices[0].message.content.strip()
+            except Exception as e:
+                last_err = e
+                err_text = str(e).lower()
+                if "429" in err_text or "rate" in err_text:
+                    _time.sleep(1.5 * (attempt + 1))
+                    continue
+                raise
+        raise last_err
+
     def plan_subqueries(question: str, groq_client_ref) -> list:
         """Ask the LLM to break the question into 1-4 focused search queries,
         the same way a real research agent plans before searching — rather
@@ -3681,13 +3707,11 @@ elif page == "AI Copilot":
                 "no numbering, no bullets, no quotes.\n\n"
                 f"User question: {question}"
             )
-            resp = groq_client_ref.chat.completions.create(
-                model="llama-3.1-8b-instant",
-                messages=[{"role": "user", "content": planning_prompt}],
-                max_tokens=150,
-                temperature=0.2,
+            raw = _groq_call_with_retry(
+                groq_client_ref, "llama-3.1-8b-instant",
+                [{"role": "user", "content": planning_prompt}],
+                max_tokens=150, temperature=0.2, retries=1,
             )
-            raw = resp.choices[0].message.content.strip()
             lines = [l.strip("-•* \"'") for l in raw.split("\n") if l.strip()]
             lines = [l for l in lines if len(l) > 2][:4]
             return lines if lines else [question]
@@ -3711,13 +3735,11 @@ elif page == "AI Copilot":
                 "GAPS: comma-separated list of 1-3 additional short search queries "
                 "needed to fill any gaps (leave blank if sufficient)"
             )
-            resp = groq_client_ref.chat.completions.create(
-                model="llama-3.1-8b-instant",
-                messages=[{"role": "user", "content": check_prompt}],
-                max_tokens=150,
-                temperature=0.1,
+            raw = _groq_call_with_retry(
+                groq_client_ref, "llama-3.1-8b-instant",
+                [{"role": "user", "content": check_prompt}],
+                max_tokens=150, temperature=0.1, retries=1,
             )
-            raw = resp.choices[0].message.content.strip()
             sufficient = "yes" in raw.lower().split("gaps:")[0].lower() if "gaps:" in raw.lower() else "yes" in raw.lower()
             gaps = []
             if "gaps:" in raw.lower():
@@ -3727,11 +3749,13 @@ elif page == "AI Copilot":
         except Exception:
             return {"sufficient": True, "gap_queries": []}
 
-    def agentic_research(question: str, groq_client_ref, max_rounds: int = 3) -> dict:
-        """Full multi-step research loop: plan -> search -> evaluate -> refine
-        -> search again if needed. Returns combined evidence text, the list
-        of all queries actually run, and the number of rounds used — so the
-        UI can show genuine research transparency to the user."""
+    def agentic_research(question: str, groq_client_ref, max_rounds: int = 2) -> dict:
+        """Multi-step research loop: plan -> search -> evaluate -> refine if
+        genuinely needed. Capped at 2 rounds by default — Groq's free tier
+        allows 30 requests/minute on the 70B model, and each round here adds
+        1 planning/evaluation call plus N Tavily searches, so keeping this
+        tight avoids 429 rate-limit errors on compound questions while still
+        meaningfully out-researching a single-shot search."""
         all_evidence = []
         all_queries_run = []
 
@@ -3739,11 +3763,16 @@ elif page == "AI Copilot":
         round_num = 1
         queries_to_run = initial_queries
 
+        # Skip the sufficiency-check LLM call entirely when there's only one
+        # planned query — there's nothing to refine against, so the extra
+        # Groq call would just burn rate-limit budget for no benefit.
+        skip_sufficiency_check = len(initial_queries) <= 1
+
         while round_num <= max_rounds and queries_to_run:
             for q in queries_to_run:
                 if q in all_queries_run:
                     continue
-                result = tavily_search(q, max_results=8)
+                result = tavily_search(q, max_results=6)
                 if result and "unavailable" not in result.lower():
                     all_evidence.append(f"== Search Round {round_num} | Query: '{q}' ==\n{result}")
                 all_queries_run.append(q)
@@ -3752,8 +3781,11 @@ elif page == "AI Copilot":
             if not combined:
                 break
 
+            if skip_sufficiency_check or round_num >= max_rounds:
+                break
+
             check = evaluate_sufficiency(question, combined, groq_client_ref)
-            if check["sufficient"] or round_num >= max_rounds:
+            if check["sufficient"]:
                 break
 
             queries_to_run = [g for g in check["gap_queries"] if g not in all_queries_run]
@@ -4044,7 +4076,7 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
 
         if needs_web_search(question):
             if tavily_available:
-                research = agentic_research(question, groq_client, max_rounds=3)
+                research = agentic_research(question, groq_client, max_rounds=2)
                 web_results = research["evidence"]
 
                 if web_results:
@@ -4111,7 +4143,7 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         })
 
         PRIMARY_MODEL = "llama-3.3-70b-versatile"
-        FALLBACK_MODEL = "llama3-8b-8192"
+        FALLBACK_MODEL = "llama-3.1-8b-instant"
 
         def _call_groq(model_name):
             resp = groq_client.chat.completions.create(
@@ -4122,19 +4154,37 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             )
             return resp.choices[0].message.content.strip()
 
+        def _call_groq_with_backoff(model_name, retries=2):
+            import time as _time
+            last_err = None
+            for attempt in range(retries + 1):
+                try:
+                    return _call_groq(model_name)
+                except Exception as e:
+                    last_err = e
+                    err_text = str(e).lower()
+                    if "429" in err_text or "rate" in err_text:
+                        _time.sleep(2.0 * (attempt + 1))
+                        continue
+                    raise
+            raise last_err
+
         answer = None
         error_detail = None
         try:
-            answer = _call_groq(PRIMARY_MODEL)
+            answer = _call_groq_with_backoff(PRIMARY_MODEL, retries=2)
         except Exception as e:
             err_text = str(e)
-            # If Groq has decommissioned/deprecated the primary model, retry
-            # once with a known-stable fallback rather than failing outright —
-            # this is the one case worth auto-recovering from, since it's a
-            # vendor-side change unrelated to the question itself.
-            if "decommission" in err_text.lower() or "deprecat" in err_text.lower():
+            err_lower = err_text.lower()
+            # Two distinct vendor-side situations worth auto-recovering from:
+            # (1) the primary model was decommissioned/deprecated, or
+            # (2) the 70B model's tighter free-tier rate limit (30 RPM / ~6K TPM)
+            # was hit even after backoff retries — the 8B model has a much
+            # higher free-tier ceiling and can usually still answer the
+            # question, just with slightly less reasoning depth than 70B.
+            if "decommission" in err_lower or "deprecat" in err_lower or "429" in err_lower or "rate" in err_lower:
                 try:
-                    answer = _call_groq(FALLBACK_MODEL)
+                    answer = _call_groq_with_backoff(FALLBACK_MODEL, retries=1)
                 except Exception as e2:
                     error_detail = str(e2)
             else:
