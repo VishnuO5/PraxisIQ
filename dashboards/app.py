@@ -200,6 +200,128 @@ st.markdown(f"""
         display: none !important;
     }}
 
+    /* ── PraxisIQ AI Copilot — white pill button, premium gradient text ── */
+    .copilot-nav-wrap {{
+        margin: 4px 0 14px 0;
+        position: relative;
+    }}
+    .copilot-radio-group .stButton > button {{
+        width: 100% !important;
+        padding: 13px 18px !important;
+        border-radius: 999px !important;
+        border: none !important;
+        background: #ffffff !important;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.25), 0 0 0 1px rgba(167,139,250,0.15) !important;
+        transition: all 0.2s ease !important;
+        text-align: center !important;
+        justify-content: center !important;
+        position: relative !important;
+    }}
+    .copilot-radio-group .stButton > button p {{
+        background: linear-gradient(120deg, #7c3aed 0%, #c026d3 35%, #db2777 65%, #f59e0b 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        font-size: 14.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.01em !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }}
+    /* Hexagon glyph gets its own stronger glow + size boost via text-shadow trick */
+    .copilot-radio-group .stButton > button p::first-letter {{
+        font-size: 20px !important;
+        filter: drop-shadow(0 0 6px rgba(124,58,237,0.55)) !important;
+    }}
+    .copilot-radio-group .stButton > button:hover {{
+        box-shadow: 0 6px 24px rgba(139,92,246,0.35), 0 0 0 1.5px rgba(167,139,250,0.4) !important;
+        transform: translateY(-1px) !important;
+    }}
+    .copilot-radio-group .stButton > button:active,
+    .copilot-radio-group .stButton > button:focus {{
+        box-shadow: 0 6px 26px rgba(139,92,246,0.4), 0 0 0 2px rgba(167,139,250,0.5) !important;
+    }}
+
+    /* ── Workspace — clean grouped list, exact match to reference design ── */
+    .workspace-radio-group div[role="radiogroup"] {{
+        gap: 3px !important;
+    }}
+    .workspace-radio-group div[role="radiogroup"] label {{
+        position: relative !important;
+        padding: 11px 14px !important;
+        border-radius: 10px !important;
+        border: 1px solid transparent !important;
+        background: transparent !important;
+        transition: all 0.15s ease !important;
+    }}
+    .workspace-radio-group div[role="radiogroup"] label:hover {{
+        background: rgba(108,140,255,0.07) !important;
+    }}
+    .workspace-radio-group div[role="radiogroup"] label p,
+    .workspace-radio-group div[role="radiogroup"] label div p {{
+        color: {TEXT_MED} !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+    }}
+    .workspace-radio-group div[role="radiogroup"] label:has(input:checked) {{
+        background: linear-gradient(135deg, rgba(108,140,255,0.2) 0%, rgba(236,72,153,0.12) 100%) !important;
+        border-color: rgba(108,140,255,0.4) !important;
+        box-shadow: 0 2px 12px rgba(108,140,255,0.14) !important;
+    }}
+    .workspace-radio-group div[role="radiogroup"] label:has(input:checked) p,
+    .workspace-radio-group div[role="radiogroup"] label:has(input:checked) div p {{
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }}
+    .copilot-badge-pulse {{
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: linear-gradient(135deg, #6C8CFF, #3DD9D6);
+        color: #080A10;
+        font-size: 8.5px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        padding: 2px 7px;
+        border-radius: 20px;
+        margin-left: auto;
+        box-shadow: 0 0 8px rgba(108,140,255,0.5);
+        animation: copilotPulse 2.2s ease-in-out infinite;
+    }}
+    @keyframes copilotPulse {{
+        0%, 100% {{ opacity: 1; transform: scale(1); }}
+        50% {{ opacity: 0.85; transform: scale(1.04); }}
+    }}
+
+    /* ── Premium shimmer for "PraxisIQ Copilot is thinking..." spinner ── */
+    div[data-testid="stSpinner"] {{
+        position: relative;
+    }}
+    div[data-testid="stSpinner"] > div {{
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }}
+    div[data-testid="stSpinner"] p {{
+        background: linear-gradient(120deg, #7c3aed 0%, #c026d3 25%, #db2777 50%, #c026d3 75%, #7c3aed 100%) !important;
+        background-size: 200% auto !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        font-weight: 700 !important;
+        font-size: 13.5px !important;
+        letter-spacing: 0.01em !important;
+        animation: copilotShimmer 1.8s linear infinite !important;
+    }}
+    @keyframes copilotShimmer {{
+        0% {{ background-position: 0% center; }}
+        100% {{ background-position: 200% center; }}
+    }}
+    div[data-testid="stSpinner"] svg {{
+        filter: drop-shadow(0 0 6px rgba(192,38,211,0.6));
+    }}
+
     /* ── Sidebar footer ── */
     .side-footer {{
         margin-top: 24px;
@@ -601,23 +723,85 @@ with st.sidebar:
         <div class='side-divider'></div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<div class='nav-label'>Workspace</div>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style='display:flex;align-items:center;gap:7px;margin-bottom:9px;'>
+            <span style='font-size:9.5px;font-weight:700;letter-spacing:0.13em;
+                         text-transform:uppercase;color:#8fa3ff;'>AI Powered</span>
+            <span class='copilot-badge-pulse'>&#9670; LIVE</span>
+        </div>
+    """, unsafe_allow_html=True)
 
-    page = st.radio(
-        "Navigation",
-        options=[
-            "Overview",
-            "Patient Analytics",
-            "Review Intelligence",
-            "Anomaly Screening",
-            "Trust & Safety",
-            "LLM Evaluation",
-            "Investigation Playbooks",
-            "Data Quality",
-            "AI Copilot",
-        ],
-        label_visibility="collapsed"
+    # ── BULLETPROOF NAV: real st.button (always fires) + workspace radio ────
+    # Definitive fix: AI Copilot is a real st.button — buttons in Streamlit
+    # return True exactly once, on the exact run where they were clicked,
+    # and nothing else can overwrite that. The workspace radio below uses
+    # on_change with a guard so it can NEVER fire on a run where the
+    # Copilot button was just clicked (this was the actual cause of the
+    # "redirects to Patient Analytics" bug — the radio's on_change fired
+    # on the very next rerun after the button click and stomped the state).
+
+    WORKSPACE_PAGES = [
+        "Overview",
+        "Patient Analytics",
+        "Review Intelligence",
+        "Anomaly Screening",
+        "Trust & Safety",
+        "LLM Evaluation",
+        "Investigation Playbooks",
+        "Data Quality",
+    ]
+
+    if "active_page" not in st.session_state:
+        st.session_state["active_page"] = "Overview"
+    if "_just_clicked_copilot" not in st.session_state:
+        st.session_state["_just_clicked_copilot"] = False
+    if "_prev_workspace_choice" not in st.session_state:
+        st.session_state["_prev_workspace_choice"] = "Overview"
+
+    # ── PraxisIQ AI Copilot — standalone premium pill (real button) ──
+    st.markdown("<div class='copilot-nav-wrap copilot-radio-group'>", unsafe_allow_html=True)
+    copilot_clicked = st.button(
+        "⬡  PraxisIQ AI Copilot",
+        key="copilot_nav_button",
+        use_container_width=True,
     )
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown("<div class='nav-label' style='margin-top:14px;'>Workspace</div>", unsafe_allow_html=True)
+
+    # ── Workspace radio — always reflects last non-Copilot workspace choice,
+    #    so clicking the SAME workspace item after visiting Copilot still
+    #    fires on_change (Streamlit only fires on_change when the widget's
+    #    own value changes, so we must never silently desync it). ──
+    def _on_workspace_change():
+        st.session_state["active_page"] = st.session_state["workspace_nav_widget"]
+        st.session_state["_prev_workspace_choice"] = st.session_state["workspace_nav_widget"]
+        st.session_state["_just_clicked_copilot"] = False
+
+    workspace_idx = (
+        WORKSPACE_PAGES.index(st.session_state["_prev_workspace_choice"])
+        if st.session_state["_prev_workspace_choice"] in WORKSPACE_PAGES
+        else 0
+    )
+
+    st.markdown("<div class='workspace-radio-group'>", unsafe_allow_html=True)
+    st.radio(
+        "Navigation",
+        options=WORKSPACE_PAGES,
+        index=workspace_idx,
+        label_visibility="collapsed",
+        key="workspace_nav_widget",
+        on_change=_on_workspace_change,
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    # Resolve final page AFTER both widgets have rendered, with the button
+    # click taking absolute precedence since it's the most recent user action.
+    if copilot_clicked:
+        st.session_state["active_page"] = "AI Copilot"
+        st.session_state["_just_clicked_copilot"] = True
+
+    page = st.session_state["active_page"]
 
     st.markdown(f"""
         <div class='side-footer'>
@@ -3289,14 +3473,16 @@ elif page == "AI Copilot":
     .ai-avatar {{
         width: 36px;
         height: 36px;
-        background: linear-gradient(135deg, #6c8cff, #3dd9d6);
-        border-radius: 50%;
+        background: linear-gradient(135deg, #7c3aed 0%, #c026d3 50%, #db2777 100%);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
+        font-size: 13px;
+        font-weight: 800;
+        color: #ffffff;
         flex-shrink: 0;
-        box-shadow: 0 4px 12px rgba(108, 140, 255, 0.3);
+        box-shadow: 0 0 14px rgba(192,38,211,0.55), 0 4px 12px rgba(124,58,237,0.4);
     }}
     .msg-ai > div {{
         display: flex;
@@ -3642,30 +3828,41 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             else:
                 chat_html += f"""
                 <div class='msg-ai'>
-                    <div class='ai-avatar'>P-AI</div>
+                    <div class='ai-avatar'>P</div>
                     <div>
                         <div class='bubble'>{content_}</div>
                     </div>
                 </div>"""
         chat_html += "<div id='copilot-scroll-anchor' style='height:1px;'></div>"
         chat_html += "</div>"
-        chat_html += """
-        <script>
-        (function() {
-            function scrollToLatestAnswer() {
-                var anchor = document.getElementById('copilot-scroll-anchor');
-                if (anchor) {
-                    anchor.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }
-            }
-            setTimeout(scrollToLatestAnswer, 100);
-            setTimeout(scrollToLatestAnswer, 350);
-            setTimeout(scrollToLatestAnswer, 700);
-            setTimeout(scrollToLatestAnswer, 1200);
-        })();
-        </script>
-        """
         st.markdown(chat_html, unsafe_allow_html=True)
+
+        # st.markdown strips <script> tags for security, so the scroll trigger
+        # must run through components.html, which renders a real iframe that
+        # browsers allow to execute JS. We target the PARENT document because
+        # the chat itself lives outside this component's own iframe.
+        components.html(
+            """
+            <script>
+            (function() {
+                function scrollToLatestAnswer() {
+                    try {
+                        var doc = window.parent.document;
+                        var anchor = doc.getElementById('copilot-scroll-anchor');
+                        if (anchor) {
+                            anchor.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        }
+                    } catch (e) {}
+                }
+                setTimeout(scrollToLatestAnswer, 100);
+                setTimeout(scrollToLatestAnswer, 350);
+                setTimeout(scrollToLatestAnswer, 700);
+                setTimeout(scrollToLatestAnswer, 1200);
+            })();
+            </script>
+            """,
+            height=0,
+        )
 
     # ── CHAT STATE ────────────────────────────────────────────────────────────
     if "copilot_messages" not in st.session_state:
