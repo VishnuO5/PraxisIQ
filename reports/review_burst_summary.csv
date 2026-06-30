@@ -1,8 +1,0 @@
-Metric,Value
-Total Review Days,245.0
-Mean Reviews Per Day,1.22
-Static Threshold (mean+2σ),3.91
-Burst Days (static),4.0
-Burst Days (rolling 7d),7.0
-Total Burst Days,7.0
-Negative-Skewed Bursts,0.0

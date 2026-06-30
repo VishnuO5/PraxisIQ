@@ -45,3 +45,6 @@ pdf_patch.py
 # Local delivery zips - never commit
 z.zip
 *.zip
+
+reports/
+.pytest_cache/
