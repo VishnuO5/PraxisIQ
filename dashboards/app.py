@@ -1,4 +1,5 @@
 ﻿import streamlit as st
+import re
 import streamlit.components.v1 as components
 import pandas as pd
 import plotly.express as px
@@ -3456,22 +3457,8 @@ elif page == "AI Copilot":
             return f"Web search unavailable: {str(e)}"
 
     def needs_web_search(question: str) -> bool:
-        """
-        Decide if the question likely needs current/external web data rather
-        than the clinic's own database or general dental knowledge.
-
-        Broader than a narrow keyword list on purpose: this should behave
-        like ChatGPT/Gemini/Claude's web-search trigger — anything that
-        implies "current", "external", "real-world", "location-specific",
-        or "recent" content gets a search. Internal clinic-data questions
-        (retention rate, complaint counts, risk scores, etc.) do NOT need
-        a search since that data already lives in build_copilot_context().
-        """
+        """Pattern-based web search trigger — generalizes to any place name."""
         q_lower = question.lower().strip()
-
-        # Internal data questions never need web search — the model already
-        # has this in build_copilot_context(). Checking this first avoids
-        # wasting a Tavily call on "what is our retention rate" type asks.
         internal_signals = [
             "our ", "this clinic", "this dataset", "this database", "geetha dental",
             "our patients", "our reviews", "our retention", "our churn",
@@ -3479,20 +3466,22 @@ elif page == "AI Copilot":
         ]
         if any(sig in q_lower for sig in internal_signals):
             return False
-
-        # Broad external/current/local signal — covers far more phrasing
-        # than the old fixed keyword list, including "latest trends in X",
-        # "what's new in Y", "current state of Z", any city/place name, etc.
+        location_patterns = [
+            r'\bin\s+\w+', r'\bnear\s+\w+', r'\bis\s+there\s+(any|a)\b',
+            r'\b(clinic|clinics|dentist|dentists|hospital|hospitals)\b.*\b(in|near|at)\b',
+            r'\b(in|near|at)\b.*\b(clinic|clinics|dentist|dentists|hospital|hospitals)\b',
+        ]
+        if any(re.search(pat, q_lower) for pat in location_patterns):
+            return True
         external_signals = [
             "best ", "top ", "recommend", "compare", "vs ", "versus",
-            "near me", "in trichy", "in chennai", "in bangalore", "in mumbai",
-            "in delhi", "in hyderabad", "in india", "address", "contact",
-            "phone number", "location", "where is", "where can",
-            "latest", "recent", "current", "trend", "trending", "new in",
-            "news", "today", "this year", "this month", "2024", "2025", "2026",
-            "what's new", "whats new", "update on", "ranking", "rated",
-            "famous", "popular", "search for", "search the web", "look up",
-            "find a ", "find the ", "who is", "what is the current",
+            "address", "contact", "phone number", "location",
+            "where is", "where can", "latest", "recent", "current",
+            "trend", "trending", "new in", "news", "today", "this year",
+            "this month", "2024", "2025", "2026", "what's new", "whats new",
+            "update on", "ranking", "rated", "famous", "popular",
+            "search for", "search the web", "look up", "find a ", "find the ",
+            "who is", "what is the current",
         ]
         return any(sig in q_lower for sig in external_signals)
 
@@ -3594,14 +3583,8 @@ You ALSO have specialized expertise in:
 - Review analysis, fraud detection, and risk classification
 - Dental industry benchmarks and best practices
 
-IMPORTANT — never refuse or apologize for a question being "outside scope". If a question is
-general (not about this specific clinic's data), simply answer it using your own knowledge and/or
-the live web search results if provided for THIS question. Only mention clinic data when it's
-actually relevant to what's being asked. Treat every new question as independent — do not assume
-it relates to a previous question's topic or any previously injected web search results.
-
-You should also understand casual phrasing, typos, regional spelling, and imperfect grammar the
-way a real AI assistant does — interpret intent rather than requiring exact wording.
+IMPORTANT — never refuse or apologize for a question being "outside scope". Treat every new
+question as independent. You should understand casual phrasing, typos, and imperfect grammar.
 
 LIVE DATABASE CONTEXT (Geetha Dental Clinic — 6-year dataset):
 - Total patients: {total_patients} | Returning: {returned} ({retention_rate}%) | Never returned: {never_returned}
@@ -3626,12 +3609,19 @@ You can answer questions about:
 - Analytics: how to interpret the data, what signals matter, what to investigate next
 
 RESPONSE STYLE:
-- Be direct, specific, and data-driven
-- Reference actual numbers from the live context when relevant
-- For clinical questions, give clear professional explanations
-- For analytics questions, connect findings to actionable recommendations
-- Keep responses focused and structured — use short paragraphs or line breaks between points
-- Never make up data — if something isn't in the context, say so clearly
+- Be direct, specific, and conversational — answer exactly what was asked, nothing more
+- ONLY mention Geetha Dental Clinic's live database stats (patient count, retention rate, ratings, etc.)
+  if the question is specifically ABOUT this clinic, its patients, its reviews, or its operations
+- Do NOT append clinic statistics to answers about other clinics, other cities, general dental
+  knowledge, or anything unrelated to this specific clinic's own data — that is irrelevant noise
+- For general knowledge, web search results, or questions about other clinics/places: answer using
+  ONLY that information, with no clinic-data disclaimer or "no specific details were found about
+  Geetha Dental Clinic" filler — that sentence should never appear unless the user specifically
+  asked about Geetha Dental Clinic in relation to the topic
+- For clinical/dental knowledge questions, give clear professional explanations
+- For analytics questions about THIS clinic, connect findings to actionable recommendations
+- Keep responses focused — short paragraphs or line breaks between points
+- Never make up data — if something isn't in the context or search results, say so clearly
 - Always be helpful, professional, and thorough
 
 FORMATTING — IMPORTANT, your output is rendered directly as plain text in a chat UI, not as markdown:
@@ -3649,44 +3639,41 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
 
         chat_html = "<div class='chat-wrap' id='copilot-chat'>"
         for message in st.session_state.copilot_messages:
-            content = _escaped_html(message["content"])
+            content_ = _escaped_html(message["content"])
             if message["role"] == "user":
                 chat_html += f"""
                 <div class='msg-user'>
                     <div>
-                        <div class='bubble'>{content}</div>
+                        <div class='bubble'>{content_}</div>
                     </div>
                 </div>"""
             else:
                 chat_html += f"""
                 <div class='msg-ai'>
-                    <div class='ai-avatar'>AI</div>
+                    <div class='ai-avatar'>P-AI</div>
                     <div>
-                        <div class='bubble'>{content}</div>
+                        <div class='bubble'>{content_}</div>
                     </div>
                 </div>"""
+        chat_html += "<div id='copilot-scroll-anchor' style='height:1px;'></div>"
         chat_html += "</div>"
-
-        st.markdown(chat_html, unsafe_allow_html=True)
-        components.html(
-            """
-            <script>
-            function scrollToAnswer() {
-                const chat = window.parent.document.getElementById('copilot-chat');
-                if (chat) {
-                    // Scroll the chat container itself to its bottom
-                    chat.scrollTop = chat.scrollHeight;
-                    // Also scroll the whole page to bring the chat into view,
-                    // so the user never has to manually scroll to see the answer
-                    chat.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        chat_html += """
+        <script>
+        (function() {
+            function scrollToLatestAnswer() {
+                var anchor = document.getElementById('copilot-scroll-anchor');
+                if (anchor) {
+                    anchor.scrollIntoView({ behavior: 'smooth', block: 'end' });
                 }
             }
-            setTimeout(scrollToAnswer, 150);
-            setTimeout(scrollToAnswer, 400);
-            </script>
-            """,
-            height=1,
-        )
+            setTimeout(scrollToLatestAnswer, 100);
+            setTimeout(scrollToLatestAnswer, 350);
+            setTimeout(scrollToLatestAnswer, 700);
+            setTimeout(scrollToLatestAnswer, 1200);
+        })();
+        </script>
+        """
+        st.markdown(chat_html, unsafe_allow_html=True)
 
     # ── CHAT STATE ────────────────────────────────────────────────────────────
     if "copilot_messages" not in st.session_state:
@@ -3753,20 +3740,16 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             "role": "system",
             "content": (
                 "You are PraxisIQ Copilot — a knowledgeable, capable assistant similar in ability to "
-                "ChatGPT, Gemini, or Claude. You can answer general dental questions, general knowledge "
-                "questions, and questions about this specific clinic's live data. "
-                "You understand casual phrasing, typos, and informal language the way a real AI assistant does — "
-                "interpret the user's intent even if spelling or grammar is imperfect. "
-                "Each question is independent: web search results (if any) belong ONLY to the CURRENT question "
-                "being asked right now, never to a previous turn. If no web results are present for this specific "
-                "question, do not reference results from an earlier question in this conversation. "
+                "ChatGPT, Gemini, or Claude. Each question is independent. Only mention this clinic's "
+                "own database stats when the question is specifically about this clinic — never as a "
+                "default disclaimer on unrelated answers. "
                 "Do not call external tool APIs or browser tools, do not produce function-call syntax. "
-                "Answer directly and naturally, like a real conversation."
+                "Answer directly and naturally."
             )
         })
 
         PRIMARY_MODEL = "llama-3.3-70b-versatile"
-        FALLBACK_MODEL = "llama-3.3-70b-versatile"
+        FALLBACK_MODEL = "llama3-8b-8192"
 
         def _call_groq(model_name):
             resp = groq_client.chat.completions.create(
