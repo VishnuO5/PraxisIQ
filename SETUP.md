@@ -55,7 +55,7 @@ The SQLite database is not included in the repo (excluded by `.gitignore` for da
 python create_database.py
 ```
 
-This reads `Patient_Data.xlsx` and creates `PraxisIQ.db` in the project root.
+This reads `sample_data_synthetic.xlsx` and creates `PraxisIQ.db` in the project root.
 Expected output: `959 patients · 4,603 visits · 300 reviews loaded.`
 
 ---
@@ -107,7 +107,7 @@ Opens at **http://localhost:8501**
 ```
 PraxisIQ/Data/
 ├── config.py                    # Central config — all thresholds, paths, model params
-├── create_database.py           # Builds PraxisIQ.db from Patient_Data.xlsx
+├── create_database.py           # Builds PraxisIQ.db from sample_data_synthetic.xlsx
 ├── requirements.txt
 ├── .gitignore
 ├── dashboards/

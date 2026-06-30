@@ -23,7 +23,7 @@ import logging.handlers
 ROOT        = os.path.dirname(os.path.abspath(__file__))
 DB_PATH     = os.path.join(ROOT, "PraxisIQ.db")
 REPORTS_DIR = os.path.join(ROOT, "reports")
-EXCEL_PATH  = os.path.join(ROOT, "Patient_Data.xlsx")
+EXCEL_PATH  = os.path.join(ROOT, "sample_data_synthetic.xlsx")
 
 
 # ── LOGGING ───────────────────────────────────────────────────────────────────

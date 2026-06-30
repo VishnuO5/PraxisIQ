@@ -41,3 +41,7 @@ build/
 # Dev scratch scripts - not part of deliverable
 patch_pr.py
 pdf_patch.py
+
+# Local delivery zips - never commit
+z.zip
+*.zip
