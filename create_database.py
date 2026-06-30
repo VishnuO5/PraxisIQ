@@ -1,7 +1,7 @@
 """
 create_database.py
 ==================
-Builds PraxisIQ.db from Patient_Data.xlsx.
+Builds PraxisIQ.db from sample_data_synthetic.xlsx.
 
 Run this first before launching the dashboard:
     python create_database.py
@@ -15,7 +15,7 @@ import sys
 import sqlite3
 import pandas as pd
 
-EXCEL_FILE = "Patient_Data.xlsx"
+EXCEL_FILE = "sample_data_synthetic.xlsx"
 DB_FILE    = "PraxisIQ.db"
 
 # ── PRE-FLIGHT CHECKS ────────────────────────────────────────────────────────
