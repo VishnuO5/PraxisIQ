@@ -3626,8 +3626,9 @@ elif page == "AI Copilot":
     if TAVILY_KEY:
         tavily_available = True
 
-    def tavily_search(query: str, max_results: int = 5) -> str:
-        """Search the web via Tavily and return a formatted context string."""
+    def tavily_search(query: str, max_results: int = 8) -> str:
+        """Search the web via Tavily (advanced depth) and return a formatted
+        context string with full content and clickable source links."""
         try:
             import requests as _requests
             resp = _requests.post(
@@ -3635,24 +3636,134 @@ elif page == "AI Copilot":
                 json={
                     "api_key": TAVILY_KEY,
                     "query": query,
-                    "search_depth": "basic",
+                    "search_depth": "advanced",
                     "max_results": max_results,
                     "include_answer": True,
                 },
-                timeout=10,
+                timeout=15,
             )
             data = resp.json()
             parts = []
             if data.get("answer"):
-                parts.append(f"Summary: {data['answer']}")
+                parts.append(f"Tavily Summary: {data['answer']}")
             for r in data.get("results", [])[:max_results]:
                 title   = r.get("title", "")
-                content = r.get("content", "")[:300]
+                content = r.get("content", "")[:700]
                 url     = r.get("url", "")
-                parts.append(f"- {title}: {content} (Source: {url})")
-            return "\n".join(parts) if parts else ""
+                score   = r.get("score", 0)
+                parts.append(f"### {title} (relevance: {score:.2f})\n{content}\nSource URL: {url}")
+            return "\n\n".join(parts) if parts else ""
         except Exception as e:
             return f"Web search unavailable: {str(e)}"
+
+    # ── AGENTIC RESEARCH ENGINE ────────────────────────────────────────────────
+    # Mirrors how ChatGPT/Claude/Gemini actually research: plan sub-queries,
+    # search each, evaluate whether the combined evidence actually answers
+    # the question, and — if not — generate refined follow-up queries and
+    # search again. Up to 3 rounds. This is the single biggest lever for
+    # matching frontier-model research depth on top of an open model.
+
+    def plan_subqueries(question: str, groq_client_ref) -> list:
+        """Ask the LLM to break the question into 1-4 focused search queries,
+        the same way a real research agent plans before searching — rather
+        than sending the user's raw phrasing (which is often compound,
+        conversational, or ambiguous) straight to the search API."""
+        try:
+            planning_prompt = (
+                "You are a search query planner. Break the user's question into "
+                "1 to 4 short, specific web search queries that together would "
+                "find a complete, accurate, well-sourced answer. Rules:\n"
+                "- If the question mentions multiple distinct places, entities, or "
+                "topics joined by 'and'/commas, create a SEPARATE query for each.\n"
+                "- Each query should be 3-8 words, like something you'd actually "
+                "type into a search engine — not a full sentence.\n"
+                "- Do not add explanation. Output ONLY the queries, one per line, "
+                "no numbering, no bullets, no quotes.\n\n"
+                f"User question: {question}"
+            )
+            resp = groq_client_ref.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[{"role": "user", "content": planning_prompt}],
+                max_tokens=150,
+                temperature=0.2,
+            )
+            raw = resp.choices[0].message.content.strip()
+            lines = [l.strip("-•* \"'") for l in raw.split("\n") if l.strip()]
+            lines = [l for l in lines if len(l) > 2][:4]
+            return lines if lines else [question]
+        except Exception:
+            return [question]
+
+    def evaluate_sufficiency(question: str, evidence: str, groq_client_ref) -> dict:
+        """Ask the LLM to judge whether the gathered evidence is actually
+        enough to answer the question thoroughly and accurately — the same
+        self-check a careful researcher does before writing up findings.
+        Returns dict with 'sufficient' bool and 'gap_queries' list."""
+        try:
+            check_prompt = (
+                "You are a research quality checker. Given a question and the "
+                "evidence gathered so far, decide if the evidence is sufficient "
+                "to write a complete, accurate, well-sourced answer.\n\n"
+                f"QUESTION: {question}\n\n"
+                f"EVIDENCE GATHERED:\n{evidence[:4000]}\n\n"
+                "Respond in EXACTLY this format, nothing else:\n"
+                "SUFFICIENT: yes or no\n"
+                "GAPS: comma-separated list of 1-3 additional short search queries "
+                "needed to fill any gaps (leave blank if sufficient)"
+            )
+            resp = groq_client_ref.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[{"role": "user", "content": check_prompt}],
+                max_tokens=150,
+                temperature=0.1,
+            )
+            raw = resp.choices[0].message.content.strip()
+            sufficient = "yes" in raw.lower().split("gaps:")[0].lower() if "gaps:" in raw.lower() else "yes" in raw.lower()
+            gaps = []
+            if "gaps:" in raw.lower():
+                gap_text = raw.lower().split("gaps:")[1].strip()
+                gaps = [g.strip("-•* \"'") for g in gap_text.split(",") if g.strip() and len(g.strip()) > 2]
+            return {"sufficient": sufficient, "gap_queries": gaps[:2]}
+        except Exception:
+            return {"sufficient": True, "gap_queries": []}
+
+    def agentic_research(question: str, groq_client_ref, max_rounds: int = 3) -> dict:
+        """Full multi-step research loop: plan -> search -> evaluate -> refine
+        -> search again if needed. Returns combined evidence text, the list
+        of all queries actually run, and the number of rounds used — so the
+        UI can show genuine research transparency to the user."""
+        all_evidence = []
+        all_queries_run = []
+
+        initial_queries = plan_subqueries(question, groq_client_ref)
+        round_num = 1
+        queries_to_run = initial_queries
+
+        while round_num <= max_rounds and queries_to_run:
+            for q in queries_to_run:
+                if q in all_queries_run:
+                    continue
+                result = tavily_search(q, max_results=8)
+                if result and "unavailable" not in result.lower():
+                    all_evidence.append(f"== Search Round {round_num} | Query: '{q}' ==\n{result}")
+                all_queries_run.append(q)
+
+            combined = "\n\n".join(all_evidence)
+            if not combined:
+                break
+
+            check = evaluate_sufficiency(question, combined, groq_client_ref)
+            if check["sufficient"] or round_num >= max_rounds:
+                break
+
+            queries_to_run = [g for g in check["gap_queries"] if g not in all_queries_run]
+            round_num += 1
+
+        return {
+            "evidence": "\n\n".join(all_evidence),
+            "queries_run": all_queries_run,
+            "rounds": round_num,
+        }
 
     def needs_web_search(question: str) -> bool:
         """Decide whether to hit the web. Default-on like a real assistant —
@@ -3929,32 +4040,47 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
         web_context = ""
         search_used = False
         user_message = question
+        research = {"rounds": 0, "queries_run": []}
 
         if needs_web_search(question):
             if tavily_available:
-                web_results = tavily_search(question)
-                if web_results and "unavailable" not in web_results.lower():
+                research = agentic_research(question, groq_client, max_rounds=3)
+                web_results = research["evidence"]
+
+                if web_results:
+                    queries_summary = "; ".join(f"'{q}'" for q in research["queries_run"])
                     web_context = (
-                        f"This query received live web search results from Tavily for '{question}'. "
-                        "Use them together with any live database context to answer the user."
+                        f"This query triggered a {research['rounds']}-round live web research "
+                        f"process via Tavily, running searches for: {queries_summary}. "
+                        "Use this evidence together with any live database context to answer the user."
                     )
                     user_message = (
-                        f"LIVE WEB SEARCH RESULTS for '{question}':\n"
+                        f"LIVE WEB RESEARCH EVIDENCE for '{question}' "
+                        f"(gathered across {research['rounds']} search round(s), "
+                        f"{len(research['queries_run'])} total queries):\n\n"
                         f"{web_results}\n\n"
-                        "Use ONLY the live web search results above and the available live database context to answer this question. "
-                        "Do NOT suggest that the user search online — the search has already been done. "
-                        "If the results above do not answer the question, answer based on the available data and say that no specific live web details were found."
+                        "Write a thorough, accurate, well-organized answer using ONLY the evidence above "
+                        "and the available live database context. Requirements:\n"
+                        "- Be comprehensive: synthesize ALL relevant facts found across every search result, not just the first one\n"
+                        "- Be specific: use exact names, numbers, addresses, dates, and figures from the evidence rather than vague generalizations\n"
+                        "- Organize multi-part answers clearly: if the question covers multiple locations, entities, or aspects, address each one in its own clearly-labeled section\n"
+                        "- For lists (clinics, options, rankings, etc.): extract the actual specific name and specific location/area/address from the evidence content for every single item — never just repeat the city name alone\n"
+                        "- If the user asked for a specific count (e.g. '10 from each'), list as many distinct, real, named items as the evidence actually supports, and explicitly say if fewer were found than requested rather than inventing entries\n"
+                        "- Cite source URLs inline next to the relevant fact when helpful\n"
+                        "- Do NOT suggest that the user search online themselves — this research has already been done\n"
+                        "- If the evidence genuinely does not cover part of the question, say so explicitly rather than guessing"
                     )
                     search_used = True
                 else:
                     web_context = (
-                        f"Live web search was attempted for '{question}', but no live results were available. "
+                        f"Live web search was attempted for '{question}' across multiple search rounds, "
+                        "but no usable results were returned. "
                         "Do NOT ask the user to search online. Answer based on existing knowledge and live database context, "
-                        "and be honest if no specific live web information is available."
+                        "and be honest that no specific live web information is available."
                     )
                     user_message = (
-                        f"The user asked: '{question}'. Live web search was attempted but returned no results. "
-                        "Answer based on existing knowledge and the available live database context."
+                        f"The user asked: '{question}'. Live web search was attempted across multiple rounds "
+                        "but returned no usable results. Answer based on existing knowledge and the available live database context."
                     )
             else:
                 web_context = (
@@ -3991,8 +4117,8 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
             resp = groq_client.chat.completions.create(
                 model=model_name,
                 messages=messages,
-                max_tokens=1500,
-                temperature=0.4,
+                max_tokens=2500 if search_used else 1500,
+                temperature=0.3,
             )
             return resp.choices[0].message.content.strip()
 
@@ -4015,7 +4141,9 @@ FORMATTING — IMPORTANT, your output is rendered directly as plain text in a ch
                 error_detail = err_text
 
         if answer is not None and search_used:
-            answer += "\n\n🌐 *This answer used live web search via Tavily.*"
+            rounds_used = research["rounds"]
+            n_queries = len(research["queries_run"])
+            answer += f"\n\n🌐 *Researched across {rounds_used} search round(s), {n_queries} quer{'y' if n_queries == 1 else 'ies'}, via Tavily.*"
 
         if answer is None:
             # Show what actually went wrong instead of a fabricated canned
