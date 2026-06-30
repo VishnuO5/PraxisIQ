@@ -759,47 +759,58 @@ with st.sidebar:
         st.session_state["_prev_workspace_choice"] = "Overview"
 
     # ── PraxisIQ AI Copilot — standalone premium pill (real button) ──
+    # Real fix: when Copilot is clicked we DESELECT the workspace radio
+    # (set its widget state to None) via on_click. This is essential —
+    # Streamlit only fires on_change when a widget's value actually
+    # changes, and clicking an option that's already selected (e.g.
+    # "Overview" was selected before you ever opened Copilot) produces
+    # NO change and NO rerun trigger at all. Without deselecting, clicking
+    # back to "Overview" from Copilot silently does nothing because the
+    # radio's stored value never moved away from "Overview" in the first
+    # place. Deselecting guarantees the next click on ANY workspace option
+    # is a real change, every time.
+    def _on_copilot_click():
+        st.session_state["active_page"] = "AI Copilot"
+        st.session_state["_just_clicked_copilot"] = True
+        st.session_state["workspace_nav_widget"] = None
+
     st.markdown("<div class='copilot-nav-wrap copilot-radio-group'>", unsafe_allow_html=True)
-    copilot_clicked = st.button(
+    st.button(
         "⬡  PraxisIQ AI Copilot",
         key="copilot_nav_button",
         use_container_width=True,
+        on_click=_on_copilot_click,
     )
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='nav-label' style='margin-top:14px;'>Workspace</div>", unsafe_allow_html=True)
 
-    # ── Workspace radio — always reflects last non-Copilot workspace choice,
-    #    so clicking the SAME workspace item after visiting Copilot still
-    #    fires on_change (Streamlit only fires on_change when the widget's
-    #    own value changes, so we must never silently desync it). ──
     def _on_workspace_change():
         st.session_state["active_page"] = st.session_state["workspace_nav_widget"]
         st.session_state["_prev_workspace_choice"] = st.session_state["workspace_nav_widget"]
         st.session_state["_just_clicked_copilot"] = False
 
-    workspace_idx = (
-        WORKSPACE_PAGES.index(st.session_state["_prev_workspace_choice"])
-        if st.session_state["_prev_workspace_choice"] in WORKSPACE_PAGES
-        else 0
-    )
+    # Only pass `index` the very first time this widget is created; once a
+    # `key` exists in session_state, Streamlit ignores `index` on reruns,
+    # so this purely seeds the initial render and never fights the widget.
+    workspace_index_kwarg = {}
+    if "workspace_nav_widget" not in st.session_state:
+        workspace_index_kwarg["index"] = (
+            WORKSPACE_PAGES.index(st.session_state["_prev_workspace_choice"])
+            if st.session_state["_prev_workspace_choice"] in WORKSPACE_PAGES
+            else 0
+        )
 
     st.markdown("<div class='workspace-radio-group'>", unsafe_allow_html=True)
     st.radio(
         "Navigation",
         options=WORKSPACE_PAGES,
-        index=workspace_idx,
         label_visibility="collapsed",
         key="workspace_nav_widget",
         on_change=_on_workspace_change,
+        **workspace_index_kwarg,
     )
     st.markdown("</div>", unsafe_allow_html=True)
-
-    # Resolve final page AFTER both widgets have rendered, with the button
-    # click taking absolute precedence since it's the most recent user action.
-    if copilot_clicked:
-        st.session_state["active_page"] = "AI Copilot"
-        st.session_state["_just_clicked_copilot"] = True
 
     page = st.session_state["active_page"]
 
@@ -3644,33 +3655,71 @@ elif page == "AI Copilot":
             return f"Web search unavailable: {str(e)}"
 
     def needs_web_search(question: str) -> bool:
-        """Pattern-based web search trigger — generalizes to any place name."""
+        """Decide whether to hit the web. Default-on like a real assistant —
+        only skip search when the question is UNAMBIGUOUSLY about internal
+        database stats with no external-info intent at all. Mentioning the
+        clinic's own name (e.g. "geetha dental clinic is at which place")
+        must NEVER by itself block search — location/rank/address/etc. about
+        OUR OWN clinic are exactly the kind of thing that lives on the web,
+        not in the patient/review database."""
         q_lower = question.lower().strip()
-        internal_signals = [
-            "our ", "this clinic", "this dataset", "this database", "geetha dental",
-            "our patients", "our reviews", "our retention", "our churn",
-            "the database", "the dataset", "patient_id", "review_id",
+
+        # Exact-match overrides for the dashboard's own quick-question buttons
+        # and any short, unambiguous internal phrase. These are checked FIRST
+        # and take priority over the external-signal scan below, because a
+        # generic word like "top" inside "Top risks" would otherwise collide
+        # with the "top " external-search trigger and incorrectly route a
+        # pure-dataset question out to the web.
+        internal_overrides = [
+            "top risks", "dropout rates", "ml vs llm", "root canal basics",
+            "scaling vs deep cleaning", "recovery after extraction",
+            "moderation queue", "moderation queue status",
+            "summarize the moderation queue", "summarize moderation queue",
+            "top 3 trust", "top trust", "trust & safety risks",
+            "trust and safety risks", "highest risk", "highest-risk",
         ]
-        if any(sig in q_lower for sig in internal_signals):
+        if q_lower in internal_overrides or any(q_lower.startswith(p) for p in internal_overrides):
             return False
+
+        # Strong external-intent signals — if any of these fire, ALWAYS search,
+        # even if the clinic's own name is also mentioned in the question.
+        external_signals = [
+            "best ", "top ", "recommend", "compare", "vs ", "versus",
+            "address", "contact", "phone number", "location", "where is",
+            "where can", "which place", "which city", "which area",
+            "what place", "what city", "latest", "recent", "current",
+            "trend", "trending", "new in", "news", "today", "this year",
+            "this month", "2024", "2025", "2026", "what's new", "whats new",
+            "update on", "ranking", "rank", "rated", "rating on google",
+            "famous", "popular", "search for", "search the web", "look up",
+            "find a ", "find the ", "who is", "what is the current",
+            "open now", "hours", "timing", "website", "reviews online",
+        ]
+        if any(sig in q_lower for sig in external_signals):
+            return True
+
         location_patterns = [
             r'\bin\s+\w+', r'\bnear\s+\w+', r'\bis\s+there\s+(any|a)\b',
+            r'\bat\s+which\b', r'\bwhich\s+place\b',
             r'\b(clinic|clinics|dentist|dentists|hospital|hospitals)\b.*\b(in|near|at)\b',
             r'\b(in|near|at)\b.*\b(clinic|clinics|dentist|dentists|hospital|hospitals)\b',
         ]
         if any(re.search(pat, q_lower) for pat in location_patterns):
             return True
-        external_signals = [
-            "best ", "top ", "recommend", "compare", "vs ", "versus",
-            "address", "contact", "phone number", "location",
-            "where is", "where can", "latest", "recent", "current",
-            "trend", "trending", "new in", "news", "today", "this year",
-            "this month", "2024", "2025", "2026", "what's new", "whats new",
-            "update on", "ranking", "rated", "famous", "popular",
-            "search for", "search the web", "look up", "find a ", "find the ",
-            "who is", "what is the current",
+
+        # Only NOW consider internal-only signals — i.e. this is the
+        # fallback for queries with no detected external intent at all.
+        internal_signals = [
+            "our patients", "our reviews", "our retention", "our churn",
+            "this dataset", "this database", "the database", "the dataset",
+            "patient_id", "review_id", "in our data", "in our system",
         ]
-        return any(sig in q_lower for sig in external_signals)
+        if any(sig in q_lower for sig in internal_signals):
+            return False
+
+        # Default: unknown/general questions get a web search too, same as
+        # ChatGPT/Gemini/Claude would — don't silently refuse to look things up.
+        return True
 
     if groq_setup_error == "no_package":
         st.markdown("""
