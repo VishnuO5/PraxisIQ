@@ -128,15 +128,39 @@ results["trust_safety_pipeline"] = run_script(
     "Trust & Safety pipeline", "trust_safety/trust_safety_pipeline.py"
 )
 
-# ── STEP 5: ML CLASSIFIER ────────────────────────────────────────────────────
-step(5, "Running ML classifier")
+# ── STEP 5: ENFORCEMENT & OPS ANALYTICS (Phases 2-5 additions) ──────────────
+step(5, "Running enforcement, appeals, abuse-agreement, and ops capacity analytics")
+
+# Order matters: account_risk_scoring depends on suspicious_reviewer_detection.py
+# and review_burst_detection.py (both already run in Step 3). appeals_workflow
+# and ops_capacity_analysis depend on risk_escalation_queue.csv and
+# severity_distribution.csv (both produced by Step 4, just above). Both must
+# run after Step 4, not before.
+enforcement_ops_scripts = [
+    ("Account risk scoring",       "analytics/account_risk_scoring.py"),
+    ("Appeals workflow",           "trust_safety/appeals_workflow.py"),
+    ("Ops capacity analysis",      "analytics/ops_capacity_analysis.py"),
+]
+
+for label, path in enforcement_ops_scripts:
+    results[path] = run_script(label, path)
+
+# label_agreement_check.py is intentionally NOT run as a hard-fail step here —
+# on first run it writes a blank relabel template (expected); on later runs it
+# either re-confirms the template is still unfilled (also expected, not a
+# failure) or computes real agreement once a human has filled it in. It never
+# overwrites a template that's already in progress.
+run_script("Label agreement check (safe to skip if incomplete)", "analytics/label_agreement_check.py")
+
+# ── STEP 6: ML CLASSIFIER ────────────────────────────────────────────────────
+step(6, "Running ML classifier")
 
 results["ml_classifier"] = run_script(
     "ML classifier (TF-IDF + Logistic Regression)", "ml/review_classifier_v2.py"
 )
 
-# ── STEP 6: VERIFY OUTPUTS ───────────────────────────────────────────────────
-step(6, "Verifying expected outputs")
+# ── STEP 7: VERIFY OUTPUTS ───────────────────────────────────────────────────
+step(7, "Verifying expected outputs")
 
 expected_outputs = [
     "reports/statistical_analysis.csv",
@@ -151,9 +175,15 @@ expected_outputs = [
     "reports/case_management_queue.csv",
     "reports/trust_safety_risk_summary.csv",
     "reports/severity_distribution.csv",
+    "reports/account_risk_scores.csv",
+    "reports/appeals_queue.csv",
+    "reports/appeals_summary.csv",
+    "reports/ops_capacity.csv",
     # llm_prompt_evaluation.csv is intentionally excluded — it is only generated
     # by llm/llm_evaluation_final.py, which requires a local Ollama instance and
     # is not run as part of this automated pipeline. See README for manual steps.
+    # reports/label_agreement.csv is intentionally excluded — it only exists
+    # once a human has filled in reports/relabel_sample_for_review.csv by hand.
 ]
 
 all_outputs_exist = True

@@ -205,3 +205,77 @@ COMPLAINT_CATEGORIES = [
     "Pricing",
     "Staff",
 ]
+
+# ── ACCOUNT-LEVEL ENFORCEMENT (Phase 2) ───────────────────────────────────────
+# Aggregates existing review-level signals (velocity, rating variance, repeat
+# low-rate pattern — see analytics/suspicious_reviewer_detection.py) up to the
+# Reviewer_Name level into a single account risk score, then maps that score
+# to an enforcement action, mirroring a strikes-style escalation ladder.
+# Formula lives in analytics/account_risk_scoring.py; thresholds below are the
+# only place that formula's cutoffs should be edited.
+
+ACCOUNT_LOW_RATING_AVG_THRESHOLD = 2.5   # avg rating at/below this across an account's reviews trips the low-rating flag
+
+ACCOUNT_RISK_WEIGHTS = {
+    "review_count":        1.0,   # (review_count - 1) * this — rewards repeat behavior only, not a single review
+    "avg_low_rating_flag": 1.0,   # weight if avg rating <= 2.5 across reviews
+    "rating_variance_low": 1.5,   # weight if ratings show unusually low variance (bot-like) — only meaningful for repeat accounts
+    "burst_day_overlap":   1.0,   # weight if any of the account's reviews fall on a detected burst day
+}
+# Deliberately calibrated so no single flag alone reaches the Warning threshold below —
+# a first version weighted burst-day overlap at 2.5, which alone flagged 63% of all
+# accounts (anyone who happened to post on a high-volume day). That's noise, not signal.
+# Enforcement action should require a genuine *combination* of evidence.
+
+# Score thresholds → enforcement action (ACCOUNT_RISK_WEIGHTS values summed per account)
+ACCOUNT_STRIKE_THRESHOLDS = {
+    "Warning":    2.0,   # score >= this → Warning
+    "Restricted": 4.0,   # score >= this → Restricted (reviews held for manual review)
+    "Suspended":  6.0,   # score >= this → Suspended (account-level block)
+}
+
+ACCOUNT_ACTION_DESCRIPTIONS = {
+    "None":       "No action — score below Warning threshold",
+    "Warning":    "Flagged for analyst awareness — no restriction applied",
+    "Restricted": "Future submissions from this name routed to manual review before publishing",
+    "Suspended":  "Account-level block — mirrors a repeated-violation strike ladder",
+}
+
+# ── APPEALS & REINSTATEMENT (Phase 3) ─────────────────────────────────────────
+# NOTE — MODELED ASSUMPTIONS, NOT REAL DATA: this dataset has no actual appeals
+# history. The rates below are documented, disclosed assumptions used to
+# demonstrate the appeals-workflow *mechanism* (Detection → Enforcement →
+# Appeal → Reinstatement), not a claimed real-world outcome. Any dashboard
+# copy referencing these numbers must state they are simulated.
+
+APPEAL_ELIGIBLE_SEVERITIES = ["Critical", "High"]   # only these tiers can be "appealed" in the simulation
+APPEAL_RATE_ASSUMPTION      = 0.15   # modeled: 15% of eligible flags are appealed
+APPEAL_OVERTURN_RATE_ASSUMPTION = 0.30   # modeled: 30% of appeals are overturned on review
+APPEAL_RANDOM_STATE         = 42     # reproducible simulation, same convention as ML/LLM splits
+
+# ── OPERATIONS CAPACITY (Phase 5) ─────────────────────────────────────────────
+# NOTE — MODELED ASSUMPTIONS, NOT REAL DATA: this dataset has no real staffing
+# or handling-time log. Values below are documented assumptions used to
+# demonstrate the capacity-planning *method* (given volume + handling time,
+# compute analysts needed to hold SLA), not a claimed real staffing plan.
+
+AVG_HANDLING_TIME_MINUTES = {
+    "Critical": 25,   # modeled: minutes to fully investigate + resolve one P1
+    "High":     15,
+    "Medium":   8,
+    "Low":      4,
+    "Safe":     0,    # auto-cleared, no analyst time
+}
+
+ANALYST_HOURS_PER_DAY = 7.5   # modeled: effective working hours after breaks/meetings
+ANALYST_WORKING_DAYS_PER_WEEK = 5
+
+# ── REAL-TIME RISK SERVICE (Phase 7) ──────────────────────────────────────────
+# Defaults for api/risk_service.py — the FastAPI wrapper around the existing
+# severity/scoring logic in trust_safety_pipeline.py. No logic is duplicated
+# here; the service imports SEVERITY_RULES, PRIORITY_MAP, CATEGORY_WEIGHT
+# etc. directly from this file.
+
+RISK_SERVICE_HOST = "127.0.0.1"
+RISK_SERVICE_PORT = 8000
+RISK_SERVICE_VERSION = "v1"

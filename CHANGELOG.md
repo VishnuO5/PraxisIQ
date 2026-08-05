@@ -1,5 +1,30 @@
 ﻿# Changelog
 
+## v2.6 — 2026-08-05
+- docs: removed all direct references to a specific job posting/description throughout the codebase (deleted JD_MAPPING.md; reworded headers in api/risk_service.py, trust_safety/appeals_workflow.py, analytics/account_risk_scoring.py, analytics/ops_capacity_analysis.py, and 11 "at YouTube scale"-style lines in dashboards/app.py) — project now describes Trust & Safety domain work generically rather than being framed around one employer's listing
+- docs: README.md "Dashboard Preview" — added 4 Enforcement & Ops screenshots (Account Enforcement, Appeals & Reinstatement, Abuse Vector Taxonomy, Real-Time Simulator)
+
+## v2.5 — 2026-08-05
+- feat: Real-time risk scoring service (api/risk_service.py) — FastAPI endpoint wrapping the batch severity logic, with a drift-guard test locking it to trust_safety_pipeline.py's actual output
+- feat: run_all.py now wires in all Phase 2-5 scripts (account risk, appeals, ops capacity, label agreement) as Step 5, in dependency-correct order
+- feat: New "Enforcement & Ops" dashboard page — 5 tabs (Account Enforcement, Appeals & Reinstatement, Abuse Vector Taxonomy, Ops Capacity, Real-Time Simulator), verified with Streamlit's AppTest framework (zero exceptions across all tabs)
+- docs: README.md reordered — "Why this maps to Trust & Safety" now leads, ahead of screenshots/architecture
+- fix: real f-string syntax bug caught during dashboard integration (nested-quote escaping) before it ever shipped
+- test: 10 new tests for risk_service.py (72 total, up from 62)
+
+## v2.4 — 2026-08-05
+- docs: PROJECT_CHARTER.md — retrospective scope/goals/stakeholder mapping
+- feat: Account-level enforcement scoring with strike-ladder actions (analytics/account_risk_scoring.py)
+- feat: Appeals & reinstatement workflow, modeled and clearly disclosed as such (trust_safety/appeals_workflow.py)
+- docs: ABUSE_VECTORS.md — abuse vector taxonomy grounded in real detector outputs
+- docs: INCIDENT_CASE_STUDY.md — root-cause walkthrough of the largest detected burst day
+- feat: Cohen's Kappa label-agreement tool with a real (unfilled-by-default) relabel sample (analytics/label_agreement_check.py)
+- feat: Operations capacity analysis — real arrival rate + SLA-driven staffing (analytics/ops_capacity_analysis.py)
+- fix: severity_distribution.csv column-naming bug (was producing a malformed 'Count,count' header)
+- docs: README.md line-count and SETUP.md page-count/path corrections
+- docs: SECURITY.md — documents secrets-handling pattern and a past zip-export leak, resolved
+- test: 36 new tests added across 4 new test files (62 total, up from 26)
+
 ## v2.3 — 2026-06-29
 - feat: Executive PDF Report generator on Overview page
 - feat: Precision/Recall Experiment simulator with live confusion matrix

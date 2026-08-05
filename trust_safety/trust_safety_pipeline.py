@@ -223,8 +223,8 @@ reviews_sorted[moderation_cols].to_csv(os.path.join(REPORTS_DIR, "risk_escalatio
 sev_dist = (
     reviews["Severity"]
     .value_counts()
-    .reset_index()
-    .rename(columns={"index": "Severity", "Severity": "Count"})
+    .rename_axis("Severity")
+    .reset_index(name="Count")
 )
 sev_dist.to_csv(os.path.join(REPORTS_DIR, "severity_distribution.csv"), index=False)
 

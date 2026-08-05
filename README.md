@@ -12,6 +12,31 @@ of 959 patients, 4,603 visits, and 300 labeled reviews.
 
 ---
 
+## Why this maps to Trust & Safety
+
+This project simulates the core analytical and operational workflows in a T&S
+enforcement role — not just content classification, but the full detection →
+enforcement → appeal lifecycle.
+
+
+- **Content classification** — 3 LLM prompt versions (Qwen2.5 7B) classifying reviews into 7 categories, with full precision/recall/F1 analysis
+- **Abuse detection** — Dual-method burst analysis (static + rolling), exact/fuzzy duplicate screening, and repeat-reviewer flagging — see [ABUSE_VECTORS.md](ABUSE_VECTORS.md) for the full taxonomy mapped to real detector output
+- **Account-level enforcement** — Beyond scoring content, a strike-ladder system (`analytics/account_risk_scoring.py`) scores accounts and maps to enforcement actions (Warning → Restricted → Suspended)
+- **Appeals & reinstatement** — A modeled, clearly-disclosed appeals workflow (`trust_safety/appeals_workflow.py`) completing the lifecycle: Detection → Enforcement → Appeal → Reinstatement
+- **Incident response** — A real root-cause case study (`docs/INCIDENT_CASE_STUDY.md`) walking through the largest detected volume anomaly, 5-whys style
+- **Operations capacity planning** — Real arrival-rate analysis plus SLA-driven staffing math (`analytics/ops_capacity_analysis.py`) — directly answers "understanding drivers of operations"
+- **Real-time scoring** — A FastAPI service (`api/risk_service.py`) wrapping the batch severity logic as a per-item endpoint, the concrete first step from batch to streaming
+- **Risk prioritization** — A moderation queue with Critical/High/Medium/Low severity tiers, mirroring real-world content escalation pipelines
+- **Experiment design** — Live precision/recall simulator: adjust the Treatment escalation threshold and see real TP/FP/FN/TN update from ground-truth data
+- **Investigation playbooks** — Structured Detection → Evidence → Severity → Action → Escalation → Resolution workflows for 5 issue types
+- **Statistical modeling** — One-Way ANOVA (F = 5.37, p < 0.001) and Chi-Square (χ² = 412.49, p < 0.001) across segments
+- **Project management** — Retrospective scope/goals/stakeholder charter ([PROJECT_CHARTER.md](PROJECT_CHARTER.md)) mapped to real version history
+- **AI-assisted analytics** — Groq-powered AI Copilot answering live questions against the real database
+
+> **Domain note:** Patient reviews are structurally identical to user-generated content on any platform — free-text submissions, star ratings, coordinated posting patterns, and abuse signals. The domain is dental; the methodology is platform trust and safety.
+
+---
+
 ## Dashboard Preview
 
 | Anomaly Screening | Trust & Safety Intelligence |
@@ -25,6 +50,16 @@ of 959 patients, 4,603 visits, and 300 labeled reviews.
 | ML Feature Importance | Model Error Analysis |
 |---|---|
 | ![ML Feature Importance](assets/screenshot_ml_feature_importance.png) | ![Model Error Analysis](assets/screenshot_model_error_analysis.png) |
+
+**Enforcement & Operations** — account-level enforcement, the appeals lifecycle, abuse vector taxonomy, and a batch-to-streaming simulator, all on the same page:
+
+| Account Enforcement | Appeals & Reinstatement |
+|---|---|
+| ![Account Enforcement](assets/screenshot_enforcement_account.png) | ![Appeals & Reinstatement](assets/screenshot_enforcement_appeals.png) |
+
+| Abuse Vector Taxonomy | Real-Time Simulator |
+|---|---|
+| ![Abuse Vector Taxonomy](assets/screenshot_enforcement_abuse_vectors.png) | ![Real-Time Simulator](assets/screenshot_enforcement_realtime_sim.png) |
 
 ---
 
@@ -248,27 +283,9 @@ On the held-out test set, Staff recall dropped to 44% and Neutral to 40% — wel
 
 ---
 
-## Why this maps to Trust & Safety
-
-This project simulates the core analytical workflows in a T&S engineering role:
-
-- **Content classification** — Designed and evaluated 3 LLM prompt versions using Qwen2.5 7B to classify user-generated reviews into 7 categories, with full precision, recall, and F1 analysis
-- **Abuse detection** — Review burst analysis (dual-method: static + rolling), exact duplicate screening, and repeat reviewer flagging using the same detection logic as spam and coordinated inauthentic behavior systems
-- **Risk prioritization** — A moderation queue with Critical / High / Medium / Low severity tiers, directly mirroring real-world content escalation pipelines
-- **Experiment design** — Live precision/recall simulator: adjust the Treatment escalation threshold and see real TP/FP/FN/TN update from ground-truth data — directly demonstrating policy experiment thinking
-- **Investigation playbooks** — Structured Detection → Evidence → Severity → Action → Escalation → Resolution workflows for 5 issue types, mirroring T&S operational runbooks
-- **Statistical modeling** — One-Way ANOVA (F = 5.37, p < 0.001) and Chi-Square (χ² = 412.49, p < 0.001) to identify significant behavioral differences across segments
-- **AI-assisted analytics** — Groq-powered AI Copilot with live database context answers analyst questions: "What treatment has the highest risk?", "Summarize the moderation queue", "Why did complaints increase?"
-- **Data labeling** — 300 reviews hand-labeled across 7 categories to serve as the ground-truth evaluation dataset
-- **Executive reporting** — One-click PDF report generation with live KPI snapshot, top findings, moderation queue status, and model performance summary
-
-> **Domain note:** Patient reviews are structurally identical to user-generated content on any platform — free-text submissions, star ratings, coordinated posting patterns, and abuse signals. The workflows here directly mirror Trust & Safety systems at scale. The domain is dental; the methodology is platform trust and safety.
-
----
-
 ## Limitations and What Changes at Platform Scale
 
-This project runs on 959 patients, 4,603 visits, and 300 labeled reviews — small enough to query with SQL batch jobs and label by hand. That methodology does not transfer directly to a platform like YouTube, and being explicit about what changes is part of the analysis:
+This project runs on 959 patients, 4,603 visits, and 300 labeled reviews — small enough to query with SQL batch jobs and label by hand. That methodology does not transfer directly to a large-scale content platform, and being explicit about what changes is part of the analysis:
 
 - **Batch SQL → streaming detection.** Burst detection here runs as a periodic batch query against a static SQLite file. At platform scale, the same logic needs to run as a streaming job against live ingestion, with sub-minute latency rather than end-of-day reports.
 - **Single annotator → labeling pipeline with agreement scoring.** 300 reviews labeled by one person works for a portfolio evaluation set. Production labeling at scale requires multiple annotators per item, a measured inter-annotator agreement score (Cohen's Kappa), and an adjudication process for disagreements.
@@ -478,6 +495,6 @@ PraxisIQ/
 ├── tests/                          # Unit tests (pytest)
 │   └── test_pipeline.py            # 10 test cases covering core pipeline logic
 ├── dashboards/                     # Streamlit dashboard
-│   └── app.py                      # 9 pages · 3500+ lines
+│   └── app.py                      # 9 pages · 4,469 lines
 └── reports/                        # Generated CSV outputs (gitignored)
 ```
