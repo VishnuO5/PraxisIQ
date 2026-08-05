@@ -18,6 +18,18 @@ This project simulates the core analytical and operational workflows in a T&S
 enforcement role — not just content classification, but the full detection →
 enforcement → appeal lifecycle.
 
+**Why a dental clinic, on purpose.** The domain was chosen *because* it has
+no surface-level overlap with content platforms — no comments section, no
+video uploads, no obvious "this looks like YouTube" resemblance. The point
+isn't that patient reviews look like platform content; it's that the
+underlying analytical pattern — detect an anomaly, score its severity, tier
+it, route it, allow it to be appealed, staff for the volume — is a general
+skill, not something copied from a dataset that already resembled the
+target problem. Proving that pattern holds on an unrelated domain is a
+stronger signal of transferable thinking than building something
+YouTube-shaped from the start would have been. See the limitations sections
+throughout this README and in `ABUSE_VECTORS.md` for an equally direct
+accounting of where that transfer is strong and where it genuinely isn't.
 
 - **Content classification** — 3 LLM prompt versions (Qwen2.5 7B) classifying reviews into 7 categories, with full precision/recall/F1 analysis
 - **Abuse detection** — Dual-method burst analysis (static + rolling), exact/fuzzy duplicate screening, and repeat-reviewer flagging — see [ABUSE_VECTORS.md](ABUSE_VECTORS.md) for the full taxonomy mapped to real detector output
@@ -32,8 +44,6 @@ enforcement → appeal lifecycle.
 - **Statistical modeling** — One-Way ANOVA (F = 5.37, p < 0.001) and Chi-Square (χ² = 412.49, p < 0.001) across segments
 - **Project management** — Retrospective scope/goals/stakeholder charter ([PROJECT_CHARTER.md](PROJECT_CHARTER.md)) mapped to real version history
 - **AI-assisted analytics** — Groq-powered AI Copilot answering live questions against the real database
-
-> **Domain note:** Patient reviews are structurally identical to user-generated content on any platform — free-text submissions, star ratings, coordinated posting patterns, and abuse signals. The domain is dental; the methodology is platform trust and safety.
 
 ---
 
@@ -483,7 +493,7 @@ PraxisIQ/
 ├── SETUP.md                        # Local setup guide
 ├── CHANGELOG.md                    # Version history
 ├── LICENSE                         # MIT License
-├── sample_data_synthetic.xlsx      # Synthetic source data (959 patients, 4603 visits, 300 reviews)
+├── sample_data_synthetic.xlsx      # 959 patients + 4,603 visits (synthetic) · 300 reviews (real, see METHODOLOGY.md §0)
 ├── assets/                         # Dashboard screenshots
 ├── sql/                            # SQL analytics queries
 │   ├── 01_common_treatments.sql

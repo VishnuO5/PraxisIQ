@@ -112,7 +112,7 @@ coordinated review manipulation. That absence of signal is itself useful —
 it means any observed volume bursts in this data are organic (e.g. tied to a
 real service event) rather than manufactured, and it sets a clean baseline
 against which future abuse detection at a larger scale could be compared.
-A platform the size of YouTube would expect to find genuine positive flags
+A platform of sufficient scale would expect to find genuine positive flags
 on these same detectors; this project demonstrates the detection logic works
 correctly in the absence of a positive case, which is a necessary (if less
 exciting) validation step before trusting the same logic at scale.

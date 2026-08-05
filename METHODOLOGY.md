@@ -7,6 +7,35 @@ alternatives that were considered and rejected.
 
 ---
 
+## 0. Data Provenance — What's Real and What's Synthetic
+
+The source file is named `sample_data_synthetic.xlsx`, which describes the
+`Patients` and `Visits` sheets accurately but is imprecise about `Reviews` —
+worth stating plainly rather than leaving it ambiguous:
+
+- **Reviews are real.** All 300 reviews — reviewer names, star ratings,
+  review text, and dates — are real, public reviews for Geetha Dental
+  Clinic (Thiruvanaikovil, Trichy), collected from its public Google
+  listing. Nothing in `Review_Text` or `Reviewer_Name` was generated.
+- **Patients and Visits are synthetic.** The 959-patient, 4,603-visit
+  operational dataset (treatment types, visit dates, completion status,
+  follow-up compliance) was synthetically generated. Real patient medical
+  records can't be published — that would be an actual privacy violation,
+  not just a portfolio inconvenience — so this half of the dataset was
+  built to be internally consistent (realistic visit cadences, treatment
+  distributions, and date ranges) rather than sourced from real records.
+
+This split matters for how to read the rest of this document: analyses
+that touch `Review_Text`, `Rating`, or `Reviewer_Name` (burst detection,
+LLM classification, account risk scoring, duplicate/fuzzy-match detection)
+are working with real, organically-occurring data and real abuse-adjacent
+signal. Analyses that touch `Treatment_Type`, `Visit_Date`, or
+`Completion_Status` (outlier detection, follow-up compliance, treatment
+trend analysis) are working with synthetic data designed to be realistic,
+not empirically observed.
+
+---
+
 ## 1. Outlier Detection — Z-Score, not IQR
 
 **Decision:** Flag high-risk patients using a Z-score threshold (mean + 2σ)
