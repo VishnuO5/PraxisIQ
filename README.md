@@ -20,14 +20,14 @@ enforcement → appeal lifecycle.
 
 **Why a dental clinic, on purpose.** The domain was chosen *because* it has
 no surface-level overlap with content platforms — no comments section, no
-video uploads, no obvious "this looks like YouTube" resemblance. The point
+video uploads, nothing that obviously resembles a content platform. The point
 isn't that patient reviews look like platform content; it's that the
 underlying analytical pattern — detect an anomaly, score its severity, tier
 it, route it, allow it to be appealed, staff for the volume — is a general
 skill, not something copied from a dataset that already resembled the
 target problem. Proving that pattern holds on an unrelated domain is a
-stronger signal of transferable thinking than building something
-YouTube-shaped from the start would have been. See the limitations sections
+stronger signal of transferable thinking than building something already
+platform-shaped from the start would have been. See the limitations sections
 throughout this README and in `ABUSE_VECTORS.md` for an equally direct
 accounting of where that transfer is strong and where it genuinely isn't.
 
