@@ -1,5 +1,12 @@
 ﻿# Changelog
 
+## v2.7 — 2026-08-06
+- fix: dashboards/app.py — a prior push accidentally replaced the full dashboard with an unrelated 93-line draft file (missing `dashboard_metrics` module, would crash on launch); restored the correct file and verified all 9 pages render with zero exceptions
+- fix: README.md — two remaining literal mentions of the removed job posting's target platform, introduced while writing the "why this domain, on purpose" explanation itself; removed
+- fix: .github/workflows/test.yml — CI ran a subset of analytics scripts that predated the Enforcement & Ops module, so 6 of the account-risk tests silently skipped (pytest reported a passing build without actually running them); added the two missing prerequisite scripts (suspicious_reviewer_detection.py, review_burst_detection.py) plus account_risk_scoring.py, appeals_workflow.py, and ops_capacity_analysis.py to CI — verified 72 passed / 0 skipped end-to-end
+- fix: SETUP.md — referenced a nonexistent source file (Patient_Data.xlsx instead of sample_data_synthetic.xlsx), claimed 6 dashboard pages instead of the real 9, and omitted api/, docs/, tests/, and every Enforcement & Ops script entirely; rewritten and verified by literally following it end-to-end (run_all.py, dashboard, API, test suite)
+- docs: SECURITY.md documents a prior local-zip secrets exposure and a git-archive-based fix; noted that raw folder zips still bypass that fix in practice — recommend `git archive -o praxisiq.zip HEAD` for any future exports
+
 ## v2.6 — 2026-08-05
 - docs: removed all direct references to a specific job posting/description throughout the codebase (deleted JD_MAPPING.md; reworded headers in api/risk_service.py, trust_safety/appeals_workflow.py, analytics/account_risk_scoring.py, analytics/ops_capacity_analysis.py, and 11 "at YouTube scale"-style lines in dashboards/app.py) — project now describes Trust & Safety domain work generically rather than being framed around one employer's listing
 - docs: README.md "Dashboard Preview" — added 4 Enforcement & Ops screenshots (Account Enforcement, Appeals & Reinstatement, Abuse Vector Taxonomy, Real-Time Simulator)

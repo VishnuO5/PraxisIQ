@@ -45,6 +45,14 @@ jobs:
         python analytics/treatment_risk_analysis.py
         python analytics/duplicate_review_detection.py
         python analytics/service_quality_analysis.py
+        python analytics/suspicious_reviewer_detection.py
+        python analytics/review_burst_detection.py
+
+    - name: Run enforcement, appeals, and ops capacity analytics
+      run: |
+        python analytics/account_risk_scoring.py
+        python trust_safety/appeals_workflow.py
+        python analytics/ops_capacity_analysis.py
 
     - name: Run ML classifier
       run: python ml/review_classifier_v2.py
